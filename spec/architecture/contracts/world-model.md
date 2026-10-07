@@ -31,7 +31,6 @@ The implementation may be richer; these fields are part of the visual milestone.
 ## Relationships
 
 Relationships identify semantic connections such as:
-
 - contains;
 - supports;
 - connects;

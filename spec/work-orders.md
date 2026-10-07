@@ -15,18 +15,18 @@
 ## Program graph
 
 W000 RESET / BASELINE
--> W001 CONTRACT FOUNDATION
--> parallel W002 FIXTURE, W003 SOLUTION SURFACE, W004 BABYLON
--> W005 WEB HOST + W006 DESKTOP HOST
--> W007 VISUAL INTEGRATION
--> parallel W008 THREE, W009 IFC, W010 GLTF
--> parallel W011 OCCT, W012 OPENUSD, W013 BLENDER/CAD
--> parallel W014 CESIUM, W015 PARAVIEW, W016 ASSET IMPORT
--> parallel W017 AGENTS, W018 TIMELINE, W019 INSPECTOR/BOQ
--> W020 VERIFICATION
--> parallel W021 PERSISTENCE, W022 LIFECYCLE, W023 CAPABILITY DISCOVERY
--> parallel W024 AGENT TOOLS, W025 HUMAN ESCALATION
--> W026 PRODUCTIZATION
+ -> W001 CONTRACT FOUNDATION
+ -> parallel W002 FIXTURE, W003 SOLUTION SURFACE, W004 BABYLON
+ -> W005 WEB HOST + W006 DESKTOP HOST
+ -> W007 VISUAL INTEGRATION
+ -> parallel W008 THREE, W009 IFC, W010 GLTF
+ -> parallel W011 OCCT, W012 OPENUSD, W013 BLENDER/CAD
+ -> parallel W014 CESIUM, W015 PARAVIEW, W016 ASSET IMPORT
+ -> parallel W017 AGENTS, W018 TIMELINE, W019 INSPECTOR/BOQ
+ -> W020 VERIFICATION
+ -> parallel W021 PERSISTENCE, W022 LIFECYCLE, W023 CAPABILITY DISCOVERY
+ -> parallel W024 AGENT TOOLS, W025 HUMAN ESCALATION
+ -> W026 PRODUCTIZATION
 
 ## Wave policy
 
@@ -47,7 +47,6 @@ The TL may re-pack a wave only when pairwise file/module ownership and dependenc
 ## Definition of Done
 
 A work order is complete only when:
-
 - implementation matches its spec;
 - changed behavior has tests;
 - target typecheck/lint/tests run;
@@ -62,7 +61,6 @@ Green tests without a usable running product do not close a visual work order.
 ## Initial visual milestone
 
 The first product milestone closes only when Web and Desktop can:
-
 1. open a construction solution from the workbench;
 2. display a believable construction world;
 3. navigate it;

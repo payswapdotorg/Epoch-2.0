@@ -26,7 +26,10 @@ interface RendererDescriptor {
 interface InteractiveRenderer {
   descriptor(): RendererDescriptor;
 
-  mount(presentation: WorldPresentation, options: RendererMountOptions): Promise<RendererSession>;
+  mount(
+    presentation: WorldPresentation,
+    options: RendererMountOptions,
+  ): Promise<RendererSession>;
 }
 
 interface RendererSession {

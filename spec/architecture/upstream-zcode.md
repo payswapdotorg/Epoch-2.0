@@ -53,7 +53,6 @@ Validated ideas may be reimplemented under the contracts in this repository.
 Changes to ZCode-derived code must remain easy to reconcile with upstream.
 
 When possible:
-
 - minimize unrelated churn;
 - isolate Epoch changes by package/feature;
 - do not rewrite shared ZCode files solely for naming;

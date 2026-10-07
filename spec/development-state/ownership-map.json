@@ -1,6 +1,9 @@
 {
   "wave1": {
-    "W002": ["packages/epoch-construction-fixture/**", "qa/epoch-construction-fixture/**"],
+    "W002": [
+      "packages/epoch-construction-fixture/**",
+      "qa/epoch-construction-fixture/**"
+    ],
     "W003": [
       "packages/epoch-solution-surface/**",
       "packages/ui/src/lib/workspaceSidePane.ts",
@@ -9,11 +12,20 @@
       "packages/ui/src/app-shell/SidePaneTabTrigger.tsx",
       "packages/ui/src/app-shell/sidePaneTabPresentation.ts"
     ],
-    "W004": ["packages/epoch-renderer-babylon/**", "qa/epoch-renderer-babylon/**"]
+    "W004": [
+      "packages/epoch-renderer-babylon/**",
+      "qa/epoch-renderer-babylon/**"
+    ]
   },
   "wave2": {
-    "W005": ["packages/web/**", "qa/epoch-web/**"],
-    "W006": ["packages/desktop/**", "qa/epoch-desktop/**"],
+    "W005": [
+      "packages/web/**",
+      "qa/epoch-web/**"
+    ],
+    "W006": [
+      "packages/desktop/**",
+      "qa/epoch-desktop/**"
+    ],
     "W007": [
       "packages/epoch-solution-runtime/**",
       "packages/epoch-world-interaction/**",

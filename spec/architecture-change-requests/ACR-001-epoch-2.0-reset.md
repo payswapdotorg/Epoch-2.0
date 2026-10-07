@@ -19,7 +19,6 @@ The new product should make the engineering world a first-class workbench surfac
 ## Authorized architecture
 
 See:
-
 - spec/architecture/epoch-2.0-target.md
 - spec/architecture/ARCHITECTURE-LOCK.md
 - spec/architecture/authority-map.md
@@ -30,7 +29,6 @@ See:
 Visualization is implemented before the remaining engineering lifecycle.
 
 The first usable vertical is:
-
 - Solution Surface;
 - deterministic construction fixture engine;
 - Babylon renderer;

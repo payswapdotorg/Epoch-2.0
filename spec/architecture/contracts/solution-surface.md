@@ -35,7 +35,6 @@ solution.list
 ```
 
 Opening a solution must:
-
 1. resolve the engine from the Engine Registry;
 2. resolve/create the reconstruction session;
 3. obtain a world revision;
