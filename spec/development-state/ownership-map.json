@@ -1,0 +1,36 @@
+{
+  "wave1": {
+    "W002": [
+      "packages/epoch-construction-fixture/**",
+      "qa/epoch-construction-fixture/**"
+    ],
+    "W003": [
+      "packages/epoch-solution-surface/**",
+      "packages/ui/src/lib/workspaceSidePane.ts",
+      "packages/ui/src/hooks/useAppPanels.ts",
+      "packages/ui/src/app-shell/WorkspaceShellLayout.tsx",
+      "packages/ui/src/app-shell/SidePaneTabTrigger.tsx",
+      "packages/ui/src/app-shell/sidePaneTabPresentation.ts"
+    ],
+    "W004": [
+      "packages/epoch-renderer-babylon/**",
+      "qa/epoch-renderer-babylon/**"
+    ]
+  },
+  "wave2": {
+    "W005": [
+      "packages/web/**",
+      "qa/epoch-web/**"
+    ],
+    "W006": [
+      "packages/desktop/**",
+      "qa/epoch-desktop/**"
+    ],
+    "W007": [
+      "packages/epoch-solution-runtime/**",
+      "packages/epoch-world-interaction/**",
+      "qa/epoch-visual-closure/**"
+    ]
+  },
+  "rule": "Ownership is exclusive per wave. A worker may consume another worker's merged public contract, but must never edit another worker's owned paths. If an unexpected cross-boundary change is necessary, stop and ask the TL to re-scope rather than silently violating ownership."
+}
