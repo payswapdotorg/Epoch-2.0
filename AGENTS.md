@@ -80,3 +80,43 @@
 - `info` 用于进程和会话生命周期、权限结果、一次性初始化等生产可用事件。
 - `warn` 用于可恢复异常；`error` 用于崩溃、握手失败、鉴权丢失等不可恢复错误。
 - 不在日志、示例或提交中写入凭据、真实用户数据和内部服务地址。
+
+
+# Epoch repository rules
+
+This fork is now Epoch 2.0. The repository, not the chat, is the source of truth for Epoch decisions.
+
+Before changing Epoch behavior:
+1. Read `EPOCH.md`.
+2. Read `spec/architecture/ARCHITECTURE-LOCK.md`.
+3. Read the relevant contract under `spec/architecture/contracts/`.
+4. Read the relevant work order under `spec/work-orders/`.
+5. Read the current execution state under `spec/development-state/`.
+
+Epoch-specific non-negotiables:
+- Solution is a first-class workbench surface like Browser and Terminal.
+- Reconstruction engines are registered capabilities; do not create engine-specific UI surface types.
+- World Model owns engineering semantics.
+- World Presentation is a renderer-neutral projection.
+- Babylon.js and Three.js are renderer adapters, never semantic authorities.
+- External engines/editors/CAD/simulation products are adapters behind declared boundaries.
+- New architecture decisions require a new Architecture Change Request.
+- Maximum implementation workers: 3.
+- Workers never merge or edit another worker's owned surface.
+- Concurrent workers must have pairwise-disjoint ownership.
+- The TL is the only integration/merge/state owner.
+- Visual work requires real product journey evidence; green unit tests alone never close it.
+- Prefer minimal changes to inherited ZCode substrate and maintain upstream reconciliation.
+
+Epoch work begins at `W001`. The current frontier is authoritative in `spec/development-state/frontier-state.json`.
+
+## Epoch source-of-truth hierarchy
+
+1. `spec/architecture/ARCHITECTURE-LOCK.md`
+2. `spec/architecture/epoch-2.0-target.md`
+3. public contracts under `spec/architecture/contracts/`
+4. `spec/work-orders.md` and individual work orders
+5. `spec/development-state/*.json`
+6. implementation code and tests
+
+When implementation and specification disagree, stop and reconcile through the repository process. Do not use chat history as an authority.

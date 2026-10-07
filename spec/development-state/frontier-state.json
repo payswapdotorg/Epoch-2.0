@@ -1,0 +1,18 @@
+{
+  "program": "Epoch 2.0 architecture reset",
+  "status": "FOUNDATION_READY",
+  "frontier": ["W001"],
+  "eligible": 1,
+  "inFlight": [],
+  "blocked": [],
+  "maxConcurrentWorkers": 3,
+  "milestones": {
+    "visualizationFirst": "PENDING",
+    "webNavigableSolution": "PENDING",
+    "desktopNavigableSolution": "PENDING",
+    "rendererPortability": "PENDING",
+    "ifcReconstruction": "FUTURE",
+    "fullEngineeringArchitecture": "FUTURE"
+  },
+  "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities."
+}

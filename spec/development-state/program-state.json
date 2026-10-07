@@ -1,0 +1,17 @@
+{
+  "version": "E2.0/X3.0/WO3.0",
+  "repository": "payswapdotorg/Epoch-2.0",
+  "upstream": {
+    "repository": "zai-org/ZCode",
+    "commit": "29628c9acdb81b703bbd4080c207a0e7ce5e276e",
+    "release": "v3.14.3"
+  },
+  "defaultBranch": "main",
+  "maxConcurrentWorkers": 3,
+  "completed": [],
+  "active": [],
+  "eligible": ["W001"],
+  "blocked": [],
+  "lastMergeSha": null,
+  "lastAction": "Architecture reset documented; W001 is the sole eligible work order."
+}

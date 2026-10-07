@@ -1,4 +1,14 @@
-# ZCode
+# Epoch 2.0
+
+Epoch 是基于开源 ZCode 工作台基础构建的 AI 工程工作台。
+
+**架构和实现的唯一事实来源：** [EPOCH.md](EPOCH.md) 与 `spec/` 目录。
+
+实现 Epoch 功能前，先阅读[目标架构](spec/architecture/epoch-2.0-target.md)、[架构锁](spec/architecture/ARCHITECTURE-LOCK.md)、[工作项计划](spec/work-orders.md)和[TL 交接文档](docs/TL-HANDOFF.md)。
+
+第一阶段采用可视化优先：像 Browser 和 Terminal 一样打开施工 Solution，进入可真实导航的工程世界，并操作具有语义身份的施工元素。
+
+以下 ZCode 初始化与开发说明继续作为本 fork 的基础运行方式。
 
 <div align="center">
   <img src="public/logo/icons/1024x1024.png" alt="ZCode" width="128" height="128" />

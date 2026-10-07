@@ -1,0 +1,21 @@
+{
+  "status": "RESET_READY_FOR_TL",
+  "architecture": "E2.0",
+  "experience": "X3.0",
+  "workOrderVersion": "WO3.0",
+  "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
+  "currentFrontier": ["W001"],
+  "visualizationFirst": true,
+  "maxConcurrentWorkers": 3,
+  "lastMergeSha": null,
+  "verification": {
+    "repoSetup": "DOCUMENTED",
+    "contracts": "DOCUMENTED",
+    "concurrency": "DOCUMENTED",
+    "workerOwnership": "DOCUMENTED",
+    "acceptance": "DOCUMENTED",
+    "localBuild": "NOT_RUN_FROM_CHAT",
+    "productJourney": "NOT_RUN_FROM_CHAT"
+  },
+  "next": "Merge reset documentation, then dispatch W001. Do not dispatch Wave 1 until W001's contracts are merged and frozen."
+}
