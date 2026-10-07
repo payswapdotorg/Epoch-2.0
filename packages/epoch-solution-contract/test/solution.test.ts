@@ -114,10 +114,7 @@ test("isSolutionOpenRequest accepts valid requests", () => {
 test("isSolutionOpenRequest rejects malformed inputs", () => {
   assert.equal(isSolutionOpenRequest({ ...validOpenRequest, engineId: "" }), false);
   assert.equal(isSolutionOpenRequest({ ...validOpenRequest, input: { kind: "?" } }), false);
-  assert.equal(
-    isSolutionOpenRequest({ ...validOpenRequest, input: { kind: "file-path" } }),
-    false,
-  );
+  assert.equal(isSolutionOpenRequest({ ...validOpenRequest, input: { kind: "file-path" } }), false);
   assert.equal(isSolutionOpenRequest(null), false);
 });
 
@@ -151,8 +148,14 @@ test("isSolutionSurfaceOperation validates the five frozen operations", () => {
     isSolutionSurfaceOperation({ kind: "solution.open", request: validOpenRequest }),
     true,
   );
-  assert.equal(isSolutionSurfaceOperation({ kind: "solution.activate", request: { tabId: "t" } }), true);
-  assert.equal(isSolutionSurfaceOperation({ kind: "solution.close", request: { tabId: "t" } }), true);
+  assert.equal(
+    isSolutionSurfaceOperation({ kind: "solution.activate", request: { tabId: "t" } }),
+    true,
+  );
+  assert.equal(
+    isSolutionSurfaceOperation({ kind: "solution.close", request: { tabId: "t" } }),
+    true,
+  );
   assert.equal(
     isSolutionSurfaceOperation({ kind: "solution.reopen", request: { tabId: "t" } }),
     true,
@@ -218,10 +221,7 @@ test("isSolutionInteractionIntent rejects malformed payloads", () => {
     false,
   );
   assert.equal(isSolutionInteractionIntent({ kind: "solution.annotate", text: "" }), false);
-  assert.equal(
-    isSolutionInteractionIntent({ kind: "solution.measure", from: {}, to: {} }),
-    false,
-  );
+  assert.equal(isSolutionInteractionIntent({ kind: "solution.measure", from: {}, to: {} }), false);
   assert.equal(
     isSolutionInteractionIntent({ kind: "solution.navigate", worldPoint: { x: 1, y: 2 } }),
     false,
@@ -252,11 +252,12 @@ test("package runtime dependencies are workspace-only epoch links", () => {
     assert.match(name, /^@zcode\/epoch-[a-z-]+$/);
     assert.equal(range, "workspace:*");
   }
-  const devDependencies = Object.keys(
-    (manifest.devDependencies ?? {}) as Record<string, string>,
-  );
+  const devDependencies = Object.keys((manifest.devDependencies ?? {}) as Record<string, string>);
   const forbidden = /babylon|three|react|zod/i;
-  assert.equal(devDependencies.some((name) => forbidden.test(name)), false);
+  assert.equal(
+    devDependencies.some((name) => forbidden.test(name)),
+    false,
+  );
 });
 
 test("solution contract sources never import engine or UI implementations", () => {

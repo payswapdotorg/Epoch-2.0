@@ -27,9 +27,7 @@ export interface PortableRendererState {
 }
 
 function isNonEmptyStringArray(value: unknown): value is readonly string[] {
-  return (
-    Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0)
-  );
+  return Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0);
 }
 
 /** 可移植状态守卫。 */
@@ -47,23 +45,22 @@ export function isPortableRendererState(value: unknown): value is PortableRender
   if (candidate.annotationRefs !== undefined && !isNonEmptyStringArray(candidate.annotationRefs)) {
     return false;
   }
-  if (candidate.measurementRefs !== undefined && !isNonEmptyStringArray(candidate.measurementRefs)) {
+  if (
+    candidate.measurementRefs !== undefined &&
+    !isNonEmptyStringArray(candidate.measurementRefs)
+  ) {
     return false;
   }
   if (
     candidate.timelinePosition !== undefined &&
-    (typeof candidate.timelinePosition !== "number" ||
-      !Number.isFinite(candidate.timelinePosition))
+    (typeof candidate.timelinePosition !== "number" || !Number.isFinite(candidate.timelinePosition))
   ) {
     return false;
   }
   if (candidate.agentRefs !== undefined && !isNonEmptyStringArray(candidate.agentRefs)) {
     return false;
   }
-  if (
-    candidate.projectionMode !== undefined &&
-    !isWorldProjectionMode(candidate.projectionMode)
-  ) {
+  if (candidate.projectionMode !== undefined && !isWorldProjectionMode(candidate.projectionMode)) {
     return false;
   }
   return true;

@@ -44,9 +44,7 @@ function isOptionalFinite(value: unknown): boolean {
 }
 
 function isNonEmptyStringArray(value: unknown): value is readonly string[] {
-  return (
-    Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0)
-  );
+  return Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0);
 }
 
 /** 导航输入守卫。 */
@@ -63,7 +61,9 @@ export function isNavigationInput(value: unknown): value is NavigationInput {
     case "frame":
       return candidate.entityIds === undefined || isNonEmptyStringArray(candidate.entityIds);
     case "look-at":
-      return isVec3(candidate.target) && (candidate.position === undefined || isVec3(candidate.position));
+      return (
+        isVec3(candidate.target) && (candidate.position === undefined || isVec3(candidate.position))
+      );
     default:
       return false;
   }

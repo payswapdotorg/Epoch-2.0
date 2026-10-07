@@ -35,11 +35,13 @@ Do not dispatch W002/W003/W004 until W001 has merged and its public contracts ar
 Maximum 3 workers.
 
 First concurrent wave after W001:
+
 - Worker A: W002 construction fixture engine.
 - Worker B: W003 Solution Surface.
 - Worker C: W004 Babylon renderer.
 
 Their surfaces are intentionally disjoint:
+
 - W002 owns the fixture package.
 - W003 owns shared Solution Surface/UI integration.
 - W004 owns the Babylon adapter.
@@ -47,6 +49,7 @@ Their surfaces are intentionally disjoint:
 Do not let any of the three edit another's implementation surface.
 
 Second wave:
+
 - W005 Web host.
 - W006 Desktop host.
 - W007 only if it can be proven disjoint from both platform surfaces; otherwise serialize W007 after W005/W006.
@@ -58,6 +61,7 @@ Subsequent waves are recorded in dependency-state.json and work-orders.md.
 Exploit concurrency aggressively, but only after contracts are frozen.
 
 Good concurrency:
+
 - fixture engine + shared surface + renderer adapter;
 - Web host + Desktop host;
 - Three renderer + IFC adapter + glTF pipeline;
@@ -67,6 +71,7 @@ Good concurrency:
 - persistence + lifecycle + capability discovery where dependency graph permits.
 
 Bad concurrency:
+
 - two workers modifying packages/ui ownership simultaneously;
 - two workers changing the same public contract;
 - two workers implementing the same invariant;
@@ -78,6 +83,7 @@ Bad concurrency:
 Workers never merge.
 
 For each completed worker:
+
 1. TL reviews the diff against the work-order contract.
 2. TL runs the relevant architecture/typecheck/lint/test gates.
 3. TL runs or inspects required product evidence.
@@ -104,6 +110,7 @@ Do not create engine-specific tabs or UI components that become required for fut
 ## Required final report
 
 At each milestone, record in the repository:
+
 - exact merged SHA;
 - completed work orders;
 - current frontier;

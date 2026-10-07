@@ -67,9 +67,7 @@ function isDimensions(value: unknown): value is Readonly<Record<string, Quantity
 }
 
 function isStringArray(value: unknown): value is readonly string[] {
-  return (
-    Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0)
-  );
+  return Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0);
 }
 
 /**

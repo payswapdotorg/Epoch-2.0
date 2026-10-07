@@ -26,6 +26,7 @@ The same WorldRevision and semantic IDs must work through Babylon and, after W00
 ## Non-acceptance
 
 Any of the following fails the milestone:
+
 - a dashboard is the primary surface;
 - the world is a tiny decorative panel;
 - geometry is abstract enough that the construction problem is not recognizable;

@@ -31,7 +31,10 @@ export function isReconstructionContext(value: unknown): value is Reconstruction
   if (typeof candidate.workspaceKey !== "string" || candidate.workspaceKey.length === 0) {
     return false;
   }
-  if (candidate.signal !== undefined && typeof (candidate.signal as AbortSignal).aborted !== "boolean") {
+  if (
+    candidate.signal !== undefined &&
+    typeof (candidate.signal as AbortSignal).aborted !== "boolean"
+  ) {
     return false;
   }
   if (candidate.log !== undefined && typeof candidate.log !== "function") return false;

@@ -113,10 +113,9 @@ export function isSolutionOpenResult(value: unknown): value is SolutionOpenResul
 }
 
 /** tab 定位请求守卫（activate/close/reopen 共用形态）。 */
-export function isSolutionTabRequest(value: unknown): value is
-  | SolutionActivateRequest
-  | SolutionCloseRequest
-  | SolutionReopenRequest {
+export function isSolutionTabRequest(
+  value: unknown,
+): value is SolutionActivateRequest | SolutionCloseRequest | SolutionReopenRequest {
   if (typeof value !== "object" || value === null) return false;
   const candidate = value as Record<string, unknown>;
   if (typeof candidate.tabId !== "string" || candidate.tabId.length === 0) return false;

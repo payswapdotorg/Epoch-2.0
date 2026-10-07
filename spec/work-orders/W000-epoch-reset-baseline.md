@@ -1,12 +1,15 @@
 # W000 — Epoch 2.0 Reset Baseline
 
 ## Status
+
 COMPLETE when this documentation setup is merged to main.
 
 ## Goal
+
 Turn the ZCode fork into an Epoch repository whose architecture, work orders, authority rules and execution frontier live in-repo.
 
 ## Completed setup
+
 - Epoch source-of-truth index.
 - Architecture lock.
 - Complete target architecture.
@@ -22,4 +25,5 @@ Turn the ZCode fork into an Epoch repository whose architecture, work orders, au
 - Epoch-specific agent rules.
 
 ## Acceptance
+
 A fresh local agent can start at EPOCH.md, follow the reading hierarchy, identify W001 as the only eligible implementation order, understand the first three-worker wave, and implement the program without consulting chat history.

@@ -35,6 +35,7 @@ semantic authority
 - `solution.annotate`
 
 Future intents can add:
+
 - manipulation;
 - simulation;
 - intervention;

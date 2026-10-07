@@ -112,8 +112,7 @@ function isMeasurementPoint(value: unknown): value is SolutionMeasurementPoint {
 function isSelectionMode(value: unknown): value is SolutionSelectionMode {
   return (
     value === undefined ||
-    (typeof value === "string" &&
-      SOLUTION_SELECTION_MODES.includes(value as SolutionSelectionMode))
+    (typeof value === "string" && SOLUTION_SELECTION_MODES.includes(value as SolutionSelectionMode))
   );
 }
 
@@ -132,9 +131,7 @@ export function isSolutionInteractionIntent(value: unknown): value is SolutionIn
     case "solution.focus":
       return candidate.entityId === undefined || typeof candidate.entityId === "string";
     case "solution.setLayerVisibility":
-      return (
-        isNonEmptyString(candidate.layerId) && typeof candidate.visible === "boolean"
-      );
+      return isNonEmptyString(candidate.layerId) && typeof candidate.visible === "boolean";
     case "solution.measure":
       return isMeasurementPoint(candidate.from) && isMeasurementPoint(candidate.to);
     case "solution.annotate":

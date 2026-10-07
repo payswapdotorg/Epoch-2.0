@@ -53,10 +53,7 @@ test("isWorldEntity accepts a valid entity", () => {
 });
 
 test("isWorldEntity accepts the minimal entity", () => {
-  assert.equal(
-    isWorldEntity({ entityId: "e", entityType: "wall", label: "墙" }),
-    true,
-  );
+  assert.equal(isWorldEntity({ entityId: "e", entityType: "wall", label: "墙" }), true);
 });
 
 test("isWorldEntity rejects wrong types", () => {
@@ -76,10 +73,7 @@ test("isWorldEntity rejects missing mandatory fields", () => {
 });
 
 test("isWorldEntity rejects bad units", () => {
-  assert.equal(
-    isWorldEntity({ ...validEntity, quantity: { value: 1, unit: "bogus" } }),
-    false,
-  );
+  assert.equal(isWorldEntity({ ...validEntity, quantity: { value: 1, unit: "bogus" } }), false);
   assert.equal(
     isWorldEntity({
       ...validEntity,
@@ -87,10 +81,7 @@ test("isWorldEntity rejects bad units", () => {
     }),
     false,
   );
-  assert.equal(
-    isWorldEntity({ ...validEntity, quantity: { value: 1, unit: "" } }),
-    false,
-  );
+  assert.equal(isWorldEntity({ ...validEntity, quantity: { value: 1, unit: "" } }), false);
 });
 
 test("isWorldEntity rejects malformed optional members", () => {

@@ -85,7 +85,13 @@ test("registry rejects malformed engines on register", () => {
   );
   // 描述符抛错的引擎同样拒绝。
   assert.throws(
-    () => registry.register({ descriptor: () => { throw new Error("bad"); }, open: async () => undefined }),
+    () =>
+      registry.register({
+        descriptor: () => {
+          throw new Error("bad");
+        },
+        open: async () => undefined,
+      }),
     TypeError,
   );
 });
@@ -115,7 +121,10 @@ test("isReconstructionEngine validates structure", () => {
   assert.equal(isReconstructionEngine({ descriptor: () => descriptor }), false);
   assert.equal(isReconstructionEngine({ open: async () => undefined }), false);
   assert.equal(isReconstructionEngine(null), false);
-  assert.equal(isReconstructionEngine(() => descriptor), false);
+  assert.equal(
+    isReconstructionEngine(() => descriptor),
+    false,
+  );
 });
 
 test("isWellFormedReconstructionEngine validates the descriptor too", () => {
@@ -128,7 +137,12 @@ test("isWellFormedReconstructionEngine validates the descriptor too", () => {
     false,
   );
   assert.equal(
-    isWellFormedReconstructionEngine({ descriptor: () => { throw new Error("bad"); }, open: async () => undefined }),
+    isWellFormedReconstructionEngine({
+      descriptor: () => {
+        throw new Error("bad");
+      },
+      open: async () => undefined,
+    }),
     false,
   );
 });
@@ -139,11 +153,12 @@ test("package declares zero runtime dependencies", () => {
   assert.deepEqual(manifest.dependencies, {
     "@zcode/epoch-world-model": "workspace:*",
   });
-  const devDependencies = Object.keys(
-    (manifest.devDependencies ?? {}) as Record<string, string>,
-  );
+  const devDependencies = Object.keys((manifest.devDependencies ?? {}) as Record<string, string>);
   const forbidden = /babylon|three|react|zod/i;
-  assert.equal(devDependencies.some((name) => forbidden.test(name)), false);
+  assert.equal(
+    devDependencies.some((name) => forbidden.test(name)),
+    false,
+  );
 });
 
 test("placeholder guard stays false for foreign shapes", () => {

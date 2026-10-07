@@ -97,10 +97,11 @@ function canonicalProvenanceList(refs: readonly ProvenanceRef[]): Canonical {
       kind: ref.kind,
       sourceId: ref.sourceId,
     }))
-    .sort((left, right) =>
-      compareStrings(left.sourceId, right.sourceId) ||
-      compareStrings(left.kind, right.kind) ||
-      compareStrings(left.artifact ?? "", right.artifact ?? ""),
+    .sort(
+      (left, right) =>
+        compareStrings(left.sourceId, right.sourceId) ||
+        compareStrings(left.kind, right.kind) ||
+        compareStrings(left.artifact ?? "", right.artifact ?? ""),
     );
 }
 
@@ -180,7 +181,5 @@ export function canonicalizeWorld(world: WorldDigestSource): string {
  * 的 UTF-8 字节，输出 64 位小写 hex。
  */
 export function computeWorldDigest(world: WorldDigestSource): string {
-  return createHash(WORLD_DIGEST_ALGORITHM)
-    .update(canonicalizeWorld(world), "utf8")
-    .digest("hex");
+  return createHash(WORLD_DIGEST_ALGORITHM).update(canonicalizeWorld(world), "utf8").digest("hex");
 }

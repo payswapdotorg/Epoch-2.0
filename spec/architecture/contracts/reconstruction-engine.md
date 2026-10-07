@@ -31,18 +31,13 @@ interface ReconstructionEngineDescriptor {
 interface ReconstructionEngine {
   descriptor(): ReconstructionEngineDescriptor;
 
-  open(
-    input: ReconstructionInput,
-    context: ReconstructionContext,
-  ): Promise<ReconstructionSession>;
+  open(input: ReconstructionInput, context: ReconstructionContext): Promise<ReconstructionSession>;
 }
 
 interface ReconstructionSession {
   snapshot(): Promise<WorldRevision>;
   apply?(operation: ReconstructionOperation): Promise<WorldRevision>;
-  subscribe?(
-    listener: (event: ReconstructionEvent) => void,
-  ): () => void;
+  subscribe?(listener: (event: ReconstructionEvent) => void): () => void;
   close(): Promise<void>;
 }
 ```
@@ -66,6 +61,7 @@ The registry is the only discovery path for solution-opening UI and agent tools.
 Inputs are classified and validated before reaching an engine.
 
 Examples:
+
 - file path;
 - bytes/object reference;
 - workspace artifact;

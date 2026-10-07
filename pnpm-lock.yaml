@@ -785,6 +785,73 @@ importers:
         specifier: ^8.0.2
         version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.9.0)
 
+  packages/epoch-reconstruction-contract:
+    dependencies:
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/epoch-renderer-contract:
+    dependencies:
+      '@zcode/epoch-world-presentation':
+        specifier: workspace:*
+        version: link:../epoch-world-presentation
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/epoch-solution-contract:
+    dependencies:
+      '@zcode/epoch-reconstruction-contract':
+        specifier: workspace:*
+        version: link:../epoch-reconstruction-contract
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+      '@zcode/epoch-world-presentation':
+        specifier: workspace:*
+        version: link:../epoch-world-presentation
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/epoch-world-model:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/epoch-world-presentation:
+    dependencies:
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
   packages/formal-proof:
     dependencies:
       d3:
@@ -16172,11 +16239,11 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
+  lodash.pickby@4.6.0: {}
+
   lodash.uniqby@4.7.0: {}
 
   lodash@4.18.1: {}
-
-  lodash.pickby@4.6.0: {}
 
   log-symbols@4.1.0:
     dependencies:

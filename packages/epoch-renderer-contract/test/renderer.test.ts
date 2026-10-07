@@ -52,10 +52,7 @@ test("isRendererCapabilities validates mandatory and optional switches", () => {
   assert.equal(isRendererCapabilities({ web: true }), false);
   const { walk, ...withoutWalk } = validDescriptor.capabilities;
   assert.equal(isRendererCapabilities(withoutWalk), false);
-  assert.equal(
-    isRendererCapabilities({ ...validDescriptor.capabilities, webgpu: "maybe" }),
-    false,
-  );
+  assert.equal(isRendererCapabilities({ ...validDescriptor.capabilities, webgpu: "maybe" }), false);
 });
 
 test("isRendererHit accepts presentationId-first hits", () => {
@@ -74,10 +71,7 @@ test("isNavigationInput accepts all five navigation kinds", () => {
   assert.equal(isNavigationInput({ kind: "zoom", factor: 1.2 }), true);
   assert.equal(isNavigationInput({ kind: "frame", entityIds: ["column-001"] }), true);
   assert.equal(isNavigationInput({ kind: "frame" }), true);
-  assert.equal(
-    isNavigationInput({ kind: "look-at", target: { x: 0, y: 1, z: 0 } }),
-    true,
-  );
+  assert.equal(isNavigationInput({ kind: "look-at", target: { x: 0, y: 1, z: 0 } }), true);
 });
 
 test("isNavigationInput rejects unknown kinds and malformed payloads", () => {
@@ -107,13 +101,8 @@ test("isRendererMountOptions treats container as opaque but validates the rest",
   assert.equal(isRendererMountOptions({ container: documentLike() }), true);
   assert.equal(isRendererMountOptions({ container: null }), true);
   assert.equal(isRendererMountOptions({}), false);
-  assert.equal(
-    isRendererMountOptions({ container: {}, devicePixelRatio: 2 }), true,
-  );
-  assert.equal(
-    isRendererMountOptions({ container: {}, devicePixelRatio: 0 }),
-    false,
-  );
+  assert.equal(isRendererMountOptions({ container: {}, devicePixelRatio: 2 }), true);
+  assert.equal(isRendererMountOptions({ container: {}, devicePixelRatio: 0 }), false);
   assert.equal(
     isRendererMountOptions({
       container: {},
@@ -168,11 +157,12 @@ test("package runtime dependencies are workspace-only epoch links", () => {
     assert.match(name, /^@zcode\/epoch-[a-z-]+$/);
     assert.equal(range, "workspace:*");
   }
-  const devDependencies = Object.keys(
-    (manifest.devDependencies ?? {}) as Record<string, string>,
-  );
+  const devDependencies = Object.keys((manifest.devDependencies ?? {}) as Record<string, string>);
   const forbidden = /babylon|three|react|zod/i;
-  assert.equal(devDependencies.some((name) => forbidden.test(name)), false);
+  assert.equal(
+    devDependencies.some((name) => forbidden.test(name)),
+    false,
+  );
 });
 
 test("renderer contract sources never import engine implementations", () => {

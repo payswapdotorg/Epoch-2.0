@@ -29,10 +29,7 @@ export interface ReconstructionSession {
 /** 重建引擎能力接口：一切引擎接入的唯一稳定入口。 */
 export interface ReconstructionEngine {
   descriptor(): ReconstructionEngineDescriptor;
-  open(
-    input: ReconstructionInput,
-    context: ReconstructionContext,
-  ): Promise<ReconstructionSession>;
+  open(input: ReconstructionInput, context: ReconstructionContext): Promise<ReconstructionSession>;
 }
 
 /** 引擎守卫：descriptor/open 为必需的函数成员。 */

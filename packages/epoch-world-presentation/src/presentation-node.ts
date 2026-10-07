@@ -41,9 +41,7 @@ export const PRESENTATION_NODE_VISIBILITIES = ["visible", "hidden"] as const;
 export type PresentationNodeVisibility = (typeof PRESENTATION_NODE_VISIBILITIES)[number];
 
 /** 节点可见性守卫。 */
-export function isPresentationNodeVisibility(
-  value: unknown,
-): value is PresentationNodeVisibility {
+export function isPresentationNodeVisibility(value: unknown): value is PresentationNodeVisibility {
   return (
     typeof value === "string" &&
     PRESENTATION_NODE_VISIBILITIES.includes(value as PresentationNodeVisibility)
@@ -75,7 +73,8 @@ export function isWorldPresentationNode(value: unknown): value is WorldPresentat
   if (candidate.entityId !== undefined && typeof candidate.entityId !== "string") return false;
   if (
     candidate.parentPresentationId !== undefined &&
-    (typeof candidate.parentPresentationId !== "string" || candidate.parentPresentationId.length === 0)
+    (typeof candidate.parentPresentationId !== "string" ||
+      candidate.parentPresentationId.length === 0)
   ) {
     return false;
   }

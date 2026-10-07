@@ -10,11 +10,7 @@ import assert from "node:assert/strict";
 import { execFile as execFileCallback } from "node:child_process";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
-import {
-  canonicalizeWorld,
-  computeWorldDigest,
-  isWorldDigest,
-} from "../src/index.ts";
+import { canonicalizeWorld, computeWorldDigest, isWorldDigest } from "../src/index.ts";
 
 const execFileAsync = promisify(execFileCallback);
 
@@ -180,10 +176,7 @@ test("presence is semantic: absent vs empty optional content differs", () => {
     entities: [{ entityId: "e", entityType: "wall", label: "W", constraints: [] }],
     relationships: [],
   };
-  assert.notEqual(
-    computeWorldDigest(withoutConstraints),
-    computeWorldDigest(withEmptyConstraints),
-  );
+  assert.notEqual(computeWorldDigest(withoutConstraints), computeWorldDigest(withEmptyConstraints));
 });
 
 test("unknown fields are dropped from the canonical form", () => {
@@ -197,10 +190,7 @@ test("unknown fields are dropped from the canonical form", () => {
 
 test("canonicalizeWorld emits sorted, whitespace-free canonical JSON", () => {
   const minimal = { worldId: "w", entities: [], relationships: [] };
-  assert.equal(
-    canonicalizeWorld(minimal),
-    '{"entities":[],"relationships":[],"worldId":"w"}',
-  );
+  assert.equal(canonicalizeWorld(minimal), '{"entities":[],"relationships":[],"worldId":"w"}');
   // 无空白：值内空格之外不得有任何结构空白（分隔符前后都不允许）。
   assert.equal(/\s/.test(canonicalizeWorld(minimal)), false);
   const full = canonicalizeWorld(fixtureWorld);
@@ -217,7 +207,9 @@ test("canonicalizeWorld emits sorted, whitespace-free canonical JSON", () => {
 test("non-finite numbers are rejected", () => {
   const withNaN = {
     worldId: "w",
-    entities: [{ entityId: "e", entityType: "wall", label: "W", quantity: { value: Number.NaN, unit: "m" } }],
+    entities: [
+      { entityId: "e", entityType: "wall", label: "W", quantity: { value: Number.NaN, unit: "m" } },
+    ],
     relationships: [],
   };
   assert.throws(() => computeWorldDigest(withNaN), TypeError);

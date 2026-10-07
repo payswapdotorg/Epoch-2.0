@@ -4,11 +4,7 @@
  * 只允许从 index.ts import。
  */
 export type { SolutionSurfaceState, SolutionSurfaceTab } from "./tab.ts";
-export {
-  SOLUTION_SURFACE_TAB_TYPE,
-  isSolutionSurfaceState,
-  isSolutionSurfaceTab,
-} from "./tab.ts";
+export { SOLUTION_SURFACE_TAB_TYPE, isSolutionSurfaceState, isSolutionSurfaceTab } from "./tab.ts";
 export type {
   SolutionActivateRequest,
   SolutionCloseRequest,

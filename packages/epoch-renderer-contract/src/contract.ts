@@ -4,22 +4,9 @@
  * 这里 re-export 以便渲染器适配器单入口消费。只允许从 index.ts import。
  */
 export type { RendererCapabilities, RendererDescriptor } from "./descriptor.ts";
-export {
-  isRendererCapabilities,
-  isRendererDescriptor,
-} from "./descriptor.ts";
-export type {
-  FocusInput,
-  HitTestInput,
-  NavigationInput,
-  VisibilityInput,
-} from "./input.ts";
-export {
-  isFocusInput,
-  isHitTestInput,
-  isNavigationInput,
-  isVisibilityInput,
-} from "./input.ts";
+export { isRendererCapabilities, isRendererDescriptor } from "./descriptor.ts";
+export type { FocusInput, HitTestInput, NavigationInput, VisibilityInput } from "./input.ts";
+export { isFocusInput, isHitTestInput, isNavigationInput, isVisibilityInput } from "./input.ts";
 export type {
   InteractiveRenderer,
   RendererHit,

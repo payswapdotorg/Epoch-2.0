@@ -72,7 +72,10 @@ test("isReconstructionEngineDescriptor rejects missing/wrong fields", () => {
 
 test("isReconstructionEngineDescriptor rejects bad runtime values", () => {
   assert.equal(isReconstructionEngineDescriptor({ ...validDescriptor, runtime: "cloud" }), false);
-  assert.equal(isReconstructionEngineDescriptor({ ...validDescriptor, runtime: "in process" }), false);
+  assert.equal(
+    isReconstructionEngineDescriptor({ ...validDescriptor, runtime: "in process" }),
+    false,
+  );
 });
 
 test("isReconstructionRuntime accepts the four frozen boundaries", () => {

@@ -54,7 +54,10 @@ test("isVec3 and isQuaternion accept/reject", () => {
 
 test("isTransform validates translation and optional members", () => {
   assert.equal(isTransform({ translation: { x: 0, y: 0, z: 0 } }), true);
-  assert.equal(isTransform({ translation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }), true);
+  assert.equal(
+    isTransform({ translation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }),
+    true,
+  );
   assert.equal(isTransform({}), false);
   assert.equal(isTransform({ translation: null }), false);
   assert.equal(
@@ -65,10 +68,7 @@ test("isTransform validates translation and optional members", () => {
 
 test("isRepresentationRef accepts frozen kinds only", () => {
   assert.equal(isRepresentationRef(validRepresentation), true);
-  assert.equal(
-    isRepresentationRef({ ...validRepresentation, kind: "hologram" }),
-    false,
-  );
+  assert.equal(isRepresentationRef({ ...validRepresentation, kind: "hologram" }), false);
   assert.equal(isRepresentationRef({ ...validRepresentation, format: "" }), false);
   assert.equal(isRepresentationRef({ ...validRepresentation, ref: 42 }), false);
   assert.equal(isRepresentationKind("solid"), true);
@@ -94,7 +94,10 @@ test("isInteractionBinding accepts/rejects", () => {
   assert.equal(isInteractionBinding({ selectable: "yes", focusable: false, layerIds: [] }), false);
   assert.equal(isInteractionBinding({ selectable: true, focusable: false }), false);
   assert.equal(isInteractionBinding({ selectable: true, focusable: true, layerIds: [""] }), false);
-  assert.equal(isInteractionBinding({ selectable: true, focusable: true, layerIds: "walls" }), false);
+  assert.equal(
+    isInteractionBinding({ selectable: true, focusable: true, layerIds: "walls" }),
+    false,
+  );
 });
 
 test("isPresentationNodeVisibility accepts frozen values only", () => {
@@ -110,7 +113,10 @@ test("isWorldPresentationNode accepts a valid node and rejects malformed ones", 
   assert.equal(isWorldPresentationNode({ ...validNode, transform: {} }), false);
   assert.equal(isWorldPresentationNode({ ...validNode, representations: "one" }), false);
   assert.equal(
-    isWorldPresentationNode({ ...validNode, representations: [{ ...validRepresentation, kind: "?" }] }),
+    isWorldPresentationNode({
+      ...validNode,
+      representations: [{ ...validRepresentation, kind: "?" }],
+    }),
     false,
   );
   assert.equal(isWorldPresentationNode({ ...validNode, visibility: "shown" }), false);
@@ -150,10 +156,7 @@ test("isPortableRendererState validates the documented portable fields", () => {
     isPortableRendererState({ worldId: "w", digest: "abc", hiddenLayerIds: [""] }),
     false,
   );
-  assert.equal(
-    isPortableRendererState({ worldId: "w", digest: "abc", projectionMode: "" }),
-    false,
-  );
+  assert.equal(isPortableRendererState({ worldId: "w", digest: "abc", projectionMode: "" }), false);
 });
 
 test("isWorldPresentation validates the compiled projection", () => {
@@ -184,9 +187,10 @@ test("package runtime dependencies are workspace-only epoch links", () => {
     assert.match(name, /^@zcode\/epoch-[a-z-]+$/);
     assert.equal(range, "workspace:*");
   }
-  const devDependencies = Object.keys(
-    (manifest.devDependencies ?? {}) as Record<string, string>,
-  );
+  const devDependencies = Object.keys((manifest.devDependencies ?? {}) as Record<string, string>);
   const forbidden = /babylon|three|react|zod/i;
-  assert.equal(devDependencies.some((name) => forbidden.test(name)), false);
+  assert.equal(
+    devDependencies.some((name) => forbidden.test(name)),
+    false,
+  );
 });

@@ -21,9 +21,7 @@ export const REPRESENTATION_KINDS = [
 export type RepresentationKind = (typeof REPRESENTATION_KINDS)[number];
 
 /** 运行时校验集合。 */
-export const REPRESENTATION_KIND_SET: ReadonlySet<string> = new Set<string>(
-  REPRESENTATION_KINDS,
-);
+export const REPRESENTATION_KIND_SET: ReadonlySet<string> = new Set<string>(REPRESENTATION_KINDS);
 
 /** 表现种类守卫。 */
 export function isRepresentationKind(value: unknown): value is RepresentationKind {
@@ -75,7 +73,6 @@ export function isWorldProjectionMode(value: unknown): value is WorldProjectionM
 /** 是否为已冻结的内置投影模式。 */
 export function isKnownWorldProjectionMode(value: unknown): value is KnownWorldProjectionMode {
   return (
-    typeof value === "string" &&
-    WORLD_PROJECTION_MODES.includes(value as KnownWorldProjectionMode)
+    typeof value === "string" && WORLD_PROJECTION_MODES.includes(value as KnownWorldProjectionMode)
   );
 }

@@ -20,9 +20,10 @@ test("package is private, ESM, source-exported", () => {
 });
 
 test("devDependencies contain no engine or UI libraries", () => {
-  const devDependencies = Object.keys(
-    (manifest.devDependencies ?? {}) as Record<string, string>,
-  );
+  const devDependencies = Object.keys((manifest.devDependencies ?? {}) as Record<string, string>);
   const forbidden = /babylon|three|react|zod| Babylon |threejs/i;
-  assert.equal(devDependencies.some((name) => forbidden.test(name)), false);
+  assert.equal(
+    devDependencies.some((name) => forbidden.test(name)),
+    false,
+  );
 });

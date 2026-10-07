@@ -1,17 +1,22 @@
 # W002 — Deterministic Construction Fixture Engine
 
 ## Dependency
+
 W001 complete.
 
 ## Owned surfaces
+
 - packages/epoch-construction-fixture/
 - tests/fixtures for that package only.
 
 ## Goal
+
 Provide the reference Reconstruction Engine implementation used to make the first visual product deterministic and dependency-light.
 
 ## Fixture
+
 A believable small construction solution with:
+
 - Site;
 - Foundation;
 - Structure;
@@ -20,6 +25,7 @@ A believable small construction solution with:
 - Finishes.
 
 Minimum visible semantics:
+
 - structural columns/beams/slab;
 - walls, door, windows, roof;
 - electrical/lighting;
@@ -29,6 +35,7 @@ Minimum visible semantics:
 Every visible element has stable semantic identity.
 
 ## Requirements
+
 - no network;
 - deterministic;
 - stable digest;
@@ -41,4 +48,5 @@ Every visible element has stable semantic identity.
 - at least two variants where feasible.
 
 ## Acceptance
+
 Opening the fixture yields one valid WorldRevision whose digest is identical across repeated opens with identical input.

@@ -9,27 +9,35 @@ ZCode supplies the workbench substrate. Epoch supplies the engineering world and
 ## 2. Layer model
 
 L0 ZCode Workbench
+
 - workspace / task / session / side-pane / platform hosts
 
 L1 Epoch Surface System
+
 - Solution Surface + future engineering surfaces
 
 L2 Epoch Solution Runtime
+
 - solution session / world revision / presentation / interaction
 
 L3 Semantic Engineering World
+
 - entities / relationships / systems / quantities / constraints / findings / agents / timeline / variants / provenance
 
 L4 Reconstruction & Engineering Capability Fabric
+
 - fixture / IFC / scan / CAD / photogrammetry / simulation / tools
 
 L5 Presentation & Renderer Fabric
+
 - World Presentation / Babylon / Three / Cesium / future renderers
 
 L6 Engineering Foundations
+
 - OCCT / IfcOpenShell / OpenUSD / glTF / Blender / ParaView / FreeCAD / Assimp / future Godot / O3DE
 
 L7 Durable Product Lifecycle
+
 - understand / decide / plan / acquire / realize / observe / verify / forecast / close / learn
 
 Dependencies point downward only where the lower layer is a capability dependency, not a semantic authority.
@@ -37,6 +45,7 @@ Dependencies point downward only where the lower layer is a capability dependenc
 ## 3. Workbench integration
 
 Use ZCode's existing:
+
 - workspace identity;
 - task/session lifecycle;
 - side-pane/tab state;
@@ -55,20 +64,21 @@ Do not create one tab/surface type per reconstruction engine.
 ## 4. Solution lifecycle
 
 solution.open(request)
- -> EngineRegistry.resolve(engineId)
- -> engine.open(input)
- -> WorldRevision
- -> PresentationCompiler
- -> SolutionRuntime
- -> RendererRegistry.resolve(renderer)
- -> renderer.mount(presentation)
- -> active Solution Surface
+-> EngineRegistry.resolve(engineId)
+-> engine.open(input)
+-> WorldRevision
+-> PresentationCompiler
+-> SolutionRuntime
+-> RendererRegistry.resolve(renderer)
+-> renderer.mount(presentation)
+-> active Solution Surface
 
 Closing the surface disposes presentation/renderer runtime state but does not delete authoritative solution state.
 
 ## 5. Reconstruction Engine Fabric
 
 The engine fabric owns:
+
 - discovery;
 - capability declaration;
 - validated input admission;
@@ -78,6 +88,7 @@ The engine fabric owns:
 - external-engine process lifecycle.
 
 Supported runtime boundaries:
+
 - in-process;
 - worker;
 - process;
@@ -88,6 +99,7 @@ Engine adapters normalize external representations into Epoch WorldRevision. The
 ## 6. Semantic World Model
 
 The semantic graph contains:
+
 - entities;
 - relationships;
 - systems/layers;
@@ -108,6 +120,7 @@ Every visible engineering object has semantic identity.
 The compiler translates canonical world revisions to a renderer-neutral presentation graph.
 
 One entity can have several presentations:
+
 - 3D solid;
 - plan symbol;
 - section representation;
@@ -121,10 +134,12 @@ Plan, section and 3D are projections of one world, not independent models.
 The Renderer Registry contains descriptors and adapters.
 
 Initial adapters:
+
 - Babylon.js;
 - Three.js.
 
 Future adapters:
+
 - CesiumJS;
 - Godot;
 - O3DE;
@@ -134,21 +149,21 @@ The renderer sees presentation data and typed interaction inputs, never semantic
 
 ## 9. Engineering foundation roles
 
-| Foundation | Target role |
-|---|---|
-| Babylon.js | primary interactive browser/world runtime |
-| Three.js | alternate browser renderer |
-| IfcOpenShell | IFC/BIM reconstruction + domain geometry |
-| OCCT | precision B-Rep/solid geometry |
-| OpenUSD | composed scenes/layers/variants |
-| glTF | runtime delivery |
-| Blender | asset/reconstruction/high-fidelity capability |
-| FreeCAD | parametric CAD capability |
-| ParaView | simulation/result visualization |
-| CesiumJS | geospatial/site/large-world context |
-| Assimp | generic asset normalization |
-| Godot | future lightweight native interactive runtime |
-| O3DE | future heavy native simulation runtime |
+| Foundation   | Target role                                   |
+| ------------ | --------------------------------------------- |
+| Babylon.js   | primary interactive browser/world runtime     |
+| Three.js     | alternate browser renderer                    |
+| IfcOpenShell | IFC/BIM reconstruction + domain geometry      |
+| OCCT         | precision B-Rep/solid geometry                |
+| OpenUSD      | composed scenes/layers/variants               |
+| glTF         | runtime delivery                              |
+| Blender      | asset/reconstruction/high-fidelity capability |
+| FreeCAD      | parametric CAD capability                     |
+| ParaView     | simulation/result visualization               |
+| CesiumJS     | geospatial/site/large-world context           |
+| Assimp       | generic asset normalization                   |
+| Godot        | future lightweight native interactive runtime |
+| O3DE         | future heavy native simulation runtime        |
 
 Integration priority is capability-driven, not brand-driven.
 
@@ -157,12 +172,14 @@ Integration priority is capability-driven, not brand-driven.
 The first visual surface is world-dominant.
 
 Required hierarchy:
+
 - world viewport: 60–75%;
 - secondary navigator: compact;
 - inspector / BOQ: secondary;
 - timeline / findings: compact/floating.
 
 The experience supports:
+
 - orbit/pan/zoom/focus/reset;
 - selection;
 - layer visibility/isolation;
@@ -192,10 +209,10 @@ The visual avatar is a projection. The agent does not gain direct renderer or du
 Simulation is another capability adapter.
 
 World Revision
- -> Simulation Adapter
- -> Result Dataset
- -> Result Projection
- -> World/ParaView/Cesium visualization
+-> Simulation Adapter
+-> Result Dataset
+-> Result Projection
+-> World/ParaView/Cesium visualization
 
 Simulation results do not silently mutate the baseline world.
 
@@ -227,12 +244,12 @@ Each stage starts when its preceding contract is stable and executable; later st
 ## 15. Design law
 
 freeze interfaces
- -> build one real world
- -> make it navigable
- -> make it semantically interactive
- -> prove renderer portability
- -> add better reconstruction
- -> add deeper engineering computation
- -> add broader orchestration
+-> build one real world
+-> make it navigable
+-> make it semantically interactive
+-> prove renderer portability
+-> add better reconstruction
+-> add deeper engineering computation
+-> add broader orchestration
 
 Do not reverse this order.

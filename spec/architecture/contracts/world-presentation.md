@@ -25,6 +25,7 @@ interface WorldPresentationNode {
 ```
 
 A node may represent:
+
 - a solid;
 - mesh;
 - point cloud;
@@ -48,6 +49,7 @@ The renderer must not mutate the canonical presentation source.
 ## Projections
 
 The presentation compiler supports modes such as:
+
 - 3D;
 - plan;
 - section/cutaway;
@@ -56,6 +58,7 @@ The presentation compiler supports modes such as:
 ## Portable state
 
 The presentation system defines which state can survive renderer switching:
+
 - focused entity;
 - semantic visibility layers;
 - annotation references;

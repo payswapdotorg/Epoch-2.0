@@ -47,5 +47,8 @@ export interface PresentationCompileOptions {
  * （同修订+同种子+同模式 => 同表现）。
  */
 export interface PresentationCompiler {
-  compile(revision: WorldRevision, options?: PresentationCompileOptions): Promise<WorldPresentation>;
+  compile(
+    revision: WorldRevision,
+    options?: PresentationCompileOptions,
+  ): Promise<WorldPresentation>;
 }
