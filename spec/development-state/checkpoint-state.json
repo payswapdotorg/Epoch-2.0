@@ -1,21 +1,22 @@
 {
-  "status": "RESET_READY_FOR_TL",
+  "status": "RESET_COMPLETE",
   "architecture": "E2.0",
   "experience": "X3.0",
   "workOrderVersion": "WO3.0",
+  "repository": "payswapdotorg/Epoch-2.0",
   "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
+  "resetMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
   "currentFrontier": ["W001"],
   "visualizationFirst": true,
   "maxConcurrentWorkers": 3,
-  "lastMergeSha": null,
   "verification": {
-    "repoSetup": "DOCUMENTED",
+    "repoSetup": "COMPLETE",
     "contracts": "DOCUMENTED",
     "concurrency": "DOCUMENTED",
     "workerOwnership": "DOCUMENTED",
     "acceptance": "DOCUMENTED",
-    "localBuild": "NOT_RUN_FROM_CHAT",
-    "productJourney": "NOT_RUN_FROM_CHAT"
+    "localBuild": "NOT_RUN_BY_RESET",
+    "productJourney": "NOT_RUN_BY_RESET"
   },
-  "next": "Merge reset documentation, then dispatch W001. Do not dispatch Wave 1 until W001's contracts are merged and frozen."
+  "next": "Dispatch W001. Keep chat out of the implementation loop; use the repository contracts, work orders and state as the authority."
 }
