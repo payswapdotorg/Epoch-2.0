@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"],
+    // 契约测试用 `node --test` 直接执行 src（Node 24 原生剥离类型），内部导入
+    // 必须带 .ts 后缀；配合 emitDeclarationOnly 只产出声明（tsc -b 的引用方
+    // 消费 dist/*.d.ts），因此这里开启 allowImportingTsExtensions。
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../epoch-world-model" },
+    { "path": "../epoch-reconstruction-contract" },
+    { "path": "../epoch-world-presentation" }
+  ]
+}

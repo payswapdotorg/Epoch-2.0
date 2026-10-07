@@ -55,6 +55,30 @@ modules:
   - id: zcode-cli
     roots: [apps/zcode-cli]
     managed: false
+  - id: epoch-world-model
+    roots: [packages/epoch-world-model/src]
+    managed: true
+    publicEntrypoints: [packages/epoch-world-model/src/index.ts]
+  - id: epoch-reconstruction-contract
+    roots: [packages/epoch-reconstruction-contract/src]
+    managed: true
+    requires: [epoch-world-model]
+    publicEntrypoints: [packages/epoch-reconstruction-contract/src/index.ts]
+  - id: epoch-world-presentation
+    roots: [packages/epoch-world-presentation/src]
+    managed: true
+    requires: [epoch-world-model]
+    publicEntrypoints: [packages/epoch-world-presentation/src/index.ts]
+  - id: epoch-renderer-contract
+    roots: [packages/epoch-renderer-contract/src]
+    managed: true
+    requires: [epoch-world-presentation, epoch-world-model]
+    publicEntrypoints: [packages/epoch-renderer-contract/src/index.ts]
+  - id: epoch-solution-contract
+    roots: [packages/epoch-solution-contract/src]
+    managed: true
+    requires: [epoch-world-model, epoch-reconstruction-contract, epoch-world-presentation]
+    publicEntrypoints: [packages/epoch-solution-contract/src/index.ts]
 
 global:
   maxFileLines: 400

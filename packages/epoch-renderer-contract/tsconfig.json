@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"],
+    // 契约测试用 `node --test` 直接执行 src（Node 24 原生剥离类型），内部导入
+    // 必须带 .ts 后缀；配合 emitDeclarationOnly 只产出声明（tsc -b 的引用方
+    // 消费 dist/*.d.ts），因此这里开启 allowImportingTsExtensions。
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src"],
+  // 引用 world-model：mount 类型经 world-presentation 的声明传递引用它，
+  // 显式引用让 tsc -b 复用其声明产物而不是把源码拖进本工程重复检查。
+  "references": [{ "path": "../epoch-world-presentation" }, { "path": "../epoch-world-model" }]
+}

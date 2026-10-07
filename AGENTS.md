@@ -81,12 +81,12 @@
 - `warn` 用于可恢复异常；`error` 用于崩溃、握手失败、鉴权丢失等不可恢复错误。
 - 不在日志、示例或提交中写入凭据、真实用户数据和内部服务地址。
 
-
 # Epoch repository rules
 
 This fork is now Epoch 2.0. The repository, not the chat, is the source of truth for Epoch decisions.
 
 Before changing Epoch behavior:
+
 1. Read `EPOCH.md`.
 2. Read `spec/architecture/ARCHITECTURE-LOCK.md`.
 3. Read the relevant contract under `spec/architecture/contracts/`.
@@ -94,6 +94,7 @@ Before changing Epoch behavior:
 5. Read the current execution state under `spec/development-state/`.
 
 Epoch-specific non-negotiables:
+
 - Solution is a first-class workbench surface like Browser and Terminal.
 - Reconstruction engines are registered capabilities; do not create engine-specific UI surface types.
 - World Model owns engineering semantics.
