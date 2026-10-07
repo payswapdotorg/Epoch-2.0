@@ -6,17 +6,26 @@
   "repository": "payswapdotorg/Epoch-2.0",
   "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
   "resetMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
-  "currentFrontier": ["W001"],
+  "currentFrontier": [
+    "W002",
+    "W003",
+    "W004"
+  ],
   "visualizationFirst": true,
   "maxConcurrentWorkers": 3,
   "verification": {
     "repoSetup": "COMPLETE",
-    "contracts": "DOCUMENTED",
+    "contracts": "FROZEN_W001",
     "concurrency": "DOCUMENTED",
     "workerOwnership": "DOCUMENTED",
     "acceptance": "DOCUMENTED",
     "localBuild": "NOT_RUN_BY_RESET",
     "productJourney": "NOT_RUN_BY_RESET"
   },
-  "next": "Dispatch W001. Keep chat out of the implementation loop; use the repository contracts, work orders and state as the authority."
+  "next": "Dispatch wave 1 (W002+W003+W004) concurrently; ownership per ownership-map.json wave1; contracts frozen at ff9043d.",
+  "lastMerge": {
+    "workOrder": "W001",
+    "sha": "ff9043dfaa5db84c9395a47fcb5b0ea706c27d77",
+    "date": "2026-10-07"
+  }
 }

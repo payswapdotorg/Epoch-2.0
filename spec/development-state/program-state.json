@@ -8,10 +8,17 @@
   },
   "defaultBranch": "main",
   "maxConcurrentWorkers": 3,
-  "completed": ["W000"],
+  "completed": [
+    "W000",
+    "W001"
+  ],
   "active": [],
-  "eligible": ["W001"],
+  "eligible": [
+    "W002",
+    "W003",
+    "W004"
+  ],
   "blocked": [],
-  "lastMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
-  "lastAction": "W000 Epoch 2.0 repository reset merged as PR #1. W001 is now the sole eligible implementation work order."
+  "lastMergeSha": "ff9043dfaa5db84c9395a47fcb5b0ea706c27d77",
+  "lastAction": "W001 contract foundation merged (ff9043d, §10h narrative-replay delivery, gate battery green 91/91). Contracts frozen: @zcode/epoch-{world-model,reconstruction-contract,world-presentation,renderer-contract,solution-contract}. Wave 1 (W002+W003+W004) now eligible."
 }

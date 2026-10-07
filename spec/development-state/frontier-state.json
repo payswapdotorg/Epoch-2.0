@@ -1,8 +1,12 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "READY_FOR_W001",
-  "frontier": ["W001"],
-  "eligible": 1,
+  "status": "WAVE_1_READY",
+  "frontier": [
+    "W002",
+    "W003",
+    "W004"
+  ],
+  "eligible": 3,
   "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -16,5 +20,5 @@
     "fullEngineeringArchitecture": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Dispatch W001. After W001 merges, dispatch W002 + W003 + W004 concurrently using ownership-map.json."
+  "nextAction": "Dispatch wave 1 concurrently (max 3 workers, ownership-map.json wave1): Worker A W002 construction fixture, Worker B W003 solution surface, Worker C W004 Babylon renderer. Workers consume frozen W001 contracts via public entrypoints only."
 }
