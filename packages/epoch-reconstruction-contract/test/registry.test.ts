@@ -8,10 +8,10 @@ import { fileURLToPath } from "node:url";
 import { computeWorldDigest } from "../../epoch-world-model/src/index.ts";
 import {
   createReconstructionEngineRegistry,
-  isInteractiveRendererLikeAbsent,
   isReconstructionEngine,
   isWellFormedReconstructionEngine,
 } from "../src/index.ts";
+import * as contractSurface from "../src/index.ts";
 
 const descriptor = {
   id: "epoch-fixture",
@@ -162,7 +162,11 @@ test("package declares zero runtime dependencies", () => {
 });
 
 test("placeholder guard stays false for foreign shapes", () => {
-  // isInteractiveRendererLikeAbsent 不是本包导出的符号；这里仅确认
-  // 导入错误命名会让测试失败（编译期由 typecheck 兜底）。
-  assert.equal(typeof isInteractiveRendererLikeAbsent, "undefined");
+  // isInteractiveRendererLikeAbsent 不是本包导出的符号；通过命名空间面
+  // 确认其缺席（错误命名的具名导入会让模块加载直接失败）。
+  assert.equal("isInteractiveRendererLikeAbsent" in contractSurface, false);
+  assert.equal(
+    typeof (contractSurface as Record<string, unknown>)["isInteractiveRendererLikeAbsent"],
+    "undefined",
+  );
 });

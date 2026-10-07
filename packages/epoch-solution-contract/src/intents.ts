@@ -93,7 +93,12 @@ function isNonEmptyString(value: unknown): value is string {
 }
 
 function isNonEmptyStringArray(value: unknown): value is readonly string[] {
-  return Array.isArray(value) && value.every((item) => typeof item === "string" && item.length > 0);
+  // “非空数组”约束同时作用于数组本身与每个成员（选择零个实体不是合法选择）。
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every((item) => typeof item === "string" && item.length > 0)
+  );
 }
 
 function isOptionalNonEmptyStringArray(value: unknown): boolean {
