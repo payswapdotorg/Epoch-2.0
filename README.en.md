@@ -1,4 +1,14 @@
-# ZCode
+# Epoch 2.0
+
+Epoch is an AI engineering workbench built from the open-source ZCode workbench substrate.
+
+**Architecture and implementation source of truth:** [EPOCH.md](EPOCH.md) and the `spec/` directory.
+
+Read [the architecture target](spec/architecture/epoch-2.0-target.md), [the architecture lock](spec/architecture/ARCHITECTURE-LOCK.md), [the work-order program](spec/work-orders.md), and [the TL handoff](docs/TL-HANDOFF.md) before implementing Epoch features.
+
+The first milestone is visualization-first: open a construction solution like Browser or Terminal, enter a believable navigable engineering world, and interact with semantic construction elements.
+
+The existing ZCode setup/development instructions below remain the operational baseline inherited from the fork.
 
 <div align="center">
   <img src="public/logo/icons/1024x1024.png" alt="ZCode" width="128" height="128" />
