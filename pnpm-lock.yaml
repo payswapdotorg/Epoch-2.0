@@ -844,6 +844,25 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-reconstruction-ifc:
+    dependencies:
+      '@zcode/epoch-reconstruction-contract':
+        specifier: workspace:*
+        version: link:../epoch-reconstruction-contract
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+      web-ifc:
+        specifier: ^0.0.78
+        version: 0.0.78
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
   packages/epoch-renderer-babylon:
     dependencies:
       '@babylonjs/core':
@@ -9876,6 +9895,9 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
+
+  web-ifc@0.0.78:
+    resolution: {integrity: sha512-LGKMNYFVNyz9vVERN0iz+zvPQJqT7MEGBxslzcuuhwDDOA116LmJLKkg8sZ5SEvQJSc5NRVMWgpRNkDmuoQoJg==}
 
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
@@ -19239,6 +19261,8 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  web-ifc@0.0.78: {}
 
   web-namespaces@2.0.1: {}
 

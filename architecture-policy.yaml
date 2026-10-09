@@ -109,6 +109,18 @@ modules:
     managed: true
     requires: [epoch-reconstruction-contract, epoch-world-model]
     publicEntrypoints: [packages/epoch-construction-fixture/src/index.ts]
+  # W009 — IFC reconstruction engine adapter (first real external-format engine).
+  # 独立 managed 模块，消费冻结 epoch-* 包的公开入口（不深引用），不引入
+  # 任何渲染器/UI 运行时依赖。web-ifc（WASM IFC 解析器）作为 npm 依赖保留在
+  # adapter 内部（不跨契约边界）。runtime=in-process（WASM 加载进 Node 进程）。
+  # 依据 invariant #4/#7/#9/#10/#16/#18：引擎是能力，不写回世界状态，provider-
+  # neutral core，安全边界前不可信。W011/W012 可在此 adapter 基础上扩展更多
+  # external-format 引擎（OCCT/OpenUSD）。
+  - id: epoch-reconstruction-ifc
+    roots: [packages/epoch-reconstruction-ifc/src]
+    managed: true
+    requires: [epoch-reconstruction-contract, epoch-world-model]
+    publicEntrypoints: [packages/epoch-reconstruction-ifc/src/index.ts]
   # W007 — Solution runtime composition (host-agnostic runtime binding a solution
   # session to engine + renderer + interaction mapping; portable view state per
   # invariant #12). 独立 managed 模块，消费冻结 epoch-* 包的公开入口（不深引用），
