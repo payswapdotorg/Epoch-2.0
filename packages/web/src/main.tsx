@@ -30,6 +30,7 @@ import {
 } from "./share/conversationShareRoute.js";
 import type { IPlatformService, RemoteTarget, ServerRemoteInfo } from "@zcode/shared";
 import { WEB_DEFAULT_THEME, resolveWebInitialTheme } from "./webThemeSeed.js";
+import { SolutionHostApp } from "./epoch/SolutionHostApp.js";
 
 function resolveWebThemePreference(defaultTheme: Theme = WEB_DEFAULT_THEME): Theme {
   const saved = localStorage.getItem("zcode-theme");
@@ -422,6 +423,21 @@ function renderWebBootstrapError(error: unknown): void {
   );
 }
 
+function isEpochSolutionRoute(pathname: string): boolean {
+  // W005：服务端无关的 Solution 宿主路由。fixture 引擎在进程内客户端运行（零网络），
+  // 故该路由不连接 WebSocket / 不读取 /api/server-info，直接渲染 world-dominant 世界。
+  return pathname === "/epoch" || pathname.startsWith("/epoch/");
+}
+
+function renderEpochSolutionHost(): void {
+  document.title = "Epoch — Solution";
+  root.render(
+    <AppErrorBoundary>
+      <SolutionHostApp />
+    </AppErrorBoundary>,
+  );
+}
+
 async function bootstrapWebApp() {
   const params = new URLSearchParams(window.location.search);
   if (isWebOAuthCallback(params)) {
@@ -431,6 +447,11 @@ async function bootstrapWebApp() {
 
   if (isConversationSharePath(window.location.pathname)) {
     await renderConversationSharePage();
+    return;
+  }
+
+  if (isEpochSolutionRoute(window.location.pathname)) {
+    renderEpochSolutionHost();
     return;
   }
 

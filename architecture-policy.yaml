@@ -46,6 +46,21 @@ modules:
   - id: web
     roots: [packages/web/src]
     managed: false
+  - id: web-epoch
+    roots: [packages/web/src/epoch]
+    managed: true
+    requires:
+      [
+        epoch-world-model,
+        epoch-reconstruction-contract,
+        epoch-world-presentation,
+        epoch-renderer-contract,
+        epoch-solution-contract,
+        epoch-solution-surface,
+        epoch-construction-fixture,
+        epoch-renderer-babylon,
+      ]
+    publicEntrypoints: [packages/web/src/epoch/index.ts]
   - id: desktop
     roots: [packages/desktop/src]
     managed: false

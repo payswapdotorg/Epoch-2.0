@@ -51,6 +51,44 @@ export default defineConfig(({ mode }) => {
         // hoisted node_modules 可能把 d3-shape 旁边的旧 d3-path@1.x 暴露给 Vite 预构建，
         // 导致桌面/Web dev 都在依赖优化阶段失败；显式指向根部 3.x 入口以固定解析边界。
         "d3-path": resolve(__dirname, "../../node_modules/d3-path/src/index.js"),
+        // W005：消费冻结的 wave-1 epoch 契约/适配器包。为遵守工单锁文件边界
+        // （pnpm-lock.yaml 仅允许新增 evidence runner 的 devDeps），不把这些
+        // workspace 包写进 web 的 package.json 依赖，而是在消费方 Vite 配置里
+        // 用别名直接指向各包公开入口 src/index.ts（与 tsc 的 paths 对齐）。
+        // 适配器（renderer-babylon）内部 import @babylonjs/core 走 node_modules 正常解析。
+        "@zcode/epoch-world-model": resolve(__dirname, "../epoch-world-model/src/index.ts"),
+        "@zcode/epoch-reconstruction-contract": resolve(
+          __dirname,
+          "../epoch-reconstruction-contract/src/index.ts",
+        ),
+        "@zcode/epoch-world-presentation": resolve(
+          __dirname,
+          "../epoch-world-presentation/src/index.ts",
+        ),
+        "@zcode/epoch-renderer-contract": resolve(
+          __dirname,
+          "../epoch-renderer-contract/src/index.ts",
+        ),
+        "@zcode/epoch-solution-contract": resolve(
+          __dirname,
+          "../epoch-solution-contract/src/index.ts",
+        ),
+        "@zcode/epoch-solution-surface": resolve(
+          __dirname,
+          "../epoch-solution-surface/src/index.ts",
+        ),
+        "@zcode/epoch-construction-fixture": resolve(
+          __dirname,
+          "../epoch-construction-fixture/src/index.ts",
+        ),
+        "@zcode/epoch-renderer-babylon": resolve(
+          __dirname,
+          "../epoch-renderer-babylon/src/index.ts",
+        ),
+        // W005：fixture 引擎在浏览器进程内运行，epoch-world-model 的 computeWorldDigest
+        // 用 node:crypto.createHash('sha256')。浏览器无 node:crypto，vite 默认外置会抛错。
+        // 这里把 node:crypto 别名到 web-epoch 自带的同步 SHA-256 polyfill（与 node 输出一致）。
+        "node:crypto": resolve(__dirname, "src/epoch/nodeCryptoShim.ts"),
       },
     },
     server: {
@@ -72,6 +110,23 @@ export default defineConfig(({ mode }) => {
       // 修复：在依赖预构建阶段显式加入 react 相关入口，避免 rolldown 解析 `react/jsx-runtime`
       // / `react/jsx-dev-runtime` 时返回无后缀路径导致的加载失败（UNLOADABLE_DEPENDENCY）。
       include: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
+      // W005：冻结的 wave-1 epoch 契约/适配器包不写进 web 的 package.json 依赖
+      // （遵守工单锁文件边界），改由 resolve.alias 直接指向各包公开入口 src/index.ts
+      // 服务。这些包在扫描阶段无 node_modules 符号链接可解析，故显式排除预构建，
+      // 让 Vite 在请求时按 alias 解析为源码（与既有 @ -> ui/src 同模式）。
+      exclude: [
+        "@zcode/epoch-world-model",
+        "@zcode/epoch-reconstruction-contract",
+        "@zcode/epoch-world-presentation",
+        "@zcode/epoch-renderer-contract",
+        "@zcode/epoch-solution-contract",
+        "@zcode/epoch-solution-surface",
+        "@zcode/epoch-construction-fixture",
+        "@zcode/epoch-renderer-babylon",
+        // @babylonjs/core 是 ESM barrel（数千子模块）；dev optimizer 预构建整个图会
+        // OOM（沙箱 4GB 内存）。排除后 Vite 按需以 ESM 形式服务各子模块，首帧慢但稳定。
+        "@babylonjs/core",
+      ],
     },
     worker: {
       rollupOptions: {
