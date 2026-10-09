@@ -1,17 +1,15 @@
 {
   "version": "WO3.0",
   "completed": [
-    "W001"
+    "W001",
+    "W003",
+    "W004"
   ],
   "active": [
-    "W002",
-    "W003",
-    "W004"
+    "W002"
   ],
   "eligible": [
-    "W002",
-    "W003",
-    "W004"
+    "W002"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,

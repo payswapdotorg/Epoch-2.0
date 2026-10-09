@@ -1,16 +1,12 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_1_IN_FLIGHT",
+  "status": "WAVE_1_W002_REMAINING",
   "frontier": [
-    "W002",
-    "W003",
-    "W004"
+    "W002"
   ],
-  "eligible": 3,
+  "eligible": 1,
   "inFlight": [
-    "W002",
-    "W003",
-    "W004"
+    "W002"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -30,5 +26,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Wave 1 in flight (3 workers, dispatched 2026-10-09). On each delivery: TL runs the station gate battery (verify_branch.sh), checks evidence against the work order, merges, updates state. W005+W006 dispatch when W002+W003+W004 are complete; W007 after W005+W006; W008-W010 remain gated behind W007."
+  "nextAction": "W003+W004 merged (ddb9d11 + 8486b2e integration). W002 branch/report is the wave-1 closer: verify per station v2 protocol, merge, then dispatch W005+W006 concurrently (prompts staged). W007 after W005+W006; W008-W010 gated behind W007."
 }
