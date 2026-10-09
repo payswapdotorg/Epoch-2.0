@@ -5,7 +5,7 @@ W001 complete.
 
 ## Owned surfaces
 - packages/epoch-construction-fixture/
-- tests/fixtures for that package only.
+- qa/epoch-construction-fixture/ (fixture tests; authoritative per ownership-map.json wave1).
 
 ## Goal
 Provide the reference Reconstruction Engine implementation used to make the first visual product deterministic and dependency-light.

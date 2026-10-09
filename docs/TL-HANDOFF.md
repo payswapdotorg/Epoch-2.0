@@ -26,9 +26,9 @@ Also read the inherited ZCode architecture-governance skill and DESIGN.md before
 
 ## Current verified state
 
-W000 and W001 are complete. W002, W003 and W004 are the only eligible work orders; no active work orders are declared. This is the verified repository state at the time this handoff was extended.
+W000 and W001 are complete. Wave 1 (W002, W003, W004) was dispatched 2026-10-09 and is in flight with three concurrent workers; their surfaces are disjoint per ownership-map.json. Their W001 contracts are already merged and frozen. Do not change the current frontier based on the ACR-002 documentation update alone.
 
-Dispatch W002/W003/W004 concurrently using ownership-map.json. Their W001 contracts are already merged and frozen. Do not change the current frontier based on the ACR-002 documentation update alone.
+W001 provenance follow-up is closed (waived 2026-10-09): the original worker pod and its unpushed commit e888f71 are unrecoverable; the narrative was fully harvested and the merged reconstruction passed the full gate battery at ff9043d. See program-state.json lastAction for the record.
 
 ## Dispatch model
 

@@ -12,7 +12,11 @@
     "W000",
     "W001"
   ],
-  "active": [],
+  "active": [
+    "W002",
+    "W003",
+    "W004"
+  ],
   "eligible": [
     "W002",
     "W003",
@@ -20,5 +24,5 @@
   ],
   "blocked": [],
   "lastMergeSha": "ff9043dfaa5db84c9395a47fcb5b0ea706c27d77",
-  "lastAction": "W001 contract foundation merged (ff9043d, §10h narrative-replay delivery, gate battery green 91/91). Contracts frozen: @zcode/epoch-{world-model,reconstruction-contract,world-presentation,renderer-contract,solution-contract}. Wave 1 (W002+W003+W004) now eligible."
+  "lastAction": "Wave 1 (W002+W003+W004) in flight since 2026-10-09 (3 concurrent workers; glm-5.2/Flash lanes after 51h glm-5.3 saturation). TL state reconciliation same day: (1) dependency-state.json records W007 as a wave between W005+W006 and W008-W010, and W008/W009/W010 depend on W007 — the visualization-first gate is unambiguous; (2) W002 fixture-test location is authoritative at qa/epoch-construction-fixture/** per ownership-map.json (work-order text aligned); (3) W001 provenance follow-up CLOSED (WAIVED): the original worker pod and its unpushed commit e888f71 are unrecoverable (pod expired after the 2026-10-07 merge); the narrative was fully harvested (71/73 tool calls applied, 2 aligned skips) and the merged reconstruction passed the full gate battery 91/91 at ff9043d — the TL-verified reconstruction is the delivery of record."
 }
