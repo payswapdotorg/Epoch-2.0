@@ -121,3 +121,17 @@ Epoch work begins at `W001`. The current frontier is authoritative in `spec/deve
 6. implementation code and tests
 
 When implementation and specification disagree, stop and reconcile through the repository process. Do not use chat history as an authority.
+
+
+## Epoch ACR-002 rules
+
+- Select reconstruction detail from the declared work type, decision, tolerance, risk and evidence; never silently turn an estimate/inference into a confirmed fact.
+- External applications use the generic Application Environment contract and shared permission model. A provider cannot require a new shell/surface type.
+- Observe, control, native access and semantic binding are separate capabilities. Observation does not grant mutation rights.
+- Record explicit consent, capture scope, event-source coverage, missing event intervals, privacy controls and provenance for demonstrations.
+- A Capability Reproduction Factory request must scope a bounded capability and evaluate native/open-source/standard/licensed options first.
+- Decompilation or implementation-internal analysis requires case-specific authorization and rights review. Do not bypass access controls or copy protected code/assets/datasets without required rights.
+- “Top tier”, parity, full automation and reference-superior claims require declared task suites and reproducible evidence.
+- Human activity and Arena expert results are evidence/candidates, not automatic training data, correctness, permissions or autonomy.
+- Optimize cost only among solutions meeting all declared hard engineering constraints.
+- Arena outputs enter the canonical Epoch verification/world flow; never silently overwrite approved state.
