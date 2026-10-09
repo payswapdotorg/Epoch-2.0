@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"],
+    // 适配器需要 DOM 类型（canvas/ResizeObserver 的静态类型）——运行时全部
+    // 用 typeof 守卫，Node/NullEngine 环境不触碰真实 DOM。契约测试用
+    // `node --test` 直接执行 src（Node 24 原生剥离类型），配合
+    // emitDeclarationOnly 只产出声明。
+    "lib": ["es2024", "dom"],
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../epoch-world-presentation" },
+    { "path": "../epoch-renderer-contract" }
+  ]
+}
