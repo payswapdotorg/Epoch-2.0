@@ -37,6 +37,7 @@ import {
   openBrowserSidePane,
   openOrActivateBrowserSidePaneByUrl,
   findBrowserSidePaneTabByUrl,
+  openSolutionSidePane,
   applyBrowserUseSidePaneEvent,
   applyBrowserUseSidePaneVisibilityEvent,
   applyBrowserTabResidencyEvent,
@@ -59,6 +60,7 @@ import {
   stampSidePaneTabsOwnership,
   type BrowserSidePaneMetadata,
   type TreemappingSidePaneTab,
+  type SolutionSidePaneTab,
   type OpenScopedSubagentSideTabRequest,
   type OpenBackgroundBashSideTabRequest,
   openBackgroundBashSidePane,
@@ -808,6 +810,28 @@ export function useAppPanels(options: {
     workspaceAbsPath,
     workspaceRemoteSessionId,
   ]);
+
+  /**
+   * 打开/激活一个 Solution Surface tab（UI 投影入口）。
+   *
+   * 调用方（W005/W006 宿主）先用 @zcode/epoch-solution-surface 控制器完成
+   * engine.open + 世界修订（生命周期权威），再把解析后的稳定身份 tab 传入此函数
+   * 投影到继承的 side-pane 模型。UI 状态保持投影——不成为世界/生命周期权威。
+   * 幂等：同一身份（workspaceKey+engineId+solutionId）已存在时复用并激活，不复制 tab。
+   */
+  const handleOpenSolutionTab = useCallback(
+    (tab: SolutionSidePaneTab) => {
+      revealSidePaneForCurrentOwner();
+      commitOpenedSidePaneState((current) => {
+        const next = openSolutionSidePane(current, tab);
+        logger.info(
+          `[App] 打开 Solution Surface tab engine=${tab.engineId} solution=${tab.solutionId} workspace=${workspaceAbsPath} tabs=${next.tabs.length}`,
+        );
+        return next;
+      });
+    },
+    [commitOpenedSidePaneState, revealSidePaneForCurrentOwner, workspaceAbsPath],
+  );
 
   const handleOpenModelTrajectory = useCallback(
     (params: { taskId: string; title?: string | null }) => {
@@ -1588,6 +1612,7 @@ export function useAppPanels(options: {
     handleOpenWhiteboard,
     handleOpenDeveloperTools,
     handleOpenTerminalTab,
+    handleOpenSolutionTab,
     handleOpenModelTrajectory,
     handleOpenSubagentSession,
     handleOpenBackgroundBash,

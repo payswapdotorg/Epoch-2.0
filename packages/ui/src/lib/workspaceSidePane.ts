@@ -96,6 +96,42 @@ export interface TerminalSidePaneTab {
   remoteSessionId?: string | null;
 }
 
+/**
+ * Solution Surface tab——与 Browser/Terminal 同级的一等工位面（W003）。
+ *
+ * 依据 spec/architecture/contracts/solution-surface.md「Identity」与「Persistence」：
+ * 身份字段（workspaceKey/engineId/sessionId/solutionId/title/openedAt）为强制语义；
+ * 控制器层（@zcode/epoch-solution-surface）是生命周期权威，UI 侧此结构只是投影
+ * （drafts/presentation state），不成为世界/生命周期权威。
+ *
+ * 兼容性可选字段（agentOpened/residency/initialUrl/faviconUrl/residencyGeneration）：
+ * 继承的 AnimatedSidePanePanel 内容渲染对未匹配 type 的 tab 走 HumanBrowserView 兜底，
+ * 读取这些字段；Solution 的真实世界内容渲染属 W004/W007（届时会在该 switch 增加
+ * solution 分支并移除这些兼容占位）。W003 阶段 solution tab 不会被实际实例化（无注册引擎），
+ * 这些字段仅在类型层保持继承模型编译通过，运行时恒为 undefined。
+ */
+export interface SolutionSidePaneTab {
+  id: string;
+  type: "solution";
+  ownerTaskId?: string | null;
+  workspaceKey?: string | null;
+  openedAt?: number;
+  /** 重建引擎身份（引擎注册表是唯一发现路径；UI 不按 engineId 分支）。 */
+  engineId: string;
+  /** 重建会话身份（可移植引用标识，非渲染器句柄）。 */
+  sessionId: string;
+  /** 解的身份（幂等 open 的判别键之一）。 */
+  solutionId: string;
+  title: string;
+  /** 兼容性占位：见上方接口注释。运行时恒 undefined。 */
+  remoteSessionId?: string | null;
+  agentOpened?: boolean;
+  residency?: BrowserTabResidencyState;
+  initialUrl?: string | null;
+  faviconUrl?: string | null;
+  residencyGeneration?: number;
+}
+
 /** browser-use 受控浏览器视图（renderer `<webview>` + main CDP）。 */
 export interface BrowserUseSidePaneTab {
   id: string;
@@ -523,6 +559,7 @@ export type WorkspaceSidePaneTab =
   | ModelTrajectorySidePaneTab
   | DeveloperToolsSidePaneTab
   | TerminalSidePaneTab
+  | SolutionSidePaneTab
   | BrowserUseSidePaneTab
   | SubagentSessionSidePaneTab
   | SubagentDirectorySidePaneTab
@@ -1591,6 +1628,65 @@ export function openTerminalSidePane(
   options: { title: string; cwd?: string; remoteSessionId?: string | null },
 ): WorkspaceSidePaneState {
   return activateSidePaneTab(current, createTerminalSidePaneTab(options));
+}
+
+/**
+ * Solution Surface 身份键（与控制器层 @zcode/epoch-solution-surface 的
+ * solutionSurfaceIdentityKey 同语义）：workspaceKey + engineId + solutionId。
+ * sessionId 由控制器从身份派生，不单独参与幂等键。
+ */
+export function solutionSidePaneIdentityKey(options: {
+  workspaceKey: string;
+  engineId: string;
+  solutionId: string;
+}): string {
+  return [options.workspaceKey, options.engineId, options.solutionId]
+    .map((part) => encodeURIComponent(part))
+    .join("|");
+}
+
+/**
+ * 查找已打开的 Solution Surface tab（幂等 open 的复用判据）。
+ * UI 侧只按身份投影复用；生命周期权威（控制器）的幂等由其自身保证。
+ */
+export function findSolutionSidePaneTab(
+  current: WorkspaceSidePaneState | null,
+  options: { workspaceKey: string; engineId: string; solutionId: string },
+): SolutionSidePaneTab | undefined {
+  const identityKey = solutionSidePaneIdentityKey(options);
+  return current?.tabs.find(
+    (tab): tab is SolutionSidePaneTab =>
+      tab.type === "solution" &&
+      solutionSidePaneIdentityKey({
+        workspaceKey: tab.workspaceKey ?? "",
+        engineId: tab.engineId,
+        solutionId: tab.solutionId,
+      }) === identityKey,
+  );
+}
+
+/**
+ * 打开/激活一个 Solution Surface tab（UI 投影）。
+ *
+ * 幂等：同一身份（workspaceKey+engineId+solutionId）已存在时复用既有 tab 并激活，
+ * 不复制 tab。控制器层（@zcode/epoch-solution-surface）是生命周期权威；此函数只是把
+ * 控制器已解析的稳定身份投影到继承的 side-pane 模型，遵循与 Browser/Terminal 同级的
+ * activate 模式。UI 状态保持投影——不成为世界/生命周期权威。
+ */
+export function openSolutionSidePane(
+  current: WorkspaceSidePaneState | null,
+  tab: SolutionSidePaneTab,
+): WorkspaceSidePaneState {
+  const existing = findSolutionSidePaneTab(current, {
+    workspaceKey: tab.workspaceKey ?? "",
+    engineId: tab.engineId,
+    solutionId: tab.solutionId,
+  });
+  // 复用既有 tab 身份（id 不变），仅刷新展示字段并激活；不创建新 tab。
+  const projected: SolutionSidePaneTab = existing
+    ? { ...existing, title: tab.title, openedAt: tab.openedAt ?? existing.openedAt }
+    : { ...tab, openedAt: tab.openedAt ?? Date.now() };
+  return activateSidePaneTab(current, projected);
 }
 
 export function openSubagentSessionSidePane(

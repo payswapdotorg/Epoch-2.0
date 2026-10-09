@@ -5,6 +5,7 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   BotIcon,
   BotMessageSquareIcon,
+  BoxesIcon,
   BugIcon,
   FileCode2Icon,
   FileDiffIcon,
@@ -332,6 +333,12 @@ export function SidePaneTabIcon({ tab }: { tab: WorkspaceSidePaneTab }) {
     return <SquareTerminalIcon className="size-3.5" />;
   }
 
+  // Solution Surface：与 Browser/Terminal 同级的一等工位面。世界/解图标固定
+  // （不按 engineId 变——引擎中立），引擎区分留给 tab 内部世界渲染（W004/W007）。
+  if (tab.type === "solution") {
+    return <BoxesIcon className="size-3.5" />;
+  }
+
   // 同 getSidePaneTabTitle——browser-use tab 无 source，若不在此拦截会 fallthrough
   // 到下方 `tab.source.type` 读 undefined.type 崩溃。
   // agent 导航后由 <webview> favicon 事件回填 faviconUrl，与 human browser tab 一致地展示真实图标；
@@ -538,6 +545,12 @@ export function getSidePaneTabTitle(
 
   if (tab.type === "terminal" || tab.type === "bash-output") {
     return tab.title || formatMessage({ id: "terminal.title" });
+  }
+
+  // Solution Surface 标题：控制器解析的稳定展示名（engineName · solutionId 兜底）。
+  // 引擎中立——不按 engineId 分支；标题由控制器 open 时冻结。
+  if (tab.type === "solution") {
+    return tab.title?.trim() || formatMessage({ id: "solution.title" });
   }
 
   // browser-use tab 之前未在此分派，会 fallthrough 到底部 `tab.source.title`，
