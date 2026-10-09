@@ -10,6 +10,12 @@ export interface SidePaneTabPresentationLabels {
   modelTrajectoryTitle: string;
   developerToolsTitle: string;
   terminalTitle: string;
+  /**
+   * Solution Surface 类型标签（可选——W003 阶段继承的 tab overview 宿主尚未提供
+   * 该 i18n key；W005/W006 接入 solution.title 文案后填入）。缺省时类型标签回退到
+   * "Solution"，本地化标题回退到 descriptor id "solution.title"。
+   */
+  solutionTitle?: string;
   subagentTypeLabel: string;
   subagentDirectoryTitle: string;
   selectionChatTitle: string;
@@ -66,6 +72,11 @@ export function getSidePaneTabSearchHint(tab: WorkspaceSidePaneTab): string {
   }
   if (tab.type === "terminal" || tab.type === "bash-output")
     return `${tab.title} terminal shell command`;
+  if (tab.type === "solution") {
+    // 引擎中立：搜索面携带身份字段（engineId/solutionId/sessionId）与「solution reconstruction world」，
+    // 让按解/引擎/会话 id 排查时能命中。不按 engineId 分支。
+    return `${tab.title} ${tab.engineId} ${tab.solutionId} ${tab.sessionId} solution reconstruction world`;
+  }
   return tab.source.path ?? tab.source.title;
 }
 
@@ -74,7 +85,7 @@ export function getLocalizedSidePaneTabTitle(
   labels: SidePaneTabPresentationLabels,
 ): string {
   return getSidePaneTabTitle(tab, (descriptor) => {
-    const titleByMessageId: Record<string, string> = {
+    const titleByMessageId: Record<string, string | undefined> = {
       "browser.title": labels.browserTitle,
       "sidePane.review": labels.reviewTitle,
       "codeViewer.title": labels.codeViewerTitle,
@@ -83,6 +94,7 @@ export function getLocalizedSidePaneTabTitle(
       "modelTrajectory.title": labels.modelTrajectoryTitle,
       "developerTools.title": labels.developerToolsTitle,
       "terminal.title": labels.terminalTitle,
+      "solution.title": labels.solutionTitle,
       "sidePane.subagent": labels.subagentTypeLabel,
       "sidePane.subagentDirectory": labels.subagentDirectoryTitle,
       "sidePane.selectionChat": labels.selectionChatTitle,
@@ -118,5 +130,6 @@ export function getSidePaneTabTypeLabel(
   if (tab.type === "model-trajectory") return labels.modelTrajectoryTitle;
   if (tab.type === "developer-tools") return labels.developerToolsTitle;
   if (tab.type === "terminal" || tab.type === "bash-output") return labels.terminalTitle;
+  if (tab.type === "solution") return labels.solutionTitle ?? "Solution";
   return labels.codeViewerTitle;
 }

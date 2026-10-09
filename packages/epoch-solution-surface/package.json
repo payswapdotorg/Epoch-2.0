@@ -1,0 +1,21 @@
+{
+  "name": "@zcode/epoch-solution-surface",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "oxlint",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "@zcode/epoch-reconstruction-contract": "workspace:*",
+    "@zcode/epoch-solution-contract": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}
