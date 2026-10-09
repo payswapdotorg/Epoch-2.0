@@ -798,6 +798,25 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-renderer-babylon:
+    dependencies:
+      '@babylonjs/core':
+        specifier: ^9.30.0
+        version: 9.30.0
+      '@zcode/epoch-renderer-contract':
+        specifier: workspace:*
+        version: link:../epoch-renderer-contract
+      '@zcode/epoch-world-presentation':
+        specifier: workspace:*
+        version: link:../epoch-world-presentation
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
   packages/epoch-renderer-contract:
     dependencies:
       '@zcode/epoch-world-presentation':
@@ -1667,6 +1686,9 @@ packages:
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
+
+  '@babylonjs/core@9.30.0':
+    resolution: {integrity: sha512-rV+kc7B9oEtREaWh0YYNinoqYshRbHLHj7t4s4woDjDXFXWKHu1d8S914CNfs3KTOI8V8DvoVKLe2yDHZXfZEA==}
 
   '@bcoe/v8-coverage@1.0.2':
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
@@ -10338,6 +10360,8 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
+
+  '@babylonjs/core@9.30.0': {}
 
   '@bcoe/v8-coverage@1.0.2': {}
 
