@@ -1,0 +1,51 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');
+FILE_NAME('pump-house.ifc','2024-06-01T12:00:00',('Epoch'),('ZCode workbench'),'EpochIFCProbe v0.1','EpochIFCProbe','');
+FILE_SCHEMA(('IFC4'));
+ENDSEC;
+DATA;
+/* --- IFC project skeleton (non-entity infrastructure) --- */
+#10=IFCPROJECT('0A1B2C3D4E5F6G7H8I9J0K1L2M',$,'Pump House Project',$,$,$,$,(#20),#50);
+#20=IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,1.0E-5,#30,$);
+#30=IFCAXIS2PLACEMENT3D(#40,$,$);
+#40=IFCCARTESIANPOINT((0.0,0.0,0.0));
+/* --- Project unit assignment (SI: metre / square metre / cubic metre) --- */
+#50=IFCUNITASSIGNMENT((#51,#52,#53));
+#51=IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
+#52=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
+#53=IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
+/* --- Building elements (six canonical element types) --- */
+/* Foundation slab (IfcSlab .BASESLAB. -> Epoch FOUNDATION layer) */
+#100=IFCSLAB('1F0UND4T10NSL4B00000000',$,'Foundation Slab','F100','Foundation',$,$,$,.BASESLAB.);
+/* Structural wall (IfcWall -> Epoch STRUCTURE layer) */
+#110=IFCWALL('2STRUCTUR4LW4LL00000000',$,'Wall-001','W100','Structure',$,$,$,.MOVABLE.);
+/* Structural column (IfcColumn -> Epoch STRUCTURE layer) */
+#120=IFCCOLUMN('3STRUCTUR4LC0LUMN00000',$,'Column-001','C100','Structure',$,$,$,.COLUMN.);
+/* Structural beam (IfcBeam -> Epoch STRUCTURE layer) */
+#130=IFCBEAM('4STRUCTUR4LB34M00000000',$,'Beam-001','B100','Structure',$,$,$,.BEAM.);
+/* Envelope door (IfcDoor -> Epoch ENVELOPE layer) */
+#140=IFCDOOR('5ENVEL0P3D00R0000000000',$,'Door-001','D100','Envelope',$,$,$,.DOOR.);
+/* Envelope window (IfcWindow -> Epoch ENVELOPE layer) */
+#150=IFCWINDOW('6ENVEL0P3W1ND0W00000000',$,'Window-001','WN100','Envelope',$,$,$,.WINDOW.);
+/* --- Property sets with quantities (explicit SI units via project assignment) --- */
+/* Wall quantities: length, footprint area, net volume */
+#200=IFCPROPERTYSET('7W4LLPS3TC0MM0N00000000',$,'PSet_WallCommon',$,(#201,#202,#203));
+#201=IFCQUANTITYLENGTH('Length',$,$,$,4.2,#51);
+#202=IFCQUANTITYAREA('FootprintArea',$,$,$,8.4,#52);
+#203=IFCQUANTITYVOLUME('NetVolume',$,$,$,1.68,#53);
+#204=IFCRELDEFINESBYPROPERTIES('8W4LLR3L4T10N00000000',$,$,$,(#110),#200);
+/* Slab quantities: length, width, footprint area, gross volume */
+#210=IFCPROPERTYSET('9SL4BPS3TC0MM0N00000000',$,'PSet_SlabCommon',$,(#211,#212,#213,#214));
+#211=IFCQUANTITYLENGTH('Length',$,$,$,6.0,#51);
+#212=IFCQUANTITYLENGTH('Width',$,$,$,4.0,#51);
+#213=IFCQUANTITYAREA('FootprintArea',$,$,$,24.0,#52);
+#214=IFCQUANTITYVOLUME('GrossVolume',$,$,$,4.8,#53);
+#215=IFCRELDEFINESBYPROPERTIES('ASL4BR3L4T10N00000000',$,$,$,(#100),#210);
+/* --- Element-to-element connects relationships (binary, both endpoints are entities) --- */
+/* Wall connects to column */
+#300=IFCRELCONNECTSELEMENTS('BW4LLC0LUMNC0NN000000',$,'Wall-Column Connection',$,$,#110,#120);
+/* Column connects to beam */
+#310=IFCRELCONNECTSELEMENTS('CC0LUMNB34MC0NN00000',$,'Column-Beam Connection',$,$,#120,#130);
+ENDSEC;
+END-ISO-10303-21;

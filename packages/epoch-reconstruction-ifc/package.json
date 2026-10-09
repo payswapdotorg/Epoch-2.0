@@ -1,0 +1,22 @@
+{
+  "name": "@zcode/epoch-reconstruction-ifc",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "oxlint",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "@zcode/epoch-reconstruction-contract": "workspace:*",
+    "@zcode/epoch-world-model": "workspace:*",
+    "web-ifc": "^0.0.78"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}
