@@ -1,0 +1,42 @@
+{
+  "workOrder": "W006 — Desktop Solution Host",
+  "generatedAt": "2026-10-09T18:03:04.615Z",
+  "runPath": {
+    "prebuild": "tsup one-shot build of packages/desktop main/host/preload → out/",
+    "renderer": "Vite dev server on port 5174 (packages/desktop vite.config.ts, strictPort)",
+    "electron": "_electron.launch({ cwd: packages/desktop, args: ['.'], env: { ELECTRON_RENDERER_URL, ZCODE_ENV=test } })"
+  },
+  "reproduce": [
+    "cd <repo-root>",
+    "ELECTRON_SKIP_BINARY_DOWNLOAD=1 pnpm install --frozen-lockfile",
+    "pnpm rebuild electron  # obtain the Electron binary",
+    "cd packages/desktop && npx tsup  # build main/host/preload",
+    "cd <repo-root> && node qa/epoch-desktop/journey.mjs"
+  ],
+  "artifacts": [
+    {
+      "file": "01-open.png",
+      "description": "Electron window open; Solution world canvas mounted and rendering the construction fixture."
+    },
+    {
+      "file": "02-world.png",
+      "description": "World-dominant layout: full-bleed 3D construction fixture (columns, slabs, footings, walls) visible immediately on open. No dashboard/placeholder."
+    },
+    {
+      "file": "03-navigate.png",
+      "description": "Camera navigated via orbit drag (pointer delta -> solution.navigate orbit intent). View angle changed from home."
+    },
+    {
+      "file": "04-select.png",
+      "description": "Clicked an entity in the world; renderer hit-test resolved the pointer to a presentationId -> Epoch entityId (semantic selection, invariant 11). Inspector populated."
+    },
+    {
+      "file": "05-inspect.png",
+      "description": "Inspector panel shows the selected entity's semantics (entityId, type, layer, material, dimensions, quantity) — projected from the canonical Epoch entity, not mesh names."
+    },
+    {
+      "file": "06-layers.png",
+      "description": "Layer control toggled a fixture layer off (solution.setLayerVisibility intent); corresponding world meshes hidden. Six construction layers (SITE/FOUNDATION/STRUCTURE/ENVELOPE/MEP/FINISHES) selectable."
+    }
+  ]
+}

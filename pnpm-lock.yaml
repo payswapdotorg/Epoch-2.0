@@ -663,6 +663,30 @@ importers:
       '@zcode/client':
         specifier: workspace:*
         version: link:../client
+      '@zcode/epoch-construction-fixture':
+        specifier: workspace:*
+        version: link:../epoch-construction-fixture
+      '@zcode/epoch-reconstruction-contract':
+        specifier: workspace:*
+        version: link:../epoch-reconstruction-contract
+      '@zcode/epoch-renderer-babylon':
+        specifier: workspace:*
+        version: link:../epoch-renderer-babylon
+      '@zcode/epoch-renderer-contract':
+        specifier: workspace:*
+        version: link:../epoch-renderer-contract
+      '@zcode/epoch-solution-contract':
+        specifier: workspace:*
+        version: link:../epoch-solution-contract
+      '@zcode/epoch-solution-surface':
+        specifier: workspace:*
+        version: link:../epoch-solution-surface
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+      '@zcode/epoch-world-presentation':
+        specifier: workspace:*
+        version: link:../epoch-world-presentation
       '@zcode/provider':
         specifier: workspace:*
         version: link:../provider
