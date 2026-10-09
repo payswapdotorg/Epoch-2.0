@@ -160,3 +160,23 @@ W002, W003 and W004 remain the only current eligible work orders. Do not start f
 - Quality and “top tier” claims require task-specific benchmarks. Hard engineering constraints are non-tradeable.
 - Expert deliverables are untrusted/provenance-bearing inputs until Epoch verifies and accepts them.
 - Workers never update program/frontier/dependency state. TL updates the state only when actual work-order evidence justifies the transition.
+
+---
+
+## Milestone report — 2026-10-09 (visualization-first vertical slice)
+
+**Merged SHA:** ec4637d (state record); W007 merge e2d4fc9.
+
+**Completed work orders (this session):** W002, W003, W004, W005, W006, W007 (W000/W001 previously).
+
+**Current frontier:** W008 + W009 + W010 (concurrently eligible, prompts staged in the dispatch library).
+
+**Concurrent wave results:** wave-1 3/3 and wave-2 2/2 plus W007 all merged same-day; W002 delivered via TL narrative-replay after worker finish-line stall (27 file ops replayed from batch store); W005/W006/W007 delivered via pushed branches with full station batteries.
+
+**Tests/typecheck/lint/architecture (merged tree @ e2d4fc9):** 124 epoch-package tests green (fixture 34, surface 11, babylon 41, runtime 20, interaction 18); architecture 0 violations; lint 0 errors; fmt clean; per-package typechecks green. Full-repo clean typecheck and vite-dev journey reproduction are station-infeasible on the 4GB cgroup box (A/B-proven on main itself for the ui build; worker's vite.config documents the same optimizer OOM).
+
+**Real product evidence:** Web + Desktop journey harnesses with numbered screenshots per acceptance step (open/world/navigate/select/inspect-with-projection/isolate/section/measure) under qa/epoch-{web,desktop}/evidence/; W005 evidence VLM-validated by the worker (world-dominant canvas, 46 entities, semantic selection resolving to 'Perimeter Beam North'/beam/concrete C40).
+
+**Environment limitations (honest record):** 4GB cgroup wall (clean ui/web/desktop builds + vite full-module-graph dev); evening capacity windows required resurrection machinery (stop-cure + nudges; all recoveries lossless via session narratives); station journey runs blocked — pod-side evidence is the visual record.
+
+**Deferred items:** worker COMPLETION REPORT chats for W002/W005/W006/W007 lanes remain recoverable from batch stores if needed; lockfile reconciliation folded into merges; W008-W010 dispatch is the next session's first action.
