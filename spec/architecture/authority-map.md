@@ -111,3 +111,42 @@ world revision
 ```
 
 A renderer must never skip from hit-test directly to durable semantic mutation.
+
+
+## Additional fabrics authorized by ACR-002
+
+~~~text
+Human / Agent
+   |                                   Arena expert
+   v                                        |
+Task + reconstruction profile               | structured task/result packages
+   |                                        v
+Canonical Epoch World <--- validated evidence / proposed revision
+   ^
+   | semantic bindings and verified outcomes
+Application Environment Registry
+   | observation / control / native / UI adapters
+   v
+External apps and Epoch mini-apps
+   |
+   v
+Activity stream -> gap classifier -> demonstration/capability candidate
+   |                                  |
+   |                                  v
+   +----------------------------- Capability Quality Lab
+                                      |
+                              qualified capability registry
+~~~
+
+| Responsibility | Authority | Must not own |
+|---|---|---|
+| Task-specific detail requirements | Reconstruction Policy/Profile Registry | canonical world truth |
+| Environment attachment and control | Application Environment Fabric | app content authority or world authority |
+| Environment activity / demonstration provenance | Environment Activity authority | automatic training or skill promotion |
+| Reproduced mini-app behavior and release quality | Capability Reproduction + Quality Lab | second world/lifecycle/verification authority |
+| Capability gap classification and promotion | Capability Learning authority | unreviewed permission/autonomy grant |
+| Expert procurement and execution | Arena boundary | Epoch project/world authority |
+| Expert-result acceptance | Epoch verification/world authority | silent overwrite of approved revisions |
+| Cost/quality frontier | Epoch engineering objective/search | ability to trade away hard constraints |
+
+Application event and capability output flow into Epoch as evidence/proposals. Only the existing canonical world, revision, lifecycle and verification authorities may accept meaning-changing changes.
