@@ -678,9 +678,15 @@ importers:
       '@zcode/epoch-solution-contract':
         specifier: workspace:*
         version: link:../epoch-solution-contract
+      '@zcode/epoch-solution-runtime':
+        specifier: workspace:*
+        version: link:../epoch-solution-runtime
       '@zcode/epoch-solution-surface':
         specifier: workspace:*
         version: link:../epoch-solution-surface
+      '@zcode/epoch-world-interaction':
+        specifier: workspace:*
+        version: link:../epoch-world-interaction
       '@zcode/epoch-world-model':
         specifier: workspace:*
         version: link:../epoch-world-model
@@ -889,6 +895,28 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-solution-runtime:
+    dependencies:
+      '@zcode/epoch-renderer-contract':
+        specifier: workspace:*
+        version: link:../epoch-renderer-contract
+      '@zcode/epoch-solution-contract':
+        specifier: workspace:*
+        version: link:../epoch-solution-contract
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+      '@zcode/epoch-world-presentation':
+        specifier: workspace:*
+        version: link:../epoch-world-presentation
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
   packages/epoch-solution-surface:
     dependencies:
       '@zcode/epoch-reconstruction-contract':
@@ -897,6 +925,25 @@ importers:
       '@zcode/epoch-solution-contract':
         specifier: workspace:*
         version: link:../epoch-solution-contract
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/epoch-world-interaction:
+    dependencies:
+      '@zcode/epoch-solution-contract':
+        specifier: workspace:*
+        version: link:../epoch-solution-contract
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+      '@zcode/epoch-world-presentation':
+        specifier: workspace:*
+        version: link:../epoch-world-presentation
     devDependencies:
       '@types/node':
         specifier: ^25.5.0

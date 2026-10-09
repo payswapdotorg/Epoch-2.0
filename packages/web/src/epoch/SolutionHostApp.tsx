@@ -10,9 +10,12 @@
  * 类型）。组合根在 useSolutionWorld 内构造，零用户配置（req #2）。
  */
 import { useSolutionWorld } from "./useSolutionWorld.js";
+import { useSolutionRuntime } from "./useSolutionRuntime.js";
 import { SolutionWorldCanvas } from "./SolutionWorldCanvas.js";
 import { SolutionInspector } from "./SolutionInspector.js";
 import { SolutionLayerControls } from "./SolutionLayerControls.js";
+import { SolutionToolsOverlay } from "./SolutionToolsOverlay.js";
+import { SolutionDownstreamProjection } from "./SolutionDownstreamProjection.js";
 
 function TopBar({ api }: { api: ReturnType<typeof useSolutionWorld> }): React.ReactElement {
   const tab = api.state.openResult?.tab;
@@ -102,6 +105,16 @@ function OpenHint({
 
 export function SolutionHostApp(): React.ReactElement {
   const api = useSolutionWorld();
+  // W007 — runtime + interaction wiring (additive over W005; consumes openResult).
+  const runtimeApi = useSolutionRuntime(
+    api.state.openResult,
+    api.state.openResult?.tab.engineId ?? "epoch-construction-fixture",
+    // Cast: fixture entities carry layer + geometry extension fields; runtime only reads entityId + geometry.position.
+    (api.state.openResult?.revision.entities ?? []) as unknown as ReadonlyArray<{
+      entityId: string;
+      geometry?: { position: readonly [number, number, number] };
+    }>,
+  );
   return (
     <div
       data-epoch-host="true"
@@ -119,6 +132,8 @@ export function SolutionHostApp(): React.ReactElement {
           <div className="flex flex-col items-end gap-2">
             <OpenHint api={api} />
             <SolutionInspector api={api} />
+            {api.selectedEntity ? <SolutionDownstreamProjection world={api} /> : null}
+            <SolutionToolsOverlay runtime={runtimeApi} world={api} />
           </div>
         </div>
       </div>

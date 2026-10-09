@@ -109,6 +109,29 @@ modules:
     managed: true
     requires: [epoch-reconstruction-contract, epoch-world-model]
     publicEntrypoints: [packages/epoch-construction-fixture/src/index.ts]
+  # W007 — Solution runtime composition (host-agnostic runtime binding a solution
+  # session to engine + renderer + interaction mapping; portable view state per
+  # invariant #12). 独立 managed 模块，消费冻结 epoch-* 包的公开入口（不深引用），
+  # 不引入任何引擎/渲染器实现类型，不按 engineId 分支。
+  - id: epoch-solution-runtime
+    roots: [packages/epoch-solution-runtime/src]
+    managed: true
+    requires:
+      [
+        epoch-renderer-contract,
+        epoch-world-presentation,
+        epoch-solution-contract,
+        epoch-world-model,
+      ]
+    publicEntrypoints: [packages/epoch-solution-runtime/src/index.ts]
+  # W007 — World interaction layer (plan/section path + measurement/annotation
+  # semantics; world-anchored, stable under renderer switch, stored as projection
+  # state — never a second semantic authority, invariant #13/#14).
+  - id: epoch-world-interaction
+    roots: [packages/epoch-world-interaction/src]
+    managed: true
+    requires: [epoch-world-presentation, epoch-solution-contract, epoch-world-model]
+    publicEntrypoints: [packages/epoch-world-interaction/src/index.ts]
   # W006 — Desktop Solution Host wiring (renderer-process composition of frozen
   # epoch capabilities). 独立 managed 模块，消费冻结 epoch-* 包的公开入口（不深引用），
   # 不引入任何引擎/渲染器实现类型，不按 engineId 分支。

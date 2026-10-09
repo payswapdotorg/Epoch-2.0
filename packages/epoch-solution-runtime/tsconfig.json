@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"],
+    "lib": ["es2024"],
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../epoch-renderer-contract" },
+    { "path": "../epoch-world-presentation" },
+    { "path": "../epoch-solution-contract" },
+    { "path": "../epoch-world-model" }
+  ]
+}

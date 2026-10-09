@@ -9,5 +9,19 @@
   },
   "include": ["src/renderer"],
   // renderer 直接 import 了 shared；把它补进 references，避免 renderer 单独检查时再走源码回退路径。
-  "references": [{ "path": "../shared" }, { "path": "../ui" }, { "path": "../client" }]
+  "references": [
+    { "path": "../shared" },
+    { "path": "../ui" },
+    { "path": "../client" },
+    { "path": "../epoch-world-model" },
+    { "path": "../epoch-reconstruction-contract" },
+    { "path": "../epoch-world-presentation" },
+    { "path": "../epoch-renderer-contract" },
+    { "path": "../epoch-solution-contract" },
+    { "path": "../epoch-solution-surface" },
+    { "path": "../epoch-construction-fixture" },
+    { "path": "../epoch-renderer-babylon" },
+    { "path": "../epoch-solution-runtime" },
+    { "path": "../epoch-world-interaction" }
+  ]
 }

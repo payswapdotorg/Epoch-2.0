@@ -15,7 +15,9 @@
       "@zcode/epoch-solution-contract": ["../epoch-solution-contract/src/index.ts"],
       "@zcode/epoch-solution-surface": ["../epoch-solution-surface/src/index.ts"],
       "@zcode/epoch-construction-fixture": ["../epoch-construction-fixture/src/index.ts"],
-      "@zcode/epoch-renderer-babylon": ["../epoch-renderer-babylon/src/index.ts"]
+      "@zcode/epoch-renderer-babylon": ["../epoch-renderer-babylon/src/index.ts"],
+      "@zcode/epoch-solution-runtime": ["../epoch-solution-runtime/src/index.ts"],
+      "@zcode/epoch-world-interaction": ["../epoch-world-interaction/src/index.ts"]
     }
   },
   "include": ["src"],
@@ -29,6 +31,8 @@
     { "path": "../epoch-solution-contract" },
     { "path": "../epoch-solution-surface" },
     { "path": "../epoch-construction-fixture" },
-    { "path": "../epoch-renderer-babylon" }
+    { "path": "../epoch-renderer-babylon" },
+    { "path": "../epoch-solution-runtime" },
+    { "path": "../epoch-world-interaction" }
   ]
 }

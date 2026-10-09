@@ -27,3 +27,13 @@ export {
   fixtureLayerDescriptions,
   fixtureLayerIds,
 } from "./fixturePresentation.js";
+// W007 — Solution runtime + world interaction wiring (additive over W005).
+export {
+  createWebSolutionRuntimeWiring,
+  wireSolutionRuntime,
+  adaptOpenResultToHandle,
+  buildEntityPointsFromFixture,
+  buildLayerIdsFromFixture,
+  computeFixtureWorldBounds,
+  type WebSolutionRuntimeWiring,
+} from "./w007Wiring.js";

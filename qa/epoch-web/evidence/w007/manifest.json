@@ -1,0 +1,52 @@
+{
+  "workOrder": "W007 — Visual Integration Closure (Web)",
+  "acceptanceLaw": "open -> world -> navigate -> select -> inspect (with downstream projection) -> layer isolate -> section-or-plan -> measure-or-annotate",
+  "capturedAt": "2026-10-09T19:10:58.432Z",
+  "baseUrl": "http://localhost:5173",
+  "browser": {
+    "executablePath": "/home/z/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome",
+    "headless": true,
+    "webgl": "angle/swiftshader-webgl (Babylon Engine renders client-side)"
+  },
+  "reproduce": [
+    "cd <repo-root>",
+    "ELECTRON_SKIP_BINARY_DOWNLOAD=1 pnpm install --frozen-lockfile",
+    "pnpm --filter @zcode/web dev   # Vite dev server on :5173 (no server needed; fixture is client-side)",
+    "node qa/epoch-web/w007-journey.mjs  # launches chromium, opens /epoch, captures W007 evidence"
+  ],
+  "artifacts": [
+    {
+      "file": "evidence/w007/01-open.png",
+      "shows": "Solution opened — world-dominant host route active"
+    },
+    {
+      "file": "evidence/w007/02-world.png",
+      "shows": "Real fixture world rendered full-bleed (Babylon WebGL over construction fixture)"
+    },
+    {
+      "file": "evidence/w007/03-navigate.png",
+      "shows": "Orbit + zoom navigation applied (camera moved off home framing)"
+    },
+    {
+      "file": "evidence/w007/04-select.png",
+      "shows": "Semantic selection — pointer click resolved through renderer hit mapping to an Epoch entityId (focus highlight applied)"
+    },
+    {
+      "file": "evidence/w007/05-inspect-with-projection.png",
+      "shows": "Inspector + downstream projection link (layer/phase/properties/BOQ-ish quantity/constraint refs) — read directly from world model, no second BOQ authority"
+    },
+    {
+      "file": "evidence/w007/06-layer-isolate.png",
+      "shows": "Layer isolate: soloed STRUCTURE — all other fixture layers hidden via renderer-neutral setVisibility"
+    },
+    {
+      "file": "evidence/w007/07-plan-or-section.png",
+      "shows": "Plan-view navigation path applied (top-down orthographic-style look-at + high elevation + zoom out — Babylon descriptor.capabilities.plan===true)"
+    },
+    {
+      "file": "evidence/w007/08-measure-or-annotate.png",
+      "shows": "Measurement added with SI-unit readout (5.00 m) + annotation anchored to selected entityId (survives navigation)"
+    }
+  ],
+  "worldNotDashboardSelfAssessment": "The world canvas is full-bleed; tools/inspector float as overlays. No dashboard, no empty state. Layer isolate visibly hides 5 of 6 fixture layers. Plan-view visibly tilts the camera to top-down. Measurement renders an SI-unit value (5.00 m). All W007 capabilities are evidenced on the real construction fixture, not a placeholder."
+}
