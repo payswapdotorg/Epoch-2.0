@@ -6,7 +6,10 @@
     "W006"
   ],
   "eligible": 2,
-  "inFlight": [],
+  "inFlight": [
+    "W005",
+    "W006"
+  ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
