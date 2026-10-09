@@ -111,6 +111,49 @@
       "W022",
       "W024",
       "W025"
+    ],
+    "W027": [
+      "W007"
+    ],
+    "W028": [
+      "W007"
+    ],
+    "W029": [
+      "W028",
+      "W021"
+    ],
+    "W030": [
+      "W020",
+      "W023",
+      "W027"
+    ],
+    "W031": [
+      "W028",
+      "W029",
+      "W030"
+    ],
+    "W032": [
+      "W029",
+      "W030",
+      "W023"
+    ],
+    "W033": [
+      "W027",
+      "W030"
+    ],
+    "W034": [
+      "W025",
+      "W029",
+      "W032"
+    ],
+    "W035": [
+      "W020",
+      "W022",
+      "W024",
+      "W031",
+      "W032",
+      "W033",
+      "W034"
     ]
   },
   "waves": [
@@ -161,5 +204,27 @@
     [
       "W026"
     ]
-  ]
+  ],
+  "expansionWaves": [
+    [
+      "W027",
+      "W028"
+    ],
+    [
+      "W029",
+      "W030"
+    ],
+    [
+      "W031",
+      "W032",
+      "W033"
+    ],
+    [
+      "W034"
+    ],
+    [
+      "W035"
+    ]
+  ],
+  "expansionTrackNote": "ACR-002 is dependency-driven and does not alter the current W002/W003/W004 frontier. Extension work can be interleaved with core work only when direct dependencies are complete, at most three workers are active and ownership is pairwise-disjoint. W027/W028 need not wait for W026 when W007 is complete."
 }

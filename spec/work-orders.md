@@ -71,3 +71,28 @@ The first product milestone closes only when Web and Desktop can:
 8. prove renderer presentation is separate from semantic authority.
 
 The first milestone intentionally precedes IFC, OCCT, OpenUSD, simulation, lifecycle and autonomous discovery.
+
+
+## ACR-002 extension track (dependency-driven; does not change the current frontier)
+
+The original W000–W026 program remains intact. ACR-002 adds a follow-on track without changing the current W002/W003/W004 eligibility. A new work order becomes eligible only when its dependencies are complete; the TL may interleave ready extension work with core work when ownership is disjoint and no more than three workers are active.
+
+- W027 — task-conditioned reconstruction and information sufficiency (after W007).
+- W028 — external Application Environment Fabric and generic workbench surface (after W007).
+- W029 — environment activity and demonstrations (after W028 and W021).
+- W030 — capability quality lab and reference benchmarks (after W020, W023 and W027).
+- W031 — Capability Reproduction Factory (after W028, W029 and W030).
+- W032 — capability-gap learning and promotion (after W029, W030 and W023).
+- W033 — cost/quality frontier and alternative search (after W027 and W030).
+- W034 — Arena expert loop and learnback (after W025, W029 and W032).
+- W035 — end-to-end engineering automation and abundance evaluation (after W020, W022, W024, W031, W032, W033 and W034).
+
+## ACR-002 shared implementation rules
+
+- Workers submit proposed architecture-policy module registrations; only TL edits the shared policy file during integration.
+- External apps and factory mini-apps use the generic environment/capability surface, never app-specific tabs/shells.
+- Native integration and compatible open-source/standard/licensed foundations are assessed before reproduction.
+- Implementation-internal analysis is gated by documented rights and case-specific review.
+- Quality claims require reproducible task-specific evidence; hard engineering constraints are non-tradeable.
+- Human activity and demonstrations do not automatically become training data, global reuse or autonomy.
+- Arena deliverables are validated inputs, not automatic accepted truth.

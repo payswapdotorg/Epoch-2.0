@@ -9,6 +9,8 @@ This directory defines the target architecture for Epoch 2.0.
 - `authority-map.md` — semantic/data/state authority ownership.
 - `contracts/README.md` — public boundary contracts.
 - `upstream-zcode.md` — what is inherited from ZCode and what is deliberately not inherited.
+- `engineering-abundance-objective.md` — the cost/quality frontier and long-term automation objective.
+- `../architecture-change-requests/ACR-002-task-conditioned-reconstruction-capability-reproduction.md` — task-conditioned fidelity, application environments, capability reproduction and abundance.
 
 ## Rule
 

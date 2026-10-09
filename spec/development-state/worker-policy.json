@@ -6,7 +6,10 @@
     "Workers may consume frozen public contracts from earlier work orders.",
     "Each concurrent worker must have pairwise-disjoint file/module ownership.",
     "A worker reports tests, architecture checks, visual evidence and environment limitations.",
-    "A worker does not edit program-state, frontier-state or dependency-state."
+    "A worker does not edit program-state, frontier-state or dependency-state.",
+    "For ACR-002 packages, workers submit architecture-policy registration proposals; only TL edits the shared architecture-policy file during integration.",
+    "Capability reproduction requires a documented case-specific rights gate before implementation-internal analysis.",
+    "Environment recordings and demonstrations respect explicit scope, privacy, retention and reuse permissions."
   ],
   "tlRules": [
     "TL is the sole integration and merge owner.",
@@ -14,7 +17,10 @@
     "TL may repack waves when disjointness remains provable and records the change.",
     "TL integrates in dependency order and resolves cross-worker conflicts.",
     "TL updates state only after verified merges.",
-    "TL never treats green unit tests as visual-product acceptance."
+    "TL never treats green unit tests as visual-product acceptance.",
+    "Keep W002/W003/W004 as the current frontier after ACR-002 documentation changes.",
+    "Dispatch ACR-002 work by direct dependencies; do not serialize all extension work behind W026 if dependencies are satisfied and ownership is disjoint.",
+    "Verify rights, benchmark, privacy and hard-constraint gates before accepting capability reproduction or automation claims."
   ],
   "requiredWorkerOutput": [
     "work-order id",

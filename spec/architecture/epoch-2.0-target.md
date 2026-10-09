@@ -12,27 +12,31 @@ L0 ZCode Workbench
 - workspace / task / session / side-pane / platform hosts
 
 L1 Epoch Surface System
-- Solution Surface + future engineering surfaces
+- Solution Surface and generic environment/capability surfaces
 
 L2 Epoch Solution Runtime
 - solution session / world revision / presentation / interaction
 
 L3 Semantic Engineering World
-- entities / relationships / systems / quantities / constraints / findings / agents / timeline / variants / provenance
+- entities / relationships / systems / quantities / constraints / findings / agents / timeline / variants / evidence / provenance
 
 L4 Reconstruction & Engineering Capability Fabric
-- fixture / IFC / scan / CAD / photogrammetry / simulation / tools
+- deterministic fixture / IFC / scan / CAD / photogrammetry / simulation / task-conditioned reconstruction profiles
 
 L5 Presentation & Renderer Fabric
 - World Presentation / Babylon / Three / Cesium / future renderers
 
-L6 Engineering Foundations
-- OCCT / IfcOpenShell / OpenUSD / glTF / Blender / ParaView / FreeCAD / Assimp / future Godot / O3DE
+L6 External Application Environment Fabric (orthogonal capability fabric)
+- observation / control / semantic bindings / session lifecycle / activity stream / native adapter boundaries
+- attaches to real external applications and hosts Epoch mini-apps through generic surfaces
 
-L7 Durable Product Lifecycle
-- understand / decide / plan / acquire / realize / observe / verify / forecast / close / learn
+L7 Engineering Foundations and Capability Reproduction
+- OCCT / IfcOpenShell / OpenUSD / glTF / Blender / ParaView / FreeCAD / Assimp / licensed and open foundations / Capability Reproduction Factory
 
-Dependencies point downward only where the lower layer is a capability dependency, not a semantic authority.
+L8 Durable Lifecycle and Capability Evolution
+- verification / persistence / cost-quality alternative search / capability-gap learning / Arena / engineering automation evaluation
+
+These are responsibility layers and orthogonal fabrics, not a mandate for every package to depend on every lower-numbered layer. Dependency direction is contract-driven. The Environment Fabric may bind to the canonical World Model through explicit contracts but never becomes semantic authority.
 
 ## 3. Workbench integration
 
@@ -207,22 +211,23 @@ Understand -> Decide -> Plan -> Acquire -> Realize -> Observe/Actualize -> Verif
 
 The lifecycle remains one universal authority. Domain packs are projections/capability bundles.
 
-## 14. Product expansion order
+## 14. Product expansion order and branching extension track
 
-1. Navigable construction solution.
-2. Engine and renderer registries.
-3. IFC/BIM reconstruction.
-4. Precision geometry.
-5. Scene composition/variants.
-6. Asset/reconstruction capabilities.
-7. Geospatial/site context.
-8. Simulation/results.
-9. Engineering workflow/lifecycle.
-10. Agent organization/capability discovery.
-11. Human expert escalation.
-12. Marketplaces/extensions and broader productization.
+The critical product path is:
 
-Each stage starts when its preceding contract is stable and executable; later stages do not block the visual milestone.
+1. Navigable construction solution (W002–W007).
+2. Renderer portability and core engineering capabilities (W008–W019).
+3. Verification, persistence, universal lifecycle, capability discovery, agent tools and productization (W020–W026), sequenced by direct dependencies.
+
+ACR-002 is a branching track rather than a new serial stage that must wait for all of W026:
+
+- W027 task-conditioned reconstruction and W028 Application Environment Fabric become eligible once W007 and their direct dependencies are complete.
+- W029 adds activity/demonstration evidence; W030 adds reference-quality benchmarking.
+- W031 capability reproduction, W032 capability-gap learning and W033 cost/quality search proceed as their respective dependency sets permit.
+- W034 completes the structured Arena return/learnback loop.
+- W035 evaluates end-to-end engineering automation and abundance.
+
+The TL may interleave these tracks when direct dependencies are satisfied, public contracts are frozen, concurrent ownership is disjoint and no more than three workers are active. Do not delay the first navigable world for future environment/factory breadth, and do not delay W027/W028 behind W026 if the dependency graph permits them.
 
 ## 15. Design law
 
@@ -235,4 +240,4 @@ freeze interfaces
  -> add deeper engineering computation
  -> add broader orchestration
 
-Do not reverse this order.
+Do not reverse this order. The ACR-002 follow-on track adds task-conditioned reconstruction, application environments, capability reproduction, learning and abundance evaluation without changing the first visual milestone.
