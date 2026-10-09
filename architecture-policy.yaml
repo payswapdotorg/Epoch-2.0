@@ -84,6 +84,11 @@ modules:
     managed: true
     requires: [epoch-solution-contract, epoch-reconstruction-contract]
     publicEntrypoints: [packages/epoch-solution-surface/src/index.ts]
+  - id: epoch-renderer-babylon
+    roots: [packages/epoch-renderer-babylon/src]
+    managed: true
+    requires: [epoch-renderer-contract, epoch-world-presentation]
+    publicEntrypoints: [packages/epoch-renderer-babylon/src/index.ts]
 
 global:
   maxFileLines: 400

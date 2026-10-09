@@ -1,0 +1,22 @@
+{
+  "name": "@zcode/epoch-renderer-babylon",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "oxlint",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "@babylonjs/core": "^9.30.0",
+    "@zcode/epoch-renderer-contract": "workspace:*",
+    "@zcode/epoch-world-presentation": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}
