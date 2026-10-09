@@ -17,8 +17,14 @@
     "desktopNavigableSolution": "PENDING",
     "rendererPortability": "PENDING",
     "ifcReconstruction": "FUTURE",
-    "fullEngineeringArchitecture": "FUTURE"
+    "fullEngineeringArchitecture": "FUTURE",
+    "taskConditionedReconstruction": "FUTURE",
+    "applicationEnvironmentFabric": "FUTURE",
+    "capabilityReproductionFactory": "FUTURE",
+    "capabilityGapLearning": "FUTURE",
+    "arenaExpertLoop": "FUTURE",
+    "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Dispatch wave 1 concurrently (max 3 workers, ownership-map.json wave1): Worker A W002 construction fixture, Worker B W003 solution surface, Worker C W004 Babylon renderer. Workers consume frozen W001 contracts via public entrypoints only."
+  "nextAction": "Unchanged: dispatch W002, W003 and W004 concurrently. ACR-002 is approved and documented, but W027-W035 remain gated by dependency-state.json and do not change the current frontier."
 }
