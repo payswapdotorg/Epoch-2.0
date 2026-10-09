@@ -1,22 +1,20 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_1_COMPLETE",
+  "status": "WAVE_2_COMPLETE",
   "frontier": [
-    "W005",
-    "W006"
+    "W007"
   ],
-  "eligible": 2,
+  "eligible": 1,
   "inFlight": [
-    "W005",
-    "W006"
+    "W007"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
     "repositoryReset": "COMPLETE",
     "visualizationFirst": "PENDING",
-    "webNavigableSolution": "PENDING",
-    "desktopNavigableSolution": "PENDING",
+    "webNavigableSolution": "COMPLETE (W005 journey evidence)",
+    "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "PENDING",
     "ifcReconstruction": "FUTURE",
     "fullEngineeringArchitecture": "FUTURE",
@@ -28,5 +26,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Wave 2: dispatch W005 (Web host) + W006 (Desktop host) concurrently — prompts staged, wave-1 packages merged as frozen inputs. On each delivery: station v2 verification -> merge -> state update. W007 (visual integration + acceptance closure) after both hosts merge. W008-W010 remain gated behind W007."
+  "nextAction": "W007 in flight: runtime + interaction packages, plan/section + measurement, layer isolate, inspector projections, both-hosts journey closure. Visualization milestone closes on W007 acceptance."
 }

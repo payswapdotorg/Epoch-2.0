@@ -13,17 +13,17 @@
     "W001",
     "W002",
     "W003",
-    "W004"
+    "W004",
+    "W005",
+    "W006"
   ],
   "active": [
-    "W005",
-    "W006"
+    "W007"
   ],
   "eligible": [
-    "W005",
-    "W006"
+    "W007"
   ],
   "blocked": [],
-  "lastMergeSha": "e83d3bd841ab0f95b06774a5db1e7c86e9b6ac65",
-  "lastAction": "WAVE 1 COMPLETE (2026-10-09): W002+W003+W004 all merged. W002 delivered via TL narrative-replay (worker session stalled at finish line after capacity turn-deaths; 27 file ops replayed from batch store per 10b/10h, gates green 34/34). Merged-tree sanity: architecture 0 violations, 96 tests green (fixture 34 + surface 11 + babylon 41 + qa 10), all three packages tsc RC=0. All three packages registered in root typecheck + architecture-policy. W005 (Web host) + W006 (Desktop host) now eligible — dispatching concurrently per the wave-2 plan; W007 (visual integration) after both. Worker COMPLETION REPORTs still pending for w002/w003/w004 sessions (content recoverable from batch stores per 10b if sessions never finish)."
+  "lastMergeSha": "2ff83c3",
+  "lastAction": "WAVE 2 COMPLETE (2026-10-09): W005 Web Host (ce65850) + W006 Desktop Host (2ff83c3) merged. Both delivered real journey evidence: 6 numbered screenshots each + manifest + harness (web: headless Chromium swiftshader WebGL; desktop: real Electron window), worker VLM-validated the world renders and semantic selection resolves (beam 'Perimeter Beam North'/concrete C40 in inspector). Station gates green on all feasible surfaces (lint 0, fmt clean, arch 0 violations, frozen installs OK). Full ui-chain clean typecheck remains cgroup-infeasible station-side (A/B-proven class); vite dev journey reproduction equally blocked (worker's own vite.config documents the 4GB optimizer OOM; babylon dep-opt excluded by design). W007 (visual integration closure) now the sole frontier — dispatching immediately."
 }
