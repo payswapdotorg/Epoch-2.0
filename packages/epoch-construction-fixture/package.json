@@ -1,0 +1,21 @@
+{
+  "name": "@zcode/epoch-construction-fixture",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "oxlint",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "@zcode/epoch-reconstruction-contract": "workspace:*",
+    "@zcode/epoch-world-model": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}

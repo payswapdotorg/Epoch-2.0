@@ -79,6 +79,11 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-reconstruction-contract, epoch-world-presentation]
     publicEntrypoints: [packages/epoch-solution-contract/src/index.ts]
+  - id: epoch-construction-fixture
+    roots: [packages/epoch-construction-fixture/src]
+    managed: true
+    requires: [epoch-reconstruction-contract, epoch-world-model]
+    publicEntrypoints: [packages/epoch-construction-fixture/src/index.ts]
 
 global:
   maxFileLines: 400
