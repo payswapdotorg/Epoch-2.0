@@ -69,12 +69,7 @@ export function structureEnvelopeEntities(): readonly ConstructionFixtureEntity[
   ];
 }
 
-function column(
-  entityId: string,
-  label: string,
-  x: number,
-  z: number,
-): ConstructionFixtureEntity {
+function column(entityId: string, label: string, x: number, z: number): ConstructionFixtureEntity {
   return {
     entityId,
     entityType: "column",

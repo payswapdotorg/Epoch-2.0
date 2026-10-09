@@ -15,11 +15,7 @@ import type {
   ReconstructionOperation,
   ReconstructionEvent,
 } from "@zcode/epoch-reconstruction-contract";
-import type {
-  WorldRevision,
-  WorldEntity,
-  WorldRelationship,
-} from "@zcode/epoch-world-model";
+import type { WorldRevision, WorldEntity, WorldRelationship } from "@zcode/epoch-world-model";
 import { computeWorldDigest } from "@zcode/epoch-world-model";
 import type { ConstructionFixtureEntity } from "./geometry.ts";
 import { CONSTRUCTION_FIXTURE_DESCRIPTOR } from "./descriptor.ts";
@@ -90,9 +86,7 @@ function variantFromInput(input: ReconstructionInput): ConstructionFixtureVarian
     );
   }
   if (input.engineId !== CONSTRUCTION_FIXTURE_ENGINE_ID) {
-    throw new TypeError(
-      `construction fixture engine rejects engineId: ${input.engineId}`,
-    );
+    throw new TypeError(`construction fixture engine rejects engineId: ${input.engineId}`);
   }
   const payload = (input.payload ?? {}) as { variant?: unknown };
   if (payload.variant === undefined) return "baseline";
@@ -112,7 +106,10 @@ class ConstructionFixtureEngine implements ReconstructionEngine {
     return CONSTRUCTION_FIXTURE_DESCRIPTOR;
   }
 
-  async open(input: ReconstructionInput, _context: ReconstructionContext): Promise<ReconstructionSession> {
+  async open(
+    input: ReconstructionInput,
+    _context: ReconstructionContext,
+  ): Promise<ReconstructionSession> {
     const variant = variantFromInput(input);
     const revision = buildVariantRevision(variant);
     return new ConstructionFixtureSession(variant, revision);
@@ -142,7 +139,9 @@ class ConstructionFixtureSession implements ReconstructionSession {
     }
     const variant = (operation.payload ?? {}) as { variant?: unknown };
     if (!isConstructionFixtureVariantId(variant.variant)) {
-      throw new TypeError(`unknown variant in select-variant operation: ${String(variant.variant)}`);
+      throw new TypeError(
+        `unknown variant in select-variant operation: ${String(variant.variant)}`,
+      );
     }
     this.variant = variant.variant;
     this.revision = buildVariantRevision(this.variant);

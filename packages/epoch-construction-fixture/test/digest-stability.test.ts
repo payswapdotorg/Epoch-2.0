@@ -9,7 +9,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createConstructionFixtureEngine } from "../src/index.ts";
 import { buildVariantRevision } from "../src/index.ts";
-import type { ReconstructionInput, ReconstructionContext } from "@zcode/epoch-reconstruction-contract";
+import type {
+  ReconstructionInput,
+  ReconstructionContext,
+} from "@zcode/epoch-reconstruction-contract";
 
 const CONTEXT: ReconstructionContext = { workspaceKey: "ws-test" };
 
@@ -78,7 +81,11 @@ test("apply(select-variant) switches the projected world and changes the digest"
   const engine = createConstructionFixtureEngine();
   const session = await engine.open(fixtureInput("baseline"), CONTEXT);
   const before = await session.snapshot();
-  const after = await session.apply({ operationId: "op-1", kind: "select-variant", payload: { variant: "alternate-pitched-roof" } });
+  const after = await session.apply({
+    operationId: "op-1",
+    kind: "select-variant",
+    payload: { variant: "alternate-pitched-roof" },
+  });
   assert.notEqual(before.digest, after.digest);
   const snapshot = await session.snapshot();
   assert.equal(snapshot.digest, after.digest);

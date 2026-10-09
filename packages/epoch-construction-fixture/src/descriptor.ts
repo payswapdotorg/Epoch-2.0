@@ -22,10 +22,7 @@ export const CONSTRUCTION_FIXTURE_CONTENT_REF = "epoch-fixture-content@v1";
 export const CONSTRUCTION_FIXTURE_INPUT_KINDS = ["engine-native"] as const;
 
 /** 变体标识：选择不同变体改变投影世界（不同实体集 -> 不同摘要）。 */
-export const CONSTRUCTION_FIXTURE_VARIANT_IDS = [
-  "baseline",
-  "alternate-pitched-roof",
-] as const;
+export const CONSTRUCTION_FIXTURE_VARIANT_IDS = ["baseline", "alternate-pitched-roof"] as const;
 export type ConstructionFixtureVariantId = (typeof CONSTRUCTION_FIXTURE_VARIANT_IDS)[number];
 
 export const CONSTRUCTION_FIXTURE_VARIANT_SET: ReadonlySet<string> = new Set<string>(

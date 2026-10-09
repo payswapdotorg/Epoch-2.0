@@ -63,7 +63,10 @@ test("every relationship references existing entities in the revision", () => {
     const revision = buildVariantRevision(variant);
     const ids = new Set(revision.entities.map((entity) => entity.entityId));
     for (const relationship of revision.relationships) {
-      assert.ok(ids.has(relationship.fromEntityId), `dangling from: ${relationship.relationshipId}`);
+      assert.ok(
+        ids.has(relationship.fromEntityId),
+        `dangling from: ${relationship.relationshipId}`,
+      );
       assert.ok(ids.has(relationship.toEntityId), `dangling to: ${relationship.relationshipId}`);
     }
   }

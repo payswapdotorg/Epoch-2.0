@@ -13,9 +13,7 @@ export {
 } from "./layers.ts";
 export type { ConstructionLayerId } from "./layers.ts";
 
-export {
-  isGeometrySeed,
-} from "./geometry.ts";
+export { isGeometrySeed } from "./geometry.ts";
 export type { GeometrySeed, GeometryKind, ConstructionFixtureEntity } from "./geometry.ts";
 
 export {
@@ -33,10 +31,7 @@ export {
   isConstructionFixtureVariantId,
   fixtureProvenanceRef,
 } from "./descriptor.ts";
-export type {
-  ConstructionFixtureVariantId,
-  ConstructionPhase,
-} from "./descriptor.ts";
+export type { ConstructionFixtureVariantId, ConstructionPhase } from "./descriptor.ts";
 
 export {
   CONSTRUCTION_FIXTURE_AGENTS,

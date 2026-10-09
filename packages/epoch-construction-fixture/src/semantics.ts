@@ -60,19 +60,22 @@ export const CONSTRUCTION_FIXTURE_CONSTRAINTS: readonly ConstructionFixtureConst
   {
     constraintId: "constraint-fire-rating-60",
     label: "60-minute fire rating",
-    description: "Envelope elements enclosing the equipment room must achieve a 60-minute fire rating.",
+    description:
+      "Envelope elements enclosing the equipment room must achieve a 60-minute fire rating.",
     appliesToLayers: ["ENVELOPE"],
   },
   {
     constraintId: "constraint-slab-bearing-150kPa",
     label: "Slab bearing capacity 150 kPa",
-    description: "Ground slab and footings designed for 150 kPa allowable bearing pressure on prepared subgrade.",
+    description:
+      "Ground slab and footings designed for 150 kPa allowable bearing pressure on prepared subgrade.",
     appliesToLayers: ["FOUNDATION", "STRUCTURE"],
   },
   {
     constraintId: "constraint-headroom-2700mm",
     label: "Minimum headroom 2.7 m",
-    description: "Finished clear headroom above slab must not be less than 2.7 m at any passable point.",
+    description:
+      "Finished clear headroom above slab must not be less than 2.7 m at any passable point.",
     appliesToLayers: ["STRUCTURE", "ENVELOPE"],
   },
 ];

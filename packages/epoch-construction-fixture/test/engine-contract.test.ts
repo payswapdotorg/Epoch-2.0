@@ -17,7 +17,11 @@ import {
 } from "@zcode/epoch-reconstruction-contract";
 import { createConstructionFixtureEngine } from "../src/index.ts";
 import { CONSTRUCTION_FIXTURE_ENGINE_ID, CONSTRUCTION_FIXTURE_VARIANT_IDS } from "../src/index.ts";
-import type { ReconstructionInput, ReconstructionContext, ReconstructionEvent } from "@zcode/epoch-reconstruction-contract";
+import type {
+  ReconstructionInput,
+  ReconstructionContext,
+  ReconstructionEvent,
+} from "@zcode/epoch-reconstruction-contract";
 
 const CONTEXT: ReconstructionContext = { workspaceKey: "ws-test" };
 

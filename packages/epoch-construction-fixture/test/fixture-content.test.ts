@@ -99,7 +99,8 @@ test("at least one constraint is attached to entities", () => {
   const revision = buildVariantRevision("baseline");
   const constraintIds = new Set<string>();
   for (const entity of revision.entities) {
-    if (entity.constraints) for (const constraint of entity.constraints) constraintIds.add(constraint);
+    if (entity.constraints)
+      for (const constraint of entity.constraints) constraintIds.add(constraint);
   }
   assert.ok(constraintIds.size >= 1, "expected at least one constraint id on entities");
   assert.ok(CONSTRUCTION_FIXTURE_CONSTRAINTS.length >= 1);
@@ -113,7 +114,9 @@ test("at least one constraint is attached to entities", () => {
 
 test("at least one finding is encoded as a clashes-with relationship", () => {
   const revision = buildVariantRevision("baseline");
-  const clashes = revision.relationships.filter((relationship) => relationship.kind === "clashes-with");
+  const clashes = revision.relationships.filter(
+    (relationship) => relationship.kind === "clashes-with",
+  );
   assert.ok(clashes.length >= 1, "expected at least one clashes-with finding relationship");
   assert.ok(CONSTRUCTION_FIXTURE_FINDINGS.length >= 1);
   const clashLabels = clashes.map((relationship) => relationship.label).filter(Boolean);
@@ -124,7 +127,9 @@ test("at least one finding is encoded as a clashes-with relationship", () => {
 
 test("at least two variants produce distinct revisions", () => {
   assert.ok(CONSTRUCTION_FIXTURE_VARIANT_IDS.length >= 2);
-  const digests = CONSTRUCTION_FIXTURE_VARIANT_IDS.map((variant) => buildVariantRevision(variant).digest);
+  const digests = CONSTRUCTION_FIXTURE_VARIANT_IDS.map(
+    (variant) => buildVariantRevision(variant).digest,
+  );
   assert.equal(new Set(digests).size, digests.length, "variant digests must be distinct");
 });
 
@@ -138,15 +143,34 @@ test("entities carry construction phases", () => {
 
 test("quantities and dimensions use explicit SI units", () => {
   const revision = buildVariantRevision("baseline");
-  const siUnits = new Set(["m", "cm", "mm", "m2", "m3", "kg", "t", "deg", "count", "s", "min", "h"]);
+  const siUnits = new Set([
+    "m",
+    "cm",
+    "mm",
+    "m2",
+    "m3",
+    "kg",
+    "t",
+    "deg",
+    "count",
+    "s",
+    "min",
+    "h",
+  ]);
   for (const entity of revision.entities) {
     if (entity.dimensions) {
       for (const quantity of Object.values(entity.dimensions)) {
-        assert.ok(siUnits.has(quantity.unit), `entity ${entity.entityId} non-SI unit ${quantity.unit}`);
+        assert.ok(
+          siUnits.has(quantity.unit),
+          `entity ${entity.entityId} non-SI unit ${quantity.unit}`,
+        );
       }
     }
     if (entity.quantity) {
-      assert.ok(siUnits.has(entity.quantity.unit), `entity ${entity.entityId} non-SI quantity unit`);
+      assert.ok(
+        siUnits.has(entity.quantity.unit),
+        `entity ${entity.entityId} non-SI quantity unit`,
+      );
     }
   }
 });
@@ -158,8 +182,14 @@ test("alternate variant removes flat roof and adds pitched roof elements", () =>
   const alternateIds = new Set(alternate.entities.map((entity) => entity.entityId));
   assert.ok(baselineIds.has("structure-roof-slab"));
   assert.ok(baselineIds.has("envelope-roof-flat"));
-  assert.ok(!alternateIds.has("structure-roof-slab"), "flat roof slab must be removed in alternate");
-  assert.ok(!alternateIds.has("envelope-roof-flat"), "flat roof membrane must be removed in alternate");
+  assert.ok(
+    !alternateIds.has("structure-roof-slab"),
+    "flat roof slab must be removed in alternate",
+  );
+  assert.ok(
+    !alternateIds.has("envelope-roof-flat"),
+    "flat roof membrane must be removed in alternate",
+  );
   assert.ok(alternateIds.has("structure-beam-ridge"), "ridge beam must be added in alternate");
   assert.ok(alternateIds.has("envelope-roof-slope-south"));
   assert.ok(alternateIds.has("envelope-roof-slope-north"));

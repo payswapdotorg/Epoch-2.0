@@ -30,13 +30,7 @@ export function box(
 }
 
 /** cylinder 原语种子（[半径, 高]，米）。 */
-export function cylinder(
-  radius: number,
-  h: number,
-  x: number,
-  y: number,
-  z: number,
-): GeometrySeed {
+export function cylinder(radius: number, h: number, x: number, y: number, z: number): GeometrySeed {
   return { kind: "cylinder", size: [radius, h], position: [x, y, z] };
 }
 

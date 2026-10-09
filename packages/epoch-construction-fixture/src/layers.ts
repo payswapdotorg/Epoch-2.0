@@ -17,9 +17,7 @@ export const CONSTRUCTION_LAYERS = [
 
 export type ConstructionLayerId = (typeof CONSTRUCTION_LAYERS)[number];
 
-export const CONSTRUCTION_LAYER_SET: ReadonlySet<string> = new Set<string>(
-  CONSTRUCTION_LAYERS,
-);
+export const CONSTRUCTION_LAYER_SET: ReadonlySet<string> = new Set<string>(CONSTRUCTION_LAYERS);
 
 export function isConstructionLayerId(value: unknown): value is ConstructionLayerId {
   return typeof value === "string" && CONSTRUCTION_LAYER_SET.has(value);
