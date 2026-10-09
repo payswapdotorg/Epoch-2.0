@@ -121,3 +121,42 @@ At each milestone, record in the repository:
 - deferred items.
 
 Never claim a native or visual capability was exercised when it was not.
+
+
+## ACR-002 approved product direction
+
+Read before assigning any ACR-002 work:
+- spec/architecture-change-requests/ACR-002-task-conditioned-reconstruction-capability-reproduction.md
+- spec/architecture/contracts/task-conditioned-reconstruction.md
+- spec/architecture/contracts/application-environment.md
+- spec/architecture/contracts/environment-activity-and-demonstrations.md
+- spec/architecture/contracts/capability-reproduction-factory.md
+- spec/architecture/contracts/capability-quality-and-rights-gates.md
+- spec/architecture/contracts/capability-gap-learning.md
+- spec/architecture/contracts/arena-escalation.md
+- spec/architecture/engineering-abundance-objective.md
+- spec/acceptance/task-conditioned-reconstruction.md
+- spec/acceptance/capability-reproduction-factory.md
+- spec/acceptance/engineering-abundance.md
+- W027–W035 individual work orders, dependency-state.json and ownership-map.json.
+
+### Mission clarification
+
+Epoch's north star is reliable automation of engineering work and lower lifecycle cost/time for solutions that satisfy hard quality/safety/compliance constraints. Task-conditioned reconstruction is mandatory: don't reconstruct everything to maximum fidelity by default; declare what detail the next task needs and retain uncertainty/provenance.
+
+External applications are shared environments with progressively richer observation/control/semantic capability. If native embedding or an adequate authorized integration is impossible, W031 builds the bounded missing capability as a first-class Epoch mini-app, using the generic workbench surface like Browser/Terminal. It is not enough to create an MCP/API wrapper or a visual imitation with no structured agent state.
+
+### Current dispatch is unchanged
+
+W002, W003 and W004 remain the only current eligible work orders. Do not start future work before its dependencies are complete. In particular, do not allow ACR-002 breadth to delay W005/W006/W007 or the real Web/Desktop visual acceptance journey.
+
+### Future execution principles
+
+- W027 and W028 can be dispatched once W007 and their declared prerequisites are satisfied, even if independent W026 productization work is not yet complete.
+- Capture user activity only with explicit scope/consent; expose gaps/redactions and keep human demonstrations separate from automatic training/reuse.
+- Classify capability gaps before choosing information requests, adapter work, skill creation or Arena escalation.
+- Before reproducing a third-party capability, evaluate native integration and existing standards/open-source/licensed options.
+- Decompilation or implementation-internal analysis is never the default: require a recorded, case-specific rights basis and review. Block uncertain methods.
+- Quality and “top tier” claims require task-specific benchmarks. Hard engineering constraints are non-tradeable.
+- Expert deliverables are untrusted/provenance-bearing inputs until Epoch verifies and accepts them.
+- Workers never update program/frontier/dependency state. TL updates the state only when actual work-order evidence justifies the transition.
