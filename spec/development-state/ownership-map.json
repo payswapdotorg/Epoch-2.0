@@ -29,7 +29,9 @@
     "W007": [
       "packages/epoch-solution-runtime/**",
       "packages/epoch-world-interaction/**",
-      "qa/epoch-visual-closure/**"
+      "qa/epoch-visual-closure/**",
+      "qa/epoch-web/** (extension only: W005's merged journey harnesses — extend, never fork)",
+      "qa/epoch-desktop/** (extension only: W006's merged journey harnesses — extend, never fork)"
     ]
   },
   "rule": "Ownership is exclusive per wave. A worker may consume another worker's merged public contract, but must never edit another worker's owned paths. If an unexpected cross-boundary change is necessary, stop and ask the TL to re-scope rather than silently violating ownership.",
