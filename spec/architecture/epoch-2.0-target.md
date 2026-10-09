@@ -211,19 +211,23 @@ Understand -> Decide -> Plan -> Acquire -> Realize -> Observe/Actualize -> Verif
 
 The lifecycle remains one universal authority. Domain packs are projections/capability bundles.
 
-## 14. Product expansion order
+## 14. Product expansion order and branching extension track
 
-1. Navigable construction solution (W002–W007): remains the first visual milestone.
+The critical product path is:
+
+1. Navigable construction solution (W002–W007).
 2. Renderer portability and core engineering capabilities (W008–W019).
-3. Verification, persistence, universal lifecycle, capability discovery and agent tools (W020–W026).
-4. As soon as W007 and declared prerequisites are complete, dispatch task-conditioned reconstruction (W027) and the generic Application Environment Fabric (W028) when ownership is disjoint; do not require all of W026 to finish if the dependency graph permits the work.
-5. Add activity/demonstration evidence (W029) and the capability-quality lab (W030).
-6. Add the Capability Reproduction Factory (W031), capability-gap learning (W032), and cost/quality alternative search (W033) as their dependency graph permits.
-7. Complete the structured Arena expert round trip and learnback (W034).
-8. Evaluate end-to-end engineering automation and abundance (W035).
-9. Expand application adapters, reconstruction profiles and mini-apps by measured user value and qualification evidence.
+3. Verification, persistence, universal lifecycle, capability discovery, agent tools and productization (W020–W026), sequenced by direct dependencies.
 
-Current visual work must not be delayed by future factories, environment breadth or optimization work. Each expansion begins only when its required contracts and dependencies are stable.
+ACR-002 is a branching track rather than a new serial stage that must wait for all of W026:
+
+- W027 task-conditioned reconstruction and W028 Application Environment Fabric become eligible once W007 and their direct dependencies are complete.
+- W029 adds activity/demonstration evidence; W030 adds reference-quality benchmarking.
+- W031 capability reproduction, W032 capability-gap learning and W033 cost/quality search proceed as their respective dependency sets permit.
+- W034 completes the structured Arena return/learnback loop.
+- W035 evaluates end-to-end engineering automation and abundance.
+
+The TL may interleave these tracks when direct dependencies are satisfied, public contracts are frozen, concurrent ownership is disjoint and no more than three workers are active. Do not delay the first navigable world for future environment/factory breadth, and do not delay W027/W028 behind W026 if the dependency graph permits them.
 
 ## 15. Design law
 
