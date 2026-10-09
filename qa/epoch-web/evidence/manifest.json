@@ -1,0 +1,43 @@
+{
+  "workOrder": "W005 — Web Solution Host",
+  "acceptanceLaw": "open -> world -> navigate -> select -> inspect (real browser, real fixture world)",
+  "capturedAt": "2026-10-09T17:55:46.040Z",
+  "baseUrl": "http://localhost:5173",
+  "browser": {
+    "executablePath": "/home/z/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome",
+    "headless": true,
+    "webgl": "angle/swiftshader-webgl (Babylon Engine renders client-side)"
+  },
+  "reproduce": [
+    "cd <repo-root>",
+    "ELECTRON_SKIP_BINARY_DOWNLOAD=1 pnpm install --frozen-lockfile",
+    "pnpm --filter @zcode/web dev   # Vite dev server on :5173 (no server needed; fixture is client-side)",
+    "node qa/epoch-web/journey.mjs  # launches chromium, opens /epoch, captures evidence"
+  ],
+  "artifacts": [
+    {
+      "file": "evidence/01-open.png",
+      "shows": "Solution opened — world-dominant host route active"
+    },
+    {
+      "file": "evidence/02-world.png",
+      "shows": "Real fixture world rendered full-bleed (Babylon WebGL over construction fixture)"
+    },
+    {
+      "file": "evidence/03-navigate.png",
+      "shows": "Orbit + zoom navigation applied (camera moved off home framing)"
+    },
+    {
+      "file": "evidence/04-select.png",
+      "shows": "Semantic selection — pointer click resolved through renderer hit mapping to an Epoch entityId (focus highlight applied)"
+    },
+    {
+      "file": "evidence/05-inspect.png",
+      "shows": "Inspector populated with selected entity's engineering semantics from the world model"
+    },
+    {
+      "file": "evidence/06-layers.png",
+      "shows": "Layer control toggled STRUCTURE off — load-bearing frame hidden in the rendered world"
+    }
+  ]
+}
