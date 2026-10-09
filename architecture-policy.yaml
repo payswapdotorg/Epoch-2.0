@@ -104,6 +104,15 @@ modules:
     managed: true
     requires: [epoch-renderer-contract, epoch-world-presentation]
     publicEntrypoints: [packages/epoch-renderer-babylon/src/index.ts]
+  # W008 — Three.js interactive renderer adapter (second renderer behind the
+  # frozen contract; proves renderer replaceability invariant #6 and portable
+  # state invariant #12). 独立 managed 模块，消费冻结 epoch-* 包的公开入口
+  # （不深引用），three 只在包 src 内导入；公开入口不含 Three 类型。
+  - id: epoch-renderer-three
+    roots: [packages/epoch-renderer-three/src]
+    managed: true
+    requires: [epoch-renderer-contract, epoch-world-presentation]
+    publicEntrypoints: [packages/epoch-renderer-three/src/index.ts]
   - id: epoch-construction-fixture
     roots: [packages/epoch-construction-fixture/src]
     managed: true
