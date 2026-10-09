@@ -7,7 +7,11 @@
     "W010"
   ],
   "eligible": 3,
-  "inFlight": [],
+  "inFlight": [
+    "W008",
+    "W009",
+    "W010"
+  ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -26,5 +30,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Visualization milestone closed. Next wave per dependency-state: W008+W009+W010 (concurrently eligible, three workers, prompts staged). Dispatch when the operator/TL schedules the next session."
+  "nextAction": "Wave 3 in flight since 2026-10-09 22:2xZ: W008 (chat 76b80edc, tab ADE1620A) + W009 (chat 23055b3e, tab B87560E5) + W010 (chat 7e02131c, tab D3908157) on GLM-5.2. TL harvests on branch push (branch_watch), runs station batteries, reviews against acceptance, merges, then advances to W011+W012+W013 (prompts staged)."
 }

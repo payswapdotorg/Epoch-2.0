@@ -18,7 +18,11 @@
     "W006",
     "W007"
   ],
-  "active": [],
+  "active": [
+    "W008",
+    "W009",
+    "W010"
+  ],
   "eligible": [
     "W008",
     "W009",
@@ -26,5 +30,5 @@
   ],
   "blocked": [],
   "lastMergeSha": "e2d4fc9",
-  "lastAction": "VISUALIZATION-FIRST MILESTONE COMPLETE (2026-10-09, e2d4fc9): W007 merged with both-host journey evidence covering every acceptance item (open/world/navigate/select/inspect-with-projection/isolate/section/measure — 8 screenshots per host). Merged-tree sanity: architecture 0 violations; 124 tests green across all five epoch packages; all five package typechecks OK. The first visual vertical slice is live on main: open a solution -> navigable construction world -> semantic selection -> inspector with downstream projections -> layer isolation -> section cut + measurement, on BOTH Web and Desktop. Next frontier per the dependency graph: W008 (three.js renderer) + W009 (IFC engine) + W010 (glTF pipeline), all gated behind W007 as reconciled."
+  "lastAction": "WAVE 3 DISPATCHED (2026-10-09 ~22:2xZ): W008 three.js renderer (chat 76b80edc) + W009 IFC engine (chat 23055b3e) + W010 glTF pipeline (chat 7e02131c) live on GLM-5.2, all three sends VERIFIED server-side with send-time PAT substitution; sibling-references in W009/W010 prompts corrected to merged-only inputs (W001–W007). Workers deliver work/w0XX-* branches; TL harvests on push."
 }
