@@ -154,6 +154,22 @@ modules:
     roots: [qa/epoch-desktop]
     managed: true
     publicEntrypoints: [qa/epoch-desktop/journey.mjs]
+  # W010 — glTF delivery pipeline (deterministic WorldPresentation -> glTF/GLB
+  # compiler; stable mapping law via extras.epoch; pure projection, no semantic
+  # authority — ARCHITECTURE-LOCK #5/#10/#16/#17). Consumes frozen
+  # epoch-world-presentation public entrypoint only.
+  - id: epoch-gltf
+    roots: [packages/epoch-gltf/src]
+    managed: true
+    requires: [epoch-world-presentation]
+    publicEntrypoints: [packages/epoch-gltf/src/index.ts]
+  # W010 — glTF delivery conformance (qa journey harness; runs via
+  # `node --test qa/epoch-gltf/*.test.ts`).
+  - id: epoch-gltf-qa
+    roots: [qa/epoch-gltf]
+    managed: true
+    requires: [epoch-gltf]
+    publicEntrypoints: [qa/epoch-gltf/conformance.test.ts]
 
 global:
   maxFileLines: 400
