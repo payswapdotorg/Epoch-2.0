@@ -27,6 +27,16 @@
 18. **Security before trust.** Untrusted engine/model/code artifacts remain outside the trusted domain until their declared security boundary is satisfied.
 19. **Visualization-first sequencing.** Do not block the first usable world on IFC, photogrammetry, native simulation or the full lifecycle.
 20. **No speculative breadth.** Add future capabilities behind contracts; do not wire every listed open-source product into the first vertical slice.
+21. **Task-conditioned fidelity.** Reconstruction information detail is derived from declared work, decision, tolerance, risk and evidence; a project is not forced to maximum detail, and unknowns remain explicit.
+22. **Progressive refinement.** The canonical world can be conditionally ready for one task and blocked for another; fitness claims always identify the task/profile and applicable limits.
+23. **Application environments.** Existing software is treated as an authorized shared environment with separate observation, control and semantic capabilities, not only as an API/MCP endpoint.
+24. **Generic mini-app surface.** Connected applications and reproduced capabilities use a registered generic workbench surface; adding a provider does not create a new app-specific surface type.
+25. **Capability reproduction factory.** When native integration cannot meet the need, Epoch may reproduce a bounded capability as a first-class mini-app, qualified through task-specific benchmarks.
+26. **Rights before reverse engineering.** Decompilation or implementation-internal analysis requires a documented rights basis and case-specific review; ambiguous rights block that method. The factory must not bypass access controls or copy protected material without the required rights.
+27. **Evidence-based capability claims.** “Top tier”, “equivalent”, “fully automated” and “reference-superior” require a defined task suite, version, declared metrics and reproducible evidence.
+28. **Learning is gated.** Human activity, demonstrations and expert returns are evidence/candidates, not automatic training data, correctness, permissions or autonomy.
+29. **Abundance is constrained optimization.** Search for lower lifecycle cost/time only within hard engineering, safety, reliability, performance and compliance constraints.
+30. **Arena round trip.** Human expert output is provenance-bearing input that must be checked through Epoch validation; reusable capability extraction is a separate, permissioned step.
 
 ## Forbidden without an Architecture Change Request
 
