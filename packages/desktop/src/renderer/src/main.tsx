@@ -39,6 +39,7 @@ import {
   parseRemoteWorkspaceServicePortMessage,
   type RemoteWorkspaceServicePortRegistration,
 } from "./remoteWorkspaceServicePortBridge.js";
+import { DesktopSolutionHost } from "../solution-host/DesktopSolutionHost.js";
 
 type DesktopRendererImportMetaEnv = {
   VITE_ZCODE_E2E_STORE_BRIDGE?: string;
@@ -355,6 +356,21 @@ window.addEventListener("message", handleServicePortMessage);
 if (windowKind !== "update-status") {
   renderDatabaseStartup();
   sendStartupControl({ action: "snapshot" });
+}
+
+// W006: world-dominant Solution overlay. 独立 React root，页面加载即挂载——
+// 世界画布（fixture 引擎 + Babylon 渲染器）全部 in-process，不依赖后端/agent-CLI 启动，
+// 故「打开即占主导、立即可见」（invariant 3）。workbench <Root> 在数据库启动完成后
+// 挂载于下层；overlay 内「Show workbench」可切换可见性。不重建桌面平台，仅新增渲染装配。
+if (windowKind !== "update-status") {
+  const solutionContainer = document.createElement("div");
+  solutionContainer.id = "epoch-solution-root";
+  document.body.appendChild(solutionContainer);
+  createRoot(solutionContainer).render(
+    <AppErrorBoundary isDesktop isMacDesktop={isMacDesktop} isWindowsDesktop={isWindowsDesktop}>
+      <DesktopSolutionHost />
+    </AppErrorBoundary>,
+  );
 }
 
 if (windowKind === "update-status") {

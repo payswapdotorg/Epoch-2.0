@@ -183,6 +183,11 @@ export default defineConfig(({ mode }) => {
         // 里可能残留 d3-shape/node_modules/d3-path@1.x，Vite 预构建会优先命中旧包并报 Missing export。
         // 这里把 d3-path 固定到根部 3.x 入口，确保桌面端依赖优化和运行时解析一致。
         "d3-path": resolve(__dirname, "../../node_modules/d3-path/src/index.js"),
+        // W006: 冻结的 epoch-world-model computeWorldDigest 使用 node:crypto.createHash
+        // 计算 SHA-256 世界摘要；renderer 进程为 contextIsolation + nodeIntegration:false，
+        // Vite 会把 node:crypto externalize 导致运行时缺失。这里指向本地同步纯 JS SHA-256 shim，
+        // 让确定性 fixture 引擎完全在 renderer 进程内运行（invariant 17）。
+        "node:crypto": resolve(__dirname, "src/renderer/solution-host/nodeCryptoShim.ts"),
       },
       dedupe: ["react", "react-dom", "lucide-react"],
     },

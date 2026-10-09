@@ -109,6 +109,28 @@ modules:
     managed: true
     requires: [epoch-reconstruction-contract, epoch-world-model]
     publicEntrypoints: [packages/epoch-construction-fixture/src/index.ts]
+  # W006 — Desktop Solution Host wiring (renderer-process composition of frozen
+  # epoch capabilities). 独立 managed 模块，消费冻结 epoch-* 包的公开入口（不深引用），
+  # 不引入任何引擎/渲染器实现类型，不按 engineId 分支。
+  - id: desktop-solution-host
+    roots: [packages/desktop/src/renderer/solution-host]
+    managed: true
+    requires:
+      [
+        epoch-solution-surface,
+        epoch-renderer-babylon,
+        epoch-construction-fixture,
+        epoch-renderer-contract,
+        epoch-reconstruction-contract,
+        epoch-world-presentation,
+        epoch-world-model,
+      ]
+    publicEntrypoints: [packages/desktop/src/renderer/solution-host/DesktopSolutionHost.tsx]
+  # W006 — Desktop journey evidence runner (playwright-core _electron).
+  - id: epoch-desktop-journey
+    roots: [qa/epoch-desktop]
+    managed: true
+    publicEntrypoints: [qa/epoch-desktop/journey.mjs]
 
 global:
   maxFileLines: 400
