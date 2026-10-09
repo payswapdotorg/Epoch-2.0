@@ -21,6 +21,10 @@ import {
   createDesktopSolutionRuntime,
   type DesktopSolutionRuntime,
 } from "./desktopSolutionRuntime.js";
+import { createDesktopSolutionW007Wiring } from "./desktopSolutionW007.js";
+import { DesktopSolutionW007Panel } from "./DesktopSolutionW007Panel.js";
+import { DesktopDownstreamProjection } from "./DesktopDownstreamProjection.js";
+import type { EntityInspectorData } from "./DesktopSolutionHostTypes.js";
 import {
   buttonStyle,
   canvasStyle,
@@ -50,19 +54,6 @@ const LAYER_LABELS: Readonly<Record<string, string>> = {
   MEP: "MEP",
   FINISHES: "Finishes",
 };
-
-interface EntityInspectorData {
-  readonly entityId: string;
-  readonly entityType: string;
-  readonly label: string;
-  readonly layer: string;
-  readonly materialType?: string;
-  readonly materialGrade?: string;
-  readonly dimensions?: ReadonlyArray<readonly [string, string]>;
-  readonly quantity?: string;
-  readonly phase?: string;
-  readonly status?: string;
-}
 
 function formatQuantity(value: unknown, unit: unknown): string | undefined {
   if (typeof value !== "number" || typeof unit !== "string") return undefined;
@@ -118,6 +109,8 @@ export function DesktopSolutionHost() {
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [layerVisible, setLayerVisible] = useState<Record<string, boolean>>({});
   const [overlayVisible, setOverlayVisible] = useState(true);
+  // W007 — runtime + interaction wiring (additive over W006).
+  const [w007, setW007] = useState<ReturnType<typeof createDesktopSolutionW007Wiring> | null>(null);
 
   // 1. 组装默认 Solution 运行时（零用户配置：注册 fixture 引擎 + Babylon 渲染器 + 控制器 open）。
   useEffect(() => {
@@ -130,6 +123,8 @@ export function DesktopSolutionHost() {
         for (const layerId of result.layerIds) initial[layerId] = true;
         setLayerVisible(initial);
         setRuntime(result);
+        // W007 — wire runtime + interaction layer once DesktopSolutionRuntime is ready.
+        setW007(createDesktopSolutionW007Wiring(result));
       })
       .catch((failure: unknown) => {
         if (cancelled) return;
@@ -343,6 +338,11 @@ export function DesktopSolutionHost() {
               {inspector.status ? (
                 <div style={inspectorRowStyle}>status: {inspector.status}</div>
               ) : null}
+              {/* W007 — downstream projection link (BOQ-ish quantity rollup + constraint refs). */}
+              <DesktopDownstreamProjection
+                inspector={inspector}
+                revision={runtime?.revision ?? null}
+              />
             </>
           ) : (
             <>
@@ -363,6 +363,17 @@ export function DesktopSolutionHost() {
               </div>
             </>
           )}
+          {/* W007 — tools panel: isolate / plan / section / measure / annotate */}
+          {w007 && runtime ? (
+            <DesktopSolutionW007Panel
+              runtime={w007.runtime}
+              interaction={w007.interaction}
+              layerIds={w007.layerIds}
+              session={sessionRef.current}
+              presentation={runtime.presentation}
+              selectedEntityId={selectedEntityId}
+            />
+          ) : null}
         </div>
         <div style={hintStyle}>Drag: orbit · Shift+drag: pan · Wheel: zoom · Click: select</div>
       </div>

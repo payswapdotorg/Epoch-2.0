@@ -1,0 +1,52 @@
+{
+  "workOrder": "W007 — Visual Integration Closure (Desktop)",
+  "acceptanceLaw": "open -> world -> navigate -> select -> inspect (with downstream projection) -> layer isolate -> section-or-plan -> measure-or-annotate",
+  "capturedAt": "2026-10-09T19:12:03.488Z",
+  "runPath": {
+    "prebuild": "tsup one-shot build of packages/desktop main/host/preload → out/",
+    "renderer": "Vite dev server on port 5175 (packages/desktop vite.config.ts, strictPort)",
+    "electron": "_electron.launch({ cwd: packages/desktop, args: ['.'], env: { ELECTRON_RENDERER_URL, ZCODE_ENV=test } })"
+  },
+  "reproduce": [
+    "cd <repo-root>",
+    "ELECTRON_SKIP_BINARY_DOWNLOAD=1 pnpm install --frozen-lockfile",
+    "pnpm rebuild electron  # obtain the Electron binary",
+    "cd packages/desktop && npx tsup  # build main/host/preload",
+    "cd <repo-root> && node qa/epoch-desktop/w007-journey.mjs"
+  ],
+  "artifacts": [
+    {
+      "file": "01-open.png",
+      "description": "Electron window open; Solution world canvas mounted and rendering the construction fixture."
+    },
+    {
+      "file": "02-world.png",
+      "description": "World-dominant layout: full-bleed 3D construction fixture (columns, slabs, footings, walls) visible immediately on open. No dashboard/placeholder."
+    },
+    {
+      "file": "03-navigate.png",
+      "description": "Camera navigated via orbit drag (pointer delta -> solution.navigate orbit intent). View angle changed from home."
+    },
+    {
+      "file": "04-select.png",
+      "description": "Clicked an entity in the world; renderer hit-test resolved the pointer to a presentationId -> Epoch entityId (semantic selection, invariant 11). Inspector populated."
+    },
+    {
+      "file": "05-inspect-with-projection.png",
+      "description": "Inspector shows selected entity's semantics + downstream projection link (BOQ-ish quantity rollup read directly from world model + constraint refs). Projection ONLY — no second BOQ authority."
+    },
+    {
+      "file": "06-layer-isolate.png",
+      "description": "Layer isolate: soloed STRUCTURE — all other 5 fixture layers (SITE/FOUNDATION/ENVELOPE/MEP/FINISHES) hidden via renderer-neutral setVisibility. World stays dominant."
+    },
+    {
+      "file": "07-plan-or-section.png",
+      "description": "Plan-view navigation path applied (top-down orthographic-style look-at + high elevation + zoom out). Babylon descriptor.capabilities.plan===true."
+    },
+    {
+      "file": "08-measure-or-annotate.png",
+      "description": "Measurement added with SI-unit readout (5.00 m) + annotation anchored to selected entityId (survives navigation)"
+    }
+  ],
+  "worldNotDashboardSelfAssessment": "The Electron window opens with a full-bleed 3D construction fixture (no dashboard/placeholder). Layer isolate visibly hides 5 of 6 fixture layers. Plan-view visibly tilts the camera to top-down. Measurement renders an SI-unit value (5.00 m). Annotation is anchored to the selected entityId and survives navigation. All W007 capabilities are evidenced on the real construction fixture inside a real Electron window."
+}

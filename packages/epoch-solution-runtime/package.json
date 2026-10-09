@@ -1,0 +1,23 @@
+{
+  "name": "@zcode/epoch-solution-runtime",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "oxlint",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "@zcode/epoch-renderer-contract": "workspace:*",
+    "@zcode/epoch-solution-contract": "workspace:*",
+    "@zcode/epoch-world-model": "workspace:*",
+    "@zcode/epoch-world-presentation": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}

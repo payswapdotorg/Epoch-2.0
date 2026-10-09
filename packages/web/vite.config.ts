@@ -85,6 +85,16 @@ export default defineConfig(({ mode }) => {
           __dirname,
           "../epoch-renderer-babylon/src/index.ts",
         ),
+        // W007：消费新建的 epoch-solution-runtime + epoch-world-interaction 公开入口。
+        // 与 tsc 的 paths 对齐；不写进 web 的 package.json 依赖（保持工单锁文件边界）。
+        "@zcode/epoch-solution-runtime": resolve(
+          __dirname,
+          "../epoch-solution-runtime/src/index.ts",
+        ),
+        "@zcode/epoch-world-interaction": resolve(
+          __dirname,
+          "../epoch-world-interaction/src/index.ts",
+        ),
         // W005：fixture 引擎在浏览器进程内运行，epoch-world-model 的 computeWorldDigest
         // 用 node:crypto.createHash('sha256')。浏览器无 node:crypto，vite 默认外置会抛错。
         // 这里把 node:crypto 别名到 web-epoch 自带的同步 SHA-256 polyfill（与 node 输出一致）。
