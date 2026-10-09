@@ -11,16 +11,16 @@
   "completed": [
     "W000",
     "W001",
+    "W002",
     "W003",
     "W004"
   ],
-  "active": [
-    "W002"
-  ],
+  "active": [],
   "eligible": [
-    "W002"
+    "W005",
+    "W006"
   ],
   "blocked": [],
-  "lastMergeSha": "ddb9d11ad3485a2b1cd2f5ed6d7a04a39d9aa0c7",
-  "lastAction": "W003 (Solution Surface, 7d4054e) and W004 (Babylon renderer, ddb9d11) merged 2026-10-09 after full station gate batteries (verify_branch.sh + v2 protocol): W003 11/11 tests + narrowed ui typecheck clean; W004 41/41 package tests + 10/10 qa conformance + tsc RC=0. TL integration commits: epoch-solution-surface registered in root typecheck (66e9a15), pnpm-lock reconciled for epoch-renderer-babylon (8486b2e), architecture-policy dual registration conflict resolved. Merged-tree sanity green (arch 0 violations, 62 tests, both-package typecheck). Wave 1 remaining: W002 only (worker active). W005+W006 dispatch the moment W002 merges. Worker COMPLETION REPORTs still in flight for W003/W004; reconcile on arrival (any issue -> follow-up fix branch)."
+  "lastMergeSha": "e83d3bd841ab0f95b06774a5db1e7c86e9b6ac65",
+  "lastAction": "WAVE 1 COMPLETE (2026-10-09): W002+W003+W004 all merged. W002 delivered via TL narrative-replay (worker session stalled at finish line after capacity turn-deaths; 27 file ops replayed from batch store per 10b/10h, gates green 34/34). Merged-tree sanity: architecture 0 violations, 96 tests green (fixture 34 + surface 11 + babylon 41 + qa 10), all three packages tsc RC=0. All three packages registered in root typecheck + architecture-policy. W005 (Web host) + W006 (Desktop host) now eligible — dispatching concurrently per the wave-2 plan; W007 (visual integration) after both. Worker COMPLETION REPORTs still pending for w002/w003/w004 sessions (content recoverable from batch stores per 10b if sessions never finish)."
 }

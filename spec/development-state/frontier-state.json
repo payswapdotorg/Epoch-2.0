@@ -1,13 +1,12 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_1_W002_REMAINING",
+  "status": "WAVE_1_COMPLETE",
   "frontier": [
-    "W002"
+    "W005",
+    "W006"
   ],
-  "eligible": 1,
-  "inFlight": [
-    "W002"
-  ],
+  "eligible": 2,
+  "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -26,5 +25,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W003+W004 merged (ddb9d11 + 8486b2e integration). W002 branch/report is the wave-1 closer: verify per station v2 protocol, merge, then dispatch W005+W006 concurrently (prompts staged). W007 after W005+W006; W008-W010 gated behind W007."
+  "nextAction": "Wave 2: dispatch W005 (Web host) + W006 (Desktop host) concurrently — prompts staged, wave-1 packages merged as frozen inputs. On each delivery: station v2 verification -> merge -> state update. W007 (visual integration + acceptance closure) after both hosts merge. W008-W010 remain gated behind W007."
 }
