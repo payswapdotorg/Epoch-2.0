@@ -1,18 +1,18 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_2_COMPLETE",
+  "status": "VISUALIZATION_MILESTONE_COMPLETE",
   "frontier": [
-    "W007"
+    "W008",
+    "W009",
+    "W010"
   ],
-  "eligible": 1,
-  "inFlight": [
-    "W007"
-  ],
+  "eligible": 3,
+  "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
     "repositoryReset": "COMPLETE",
-    "visualizationFirst": "PENDING",
+    "visualizationFirst": "COMPLETE (W007 merged e2d4fc9, both-host evidence)",
     "webNavigableSolution": "COMPLETE (W005 journey evidence)",
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "PENDING",
@@ -26,5 +26,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W007 in flight: runtime + interaction packages, plan/section + measurement, layer isolate, inspector projections, both-hosts journey closure. Visualization milestone closes on W007 acceptance."
+  "nextAction": "Visualization milestone closed. Next wave per dependency-state: W008+W009+W010 (concurrently eligible, three workers, prompts staged). Dispatch when the operator/TL schedules the next session."
 }

@@ -6,13 +6,14 @@
     "W003",
     "W004",
     "W005",
-    "W006"
-  ],
-  "active": [
+    "W006",
     "W007"
   ],
+  "active": [],
   "eligible": [
-    "W007"
+    "W008",
+    "W009",
+    "W010"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
