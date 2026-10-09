@@ -32,5 +32,50 @@
       "qa/epoch-visual-closure/**"
     ]
   },
-  "rule": "Ownership is exclusive per wave. A worker may consume another worker's merged public contract, but must never edit another worker's owned paths. If an unexpected cross-boundary change is necessary, stop and ask the TL to re-scope rather than silently violating ownership."
+  "rule": "Ownership is exclusive per wave. A worker may consume another worker's merged public contract, but must never edit another worker's owned paths. If an unexpected cross-boundary change is necessary, stop and ask the TL to re-scope rather than silently violating ownership.",
+  "expansion": {
+    "W027": [
+      "packages/epoch-reconstruction-policy/**",
+      "qa/epoch-reconstruction-policy/**"
+    ],
+    "W028": [
+      "packages/epoch-application-environment/**",
+      "packages/epoch-environment-surface/**",
+      "packages/ui/src/lib/workspaceSidePane.ts",
+      "packages/ui/src/hooks/useAppPanels.ts",
+      "packages/ui/src/app-shell/WorkspaceShellLayout.tsx",
+      "packages/ui/src/app-shell/SidePaneTabTrigger.tsx",
+      "packages/ui/src/app-shell/sidePaneTabPresentation.ts",
+      "qa/epoch-application-environment/**"
+    ],
+    "W029": [
+      "packages/epoch-environment-activity/**",
+      "qa/epoch-environment-activity/**"
+    ],
+    "W030": [
+      "packages/epoch-capability-evaluation/**",
+      "qa/epoch-capability-evaluation/**"
+    ],
+    "W031": [
+      "packages/epoch-capability-reproduction/**",
+      "qa/epoch-capability-reproduction/**"
+    ],
+    "W032": [
+      "packages/epoch-capability-learning/**",
+      "qa/epoch-capability-learning/**"
+    ],
+    "W033": [
+      "packages/epoch-cost-quality-search/**",
+      "qa/epoch-cost-quality-search/**"
+    ],
+    "W034": [
+      "packages/epoch-arena-adapter/**",
+      "qa/epoch-arena-adapter/**"
+    ],
+    "W035": [
+      "packages/epoch-engineering-objective/**",
+      "qa/epoch-engineering-abundance/**"
+    ]
+  },
+  "expansionRule": "Reserved future ownership; never dispatch before dependency eligibility. Shared architecture-policy entries are integrated by the TL only, using worker-provided proposals. Cross-wave ownership is allowed only after previous owners merge and no concurrent worker edits those paths."
 }
