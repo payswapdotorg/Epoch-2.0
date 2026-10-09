@@ -24,11 +24,11 @@ Read, in order:
 
 Also read the inherited ZCode architecture-governance skill and DESIGN.md before UI or architecture changes.
 
-## Starting state
+## Current verified state
 
-W001 is the only eligible work order.
+W000 and W001 are complete. W002, W003 and W004 are the only eligible work orders; no active work orders are declared. This is the verified repository state at the time this handoff was extended.
 
-Do not dispatch W002/W003/W004 until W001 has merged and its public contracts are frozen.
+Dispatch W002/W003/W004 concurrently using ownership-map.json. Their W001 contracts are already merged and frozen. Do not change the current frontier based on the ACR-002 documentation update alone.
 
 ## Dispatch model
 
