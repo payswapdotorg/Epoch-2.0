@@ -12,6 +12,7 @@ import {
   MapIcon,
   MessageSquareTextIcon,
   ListTreeIcon,
+  MonitorSmartphoneIcon,
   NotepadTextIcon,
   PackageIcon,
   PaletteIcon,
@@ -339,6 +340,14 @@ export function SidePaneTabIcon({ tab }: { tab: WorkspaceSidePaneTab }) {
     return <BoxesIcon className="size-3.5" />;
   }
 
+  // Application Environment Surface：与 Browser/Terminal/Solution 同级的一等
+  // 工位面（W028）。外部应用通过 provider descriptor 注册，统一落到此 type——
+  // 不为每个 provider 引入新 surface 类型（ARCHITECTURE-LOCK 不变量 24）。
+  // provider 区分留给 tab 内部 adapter 渲染（W029+）；触发器图标固定中立。
+  if (tab.type === "application-environment") {
+    return <MonitorSmartphoneIcon className="size-3.5" />;
+  }
+
   // 同 getSidePaneTabTitle——browser-use tab 无 source，若不在此拦截会 fallthrough
   // 到下方 `tab.source.type` 读 undefined.type 崩溃。
   // agent 导航后由 <webview> favicon 事件回填 faviconUrl，与 human browser tab 一致地展示真实图标；
@@ -551,6 +560,15 @@ export function getSidePaneTabTitle(
   // 引擎中立——不按 engineId 分支；标题由控制器 open 时冻结。
   if (tab.type === "solution") {
     return tab.title?.trim() || formatMessage({ id: "solution.title" });
+  }
+
+  // Application Environment Surface 标题：控制器解析的稳定展示名
+  // （[simulated] 前缀已由控制器在 open 时根据 descriptor.simulation 加上；
+  // mode/provider 展示名由控制器冻结）。provider 中立——不按 providerId 分支。
+  // 兜底使用 applicationEnvironment.title 文案；W028 阶段继承宿主尚未提供该
+  // i18n key 时回退到字符串 "Application"。
+  if (tab.type === "application-environment") {
+    return tab.title?.trim() || formatMessage({ id: "applicationEnvironment.title" });
   }
 
   // browser-use tab 之前未在此分派，会 fallthrough 到底部 `tab.source.title`，

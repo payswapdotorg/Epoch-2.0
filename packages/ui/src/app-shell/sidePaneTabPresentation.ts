@@ -16,6 +16,12 @@ export interface SidePaneTabPresentationLabels {
    * "Solution"，本地化标题回退到 descriptor id "solution.title"。
    */
   solutionTitle?: string;
+  /**
+   * Application Environment Surface 类型标签（可选——W028 阶段继承宿主尚未提供
+   * 该 i18n key；visual-integration 接入后填入）。缺省时类型标签回退到
+   * "Application"，本地化标题回退到 descriptor id "applicationEnvironment.title"。
+   */
+  applicationEnvironmentTitle?: string;
   subagentTypeLabel: string;
   subagentDirectoryTitle: string;
   selectionChatTitle: string;
@@ -77,6 +83,14 @@ export function getSidePaneTabSearchHint(tab: WorkspaceSidePaneTab): string {
     // 让按解/引擎/会话 id 排查时能命中。不按 engineId 分支。
     return `${tab.title} ${tab.engineId} ${tab.solutionId} ${tab.sessionId} solution reconstruction world`;
   }
+  if (tab.type === "application-environment") {
+    // provider 中立：搜索面携带身份字段（providerId/sessionId/initiator/mode/simulation）
+    // 与「application environment attach observe control semantic」，让按 provider/会话 id/
+    // initiator/mode 排查时能命中。simulation 标签也进搜索面——验收点 1 要求 simulation
+    // 在 tab 上可见。
+    const sim = tab.simulation ? "simulated" : "";
+    return `${tab.title} ${tab.providerId} ${tab.sessionId} ${tab.initiator} ${tab.mode} ${sim} application environment attach observe control semantic`;
+  }
   return tab.source.path ?? tab.source.title;
 }
 
@@ -95,6 +109,7 @@ export function getLocalizedSidePaneTabTitle(
       "developerTools.title": labels.developerToolsTitle,
       "terminal.title": labels.terminalTitle,
       "solution.title": labels.solutionTitle,
+      "applicationEnvironment.title": labels.applicationEnvironmentTitle,
       "sidePane.subagent": labels.subagentTypeLabel,
       "sidePane.subagentDirectory": labels.subagentDirectoryTitle,
       "sidePane.selectionChat": labels.selectionChatTitle,
@@ -131,5 +146,7 @@ export function getSidePaneTabTypeLabel(
   if (tab.type === "developer-tools") return labels.developerToolsTitle;
   if (tab.type === "terminal" || tab.type === "bash-output") return labels.terminalTitle;
   if (tab.type === "solution") return labels.solutionTitle ?? "Solution";
+  if (tab.type === "application-environment")
+    return labels.applicationEnvironmentTitle ?? "Application";
   return labels.codeViewerTitle;
 }
