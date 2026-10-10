@@ -20,12 +20,13 @@
     "W008",
     "W009",
     "W010",
-    "W027"
+    "W027",
+    "W020"
   ],
   "active": [
-    "W020",
     "W028",
-    "W011"
+    "W011",
+    "W021"
   ],
   "eligible": [
     "W012",
@@ -37,6 +38,6 @@
     "W018"
   ],
   "blocked": [],
-  "lastMergeSha": "a6972eb",
-  "lastAction": "W027 MERGED (cf4407c + registrations a6972eb): 57/57 tests, battery all-green, TL registrations (module + root typecheck). W011 dispatched into freed slot (chat cb09adca). W020/W028 in flight."
+  "lastMergeSha": "d73be11",
+  "lastAction": "W020 MERGED (9132a82 + epoch-world module registration d73be11): station battery green with PARITY (13 pass/1 skip/0 fail — the battery re-run at station); real web journey evidence 8 shots; renderer equivalence green. W021 dispatched (chat 8d726dd1). W028/W011 in flight."
 }
