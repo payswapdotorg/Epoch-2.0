@@ -876,6 +876,19 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-reconstruction-policy:
+    dependencies:
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
   packages/epoch-renderer-babylon:
     dependencies:
       '@babylonjs/core':
