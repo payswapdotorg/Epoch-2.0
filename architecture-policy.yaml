@@ -184,13 +184,7 @@ modules:
     managed: true
     requires: [epoch-world-presentation]
     publicEntrypoints: [packages/epoch-gltf/src/index.ts]
-  # W010 — glTF delivery conformance (qa journey harness; runs via
-  # `node --test qa/epoch-gltf/*.test.ts`).
-  - id: epoch-gltf-qa
-    roots: [qa/epoch-gltf]
-    managed: true
-    requires: [epoch-gltf]
-    publicEntrypoints: [qa/epoch-gltf/conformance.test.ts]
+  # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
 
 global:
   maxFileLines: 400
