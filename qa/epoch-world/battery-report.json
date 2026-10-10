@@ -1,0 +1,306 @@
+{
+  "workOrder": "W020",
+  "generatedAt": "2026-10-10T05:44:34.977Z",
+  "counts": {
+    "pass": 13,
+    "skip": 1,
+    "fail": 0,
+    "total": 14
+  },
+  "capabilityMatrix": [
+    {
+      "check": "renderer-equivalence (Babylon NullEngine + Three headless)",
+      "gpu": "software",
+      "hostRuntime": "null-engine",
+      "network": "offline",
+      "available": true
+    },
+    {
+      "check": "web-journey (real Chromium)",
+      "gpu": "software",
+      "hostRuntime": "headless",
+      "network": "offline",
+      "available": true
+    },
+    {
+      "check": "desktop-journey (real Electron)",
+      "gpu": "software",
+      "hostRuntime": "real",
+      "network": "real",
+      "available": false,
+      "blocker": "Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and mirror unreachable; cannot obtain binary"
+    }
+  ],
+  "items": [
+    {
+      "id": "equivalence:BOTH renderers resolve the SAME deterministic en",
+      "workOrder": "W004+W008+W020",
+      "host": "both",
+      "renderer": "both",
+      "step": "equivalence",
+      "caption": "BOTH renderers resolve the SAME deterministic entityId set",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "null-engine",
+        "network": "offline",
+        "note": "Babylon NullEngine + Three headless — real adapter code paths (scene build, CPU ray-mesh intersection, camera math) but no GPU frame; fixture is client-side/network-free (invariant #17)."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.977Z"
+    },
+    {
+      "id": "equivalence:each entity resolves to a hit point inside the S",
+      "workOrder": "W004+W008+W020",
+      "host": "both",
+      "renderer": "both",
+      "step": "equivalence",
+      "caption": "each entity resolves to a hit point inside the SAME world AABB through both renderers",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "null-engine",
+        "network": "offline",
+        "note": "Babylon NullEngine + Three headless — real adapter code paths (scene build, CPU ray-mesh intersection, camera math) but no GPU frame; fixture is client-side/network-free (invariant #17)."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.977Z"
+    },
+    {
+      "id": "equivalence:portable focused-entity + layer state survives a",
+      "workOrder": "W004+W008+W020",
+      "host": "both",
+      "renderer": "both",
+      "step": "equivalence",
+      "caption": "portable focused-entity + layer state survives a renderer SWITCH (Babylon -> Three)",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "null-engine",
+        "network": "offline",
+        "note": "Babylon NullEngine + Three headless — real adapter code paths (scene build, CPU ray-mesh intersection, camera math) but no GPU frame; fixture is client-side/network-free (invariant #17)."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.977Z"
+    },
+    {
+      "id": "equivalence:portable focused-entity + layer state survives a",
+      "workOrder": "W004+W008+W020",
+      "host": "both",
+      "renderer": "both",
+      "step": "equivalence",
+      "caption": "portable focused-entity + layer state survives a renderer SWITCH (Three -> Babylon)",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "null-engine",
+        "network": "offline",
+        "note": "Babylon NullEngine + Three headless — real adapter code paths (scene build, CPU ray-mesh intersection, camera math) but no GPU frame; fixture is client-side/network-free (invariant #17)."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.977Z"
+    },
+    {
+      "id": "equivalence:world identity fields are untouched by both rend",
+      "workOrder": "W004+W008+W020",
+      "host": "both",
+      "renderer": "both",
+      "step": "equivalence",
+      "caption": "world identity fields are untouched by both renderers",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "null-engine",
+        "network": "offline",
+        "note": "Babylon NullEngine + Three headless — real adapter code paths (scene build, CPU ray-mesh intersection, camera math) but no GPU frame; fixture is client-side/network-free (invariant #17)."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.977Z"
+    },
+    {
+      "id": "web:01-open",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "open",
+      "caption": "Solution opened from the workbench — world-dominant host route active (no dashboard).",
+      "evidencePath": "evidence/web/web:01-open.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:25.822Z"
+    },
+    {
+      "id": "web:02-world",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "world",
+      "caption": "Real fixture world rendered full-bleed (construction geometry, not a placeholder canvas).",
+      "evidencePath": "evidence/web/web:02-world.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:26.786Z"
+    },
+    {
+      "id": "web:03-navigate",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "navigate",
+      "caption": "Orbit + zoom navigation applied — camera moved off home framing via renderer-neutral session.navigate.",
+      "evidencePath": "evidence/web/web:03-navigate.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:29.150Z"
+    },
+    {
+      "id": "web:04-select",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "select",
+      "caption": "Semantic selection — pointer click resolved through renderer hit mapping to an Epoch entityId (focus highlight applied).",
+      "evidencePath": "evidence/web/web:04-select.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:30.741Z"
+    },
+    {
+      "id": "web:05-inspect",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "inspect",
+      "caption": "Inspector populated with the selected entity's engineering semantics (entityId/layer/phase/properties) from the world model.",
+      "evidencePath": "evidence/web/web:05-inspect.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:31.246Z"
+    },
+    {
+      "id": "web:06-isolate",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "isolate",
+      "caption": "Layer isolate — soloed a construction layer; all other fixture layers hidden via renderer-neutral setVisibility.",
+      "evidencePath": "evidence/web/web:06-isolate.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:32.355Z"
+    },
+    {
+      "id": "web:07-section-or-plan",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "section/plan",
+      "caption": "Plan-view navigation path applied (top-down orthographic-style look-at + high elevation).",
+      "evidencePath": "evidence/web/web:07-section-or-plan.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:33.511Z"
+    },
+    {
+      "id": "web:08-measure",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "measure",
+      "caption": "Measurement added with SI-unit readout (world-anchored, stable under navigation).",
+      "evidencePath": "evidence/web/web:08-measure.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.646Z"
+    },
+    {
+      "id": "desktop:skipped",
+      "workOrder": "W006+W007",
+      "host": "desktop",
+      "renderer": "babylon",
+      "step": "open",
+      "caption": "Desktop journey could not run honestly — see skipReason.",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "real",
+        "network": "offline",
+        "note": "Real Electron window via playwright-core _electron, Xvfb + SwiftShader software WebGL. Fixture engine runs in-process; no server/network. — SKIPPED: Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window."
+      },
+      "verdict": "skip",
+      "capturedAt": "2026-10-10T05:44:34.941Z",
+      "skipReason": "Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window."
+    }
+  ],
+  "checks": {
+    "equivalence": {
+      "name": "renderer-equivalence",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "rc": 0
+    },
+    "webJourney": {
+      "name": "web-journey",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "rc": 0
+    },
+    "desktopJourney": {
+      "name": "desktop-journey",
+      "passed": 0,
+      "failed": 0,
+      "skipped": 1,
+      "rc": 0,
+      "skipReason": "Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window."
+    },
+    "evidenceCheck": {
+      "name": "evidence-check",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "rc": 0
+    }
+  }
+}
