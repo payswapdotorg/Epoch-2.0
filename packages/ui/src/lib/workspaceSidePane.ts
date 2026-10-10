@@ -132,6 +132,58 @@ export interface SolutionSidePaneTab {
   residencyGeneration?: number;
 }
 
+/**
+ * Application Environment Surface tab——与 Browser/Terminal/Solution 同级的
+ * 一等工位面（W028）。外部应用（如 Browser/Terminal 之外的真实/模拟软件）
+ * 通过 provider descriptor 注册，统一落到此 tab 类型；不为新 provider 创建
+ * 新 surface 类型（ARCHITECTURE-LOCK 不变量 24；验收点 2）。
+ *
+ * 依据 spec/work-orders/W028-application-environment-fabric.md「environment
+ * descriptors, registry and session lifecycle」与「generic surface registration
+ * with no per-vendor surface types」：
+ * - 身份字段（workspaceKey/providerId/sessionId/initiator/mode/title/openedAt）
+ *   为强制语义；控制器层（@zcode/epoch-environment-surface）是生命周期权威，
+ *   UI 侧此结构只是投影（drafts/presentation state），不成为会话/生命周期权威。
+ * - initiator：human/agent（验收点 3：human 与 agent 共享 task/session context，
+ *   但 initiator/permission 必须分离；同一 provider 同一 workspace 在不同 initiator
+ *   下是不同会话）。
+ * - mode：observe-only/suggest/confirmation/bounded-autonomy/full（验收点 4：
+ *   read/observe 权限永不隐式授予 mutation——observe-only 模式下 control/
+ *   semantic 调用被控制器拒绝）。
+ * - simulation：descriptor.simulation 投影——验收点 1 要求 simulation 必须在
+ *   tab 上可见，标题前缀 [simulated]。
+ *
+ * 兼容性可选字段（remoteSessionId/agentOpened/residency/initialUrl/faviconUrl/
+ * residencyGeneration）：与 SolutionSidePaneTab 同因——继承的 AnimatedSidePanePanel
+ * 走 HumanBrowserView 兜底读这些字段。W028 阶段这些字段仅在类型层保持继承模型
+ * 编译通过，运行时恒为 undefined。
+ */
+export interface ApplicationEnvironmentSidePaneTab {
+  id: string;
+  type: "application-environment";
+  ownerTaskId?: string | null;
+  workspaceKey?: string | null;
+  openedAt?: number;
+  /** provider descriptor id（注册表是唯一发现路径；UI 不按 providerId 分支）。 */
+  providerId: string;
+  /** environment session 身份（可移植引用标识，非 adapter 句柄）。 */
+  sessionId: string;
+  /** 操作发起方：human / agent（验收点 3）。 */
+  initiator: "human" | "agent";
+  /** 该会话的自治模式（attach 时冻结；UI 不修改）。 */
+  mode: "observe-only" | "suggest" | "confirmation" | "bounded-autonomy" | "full";
+  /** 是否为安全模拟会话（descriptor.simulation 投影；标题加 [simulated] 前缀）。 */
+  simulation: boolean;
+  title: string;
+  /** 兼容性占位：见上方接口注释。运行时恒 undefined。 */
+  remoteSessionId?: string | null;
+  agentOpened?: boolean;
+  residency?: BrowserTabResidencyState;
+  initialUrl?: string | null;
+  faviconUrl?: string | null;
+  residencyGeneration?: number;
+}
+
 /** browser-use 受控浏览器视图（renderer `<webview>` + main CDP）。 */
 export interface BrowserUseSidePaneTab {
   id: string;
@@ -560,6 +612,7 @@ export type WorkspaceSidePaneTab =
   | DeveloperToolsSidePaneTab
   | TerminalSidePaneTab
   | SolutionSidePaneTab
+  | ApplicationEnvironmentSidePaneTab
   | BrowserUseSidePaneTab
   | SubagentSessionSidePaneTab
   | SubagentDirectorySidePaneTab
@@ -1684,6 +1737,79 @@ export function openSolutionSidePane(
   });
   // 复用既有 tab 身份（id 不变），仅刷新展示字段并激活；不创建新 tab。
   const projected: SolutionSidePaneTab = existing
+    ? { ...existing, title: tab.title, openedAt: tab.openedAt ?? existing.openedAt }
+    : { ...tab, openedAt: tab.openedAt ?? Date.now() };
+  return activateSidePaneTab(current, projected);
+}
+
+/**
+ * Application Environment Surface 身份键（与控制器层
+ * @zcode/epoch-environment-surface 的 environmentSurfaceIdentityKey 同语义）：
+ * workspaceKey + providerId + initiator + ownerTaskId。sessionId 由控制器
+ * 从身份派生，不单独参与幂等键。initiator 区分 human/agent——验收点 3。
+ */
+export function applicationEnvironmentSidePaneIdentityKey(options: {
+  workspaceKey: string;
+  providerId: string;
+  initiator: "human" | "agent";
+  ownerTaskId: string | null;
+}): string {
+  return [options.workspaceKey, options.providerId, options.initiator, options.ownerTaskId ?? ""]
+    .map((part) => encodeURIComponent(part))
+    .join("|");
+}
+
+/**
+ * 查找已打开的 Application Environment Surface tab（幂等 open 的复用判据）。
+ * UI 侧只按身份投影复用；生命周期权威（控制器）的幂等由其自身保证。
+ */
+export function findApplicationEnvironmentSidePaneTab(
+  current: WorkspaceSidePaneState | null,
+  options: {
+    workspaceKey: string;
+    providerId: string;
+    initiator: "human" | "agent";
+    ownerTaskId: string | null;
+  },
+): ApplicationEnvironmentSidePaneTab | undefined {
+  const identityKey = applicationEnvironmentSidePaneIdentityKey(options);
+  return current?.tabs.find(
+    (tab): tab is ApplicationEnvironmentSidePaneTab =>
+      tab.type === "application-environment" &&
+      applicationEnvironmentSidePaneIdentityKey({
+        workspaceKey: tab.workspaceKey ?? "",
+        providerId: tab.providerId,
+        initiator: tab.initiator,
+        ownerTaskId: tab.ownerTaskId ?? null,
+      }) === identityKey,
+  );
+}
+
+/**
+ * 打开/激活一个 Application Environment Surface tab（UI 投影）。
+ *
+ * 幂等：同一身份（workspaceKey+providerId+initiator+ownerTaskId）已存在时复用
+ * 既有 tab 并激活，不复制 tab。控制器层（@zcode/epoch-environment-surface）
+ * 是生命周期权威；此函数只是把控制器已解析的稳定身份投影到继承的 side-pane
+ * 模型，遵循与 Browser/Terminal/Solution 同级的 activate 模式。UI 状态保持
+ * 投影——不成为会话/生命周期权威。
+ *
+ * 验收点 2：所有 provider 共用同一 type="application-environment"——新增
+ * provider 不引入新 surface 类型。验收点 1：simulation=true 时 tab.title
+ * 含 [simulated] 前缀（控制器在 open 时已冻结，UI 不再二次加工）。
+ */
+export function openApplicationEnvironmentSidePane(
+  current: WorkspaceSidePaneState | null,
+  tab: ApplicationEnvironmentSidePaneTab,
+): WorkspaceSidePaneState {
+  const existing = findApplicationEnvironmentSidePaneTab(current, {
+    workspaceKey: tab.workspaceKey ?? "",
+    providerId: tab.providerId,
+    initiator: tab.initiator,
+    ownerTaskId: tab.ownerTaskId ?? null,
+  });
+  // 复用既有 tab 身份（id 不变），仅刷新展示字段并激活；不创建新 tab。
+  const projected: ApplicationEnvironmentSidePaneTab = existing
     ? { ...existing, title: tab.title, openedAt: tab.openedAt ?? existing.openedAt }
     : { ...tab, openedAt: tab.openedAt ?? Date.now() };
   return activateSidePaneTab(current, projected);

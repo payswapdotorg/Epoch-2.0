@@ -815,6 +815,15 @@ importers:
         specifier: ^8.0.2
         version: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.9.0)
 
+  packages/epoch-application-environment:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
   packages/epoch-construction-fixture:
     dependencies:
       '@zcode/epoch-reconstruction-contract':
@@ -823,6 +832,19 @@ importers:
       '@zcode/epoch-world-model':
         specifier: workspace:*
         version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/epoch-environment-surface:
+    dependencies:
+      '@zcode/epoch-application-environment':
+        specifier: workspace:*
+        version: link:../epoch-application-environment
     devDependencies:
       '@types/node':
         specifier: ^25.5.0

@@ -38,6 +38,7 @@ import {
   openOrActivateBrowserSidePaneByUrl,
   findBrowserSidePaneTabByUrl,
   openSolutionSidePane,
+  openApplicationEnvironmentSidePane,
   applyBrowserUseSidePaneEvent,
   applyBrowserUseSidePaneVisibilityEvent,
   applyBrowserTabResidencyEvent,
@@ -61,6 +62,7 @@ import {
   type BrowserSidePaneMetadata,
   type TreemappingSidePaneTab,
   type SolutionSidePaneTab,
+  type ApplicationEnvironmentSidePaneTab,
   type OpenScopedSubagentSideTabRequest,
   type OpenBackgroundBashSideTabRequest,
   openBackgroundBashSidePane,
@@ -826,6 +828,37 @@ export function useAppPanels(options: {
         const next = openSolutionSidePane(current, tab);
         logger.info(
           `[App] 打开 Solution Surface tab engine=${tab.engineId} solution=${tab.solutionId} workspace=${workspaceAbsPath} tabs=${next.tabs.length}`,
+        );
+        return next;
+      });
+    },
+    [commitOpenedSidePaneState, revealSidePaneForCurrentOwner, workspaceAbsPath],
+  );
+
+  /**
+   * 打开/激活一个 Application Environment Surface tab（UI 投影入口）。
+   *
+   * 调用方（W005/W006 宿主或后续 visual-integration 扩展）先用
+   * @zcode/epoch-environment-surface 控制器完成 provider.attach + 会话身份
+   * （生命周期权威），再把解析后的稳定身份 tab 传入此函数投影到继承的
+   * side-pane 模型。UI 状态保持投影——不成为会话/生命周期权威。
+   *
+   * 幂等：同一身份（workspaceKey+providerId+initiator+ownerTaskId）已存在时
+   * 复用并激活，不复制 tab。
+   *
+   * 验收点 2：所有 provider 共用同一 type="application-environment"——新增
+   * provider 不需要新的 surface 类型/handler 分支。验收点 1：simulation
+   * 标志由控制器 open 时冻结并写入 tab.title 前缀，UI 不再二次加工。
+   * 验收点 6：handler 不触碰 Browser/Terminal 的 tab 模型——它是并列的
+   * 一种 surface 类型，按 type 分派互不干扰。
+   */
+  const handleOpenApplicationEnvironmentTab = useCallback(
+    (tab: ApplicationEnvironmentSidePaneTab) => {
+      revealSidePaneForCurrentOwner();
+      commitOpenedSidePaneState((current) => {
+        const next = openApplicationEnvironmentSidePane(current, tab);
+        logger.info(
+          `[App] 打开 Application Environment Surface tab provider=${tab.providerId} session=${tab.sessionId} initiator=${tab.initiator} mode=${tab.mode} simulation=${tab.simulation} workspace=${workspaceAbsPath} tabs=${next.tabs.length}`,
         );
         return next;
       });
@@ -1613,6 +1646,7 @@ export function useAppPanels(options: {
     handleOpenDeveloperTools,
     handleOpenTerminalTab,
     handleOpenSolutionTab,
+    handleOpenApplicationEnvironmentTab,
     handleOpenModelTrajectory,
     handleOpenSubagentSession,
     handleOpenBackgroundBash,
