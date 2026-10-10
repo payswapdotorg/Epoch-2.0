@@ -1,0 +1,150 @@
+{
+  "workOrder": "W020 — Web host journey",
+  "host": "web",
+  "renderer": "babylon",
+  "environment": {
+    "gpu": "software",
+    "hostRuntime": "headless",
+    "network": "offline",
+    "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+  },
+  "capturedAt": "2026-10-10T05:44:34.840Z",
+  "items": [
+    {
+      "id": "web:01-open",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "open",
+      "caption": "Solution opened from the workbench — world-dominant host route active (no dashboard).",
+      "evidencePath": "evidence/web/web:01-open.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:25.822Z"
+    },
+    {
+      "id": "web:02-world",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "world",
+      "caption": "Real fixture world rendered full-bleed (construction geometry, not a placeholder canvas).",
+      "evidencePath": "evidence/web/web:02-world.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:26.786Z"
+    },
+    {
+      "id": "web:03-navigate",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "navigate",
+      "caption": "Orbit + zoom navigation applied — camera moved off home framing via renderer-neutral session.navigate.",
+      "evidencePath": "evidence/web/web:03-navigate.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:29.150Z"
+    },
+    {
+      "id": "web:04-select",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "select",
+      "caption": "Semantic selection — pointer click resolved through renderer hit mapping to an Epoch entityId (focus highlight applied).",
+      "evidencePath": "evidence/web/web:04-select.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:30.741Z"
+    },
+    {
+      "id": "web:05-inspect",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "inspect",
+      "caption": "Inspector populated with the selected entity's engineering semantics (entityId/layer/phase/properties) from the world model.",
+      "evidencePath": "evidence/web/web:05-inspect.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:31.246Z"
+    },
+    {
+      "id": "web:06-isolate",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "isolate",
+      "caption": "Layer isolate — soloed a construction layer; all other fixture layers hidden via renderer-neutral setVisibility.",
+      "evidencePath": "evidence/web/web:06-isolate.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:32.355Z"
+    },
+    {
+      "id": "web:07-section-or-plan",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "section/plan",
+      "caption": "Plan-view navigation path applied (top-down orthographic-style look-at + high elevation).",
+      "evidencePath": "evidence/web/web:07-section-or-plan.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:33.511Z"
+    },
+    {
+      "id": "web:08-measure",
+      "workOrder": "W005+W007",
+      "host": "web",
+      "renderer": "babylon",
+      "step": "measure",
+      "caption": "Measurement added with SI-unit readout (world-anchored, stable under navigation).",
+      "evidencePath": "evidence/web/web:08-measure.png",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "headless",
+        "network": "offline",
+        "note": "Real Chromium via playwright-core, headless, SwiftShader software WebGL (--use-angle=swiftshader-webgl). Fixture engine runs in-process client-side; no server/network."
+      },
+      "verdict": "pass",
+      "capturedAt": "2026-10-10T05:44:34.646Z"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "workOrder": "W020 — Desktop host journey",
+  "host": "desktop",
+  "renderer": "babylon",
+  "environment": {
+    "gpu": "software",
+    "hostRuntime": "real",
+    "network": "offline",
+    "note": "Real Electron window via playwright-core _electron, Xvfb + SwiftShader software WebGL. Fixture engine runs in-process; no server/network. — SKIPPED: Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window."
+  },
+  "capturedAt": "2026-10-10T05:44:34.941Z",
+  "skipped": true,
+  "skipReason": "Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window.",
+  "items": [
+    {
+      "id": "desktop:skipped",
+      "workOrder": "W006+W007",
+      "host": "desktop",
+      "renderer": "babylon",
+      "step": "open",
+      "caption": "Desktop journey could not run honestly — see skipReason.",
+      "evidencePath": "",
+      "environment": {
+        "gpu": "software",
+        "hostRuntime": "real",
+        "network": "offline",
+        "note": "Real Electron window via playwright-core _electron, Xvfb + SwiftShader software WebGL. Fixture engine runs in-process; no server/network. — SKIPPED: Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window."
+      },
+      "verdict": "skip",
+      "capturedAt": "2026-10-10T05:44:34.941Z",
+      "skipReason": "Electron binary not present (ELECTRON_SKIP_BINARY_DOWNLOAD=1 at install) and Electron mirror unreachable; cannot obtain binary to launch a real Electron window."
+    }
+  ]
+}
