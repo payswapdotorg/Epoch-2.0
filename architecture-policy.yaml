@@ -184,6 +184,14 @@ modules:
     managed: true
     requires: [epoch-world-presentation]
     publicEntrypoints: [packages/epoch-gltf/src/index.ts]
+  # W027 — Task-conditioned reconstruction policy (profiles, fitness states,
+  # VOI ordering, evidence-aware sufficiency). Provider-neutral; consumes the
+  # frozen epoch-world-model public entrypoint only (invariant 16).
+  - id: epoch-reconstruction-policy
+    roots: [packages/epoch-reconstruction-policy/src]
+    managed: true
+    requires: [epoch-world-model]
+    publicEntrypoints: [packages/epoch-reconstruction-policy/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
 
 global:
