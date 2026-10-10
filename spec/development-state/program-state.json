@@ -16,19 +16,26 @@
     "W004",
     "W005",
     "W006",
-    "W007"
-  ],
-  "active": [
+    "W007",
     "W008",
     "W009",
     "W010"
   ],
+  "active": [],
   "eligible": [
-    "W008",
-    "W009",
-    "W010"
+    "W011",
+    "W012",
+    "W013",
+    "W014",
+    "W015",
+    "W016",
+    "W017",
+    "W018",
+    "W020",
+    "W027",
+    "W028"
   ],
   "blocked": [],
-  "lastMergeSha": "e2d4fc9",
-  "lastAction": "WAVE 3 DISPATCHED (2026-10-09 ~22:2xZ): W008 three.js renderer (chat 76b80edc) + W009 IFC engine (chat 23055b3e) + W010 glTF pipeline (chat 7e02131c) live on GLM-5.2, all three sends VERIFIED server-side with send-time PAT substitution; sibling-references in W009/W010 prompts corrected to merged-only inputs (W001–W007). Workers deliver work/w0XX-* branches; TL harvests on push."
+  "lastMergeSha": "f22a7d5",
+  "lastAction": "WAVE_3_COMPLETE: W010 glTF pipeline merged (station battery green: 22/22 pkg + 3/3 qa + tsc RC=0; fmt dist-artifact false-positive resolved; epoch-gltf-qa over-management dropped; W006-era module.ts/contract.ts gaps fixed per W005 precedent). Full arch 0 violations. 13 packages / 279 tests + 25 qa green."
 }

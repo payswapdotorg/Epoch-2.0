@@ -1,17 +1,13 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "VISUALIZATION_MILESTONE_COMPLETE",
+  "status": "WAVE_3_COMPLETE",
   "frontier": [
-    "W008",
-    "W009",
-    "W010"
+    "W020",
+    "W027",
+    "W028"
   ],
-  "eligible": 3,
-  "inFlight": [
-    "W008",
-    "W009",
-    "W010"
-  ],
+  "eligible": 11,
+  "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -19,8 +15,8 @@
     "visualizationFirst": "COMPLETE (W007 merged e2d4fc9, both-host evidence)",
     "webNavigableSolution": "COMPLETE (W005 journey evidence)",
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
-    "rendererPortability": "PENDING",
-    "ifcReconstruction": "FUTURE",
+    "rendererPortability": "COMPLETE (W008 three.js merged 5a48276; cross-renderer portable-state conformance 12/12; W020 equivalence battery pending)",
+    "ifcReconstruction": "PARTIAL (W009 IFC engine merged bb1ac04 — normalized WorldRevision + stable digest; geometry chain W011/W012 pending)",
     "fullEngineeringArchitecture": "FUTURE",
     "taskConditionedReconstruction": "FUTURE",
     "applicationEnvironmentFabric": "FUTURE",
@@ -30,5 +26,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Wave 3 in flight since 2026-10-09 22:2xZ: W008 (chat 76b80edc, tab ADE1620A) + W009 (chat 23055b3e, tab B87560E5) + W010 (chat 7e02131c, tab D3908157) on GLM-5.2. TL harvests on branch push (branch_watch), runs station batteries, reviews against acceptance, merges, then advances to W011+W012+W013 (prompts staged)."
+  "nextAction": "Wave 3 complete 2026-10-10 (W008 5a48276 + W009 bb1ac04 + W010 6cee3f2 merged; merged tree 279 pkg tests + 25 qa green; full arch 0 after TL reconciliation f22a7d5). Wave 4 dispatch: W020 (verification battery, unlocks W021 chain) + W027 (reconstruction policy, feeds W030) + W028 (environment fabric, feeds W029/W031) — critical-path-first. Leaf pool for freed slots: W011-W018."
 }
