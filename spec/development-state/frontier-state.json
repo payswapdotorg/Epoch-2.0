@@ -1,13 +1,17 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_3_COMPLETE",
+  "status": "WAVE_4_IN_FLIGHT_W027_MERGED",
   "frontier": [
     "W020",
-    "W027",
-    "W028"
+    "W028",
+    "W011"
   ],
   "eligible": 11,
-  "inFlight": [],
+  "inFlight": [
+    "W020",
+    "W028",
+    "W011"
+  ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -18,7 +22,7 @@
     "rendererPortability": "COMPLETE (W008 three.js merged 5a48276; cross-renderer portable-state conformance 12/12; W020 equivalence battery pending)",
     "ifcReconstruction": "PARTIAL (W009 IFC engine merged bb1ac04 — normalized WorldRevision + stable digest; geometry chain W011/W012 pending)",
     "fullEngineeringArchitecture": "FUTURE",
-    "taskConditionedReconstruction": "FUTURE",
+    "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
     "applicationEnvironmentFabric": "FUTURE",
     "capabilityReproductionFactory": "FUTURE",
     "capabilityGapLearning": "FUTURE",
@@ -26,5 +30,5 @@
     "engineeringAbundanceEvaluation": "FUTURE"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Wave 3 complete 2026-10-10 (W008 5a48276 + W009 bb1ac04 + W010 6cee3f2 merged; merged tree 279 pkg tests + 25 qa green; full arch 0 after TL reconciliation f22a7d5). Wave 4 dispatch: W020 (verification battery, unlocks W021 chain) + W027 (reconstruction policy, feeds W030) + W028 (environment fabric, feeds W029/W031) — critical-path-first. Leaf pool for freed slots: W011-W018."
+  "nextAction": "Wave 4: W027 merged fast (25-min delivery, 57/57 tests). W020 (verification battery, ignited 168K chars) + W028 (environment fabric, pre-ignition) + W011 (geometry-occt, just dispatched) in flight. On W020 merge: W021 becomes eligible (critical path). Leaf pool for further slots: W012-W018."
 }

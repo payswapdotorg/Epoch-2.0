@@ -19,23 +19,24 @@
     "W007",
     "W008",
     "W009",
-    "W010"
+    "W010",
+    "W027"
   ],
-  "active": [],
+  "active": [
+    "W020",
+    "W028",
+    "W011"
+  ],
   "eligible": [
-    "W011",
     "W012",
     "W013",
     "W014",
     "W015",
     "W016",
     "W017",
-    "W018",
-    "W020",
-    "W027",
-    "W028"
+    "W018"
   ],
   "blocked": [],
-  "lastMergeSha": "f22a7d5",
-  "lastAction": "WAVE_3_COMPLETE: W010 glTF pipeline merged (station battery green: 22/22 pkg + 3/3 qa + tsc RC=0; fmt dist-artifact false-positive resolved; epoch-gltf-qa over-management dropped; W006-era module.ts/contract.ts gaps fixed per W005 precedent). Full arch 0 violations. 13 packages / 279 tests + 25 qa green."
+  "lastMergeSha": "a6972eb",
+  "lastAction": "W027 MERGED (cf4407c + registrations a6972eb): 57/57 tests, battery all-green, TL registrations (module + root typecheck). W011 dispatched into freed slot (chat cb09adca). W020/W028 in flight."
 }
