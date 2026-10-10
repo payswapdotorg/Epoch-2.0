@@ -192,6 +192,22 @@ modules:
     managed: true
     requires: [epoch-world-model]
     publicEntrypoints: [packages/epoch-reconstruction-policy/src/index.ts]
+  # W028 — Application Environment Fabric: provider-neutral environment
+  # contracts (descriptors, registry, sessions, capability planes, privacy
+  # policy). Zero runtime deps; environment-contract layer only.
+  - id: epoch-application-environment
+    roots: [packages/epoch-application-environment/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-application-environment/src/index.ts]
+  # W028 — Environment Surface: lifecycle controller over the application
+  # environment contracts (attach/detach/health, deny-by-default control,
+  # provider-neutral via dependency injection).
+  - id: epoch-environment-surface
+    roots: [packages/epoch-environment-surface/src]
+    managed: true
+    requires: [epoch-application-environment]
+    publicEntrypoints: [packages/epoch-environment-surface/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
