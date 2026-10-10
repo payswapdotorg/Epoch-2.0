@@ -48,6 +48,12 @@
       "qa/epoch-gltf/**"
     ]
   },
+  "wave4": {
+    "W020": [
+      "qa/epoch-world/**",
+      "spec/acceptance/evidence-ledger.md"
+    ]
+  },
   "rule": "Ownership is exclusive per wave. A worker may consume another worker's merged public contract, but must never edit another worker's owned paths. If an unexpected cross-boundary change is necessary, stop and ask the TL to re-scope rather than silently violating ownership.",
   "expansion": {
     "W027": [
