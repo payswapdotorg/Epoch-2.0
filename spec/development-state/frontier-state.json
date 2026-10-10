@@ -1,34 +1,34 @@
 {
-  "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_4_IN_FLIGHT_W020_MERGED",
-  "frontier": [
-    "W028",
-    "W011",
-    "W021"
-  ],
-  "eligible": 8,
-  "inFlight": [
-    "W028",
-    "W011",
-    "W021"
-  ],
-  "blocked": [],
-  "maxConcurrentWorkers": 3,
-  "milestones": {
-    "repositoryReset": "COMPLETE",
-    "visualizationFirst": "COMPLETE (W007 merged e2d4fc9, both-host evidence)",
-    "webNavigableSolution": "COMPLETE (W005 journey evidence)",
-    "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
-    "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
-    "ifcReconstruction": "PARTIAL (W009 IFC engine merged bb1ac04 — normalized WorldRevision + stable digest; geometry chain W011/W012 pending)",
-    "fullEngineeringArchitecture": "FUTURE",
-    "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
-    "applicationEnvironmentFabric": "FUTURE",
-    "capabilityReproductionFactory": "FUTURE",
-    "capabilityGapLearning": "FUTURE",
-    "arenaExpertLoop": "FUTURE",
-    "engineeringAbundanceEvaluation": "FUTURE"
-  },
-  "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "Wave 4: W020 merged (9132a82+d73be11, battery parity 13/1/0, epoch-world module registered). W021 (durable persistence — critical path to W022/W023) dispatched into freed slot (chat 8d726dd1). W028 (ignited) + W011 in flight. On W021 merge: W022 becomes eligible. Leaf pool: W012-W018."
+ "program": "Epoch 2.0 architecture reset",
+ "status": "WAVE_4_IN_FLIGHT_W028_MERGED_W012_DISPATCHED",
+ "frontier": [
+  "W012",
+  "W011",
+  "W021"
+ ],
+ "eligible": 8,
+ "inFlight": [
+  "W012",
+  "W011",
+  "W021"
+ ],
+ "blocked": [],
+ "maxConcurrentWorkers": 3,
+ "milestones": {
+  "repositoryReset": "COMPLETE",
+  "visualizationFirst": "COMPLETE (W007 merged e2d4fc9, both-host evidence)",
+  "webNavigableSolution": "COMPLETE (W005 journey evidence)",
+  "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
+  "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 \u2014 both-renderer portable-state equivalence green)",
+  "ifcReconstruction": "PARTIAL (W009 IFC engine merged bb1ac04 \u2014 normalized WorldRevision + stable digest; geometry chain W011/W012 pending)",
+  "fullEngineeringArchitecture": "FUTURE",
+  "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb \u2014 profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
+  "applicationEnvironmentFabric": "PARTIAL (W028 environment fabric + generic surface merged dcd9b13; ACR integration pending W029+)",
+  "capabilityReproductionFactory": "FUTURE",
+  "capabilityGapLearning": "FUTURE",
+  "arenaExpertLoop": "FUTURE",
+  "engineeringAbundanceEvaluation": "FUTURE"
+ },
+ "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
+ "nextAction": "Wave 4: W028 MERGED (env fabric live on main, 59 tests green, registrations applied). W012 (OpenUSD composition) dispatched into freed slot via fresh-chat bootstrap. W011 (geometry-occt) + W021 (durable persistence, critical path to W022/W023) in flight. On W021 merge: W022 becomes eligible. Leaf pool: W013-W018."
 }
