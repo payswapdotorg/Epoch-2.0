@@ -864,6 +864,15 @@ importers:
         specifier: ^5.5.4
         version: 5.9.3
 
+  packages/epoch-capability-learning:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+
   packages/epoch-construction-fixture:
     dependencies:
       '@zcode/epoch-reconstruction-contract':

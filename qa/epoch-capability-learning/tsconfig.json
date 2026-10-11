@@ -18,7 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "types": ["node"],
-    "typeRoots": ["../../packages/epoch-capability-learning/node_modules/@types"]
+    "typeRoots": ["../../node_modules/@types"]
   },
   "include": ["src/**/*.ts"],
   "references": [{ "path": "../../packages/epoch-capability-learning" }]
