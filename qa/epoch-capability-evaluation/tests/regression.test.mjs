@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { detectRegression } from "./under-test.mjs";
 import {
   M_AGREE,
+  M_COVER,
   M_FAIL,
   M_LAT,
   M_PASS,

@@ -2,15 +2,11 @@
 // Law: every public type of this package is declared in this file and only here.
 // The lab has no execution authority: it is read-only over declarations.
 
-// --- qualification status vocabulary ---
-
 /** Capability qualification ladder; a capability moves UP only via benchmark evidence. */
 export type QualificationStatus =
   | "prototype" | "named-task-qualified" | "reference-comparable" | "reference-superior";
 
 export type TransitionDirection = "promotion" | "regression" | "hold";
-
-// --- metrics as data ---
 
 export type MetricFamily =
   | "correctness" | "engineering-tolerance" | "coverage" | "reliability" | "performance"
@@ -53,8 +49,6 @@ export type HardConstraint = {
   readonly rationale: string;
 };
 
-// --- benchmark corpora (immutable; rights and repeatability are validated) ---
-
 export type CorpusRepeatability =
   | { readonly kind: "deterministic-seeded"; readonly generatorId: string; readonly generatorVersion: string; readonly seed: string }
   | { readonly kind: "recorded-artifacts"; readonly recorderId: string; readonly recorderVersion: string }
@@ -94,8 +88,6 @@ export type CorpusValidation =
   | { readonly ok: true; readonly corpusDigest: string }
   | { readonly ok: false; readonly rejection: CorpusRejection };
 
-// --- versioned benchmark descriptors ---
-
 export type CorpusRef = {
   readonly corpusId: string; readonly corpusVersion: number; readonly corpusDigest: string;
 };
@@ -128,8 +120,6 @@ export type DescriptorRejection = { readonly code: DescriptorRejectionCode; read
 export type DescriptorValidation =
   | { readonly ok: true; readonly descriptorDigest: string }
   | { readonly ok: false; readonly rejection: DescriptorRejection };
-
-// --- harness inputs: declarations, never executions ---
 
 /** A declared measurement for one metric; the lab never executes capabilities. */
 export type MetricMeasurement = {
@@ -175,8 +165,6 @@ export type ReferenceRun = {
   readonly measurements: readonly MetricMeasurement[];
   readonly recordedAtEpoch: number;
 };
-
-// --- benchmark results + qualification decisions ---
 
 export type DifferentialVerdict = "superior" | "comparable" | "inferior";
 
@@ -231,8 +219,6 @@ export type HarnessOutcome =
   | { readonly ok: true; readonly result: BenchmarkResult }
   | { readonly ok: false; readonly error: HarnessError };
 
-// --- drift + regression checks ---
-
 export type MetricRegression = {
   readonly metricId: MetricId;
   readonly previousValue: number;
@@ -252,8 +238,6 @@ export type RegressionReport = {
   readonly statusRegression: boolean;
   readonly rationale: readonly string[];
 };
-
-// --- capability release gate ---
 
 export type SupportingResultRef = {
   readonly resultDigest: string; readonly benchmarkId: string; readonly benchmarkVersion: number;
@@ -294,8 +278,6 @@ export type ReleaseVerdict = {
   readonly staleEvidenceDigests: readonly string[];
   readonly rationale: readonly string[];
 };
-
-// --- discovery-spine adapter (W023 declarations as lab inputs) ---
 
 export type DiscoveryAdapterErrorCode = "adapter/insufficient-declaration" | "adapter/unknown-capability-class";
 

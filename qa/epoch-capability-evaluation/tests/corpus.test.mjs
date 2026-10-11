@@ -59,8 +59,15 @@ test("rejects deterministic-seeded provenance without a seed", () => {
 });
 
 test("rejects recorded-artifacts provenance with zero items", () => {
+  const base = corpusFixture();
   const validation = validateCorpus(
-    corpusWithRepeatability({ kind: "recorded-artifacts", recorderId: "r", recorderVersion: "1" }),
+    corpusFixture({
+      provenance: {
+        ...base.provenance,
+        repeatability: { kind: "recorded-artifacts", recorderId: "r", recorderVersion: "1" },
+      },
+      items: [],
+    }),
   );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/empty");
