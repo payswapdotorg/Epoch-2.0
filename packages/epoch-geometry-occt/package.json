@@ -1,0 +1,22 @@
+{
+  "name": "@zcode/epoch-geometry-occt",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -b",
+    "test": "node --test test/contracts.test.ts test/determinism.test.ts test/analytic-correctness.test.ts test/booleans.test.ts test/limits.test.ts test/kernel-swap.test.ts test/no-authority.test.ts"
+  },
+  "dependencies": {
+    "@zcode/epoch-world-model": "workspace:*",
+    "@zcode/epoch-reconstruction-contract": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0"
+  }
+}
