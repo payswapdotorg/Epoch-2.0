@@ -1,16 +1,16 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_10_W018_MERGED_W025_DISPATCHED",
+  "status": "WAVE_10_W029_MERGED_W030_DISPATCHED",
   "frontier": [
     "W024",
-    "W029",
-    "W025"
+    "W025",
+    "W030"
   ],
-  "eligible": 10,
+  "eligible": 9,
   "inFlight": [
     "W024",
-    "W029",
-    "W025"
+    "W025",
+    "W030"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -23,7 +23,7 @@
     "ifcReconstruction": "COMPLETE (W009 IFC engine bb1ac04 + geometry chain W011 ef77f9c + W012 d2146f1 — scene composition live, 78 tests)",
     "fullEngineeringArchitecture": "PARTIAL (lifecycle W022 + geometry W011/W012 + capability discovery W023 + timeline W018 merged; agent tools W024 + human escalation W025 in flight — critical path to W026)",
     "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
-    "applicationEnvironmentFabric": "PARTIAL (W028 environment fabric + generic surface merged dcd9b13; ACR integration pending W029+)",
+    "applicationEnvironmentFabric": "PARTIAL (W028 fabric + W029 environment activity merged — typed events, consent laws, demonstrations; ACR integration continues via W030+)",
     "capabilityReproductionFactory": "FUTURE",
     "capabilityGapLearning": "FUTURE",
     "arenaExpertLoop": "FUTURE",
@@ -31,9 +31,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W018 merged. W025 dispatched (W026 chain). W024 streaming (agent tools). W029 in fix round 2 (2 failures: hand-rolled sha256 + episodes error class). W030 prompt authoring next (ACR chain: eligible since W023 merged). On W024+W025 merge: W026 unlocks. Leaf pool: W013-W017, W019.",
+  "nextAction": "W029 merged. W030 dispatched (ACR chain gate: unlocks W031/W032/W033). W024 fix round in flight (8 test mismatches). W025 continuation streaming. On W024+W025 merge: W026 (productization) unlocks — final core work order. Leaf pool: W013-W017, W019.",
   "lastMerge": {
-    "workOrder": "W018",
-    "mergeSha": "d245dfa38f05fcd84f721fbbc2a2329675e6f3fc"
+    "workOrder": "W029",
+    "mergeSha": "58c47c0"
   }
 }

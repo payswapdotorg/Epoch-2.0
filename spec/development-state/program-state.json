@@ -28,12 +28,13 @@
     "W011",
     "W012",
     "W023",
-    "W018"
+    "W018",
+    "W029"
   ],
   "active": [
     "W024",
-    "W029",
-    "W025"
+    "W025",
+    "W030"
   ],
   "eligible": [
     "W013",
@@ -47,7 +48,7 @@
     "W025"
   ],
   "blocked": [],
-  "lastMergeSha": "d245dfa38f05fcd84f721fbbc2a2329675e6f3fc",
-  "lastAction": "W018 MERGED (d245dfa): station-verified 80/80 tests, tsc 0, lint 0, fmt clean, arch 0 (registration applied; module artifacts + ingest/model splits; node:crypto sha256). Worker chat 2148137c (glm-5.3, text-delivery, 6 rounds). W025 dispatched into freed slot (W026 critical path with W024). W029 fix round 2 (sha256 still hand-rolled + episodes error class). W024 streaming.",
-  "lastMergeWorkOrder": "W018"
+  "lastMergeSha": "58c47c0",
+  "lastAction": "W029 MERGED (58c47c0): station-verified 55/55 tests, tsc 0, lint 0, fmt clean, arch 0 (registration applied; contract trimmed to 300-line law; node:crypto sha256). Worker chat 69375afd (glm-5.3, text-delivery, 6 rounds). W030 (capability quality lab) dispatched into freed slot — ACR chain gate (W031/W032/W033 behind it). W024 in fix round (8 test mismatches); W025 continuation streaming (first turn was all thinking).",
+  "lastMergeWorkOrder": "W029"
 }
