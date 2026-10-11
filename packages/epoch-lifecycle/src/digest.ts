@@ -1,7 +1,8 @@
 /**
  * Pure TypeScript SHA-256 (no node:crypto, no Web Crypto) so that every host
  * — Node, Electron, browser workers — computes identical digests from
- * identical canonical bytes. Determinism law (invariant 17) depends on this.
+ * identical canonical bytes. The determinism law (invariant 17) depends on
+ * this: no environment-dependent hashing.
  */
 
 const SHA256_K = new Uint32Array([
@@ -35,7 +36,7 @@ function roundConstant(index: number): number {
   return value;
 }
 
-/** SHA-256 of the UTF-8 encoding of `message`, as 64 lowercase hex characters. */
+/** SHA-256 of the UTF-8 encoding of `message`, as 64 lowercase hex characters. Pure and deterministic. */
 export function sha256Hex(message: string): string {
   const bytes = new TextEncoder().encode(message);
   const bitLength = bytes.length * 8;
@@ -78,12 +79,12 @@ export function sha256Hex(message: string): string {
     let g = h6;
     let h = h7;
     for (let i = 0; i < 64; i += 1) {
-      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const bigS1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
       const ch = (e & f) ^ (~e & g);
-      const t1 = (h + S1 + ch + roundConstant(i) + wordAt(w, i)) >>> 0;
-      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const t1 = (h + bigS1 + ch + roundConstant(i) + wordAt(w, i)) >>> 0;
+      const bigS0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
       const maj = (a & b) ^ (a & c) ^ (b & c);
-      const t2 = (S0 + maj) >>> 0;
+      const t2 = (bigS0 + maj) >>> 0;
       h = g;
       g = f;
       f = e;

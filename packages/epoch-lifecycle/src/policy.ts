@@ -1,39 +1,39 @@
 /**
  * Lifecycle policies: which phase-to-phase transitions a deployment allows.
  * The default policy is the standard forward chain plus the explicit rework
- * loops Verify→Understand and Observe→Plan. Policies are data; the machine
+ * loops Verify->Understand and Observe->Plan. Policies are data; the machine
  * only reads them.
  */
 
 import { LifecycleError } from "./errors.ts";
 import { isLifecyclePhaseId, phaseOrdinal } from "./phases.ts";
 import { deepFreeze, isNonEmptyString, isPlainObject } from "./validate.ts";
-import type { LifecycleEdge, LifecycleEdgeKind, LifecyclePhaseId, LifecyclePolicy } from "./index.ts";
+import type { LifecycleEdge, LifecycleEdgeKind, LifecyclePhaseId, LifecyclePolicy } from "./types.ts";
 
-export const DEFAULT_LIFECYCLE_POLICY_ID = "default";
+export const DEFAULT_LIFECYCLE_POLICY_ID = "epoch-lifecycle/default";
 
-function forwardEdge(from: LifecyclePhaseId, to: LifecyclePhaseId): LifecycleEdge {
+function forward(from: LifecyclePhaseId, to: LifecyclePhaseId): LifecycleEdge {
   return { from, to, kind: "forward" };
 }
 
-function reworkEdge(from: LifecyclePhaseId, to: LifecyclePhaseId): LifecycleEdge {
+function rework(from: LifecyclePhaseId, to: LifecyclePhaseId): LifecycleEdge {
   return { from, to, kind: "rework" };
 }
 
 export const DEFAULT_LIFECYCLE_POLICY: LifecyclePolicy = deepFreeze({
   id: DEFAULT_LIFECYCLE_POLICY_ID,
   edges: [
-    forwardEdge("understand", "decide"),
-    forwardEdge("decide", "plan"),
-    forwardEdge("plan", "acquire"),
-    forwardEdge("acquire", "realize"),
-    forwardEdge("realize", "observe"),
-    forwardEdge("observe", "verify"),
-    forwardEdge("verify", "forecast"),
-    forwardEdge("forecast", "close"),
-    forwardEdge("close", "learn"),
-    reworkEdge("verify", "understand"),
-    reworkEdge("observe", "plan"),
+    forward("understand", "decide"),
+    forward("decide", "plan"),
+    forward("plan", "acquire"),
+    forward("acquire", "realize"),
+    forward("realize", "observe"),
+    forward("observe", "verify"),
+    forward("verify", "forecast"),
+    forward("forecast", "close"),
+    forward("close", "learn"),
+    rework("verify", "understand"),
+    rework("observe", "plan"),
   ],
 });
 
@@ -60,9 +60,9 @@ function isEdgeKind(value: unknown): value is LifecycleEdgeKind {
 }
 
 /**
- * Validate a policy as data: non-empty id, non-empty edges, valid phases,
- * no self-edges, no duplicates, forward edges must be adjacent steps of the
- * canonical chain, rework edges must return to an earlier phase.
+ * Validate a policy as data: non-empty id; non-empty edges; known phases and
+ * kinds; no self-edges; no duplicates; forward edges must be adjacent steps
+ * of the canonical chain; rework edges must return to an earlier phase.
  */
 export function validateLifecyclePolicy(policy: unknown): asserts policy is LifecyclePolicy {
   if (!isPlainObject(policy)) {
@@ -113,14 +113,14 @@ export function validateLifecyclePolicy(policy: unknown): asserts policy is Life
     if (edge.kind === "forward" && distance !== 1) {
       throw new LifecycleError(
         "invalid-policy",
-        `policy "${policy.id}" marks "${key}" as forward but it is not an adjacent step of the canonical chain`,
+        `policy "${policy.id}" marks "${key}" forward but it is not an adjacent step of the canonical chain`,
         { id: policy.id, edge: key, distance },
       );
     }
     if (edge.kind === "rework" && distance >= 0) {
       throw new LifecycleError(
         "invalid-policy",
-        `policy "${policy.id}" marks "${key}" as rework but it does not return to an earlier phase`,
+        `policy "${policy.id}" marks "${key}" rework but it does not return to an earlier phase`,
         { id: policy.id, edge: key, distance },
       );
     }

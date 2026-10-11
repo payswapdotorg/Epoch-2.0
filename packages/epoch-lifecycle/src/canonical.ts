@@ -3,19 +3,27 @@
  *
  * Canonical form: JSON with lexicographically sorted object keys, arrays in
  * log order, no whitespace, safe integers only. Identical operation
- * sequences therefore produce byte-identical canonical serializations and
- * identical digests (invariant 17). parseLifecycleState strictly validates
- * the schema AND replays the log (steps exactly 1..N, each transition
- * starting in the active phase, learn-phase event rules) before accepting
- * restored bytes.
+ * sequences therefore produce byte-identical serializations and identical
+ * digests (invariant 17). parseLifecycleState strictly validates the schema
+ * AND replays the log (steps exactly 1..N, each transition starting in the
+ * active phase, each event belonging to the active phase, learn-phase rules)
+ * before accepting restored bytes. Anything inconsistent is a typed error,
+ * never a silent correction.
  */
 
 import { sha256Hex } from "./digest.ts";
 import { LifecycleError } from "./errors.ts";
-import { isLifecycleEventKind } from "./events.ts";
 import { isLifecyclePhaseId } from "./phases.ts";
-import { deepFreeze, isLifecycleAnchorKind, isLearningOutcome, isNonEmptyString, isPlainObject, isSafeNat } from "./validate.ts";
-import type { LifecycleAnchor, LifecycleEvent, LifecyclePhaseId, LifecycleState, LifecycleTransition, LearningNotePayload } from "./index.ts";
+import { isLifecycleAnchorKind, isLifecycleEventKind, isLearningOutcome } from "./types.ts";
+import type {
+  LifecycleAnchor,
+  LifecycleEvent,
+  LifecyclePhaseId,
+  LifecycleState,
+  LifecycleTransition,
+  LearningNotePayload,
+} from "./types.ts";
+import { deepFreeze, isNonEmptyString, isPlainObject, isSafeNat } from "./validate.ts";
 
 export function canonicalizeLifecycleState(state: LifecycleState): string {
   return canonicalValue(state, "state");
@@ -33,33 +41,29 @@ function canonicalValue(value: unknown, where: string): string {
   if (value === null) {
     return "null";
   }
-  const kind: string = typeof value;
-  if (kind === "boolean") {
+  if (typeof value === "boolean") {
     return value ? "true" : "false";
   }
-  if (kind === "number") {
+  if (typeof value === "number") {
     if (!Number.isSafeInteger(value)) {
       throw new LifecycleError("serialization", `non-safe-integer number at ${where}`, { where, value });
     }
     return value.toString();
   }
-  if (kind === "string") {
+  if (typeof value === "string") {
     return JSON.stringify(value);
   }
-  if (kind === "object") {
-    if (Array.isArray(value)) {
-      return `[${value.map((item, index) => canonicalValue(item, `${where}[${index}]`)).join(",")}]`;
-    }
-    if (isPlainObject(value)) {
-      const keys = Object.keys(value).sort();
-      const body = keys
-        .map((key) => `${JSON.stringify(key)}:${canonicalValue(value[key], `${where}.${key}`)}`)
-        .join(",");
-      return `{${body}}`;
-    }
-    throw new LifecycleError("serialization", `unsupported object at ${where}`, { where });
+  if (Array.isArray(value)) {
+    return `[${value.map((item, index) => canonicalValue(item, `${where}[${index}]`)).join(",")}]`;
   }
-  throw new LifecycleError("serialization", `unsupported value of type "${kind}" at ${where}`, { where });
+  if (isPlainObject(value)) {
+    const body = Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalValue(value[key], `${where}.${key}`)}`)
+      .join(",");
+    return `{${body}}`;
+  }
+  throw new LifecycleError("serialization", `unsupported value at ${where}`, { where, type: typeof value });
 }
 
 function expectExactKeys(value: Record<string, unknown>, keys: readonly string[], where: string): void {
@@ -131,7 +135,7 @@ function parseEventAt(value: unknown, where: string): LifecycleEvent {
   }
   expectExactKeys(value, ["kind", "phase", "step", "note", "subject", "provenance", "evidence", "learning"], where);
   if (!isLifecycleEventKind(value.kind)) {
-    throw new LifecycleError("serialization", `${where}.kind is not an event kind`, { where, kind: value.kind });
+    throw new LifecycleError("serialization", `${where}.kind is not a lifecycle event kind`, { where, kind: value.kind });
   }
   if (!isLifecyclePhaseId(value.phase)) {
     throw new LifecycleError("serialization", `${where}.phase is not a lifecycle phase`, { where, phase: value.phase });
@@ -168,19 +172,9 @@ function parseEventAt(value: unknown, where: string): LifecycleEvent {
   };
 }
 
-interface ReplayTransitionOp {
-  readonly kind: "transition";
-  readonly step: number;
-  readonly transition: LifecycleTransition;
-}
-
-interface ReplayEventOp {
-  readonly kind: "event";
-  readonly step: number;
-  readonly event: LifecycleEvent;
-}
-
-type ReplayOp = ReplayTransitionOp | ReplayEventOp;
+type ReplayOperation =
+  | { readonly kind: "transition"; readonly step: number; readonly transition: LifecycleTransition }
+  | { readonly kind: "event"; readonly step: number; readonly event: LifecycleEvent };
 
 function replay(
   transitions: readonly LifecycleTransition[],
@@ -189,9 +183,9 @@ function replay(
   step: number,
   enteredPhaseAtStep: number,
 ): void {
-  const operations: ReplayOp[] = [
-    ...transitions.map((transition): ReplayOp => ({ kind: "transition", step: transition.step, transition })),
-    ...events.map((event): ReplayOp => ({ kind: "event", step: event.step, event })),
+  const operations: ReplayOperation[] = [
+    ...transitions.map((transition): ReplayOperation => ({ kind: "transition", step: transition.step, transition })),
+    ...events.map((event): ReplayOperation => ({ kind: "event", step: event.step, event })),
   ].sort((left, right) => left.step - right.step);
   const total = operations.length;
   if (step !== total) {
@@ -238,11 +232,10 @@ function replay(
         });
       }
       if (replayPhase === "learn" && operation.event.kind !== "learning-note") {
-        throw new LifecycleError(
-          "event-phase-mismatch",
-          `only learning notes may be recorded in the learn phase (step ${operation.step})`,
-          { step: operation.step, kind: operation.event.kind },
-        );
+        throw new LifecycleError("event-phase-mismatch", `only learning notes may be recorded in the learn phase (step ${operation.step})`, {
+          step: operation.step,
+          kind: operation.event.kind,
+        });
       }
     }
   }
@@ -260,11 +253,7 @@ function replay(
   }
 }
 
-/**
- * Parse and strictly validate restored lifecycle bytes. The log is replayed
- * operation by operation; any gap, duplicate, phase mismatch or learn-phase
- * violation is a typed error, never a silent correction.
- */
+/** Parse and strictly validate restored lifecycle bytes; the log is replayed operation by operation. */
 export function parseLifecycleState(bytes: string): LifecycleState {
   if (typeof bytes !== "string" || bytes.length === 0) {
     throw new LifecycleError("serialization", "lifecycle bytes must be a non-empty string", {});
@@ -305,7 +294,7 @@ export function parseLifecycleState(bytes: string): LifecycleState {
   );
   const events = parsed.events.map((value: unknown, index: number) => parseEventAt(value, `state.events[${index}]`));
   replay(transitions, events, parsed.phase, parsed.step, parsed.enteredPhaseAtStep);
-  return deepFreeze({
+  const state: LifecycleState = {
     anchor,
     policyId: parsed.policyId,
     phase: parsed.phase,
@@ -313,5 +302,6 @@ export function parseLifecycleState(bytes: string): LifecycleState {
     enteredPhaseAtStep: parsed.enteredPhaseAtStep,
     transitions,
     events,
-  });
+  };
+  return deepFreeze(state);
 }

@@ -1,13 +1,13 @@
 /**
  * The read-only lifecycle projection. Hosts render lifecycle views from
  * LifecycleOverview without importing machine internals. Projecting never
- * changes the state (pure function) and the result is deeply frozen.
+ * mutates the state; the result is deeply frozen derived data.
  */
 
-import { LIFECYCLE_PHASE_ORDER, phaseDefinitionOf, phaseOrdinal } from "./phases.ts";
 import { LifecycleError } from "./errors.ts";
+import { LIFECYCLE_PHASE_ORDER, phaseDefinitionOf, phaseOrdinal } from "./phases.ts";
+import type { LifecycleOverview, LifecyclePhaseId, LifecyclePhaseSummary, LifecycleState } from "./types.ts";
 import { assertStateShape, deepFreeze } from "./validate.ts";
-import type { LifecycleOverview, LifecyclePhaseId, LifecyclePhaseSummary, LifecycleState } from "./index.ts";
 
 interface MutablePhaseSummary {
   id: LifecyclePhaseId;
@@ -37,7 +37,7 @@ export function projectLifecycleOverview(state: LifecycleState): LifecycleOvervi
   }
   const initial = summaries.get("understand");
   if (initial === undefined) {
-    throw new LifecycleError("invalid-state", "the phase catalog is missing the initial phase", {});
+    throw new LifecycleError("unknown-phase", "the phase catalog is missing the initial phase", {});
   }
   initial.visits = 1;
   initial.enteredAtStep = 0;
@@ -45,7 +45,7 @@ export function projectLifecycleOverview(state: LifecycleState): LifecycleOvervi
   for (const event of state.events) {
     const summary = summaries.get(event.phase);
     if (summary === undefined) {
-      throw new LifecycleError("invalid-state", `an event references unknown phase "${String(event.phase)}"`, {
+      throw new LifecycleError("unknown-phase", `an event references unknown phase "${String(event.phase)}"`, {
         phase: event.phase,
       });
     }
@@ -58,30 +58,19 @@ export function projectLifecycleOverview(state: LifecycleState): LifecycleOvervi
     const from = summaries.get(transition.from);
     const to = summaries.get(transition.to);
     if (from === undefined || to === undefined) {
-      throw new LifecycleError("invalid-state", "a transition references an unknown phase", {
+      throw new LifecycleError("unknown-phase", "a transition references an unknown phase", {
         from: transition.from,
         to: transition.to,
       });
     }
     from.exitedAtStep = transition.step;
     to.visits += 1;
-    if (to.enteredAtStep === null) {
-      to.enteredAtStep = transition.step;
-    }
+    to.enteredAtStep = transition.step;
     to.evidenceCount += transition.evidence.length;
     if (phaseOrdinal(transition.to) < phaseOrdinal(transition.from)) {
       reworkCount += 1;
     }
   }
-
-  const phases: LifecyclePhaseSummary[] = LIFECYCLE_PHASE_ORDER.map((id) => {
-    const summary = summaries.get(id);
-    if (summary === undefined) {
-      throw new LifecycleError("invalid-state", `the phase catalog is missing "${id}"`, { id });
-    }
-    summary.status = summary.id === state.phase ? "current" : summary.visits > 0 ? "visited" : "pending";
-    return summary;
-  });
 
   const evidenceDigests = new Set<string>();
   for (const transition of state.transitions) {
@@ -99,19 +88,28 @@ export function projectLifecycleOverview(state: LifecycleState): LifecycleOvervi
     if (event.learning !== null) {
       evidenceDigests.add(event.learning.plannedDigest);
       evidenceDigests.add(event.learning.actualDigest);
-    }
-    if (event.kind === "learning-note") {
-      learningNoteCount += 1;
-      if (event.learning !== null && event.learning.outcome === "as-planned") {
-        learningAsPlanned += 1;
-      }
-      if (event.learning !== null && event.learning.outcome === "deviation") {
-        learningDeviations += 1;
+      if (event.kind === "learning-note") {
+        learningNoteCount += 1;
+        if (event.learning.outcome === "as-planned") {
+          learningAsPlanned += 1;
+        }
+        if (event.learning.outcome === "deviation") {
+          learningDeviations += 1;
+        }
       }
     }
   }
 
-  return deepFreeze({
+  const phases: LifecyclePhaseSummary[] = LIFECYCLE_PHASE_ORDER.map((id) => {
+    const summary = summaries.get(id);
+    if (summary === undefined) {
+      throw new LifecycleError("unknown-phase", `the phase catalog is missing "${id}"`, { id });
+    }
+    summary.status = summary.id === state.phase ? "current" : summary.visits > 0 ? "visited" : "pending";
+    return { ...summary };
+  });
+
+  const overview: LifecycleOverview = {
     anchor: state.anchor,
     policyId: state.policyId,
     currentPhase: state.phase,
@@ -126,5 +124,6 @@ export function projectLifecycleOverview(state: LifecycleState): LifecycleOvervi
     learningAsPlanned,
     learningDeviations,
     phases,
-  });
+  };
+  return deepFreeze(overview);
 }
