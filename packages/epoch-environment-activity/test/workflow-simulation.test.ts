@@ -179,7 +179,8 @@ test("SIMULATED workflow trace correlates episodes with a resulting world revisi
   );
   assert.ok(committed !== undefined);
   assert.equal(
-    (committed as { correlations: { digest: string }[] }).correlations[0].digest,
+    (committed as unknown as { correlations: { digest: string }[] })
+      .correlations[0].digest,
     revisionDigest,
   );
 });

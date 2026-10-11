@@ -185,9 +185,15 @@ test("verifyCandidateIntegrity detects tampering", () => {
     preparedBy: "w029-tests",
   });
   assert.equal(verifyCandidateIntegrity(candidate).ok, true);
-  const tampered = JSON.parse(JSON.stringify(candidate)) as CandidateExport;
+  // Tamper via a JSON clone viewed as a MUTABLE shape (the domain type is
+  // readonly by design, so the mutation must not go through it).
+  const tampered = JSON.parse(JSON.stringify(candidate)) as {
+    demonstration: { title: string };
+  };
   tampered.demonstration.title = "tampered";
-  const result = verifyCandidateIntegrity(tampered);
+  const result = verifyCandidateIntegrity(
+    tampered as unknown as CandidateExport,
+  );
   assert.equal(result.ok, false);
   assert.notEqual(result.actual, result.expected);
 });

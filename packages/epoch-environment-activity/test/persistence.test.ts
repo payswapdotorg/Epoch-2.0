@@ -132,12 +132,15 @@ test("restoring verifies digests and rejects mismatches, wrong kinds and unknown
   let stored: StoredEnvelope | undefined;
   const tamperingStore: WorldStorePort = {
     put: (envelope) => {
-      const clone = JSON.parse(JSON.stringify(envelope)) as StoredEnvelope;
-      clone.payload = {
-        ...(clone.payload as Record<string, unknown>),
+      const base = JSON.parse(JSON.stringify(envelope)) as StoredEnvelope;
+      const tamperedPayload = {
+        ...(base.payload as Record<string, unknown>),
         episodeId: "tampered",
       };
-      stored = clone;
+      stored = {
+        ...base,
+        payload: tamperedPayload as unknown as StoredEnvelope["payload"],
+      };
     },
     get: () => stored ?? null,
   };

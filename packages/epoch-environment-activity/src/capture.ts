@@ -135,7 +135,7 @@ export class SessionRecorder implements CaptureController {
   private policies: readonly CapturePolicy[];
   private readonly records: JournalRecord[] = [];
   private readonly contributingPolicyDigests: string[] = [];
-  private mode: CaptureMode = "active";
+  private mode_: CaptureMode = "active";
   private sensitiveWindowOpen = false;
   private rejectedAttempts = 0;
 
@@ -149,10 +149,10 @@ export class SessionRecorder implements CaptureController {
     this.policies = [...policies];
   }
 
+  /** Public read-only view of the capture mode (satisfies CaptureController). */
   get mode(): CaptureMode {
     return this.mode_;
   }
-  private mode_: CaptureMode = "active";
 
   get sessionLength(): number {
     return this.records.length;

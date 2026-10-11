@@ -15,6 +15,11 @@
 
 import { sha256Hex } from "./sha256.js";
 
+// Re-exported so package consumers (and the package index, which re-exports
+// this module) can reach the digest primitive without importing the internal
+// module path directly.
+export { sha256Hex };
+
 export type CanonicalPrimitive = null | boolean | number | string;
 export type CanonicalValue =
   | CanonicalPrimitive
@@ -82,14 +87,17 @@ function checkCanonical(value: unknown, seen: Set<object>): boolean {
   if (proto !== Object.prototype && proto !== null) {
     return false; // class instances, Dates, Maps, ...
   }
+  // `value` is a non-null plain object here. The local `record` view gives
+  // Object.keys a well-typed receiver: narrowing `unknown` through a typeof
+  // alias leaves `{}`-shaped types that `Object.keys(o: {})` rejects.
+  const record = value as Record<string, unknown>;
   if (Object.getOwnPropertySymbols(value).length > 0) {
     return false;
   }
-  if (Object.getOwnPropertyNames(value).length !== Object.keys(value).length) {
+  if (Object.getOwnPropertyNames(value).length !== Object.keys(record).length) {
     return false; // non-enumerable own string properties would be dropped silently
   }
   seen.add(value as object);
-  const record = value as Record<string, unknown>;
   for (const key of Object.keys(record)) {
     if (!checkCanonical(record[key], seen)) {
       return false;

@@ -182,7 +182,11 @@ test("result correlations are digest references only and no mutation surface exi
   assert.equal(demo.resultCorrelations[0].role, "result");
   // No-authority law: no function-valued property anywhere on the demonstration.
   const walk = (value: unknown): void => {
-    assert.equal(typeof value, "function", "demonstrations must carry data only");
+    assert.notEqual(
+      typeof value,
+      "function",
+      "demonstrations must carry data only",
+    );
   };
   Object.values(demo).forEach(walk);
   assert.equal(isDeepFrozen(demo), true);
