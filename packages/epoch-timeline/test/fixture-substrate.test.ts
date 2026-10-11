@@ -41,7 +41,10 @@ interface IngestedFixture {
 let fixtureModule: Record<string, unknown> | null = null;
 let loadError = "";
 try {
-  fixtureModule = (await import(FIXTURE_SPECIFIER)) as unknown as Record<string, unknown>;
+  fixtureModule = (await import(FIXTURE_SPECIFIER)) as unknown as Record<
+    string,
+    unknown
+  >;
 } catch (err) {
   loadError = String(err);
 }
@@ -49,7 +52,9 @@ try {
 // Deliberate runtime-validation boundary: probed fixture values cross the
 // static port via an explicit cast before fromRevision validates them.
 function feed(value: unknown): TimelineModel {
-  return TimelineBuilder.fromRevision(value as unknown as TimelineRevisionInput);
+  return TimelineBuilder.fromRevision(
+    value as unknown as TimelineRevisionInput,
+  );
 }
 
 function isRevisionLike(value: object): boolean {
@@ -64,7 +69,9 @@ function isRevisionLike(value: object): boolean {
   return false;
 }
 
-function collectRevisionCandidates(root: Record<string, unknown>): RevisionCandidate[] {
+function collectRevisionCandidates(
+  root: Record<string, unknown>,
+): RevisionCandidate[] {
   const found: RevisionCandidate[] = [];
   const seen = new Set<unknown>();
 
@@ -97,7 +104,9 @@ function collectRevisionCandidates(root: Record<string, unknown>): RevisionCandi
     if (depth >= 3) {
       return;
     }
-    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+    for (const [key, child] of Object.entries(
+      value as Record<string, unknown>,
+    )) {
       if (child === null || typeof child !== "object") {
         continue;
       }
@@ -137,10 +146,16 @@ function ingestedFixtures(): IngestedFixture[] {
 }
 
 function assertCoherentModel(label: string, model: TimelineModel): void {
-  assert.ok(model.phases.length >= 1, `${label}: model must carry at least one phase`);
+  assert.ok(
+    model.phases.length >= 1,
+    `${label}: model must carry at least one phase`,
+  );
   let previous: ConstructionPhase | undefined;
   for (const phase of model.phases) {
-    assert.ok(phase.endDay >= phase.startDay, `${label}: phase extents must be ordered`);
+    assert.ok(
+      phase.endDay >= phase.startDay,
+      `${label}: phase extents must be ordered`,
+    );
     assert.equal(
       new Set(phase.participantEntityIds).size,
       phase.participantEntityIds.length,
@@ -156,25 +171,37 @@ function assertCoherentModel(label: string, model: TimelineModel): void {
         phase.startDay - previous.startDay ||
         phase.endDay - previous.endDay ||
         (phase.id < previous.id ? -1 : phase.id > previous.id ? 1 : 0);
-      assert.ok(order > 0, `${label}: phases must be sorted by (startDay, endDay, id)`);
+      assert.ok(
+        order > 0,
+        `${label}: phases must be sorted by (startDay, endDay, id)`,
+      );
     }
     previous = phase;
   }
   const phaseIds = new Set(model.phases.map((phase) => phase.id));
   const memberIds = new Set<string>();
   for (const entry of model.entityMembership) {
-    assert.ok(entry.phases.length >= 1, `${label}: membership entries must not be empty`);
+    assert.ok(
+      entry.phases.length >= 1,
+      `${label}: membership entries must not be empty`,
+    );
     for (const participation of entry.phases) {
       assert.ok(
         phaseIds.has(participation.phaseId),
         `${label}: membership must reference known phases`,
       );
     }
-    assert.ok(!memberIds.has(entry.entityId), `${label}: membership entity ids must be unique`);
+    assert.ok(
+      !memberIds.has(entry.entityId),
+      `${label}: membership entity ids must be unique`,
+    );
     memberIds.add(entry.entityId);
   }
   for (const id of model.ambientEntityIds) {
-    assert.ok(!memberIds.has(id), `${label}: ambient ids must not be phase members`);
+    assert.ok(
+      !memberIds.has(id),
+      `${label}: ambient ids must not be phase members`,
+    );
   }
   assert.equal(
     model.modelDigest,
@@ -226,7 +253,11 @@ test("fixture-derived models are deterministic: identical revisions, byte-identi
       serializeModel(model),
       `${exportName}: serializations must be byte-identical`,
     );
-    assert.equal(again.modelDigest, model.modelDigest, `${exportName}: digests must be identical`);
+    assert.equal(
+      again.modelDigest,
+      model.modelDigest,
+      `${exportName}: digests must be identical`,
+    );
   }
 });
 
@@ -269,7 +300,10 @@ test("fixture revisions are never mutated by the timeline authority", () => {
     try {
       const frozenModel = feed(clone);
       TimelineBuilder.position(frozenModel, frozenModel.firstDay);
-      visibleEntities(frozenModel, TimelineBuilder.position(frozenModel, frozenModel.lastDay));
+      visibleEntities(
+        frozenModel,
+        TimelineBuilder.position(frozenModel, frozenModel.lastDay),
+      );
     } catch (err) {
       assert.ok(
         isTimelineError(err),
@@ -288,7 +322,11 @@ test("fixture-derived models round-trip through canonical serialization", () => 
       serializeModel(model),
       `${exportName}: round-trip must be byte-identical`,
     );
-    assert.deepEqual(parsed, model, `${exportName}: round-trip must preserve the model`);
+    assert.deepEqual(
+      parsed,
+      model,
+      `${exportName}: round-trip must preserve the model`,
+    );
   }
 });
 

@@ -15,14 +15,22 @@ test("identical revisions produce byte-identical models and identical digests", 
   const third = TimelineBuilder.fromRevision(phasedWorld());
   assert.equal(serializeModel(first), serializeModel(second));
   assert.equal(first.modelDigest, second.modelDigest);
-  assert.equal(new Set([first.modelDigest, second.modelDigest, third.modelDigest]).size, 1);
+  assert.equal(
+    new Set([first.modelDigest, second.modelDigest, third.modelDigest]).size,
+    1,
+  );
 });
 
 test("byte-identity holds under shuffled entity order and key insertion order", () => {
   const shuffledPhasedWorld = {
     entities: [
       {
-        construction: { phaseId: "p3", phaseName: "Facade", startDay: 40, endDay: 60 },
+        construction: {
+          phaseId: "p3",
+          phaseName: "Facade",
+          startDay: 40,
+          endDay: 60,
+        },
         id: "facade",
       },
       {
@@ -37,17 +45,33 @@ test("byte-identity holds under shuffled entity order and key insertion order", 
       },
       {
         construction: [
-          { phaseId: "p3", phaseName: "Facade", startDay: 40, endDay: 60, role: "remove" },
+          {
+            phaseId: "p3",
+            phaseName: "Facade",
+            startDay: 40,
+            endDay: 60,
+            role: "remove",
+          },
           { phaseId: "p1", startDay: 0, endDay: 10 },
         ],
         id: "crane",
       },
       {
-        construction: { phaseId: "p2", phaseName: "Structure", startDay: 10, endDay: 40 },
+        construction: {
+          phaseId: "p2",
+          phaseName: "Structure",
+          startDay: 10,
+          endDay: 40,
+        },
         id: "structure",
       },
       {
-        construction: { phaseId: "p1", phaseName: "Foundation", startDay: 0, endDay: 10 },
+        construction: {
+          phaseId: "p1",
+          phaseName: "Foundation",
+          startDay: 0,
+          endDay: 10,
+        },
         id: "foundation",
       },
       { id: "site" },
@@ -88,13 +112,19 @@ test("tampered model JSON fails the digest check", () => {
 
 test("computed world digests are stable and content-sensitive", () => {
   const base = revision({
-    entities: [{ id: "e", construction: { phaseId: "p", startDay: 0, endDay: 1 } }],
+    entities: [
+      { id: "e", construction: { phaseId: "p", startDay: 0, endDay: 1 } },
+    ],
   });
   const same = revision({
-    entities: [{ id: "e", construction: { phaseId: "p", startDay: 0, endDay: 1 } }],
+    entities: [
+      { id: "e", construction: { phaseId: "p", startDay: 0, endDay: 1 } },
+    ],
   });
   const different = revision({
-    entities: [{ id: "e", construction: { phaseId: "p", startDay: 0, endDay: 2 } }],
+    entities: [
+      { id: "e", construction: { phaseId: "p", startDay: 0, endDay: 2 } },
+    ],
   });
   assert.equal(
     TimelineBuilder.fromRevision(base).worldDigest,
@@ -109,7 +139,10 @@ test("computed world digests are stable and content-sensitive", () => {
 test("canonical model serializations carry only integer ordinals and content digests", () => {
   const walk = (value: unknown): void => {
     if (typeof value === "number") {
-      assert.ok(Number.isInteger(value), "model numbers must be integer day ordinals");
+      assert.ok(
+        Number.isInteger(value),
+        "model numbers must be integer day ordinals",
+      );
     }
     if (Array.isArray(value)) {
       for (const item of value) {
@@ -122,5 +155,9 @@ test("canonical model serializations carry only integer ordinals and content dig
     }
   };
   walk(JSON.parse(serializeModel(TimelineBuilder.fromRevision(phasedWorld()))));
-  walk(JSON.parse(serializeModel(TimelineBuilder.fromRevision(revision({ entities: [] })))));
+  walk(
+    JSON.parse(
+      serializeModel(TimelineBuilder.fromRevision(revision({ entities: [] }))),
+    ),
+  );
 });

@@ -22,7 +22,11 @@ export interface TimelineBuilderApi {
   /** Compute the portable position at a (possibly fractional) day ordinal. */
   position(model: TimelineModel, dayOrdinal: number): TimelinePosition;
   /** Derive renderer-neutral animation steps between two positions. */
-  animate(model: TimelineModel, from: TimelinePosition, to: TimelinePosition): TimelineAnimation;
+  animate(
+    model: TimelineModel,
+    from: TimelinePosition,
+    to: TimelinePosition,
+  ): TimelineAnimation;
   /** Bind a position to the model's world revision digest. */
   cursor(model: TimelineModel, position: TimelinePosition): TimelineCursor;
   /** Visibility projection through a revision-bound cursor. */
@@ -36,7 +40,11 @@ export const TimelineBuilder: Readonly<TimelineBuilderApi> = Object.freeze({
   position(model: TimelineModel, dayOrdinal: number): TimelinePosition {
     return positionAt(model, dayOrdinal);
   },
-  animate(model: TimelineModel, from: TimelinePosition, to: TimelinePosition): TimelineAnimation {
+  animate(
+    model: TimelineModel,
+    from: TimelinePosition,
+    to: TimelinePosition,
+  ): TimelineAnimation {
     return animateBetween(model, from, to);
   },
   cursor(model: TimelineModel, position: TimelinePosition): TimelineCursor {

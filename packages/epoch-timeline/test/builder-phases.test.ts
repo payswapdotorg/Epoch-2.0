@@ -16,15 +16,26 @@ function unsafe(value: unknown): TimelineRevisionInput {
 test("derives an ordered phase list with planned extents and participants", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   assert.deepEqual(
-    model.phases.map((phase) => [phase.id, phase.name, phase.startDay, phase.endDay]),
+    model.phases.map((phase) => [
+      phase.id,
+      phase.name,
+      phase.startDay,
+      phase.endDay,
+    ]),
     [
       ["p1", "Foundation", 0, 10],
       ["p2", "Structure", 10, 40],
       ["p3", "Facade", 40, 60],
     ],
   );
-  assert.deepEqual(model.phases[0]?.participantEntityIds, ["crane", "foundation"]);
-  assert.deepEqual(model.phases[1]?.participantEntityIds, ["scaffold", "structure"]);
+  assert.deepEqual(model.phases[0]?.participantEntityIds, [
+    "crane",
+    "foundation",
+  ]);
+  assert.deepEqual(model.phases[1]?.participantEntityIds, [
+    "scaffold",
+    "structure",
+  ]);
   assert.deepEqual(model.phases[2]?.participantEntityIds, ["crane", "facade"]);
   assert.equal(model.firstDay, 0);
   assert.equal(model.lastDay, 60);
@@ -35,7 +46,9 @@ test("derives per-entity phase membership sorted by entity id", () => {
   assert.deepEqual(
     model.entityMembership.map((entry) => [
       entry.entityId,
-      entry.phases.map((participation) => `${participation.phaseId}:${participation.role}`),
+      entry.phases.map(
+        (participation) => `${participation.phaseId}:${participation.role}`,
+      ),
     ]),
     [
       ["crane", ["p1:construct", "p3:remove"]],
@@ -52,15 +65,28 @@ test("honors a phase name supplied by any participating entity", () => {
   const world = revision({
     entities: [
       { id: "a", construction: { phaseId: "p", startDay: 0, endDay: 5 } },
-      { id: "b", construction: { phaseId: "p", phaseName: "Earthworks", startDay: 0, endDay: 5 } },
+      {
+        id: "b",
+        construction: {
+          phaseId: "p",
+          phaseName: "Earthworks",
+          startDay: 0,
+          endDay: 5,
+        },
+      },
     ],
   });
-  assert.equal(TimelineBuilder.fromRevision(world).phases[0]?.name, "Earthworks");
+  assert.equal(
+    TimelineBuilder.fromRevision(world).phases[0]?.name,
+    "Earthworks",
+  );
 });
 
 test("falls back to the phase id as the name when no name is carried", () => {
   const world = revision({
-    entities: [{ id: "a", construction: { phaseId: "core", startDay: 0, endDay: 3 } }],
+    entities: [
+      { id: "a", construction: { phaseId: "core", startDay: 0, endDay: 3 } },
+    ],
   });
   assert.equal(TimelineBuilder.fromRevision(world).phases[0]?.name, "core");
 });
@@ -77,7 +103,10 @@ test("accepts the planned extent as a [startDay, endDay] tuple", () => {
 test("reads construction data from the entity attribute container", () => {
   const world = revision({
     entities: [
-      { id: "a", attributes: { construction: { phaseId: "p", startDay: 1, endDay: 2 } } },
+      {
+        id: "a",
+        attributes: { construction: { phaseId: "p", startDay: 1, endDay: 2 } },
+      },
     ],
   });
   assert.equal(TimelineBuilder.fromRevision(world).phases[0]?.id, "p");
@@ -101,8 +130,14 @@ test("deduplicates repeated identical participations of one entity", () => {
 });
 
 test("uses the revision digest it carries as the world digest", () => {
-  assert.equal(TimelineBuilder.fromRevision(phasedWorld()).worldDigest, "w018-fixture-phased-0001");
-  assert.equal(TimelineBuilder.fromRevision(gapWorld()).worldDigest, "w018-gap-0002");
+  assert.equal(
+    TimelineBuilder.fromRevision(phasedWorld()).worldDigest,
+    "w018-fixture-phased-0001",
+  );
+  assert.equal(
+    TimelineBuilder.fromRevision(gapWorld()).worldDigest,
+    "w018-gap-0002",
+  );
 });
 
 test("computes a deterministic world digest when the revision carries none", () => {
@@ -128,8 +163,24 @@ test("surfaces typed errors for conflicting phase extents", () => {
 test("surfaces typed errors for conflicting phase names", () => {
   const world = revision({
     entities: [
-      { id: "a", construction: { phaseId: "p", phaseName: "One", startDay: 0, endDay: 5 } },
-      { id: "b", construction: { phaseId: "p", phaseName: "Two", startDay: 0, endDay: 5 } },
+      {
+        id: "a",
+        construction: {
+          phaseId: "p",
+          phaseName: "One",
+          startDay: 0,
+          endDay: 5,
+        },
+      },
+      {
+        id: "b",
+        construction: {
+          phaseId: "p",
+          phaseName: "Two",
+          startDay: 0,
+          endDay: 5,
+        },
+      },
     ],
   });
   assert.throws(
@@ -151,15 +202,22 @@ test("surfaces typed errors for malformed construction data", () => {
     ["inverted extent", { phaseId: "p", startDay: 5, endDay: 2 }],
     ["bad role", { phaseId: "p", startDay: 0, endDay: 2, role: "demolish" }],
     ["bad extent tuple", { phaseId: "p", extent: [0] }],
-    ["ambiguous construction", { phaseId: "p", startDay: 0, endDay: 2, phases: [] }],
+    [
+      "ambiguous construction",
+      { phaseId: "p", startDay: 0, endDay: 2, phases: [] },
+    ],
     ["array containing a non-object", ["nope"]],
-    ["empty phase name", { phaseId: "p", phaseName: "", startDay: 0, endDay: 2 }],
+    [
+      "empty phase name",
+      { phaseId: "p", phaseName: "", startDay: 0, endDay: 2 },
+    ],
   ];
   for (const [label, construction] of cases) {
     const world = revision({ entities: [{ id: "e", construction }] });
     assert.throws(
       () => TimelineBuilder.fromRevision(world),
-      (err) => isTimelineError(err) && err.code === "entity-construction-malformed",
+      (err) =>
+        isTimelineError(err) && err.code === "entity-construction-malformed",
       `expected a typed error for: ${label}`,
     );
   }
@@ -214,6 +272,7 @@ test("surfaces typed errors when an entity carries multiple construction attribu
   };
   assert.throws(
     () => TimelineBuilder.fromRevision(world),
-    (err) => isTimelineError(err) && err.code === "entity-construction-malformed",
+    (err) =>
+      isTimelineError(err) && err.code === "entity-construction-malformed",
   );
 });

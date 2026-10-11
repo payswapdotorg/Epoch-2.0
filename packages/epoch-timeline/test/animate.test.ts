@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { animateBetween, isTimelineError, TimelineBuilder } from "../src/index.js";
+import {
+  animateBetween,
+  isTimelineError,
+  TimelineBuilder,
+} from "../src/index.js";
 import { gapWorld, phasedWorld, revision, zipWorld } from "./helpers.js";
 
 test("derives appearance and disappearance steps for forward playback", () => {
@@ -126,5 +130,8 @@ test("the standalone animateBetween function matches the builder", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   const from = TimelineBuilder.position(model, 5);
   const to = TimelineBuilder.position(model, 45);
-  assert.deepEqual(animateBetween(model, from, to), TimelineBuilder.animate(model, from, to));
+  assert.deepEqual(
+    animateBetween(model, from, to),
+    TimelineBuilder.animate(model, from, to),
+  );
 });

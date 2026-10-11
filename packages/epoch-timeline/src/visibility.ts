@@ -24,17 +24,34 @@ import type {
   TimelineModel,
   TimelinePosition,
 } from "./contracts.js";
-import { assertPhaseKnown, clonePosition, validatePosition } from "./position.js";
+import {
+  assertPhaseKnown,
+  clonePosition,
+  validatePosition,
+} from "./position.js";
 import { deepFreeze } from "./internal.js";
 
-export function visibilityAtDay(model: TimelineModel, day: number): ReadonlySet<string> {
+export function visibilityAtDay(
+  model: TimelineModel,
+  day: number,
+): ReadonlySet<string> {
   if (typeof day !== "number" || !Number.isFinite(day)) {
-    throw new TimelineError("day-invalid", "day ordinal must be a finite number");
+    throw new TimelineError(
+      "day-invalid",
+      "day ordinal must be a finite number",
+    );
   }
   const phasesById = indexPhases(model);
   const visible = new Set<string>(model.ambientEntityIds);
   for (const membership of model.entityMembership) {
-    if (isEntityVisibleAtDay(membership.entityId, membership.phases, phasesById, day)) {
+    if (
+      isEntityVisibleAtDay(
+        membership.entityId,
+        membership.phases,
+        phasesById,
+        day,
+      )
+    ) {
       visible.add(membership.entityId);
     }
   }
@@ -73,7 +90,9 @@ function isEntityVisibleAtDay(
   return day >= appearDay && day < removeDay;
 }
 
-function indexPhases(model: TimelineModel): ReadonlyMap<string, ConstructionPhase> {
+function indexPhases(
+  model: TimelineModel,
+): ReadonlyMap<string, ConstructionPhase> {
   const map = new Map<string, ConstructionPhase>();
   for (const phase of model.phases) {
     map.set(phase.id, phase);
@@ -92,14 +111,23 @@ export function visibleEntities(
 }
 
 /** Bind a position to the model's world revision digest (a frozen cursor). */
-export function bindCursor(model: TimelineModel, position: TimelinePosition): TimelineCursor {
+export function bindCursor(
+  model: TimelineModel,
+  position: TimelinePosition,
+): TimelineCursor {
   validatePosition(position, "position");
   assertPhaseKnown(model, position.activePhaseId, "position");
-  return deepFreeze({ position: clonePosition(position), worldDigest: model.worldDigest });
+  return deepFreeze({
+    position: clonePosition(position),
+    worldDigest: model.worldDigest,
+  });
 }
 
 /** Whether a cursor is bound to the given model's world revision. */
-export function cursorIsBound(cursor: TimelineCursor, model: TimelineModel): boolean {
+export function cursorIsBound(
+  cursor: TimelineCursor,
+  model: TimelineModel,
+): boolean {
   return cursor.worldDigest === model.worldDigest;
 }
 
@@ -112,7 +140,10 @@ export function visibleEntitiesAtCursor(
     throw new TimelineError(
       "revision-mismatch",
       "cursor is not bound to this model's world revision",
-      { cursorWorldDigest: cursor.worldDigest, modelWorldDigest: model.worldDigest },
+      {
+        cursorWorldDigest: cursor.worldDigest,
+        modelWorldDigest: model.worldDigest,
+      },
     );
   }
   return visibleEntities(model, cursor.position);

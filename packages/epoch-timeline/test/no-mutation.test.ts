@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { serializeModel, TimelineBuilder, visibleEntities } from "../src/index.js";
+import {
+  serializeModel,
+  TimelineBuilder,
+  visibleEntities,
+} from "../src/index.js";
 import { deepFreezeWorld, phasedWorld } from "./helpers.js";
 
 test("the builder never mutates the world revision it reads", () => {
@@ -31,20 +35,14 @@ test("returned models and positions are frozen against mutation", () => {
   assert.ok(Object.isFrozen(phase.participantEntityIds));
   assert.ok(Object.isFrozen(model.entityMembership));
   assert.ok(Object.isFrozen(model.ambientEntityIds));
-  assert.throws(
-    () => {
-      (model as unknown as Record<string, unknown>).tampered = "x";
-    },
-    TypeError,
-  );
+  assert.throws(() => {
+    (model as unknown as Record<string, unknown>).tampered = "x";
+  }, TypeError);
   const position = TimelineBuilder.position(model, 5);
   assert.ok(Object.isFrozen(position));
-  assert.throws(
-    () => {
-      (position as unknown as Record<string, unknown>).extra = "x";
-    },
-    TypeError,
-  );
+  assert.throws(() => {
+    (position as unknown as Record<string, unknown>).extra = "x";
+  }, TypeError);
 });
 
 test("animations and cursors are frozen against mutation", () => {
@@ -58,7 +56,10 @@ test("animations and cursors are frozen against mutation", () => {
   assert.ok(Object.isFrozen(animation.steps));
   assert.ok(Object.isFrozen(animation.from));
   assert.ok(Object.isFrozen(animation.to));
-  const cursor = TimelineBuilder.cursor(model, TimelineBuilder.position(model, 5));
+  const cursor = TimelineBuilder.cursor(
+    model,
+    TimelineBuilder.position(model, 5),
+  );
   assert.ok(Object.isFrozen(cursor));
   assert.ok(Object.isFrozen(cursor.position));
 });

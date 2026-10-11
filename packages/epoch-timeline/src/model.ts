@@ -54,13 +54,17 @@ export function buildModel(ingested: IngestedTimeline): TimelineModel {
         name: AS_BUILT_PHASE_NAME,
         startDay: 0,
         endDay: 0,
-        participantEntityIds: deepFreeze([...allEntityIds].sort(compareStrings)),
+        participantEntityIds: deepFreeze(
+          [...allEntityIds].sort(compareStrings),
+        ),
       }),
     );
     for (const entity of ingested.entities) {
       membership.push({
         entityId: entity.entityId,
-        phases: deepFreeze([{ phaseId: AS_BUILT_PHASE_ID, role: "construct" as const }]),
+        phases: deepFreeze([
+          { phaseId: AS_BUILT_PHASE_ID, role: "construct" as const },
+        ]),
       });
     }
     membership.sort((a, b) => compareStrings(a.entityId, b.entityId));
@@ -117,7 +121,10 @@ export function buildModel(ingested: IngestedTimeline): TimelineModel {
     Number.NEGATIVE_INFINITY,
   );
   if (!Number.isFinite(firstDay) || !Number.isFinite(lastDay)) {
-    throw new TimelineError("model-invalid", "timeline model must carry at least one phase");
+    throw new TimelineError(
+      "model-invalid",
+      "timeline model must carry at least one phase",
+    );
   }
 
   const base = {
@@ -152,9 +159,13 @@ export function parseModel(json: string): TimelineModel {
   try {
     parsed = JSON.parse(json);
   } catch (err) {
-    throw new TimelineError("model-invalid", "timeline model JSON is not parseable", {
-      reason: String(err),
-    });
+    throw new TimelineError(
+      "model-invalid",
+      "timeline model JSON is not parseable",
+      {
+        reason: String(err),
+      },
+    );
   }
   return validateModel(parsed);
 }
@@ -187,7 +198,9 @@ function projectModel(model: TimelineModel): unknown {
  * is computed at parse time); present -> must be a non-empty string, and is
  * verified against the recomputed canonical hash.
  */
-function readDeclaredDigest(value: Record<string, unknown>): string | undefined {
+function readDeclaredDigest(
+  value: Record<string, unknown>,
+): string | undefined {
   if (!hasOwn(value, "modelDigest")) {
     return undefined;
   }
@@ -203,18 +216,39 @@ function readDeclaredDigest(value: Record<string, unknown>): string | undefined 
 
 function validateModel(value: unknown): TimelineModel {
   if (!isPlainObject(value)) {
-    throw new TimelineError("model-invalid", "timeline model must be a JSON object");
+    throw new TimelineError(
+      "model-invalid",
+      "timeline model must be a JSON object",
+    );
   }
   const subject = "timeline model";
-  const worldDigest = requireNonEmptyString(value, "worldDigest", "model-invalid", subject);
+  const worldDigest = requireNonEmptyString(
+    value,
+    "worldDigest",
+    "model-invalid",
+    subject,
+  );
   const declaredDigest = readDeclaredDigest(value);
   const firstDay = requireInteger(value, "firstDay", "model-invalid", subject);
   const lastDay = requireInteger(value, "lastDay", "model-invalid", subject);
-  const ambientRaw = requireArray(value, "ambientEntityIds", "model-invalid", subject);
-  const membershipRaw = requireArray(value, "entityMembership", "model-invalid", subject);
+  const ambientRaw = requireArray(
+    value,
+    "ambientEntityIds",
+    "model-invalid",
+    subject,
+  );
+  const membershipRaw = requireArray(
+    value,
+    "entityMembership",
+    "model-invalid",
+    subject,
+  );
   const phasesRaw = requireArray(value, "phases", "model-invalid", subject);
   if (phasesRaw.length === 0) {
-    throw new TimelineError("model-invalid", "timeline model must carry at least one phase");
+    throw new TimelineError(
+      "model-invalid",
+      "timeline model must carry at least one phase",
+    );
   }
 
   const phaseIds = new Set<string>();
@@ -237,7 +271,10 @@ function validateModel(value: unknown): TimelineModel {
         phase.endDay - previousPhase.endDay ||
         compareStrings(phase.id, previousPhase.id);
       if (order <= 0) {
-        throw new TimelineError("model-invalid", "phases must be sorted by (startDay, endDay, id)");
+        throw new TimelineError(
+          "model-invalid",
+          "phases must be sorted by (startDay, endDay, id)",
+        );
       }
     }
     previousPhase = phase;
@@ -248,11 +285,24 @@ function validateModel(value: unknown): TimelineModel {
   let previousMembership: EntityPhaseMembership | undefined;
   for (const rawEntry of membershipRaw) {
     if (!isPlainObject(rawEntry)) {
-      throw new TimelineError("model-invalid", "entity membership entries must be JSON objects");
+      throw new TimelineError(
+        "model-invalid",
+        "entity membership entries must be JSON objects",
+      );
     }
     const entrySubject = "entity membership entry";
-    const entityId = requireNonEmptyString(rawEntry, "entityId", "model-invalid", entrySubject);
-    const participationsRaw = requireArray(rawEntry, "phases", "model-invalid", entrySubject);
+    const entityId = requireNonEmptyString(
+      rawEntry,
+      "entityId",
+      "model-invalid",
+      entrySubject,
+    );
+    const participationsRaw = requireArray(
+      rawEntry,
+      "phases",
+      "model-invalid",
+      entrySubject,
+    );
     if (participationsRaw.length === 0) {
       throw new TimelineError(
         "model-invalid",
@@ -261,18 +311,30 @@ function validateModel(value: unknown): TimelineModel {
       );
     }
     if (memberIds.has(entityId)) {
-      throw new TimelineError("model-invalid", "duplicate membership entity id", { entityId });
+      throw new TimelineError(
+        "model-invalid",
+        "duplicate membership entity id",
+        { entityId },
+      );
     }
     memberIds.add(entityId);
     const participations: EntityPhaseParticipation[] = [];
     const seenPairs = new Set<string>();
     for (const rawParticipation of participationsRaw) {
-      const participation = validateParticipation(rawParticipation, entityId, phaseIds);
+      const participation = validateParticipation(
+        rawParticipation,
+        entityId,
+        phaseIds,
+      );
       const pairKey = `${participation.role} ${participation.phaseId}`;
       if (seenPairs.has(pairKey)) {
-        throw new TimelineError("model-invalid", "duplicate participation in membership", {
-          entityId,
-        });
+        throw new TimelineError(
+          "model-invalid",
+          "duplicate participation in membership",
+          {
+            entityId,
+          },
+        );
       }
       seenPairs.add(pairKey);
       participations.push(participation);
@@ -281,8 +343,10 @@ function validateModel(value: unknown): TimelineModel {
     for (const participation of participations) {
       if (previousParticipation !== undefined) {
         const order =
-          compareStrings(participation.phaseId, previousParticipation.phaseId) ||
-          compareStrings(participation.role, previousParticipation.role);
+          compareStrings(
+            participation.phaseId,
+            previousParticipation.phaseId,
+          ) || compareStrings(participation.role, previousParticipation.role);
         if (order <= 0) {
           throw new TimelineError(
             "model-invalid",
@@ -301,7 +365,10 @@ function validateModel(value: unknown): TimelineModel {
       previousMembership !== undefined &&
       compareStrings(entityId, previousMembership.entityId) <= 0
     ) {
-      throw new TimelineError("model-invalid", "entity membership must be sorted by entityId");
+      throw new TimelineError(
+        "model-invalid",
+        "entity membership must be sorted by entityId",
+      );
     }
     previousMembership = entry;
     membership.push(entry);
@@ -311,15 +378,28 @@ function validateModel(value: unknown): TimelineModel {
   let previousAmbient: string | undefined;
   for (const rawId of ambientRaw) {
     if (typeof rawId !== "string" || rawId.length === 0) {
-      throw new TimelineError("model-invalid", "ambient entity ids must be non-empty strings");
+      throw new TimelineError(
+        "model-invalid",
+        "ambient entity ids must be non-empty strings",
+      );
     }
     if (memberIds.has(rawId)) {
-      throw new TimelineError("model-invalid", "entity is both ambient and a phase member", {
-        entityId: rawId,
-      });
+      throw new TimelineError(
+        "model-invalid",
+        "entity is both ambient and a phase member",
+        {
+          entityId: rawId,
+        },
+      );
     }
-    if (previousAmbient !== undefined && compareStrings(rawId, previousAmbient) <= 0) {
-      throw new TimelineError("model-invalid", "ambient entity ids must be sorted and unique");
+    if (
+      previousAmbient !== undefined &&
+      compareStrings(rawId, previousAmbient) <= 0
+    ) {
+      throw new TimelineError(
+        "model-invalid",
+        "ambient entity ids must be sorted and unique",
+      );
     }
     previousAmbient = rawId;
     ambient.push(rawId);
@@ -334,10 +414,14 @@ function validateModel(value: unknown): TimelineModel {
     Number.NEGATIVE_INFINITY,
   );
   if (firstDay !== computedFirst || lastDay !== computedLast) {
-    throw new TimelineError("model-invalid", "firstDay/lastDay do not match the phase extents", {
-      firstDay,
-      lastDay,
-    });
+    throw new TimelineError(
+      "model-invalid",
+      "firstDay/lastDay do not match the phase extents",
+      {
+        firstDay,
+        lastDay,
+      },
+    );
   }
 
   const candidate: Omit<TimelineModel, "modelDigest"> = {
@@ -361,9 +445,13 @@ function validateModel(value: unknown): TimelineModel {
 
 function validatePhase(value: unknown, index: number): ConstructionPhase {
   if (!isPlainObject(value)) {
-    throw new TimelineError("model-invalid", `phase at index ${index} must be a JSON object`, {
-      index,
-    });
+    throw new TimelineError(
+      "model-invalid",
+      `phase at index ${index} must be a JSON object`,
+      {
+        index,
+      },
+    );
   }
   const subject = `phase at index ${index}`;
   const id = requireNonEmptyString(value, "id", "model-invalid", subject);
@@ -371,23 +459,40 @@ function validatePhase(value: unknown, index: number): ConstructionPhase {
   const startDay = requireInteger(value, "startDay", "model-invalid", subject);
   const endDay = requireInteger(value, "endDay", "model-invalid", subject);
   if (startDay < 0 || endDay < startDay) {
-    throw new TimelineError("model-invalid", "phase extent must satisfy 0 <= startDay <= endDay", {
-      phaseId: id,
-    });
+    throw new TimelineError(
+      "model-invalid",
+      "phase extent must satisfy 0 <= startDay <= endDay",
+      {
+        phaseId: id,
+      },
+    );
   }
-  const participantIdsRaw = requireArray(value, "participantEntityIds", "model-invalid", subject);
+  const participantIdsRaw = requireArray(
+    value,
+    "participantEntityIds",
+    "model-invalid",
+    subject,
+  );
   const participantEntityIds: string[] = [];
   let previousId: string | undefined;
   for (const rawId of participantIdsRaw) {
     if (typeof rawId !== "string" || rawId.length === 0) {
-      throw new TimelineError("model-invalid", "participant entity ids must be non-empty strings", {
-        phaseId: id,
-      });
+      throw new TimelineError(
+        "model-invalid",
+        "participant entity ids must be non-empty strings",
+        {
+          phaseId: id,
+        },
+      );
     }
     if (previousId !== undefined && compareStrings(rawId, previousId) <= 0) {
-      throw new TimelineError("model-invalid", "participant entity ids must be sorted and unique", {
-        phaseId: id,
-      });
+      throw new TimelineError(
+        "model-invalid",
+        "participant entity ids must be sorted and unique",
+        {
+          phaseId: id,
+        },
+      );
     }
     previousId = rawId;
     participantEntityIds.push(rawId);
@@ -413,19 +518,32 @@ function validateParticipation(
     );
   }
   const subject = `participation of entity "${entityId}"`;
-  const phaseId = requireNonEmptyString(value, "phaseId", "model-invalid", subject);
+  const phaseId = requireNonEmptyString(
+    value,
+    "phaseId",
+    "model-invalid",
+    subject,
+  );
   const role = requireNonEmptyString(value, "role", "model-invalid", subject);
   if (role !== "construct" && role !== "remove") {
-    throw new TimelineError("model-invalid", `${subject} role must be "construct" or "remove"`, {
-      entityId,
-      phaseId,
-    });
+    throw new TimelineError(
+      "model-invalid",
+      `${subject} role must be "construct" or "remove"`,
+      {
+        entityId,
+        phaseId,
+      },
+    );
   }
   if (!phaseIds.has(phaseId)) {
-    throw new TimelineError("model-invalid", `${subject} references unknown phase "${phaseId}"`, {
-      entityId,
-      phaseId,
-    });
+    throw new TimelineError(
+      "model-invalid",
+      `${subject} references unknown phase "${phaseId}"`,
+      {
+        entityId,
+        phaseId,
+      },
+    );
   }
   return deepFreeze({ phaseId, role });
 }

@@ -8,8 +8,8 @@ invariants 1, 4, 17).
 ## Laws
 
 - **No second authority.** The world model stays the single semantic
-  authority. This package organizes *when* entities appear in the
-  construction story; it never changes *what* they are. Content, semantics
+  authority. This package organizes _when_ entities appear in the
+  construction story; it never changes _what_ they are. Content, semantics
   and identity of `WorldRevision`/`WorldEntity` stay owned by
   `@zcode/epoch-world-model`.
 - **Revision binding.** A timeline is always bound to one world revision by

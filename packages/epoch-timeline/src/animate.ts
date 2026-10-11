@@ -22,7 +22,11 @@ import {
   type TimelineModel,
   type TimelinePosition,
 } from "./contracts.js";
-import { assertPhaseKnown, clonePosition, validatePosition } from "./position.js";
+import {
+  assertPhaseKnown,
+  clonePosition,
+  validatePosition,
+} from "./position.js";
 import { compareStrings, deepFreeze } from "./internal.js";
 
 interface PhaseBoundary {
@@ -53,11 +57,17 @@ export function animateBetween(
   const steps: TimelineAnimationStep[] = [];
   for (const membership of model.entityMembership) {
     const appear = earliestBoundary(membership, phasesById, "construct");
-    if (appear !== undefined && crossesInterval(appear.boundaryDay, lower, upper)) {
+    if (
+      appear !== undefined &&
+      crossesInterval(appear.boundaryDay, lower, upper)
+    ) {
       steps.push(stepFor(membership.entityId, "appear", appear));
     }
     const disappear = earliestBoundary(membership, phasesById, "remove");
-    if (disappear !== undefined && crossesInterval(disappear.boundaryDay, lower, upper)) {
+    if (
+      disappear !== undefined &&
+      crossesInterval(disappear.boundaryDay, lower, upper)
+    ) {
       steps.push(stepFor(membership.entityId, "disappear", disappear));
     }
   }
@@ -99,13 +109,17 @@ function earliestBoundary(
       boundaryDay: phase.startDay,
       durationDays: Math.max(
         0,
-        Math.min(phase.endDay - phase.startDay, DEFAULT_TRANSITION_DURATION_DAYS),
+        Math.min(
+          phase.endDay - phase.startDay,
+          DEFAULT_TRANSITION_DURATION_DAYS,
+        ),
       ),
     };
     if (
       best === undefined ||
       candidate.boundaryDay < best.boundaryDay ||
-      (candidate.boundaryDay === best.boundaryDay && compareStrings(candidate.phaseId, best.phaseId) < 0)
+      (candidate.boundaryDay === best.boundaryDay &&
+        compareStrings(candidate.phaseId, best.phaseId) < 0)
     ) {
       best = candidate;
     }

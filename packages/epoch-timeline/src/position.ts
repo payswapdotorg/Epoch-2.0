@@ -9,7 +9,11 @@
  */
 import { canonicalJson } from "./canonical.js";
 import { TimelineError } from "./errors.js";
-import type { ConstructionPhase, TimelineModel, TimelinePosition } from "./contracts.js";
+import type {
+  ConstructionPhase,
+  TimelineModel,
+  TimelinePosition,
+} from "./contracts.js";
 import {
   clamp01,
   deepFreeze,
@@ -27,9 +31,15 @@ const POSITION_SUBJECT = "timeline position";
  * sort order — later end day, then id); inside a schedule gap the completed
  * earlier phase stays active at progress 1.
  */
-export function positionAt(model: TimelineModel, dayOrdinal: number): TimelinePosition {
+export function positionAt(
+  model: TimelineModel,
+  dayOrdinal: number,
+): TimelinePosition {
   if (typeof dayOrdinal !== "number" || !Number.isFinite(dayOrdinal)) {
-    throw new TimelineError("day-invalid", "day ordinal must be a finite number");
+    throw new TimelineError(
+      "day-invalid",
+      "day ordinal must be a finite number",
+    );
   }
   const day = Math.min(Math.max(dayOrdinal, model.firstDay), model.lastDay);
   const active = selectActivePhase(model.phases, day);
@@ -42,11 +52,23 @@ export function positionAt(model: TimelineModel, dayOrdinal: number): TimelinePo
         : 0;
   const span = model.lastDay - model.firstDay;
   const totalProgress =
-    span > 0 ? clamp01((day - model.firstDay) / span) : day >= model.lastDay ? 1 : 0;
-  return deepFreeze({ day, activePhaseId: active.id, phaseProgress, totalProgress });
+    span > 0
+      ? clamp01((day - model.firstDay) / span)
+      : day >= model.lastDay
+        ? 1
+        : 0;
+  return deepFreeze({
+    day,
+    activePhaseId: active.id,
+    phaseProgress,
+    totalProgress,
+  });
 }
 
-function selectActivePhase(phases: readonly ConstructionPhase[], day: number): ConstructionPhase {
+function selectActivePhase(
+  phases: readonly ConstructionPhase[],
+  day: number,
+): ConstructionPhase {
   let active: ConstructionPhase | undefined;
   for (const phase of phases) {
     if (phase.startDay <= day) {
@@ -57,7 +79,10 @@ function selectActivePhase(phases: readonly ConstructionPhase[], day: number): C
   }
   const fallback = active ?? phases[0];
   if (fallback === undefined) {
-    throw new TimelineError("model-invalid", "timeline model carries no phases");
+    throw new TimelineError(
+      "model-invalid",
+      "timeline model carries no phases",
+    );
   }
   return fallback;
 }
@@ -78,14 +103,26 @@ export function parsePosition(json: string): TimelinePosition {
   try {
     parsed = JSON.parse(json);
   } catch (err) {
-    throw new TimelineError("position-invalid", "timeline position JSON is not parseable", {
-      reason: String(err),
-    });
+    throw new TimelineError(
+      "position-invalid",
+      "timeline position JSON is not parseable",
+      {
+        reason: String(err),
+      },
+    );
   }
   if (!isPlainObject(parsed)) {
-    throw new TimelineError("position-invalid", "timeline position must be a JSON object");
+    throw new TimelineError(
+      "position-invalid",
+      "timeline position must be a JSON object",
+    );
   }
-  const day = requireFiniteNumber(parsed, "day", "position-invalid", POSITION_SUBJECT);
+  const day = requireFiniteNumber(
+    parsed,
+    "day",
+    "position-invalid",
+    POSITION_SUBJECT,
+  );
   const activePhaseId = requireNonEmptyString(
     parsed,
     "activePhaseId",
@@ -121,7 +158,10 @@ export function clonePosition(position: TimelinePosition): TimelinePosition {
 export function validatePosition(position: unknown, label: string): void {
   const subject = `${POSITION_SUBJECT} "${label}"`;
   if (!isPlainObject(position)) {
-    throw new TimelineError("position-invalid", `${subject} must be a plain object`);
+    throw new TimelineError(
+      "position-invalid",
+      `${subject} must be a plain object`,
+    );
   }
   requireFiniteNumber(position, "day", "position-invalid", subject);
   requireNonEmptyString(position, "activePhaseId", "position-invalid", subject);
@@ -130,7 +170,11 @@ export function validatePosition(position: unknown, label: string): void {
 }
 
 /** Assert that `phaseId` belongs to `model`. */
-export function assertPhaseKnown(model: TimelineModel, phaseId: string, label: string): void {
+export function assertPhaseKnown(
+  model: TimelineModel,
+  phaseId: string,
+  label: string,
+): void {
   if (!model.phases.some((phase) => phase.id === phaseId)) {
     throw new TimelineError(
       "phase-unknown",

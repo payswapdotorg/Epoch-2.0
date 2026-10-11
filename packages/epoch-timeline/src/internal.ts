@@ -3,7 +3,9 @@
  */
 import { TimelineError, type TimelineErrorCode } from "./errors.js";
 
-export function isPlainObject(value: unknown): value is Record<string, unknown> {
+export function isPlainObject(
+  value: unknown,
+): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
@@ -32,7 +34,10 @@ export function clamp01(value: number): number {
 }
 
 export function deepFreeze<T>(value: T): T {
-  if (value !== null && (typeof value === "object" || typeof value === "function")) {
+  if (
+    value !== null &&
+    (typeof value === "object" || typeof value === "function")
+  ) {
     const record = value as unknown as Record<string, unknown>;
     for (const key of Object.keys(record)) {
       deepFreeze(record[key]);
@@ -49,9 +54,13 @@ export function requireField(
   subject: string,
 ): unknown {
   if (!hasOwn(record, key)) {
-    throw new TimelineError(code, `${subject} is missing required field "${key}"`, {
-      field: key,
-    });
+    throw new TimelineError(
+      code,
+      `${subject} is missing required field "${key}"`,
+      {
+        field: key,
+      },
+    );
   }
   return record[key];
 }
@@ -64,9 +73,13 @@ export function requireNonEmptyString(
 ): string {
   const value = requireField(record, key, code, subject);
   if (typeof value !== "string" || value.length === 0) {
-    throw new TimelineError(code, `${subject} field "${key}" must be a non-empty string`, {
-      field: key,
-    });
+    throw new TimelineError(
+      code,
+      `${subject} field "${key}" must be a non-empty string`,
+      {
+        field: key,
+      },
+    );
   }
   return value;
 }
@@ -79,9 +92,13 @@ export function requireFiniteNumber(
 ): number {
   const value = requireField(record, key, code, subject);
   if (typeof value !== "number" || !Number.isFinite(value)) {
-    throw new TimelineError(code, `${subject} field "${key}" must be a finite number`, {
-      field: key,
-    });
+    throw new TimelineError(
+      code,
+      `${subject} field "${key}" must be a finite number`,
+      {
+        field: key,
+      },
+    );
   }
   return value;
 }
@@ -94,9 +111,13 @@ export function requireUnitNumber(
 ): number {
   const value = requireFiniteNumber(record, key, code, subject);
   if (value < 0 || value > 1) {
-    throw new TimelineError(code, `${subject} field "${key}" must be within [0, 1]`, {
-      field: key,
-    });
+    throw new TimelineError(
+      code,
+      `${subject} field "${key}" must be within [0, 1]`,
+      {
+        field: key,
+      },
+    );
   }
   return value;
 }
@@ -109,9 +130,13 @@ export function requireInteger(
 ): number {
   const value = requireFiniteNumber(record, key, code, subject);
   if (!Number.isInteger(value)) {
-    throw new TimelineError(code, `${subject} field "${key}" must be an integer`, {
-      field: key,
-    });
+    throw new TimelineError(
+      code,
+      `${subject} field "${key}" must be an integer`,
+      {
+        field: key,
+      },
+    );
   }
   return value;
 }
@@ -124,9 +149,13 @@ export function requireArray(
 ): unknown[] {
   const value = requireField(record, key, code, subject);
   if (!Array.isArray(value)) {
-    throw new TimelineError(code, `${subject} field "${key}" must be an array`, {
-      field: key,
-    });
+    throw new TimelineError(
+      code,
+      `${subject} field "${key}" must be an array`,
+      {
+        field: key,
+      },
+    );
   }
   return value;
 }

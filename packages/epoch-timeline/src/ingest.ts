@@ -26,7 +26,11 @@ import { sha256Hex } from "./sha256.js";
 
 const ENTITY_COLLECTION_KEYS: readonly string[] = ["entities", "worldEntities"];
 const ENTITY_ID_KEYS: readonly string[] = ["id", "entityId"];
-const REVISION_DIGEST_KEYS: readonly string[] = ["digest", "revisionDigest", "worldDigest"];
+const REVISION_DIGEST_KEYS: readonly string[] = [
+  "digest",
+  "revisionDigest",
+  "worldDigest",
+];
 const CONSTRUCTION_KEYS: readonly string[] = [
   "construction",
   "constructionPhase",
@@ -40,7 +44,11 @@ const CONSTRUCTION_CONTAINER_KEYS: readonly string[] = [
   "properties",
   "data",
 ];
-const NESTED_PHASE_LIST_KEYS: readonly string[] = ["phases", "refs", "participations"];
+const NESTED_PHASE_LIST_KEYS: readonly string[] = [
+  "phases",
+  "refs",
+  "participations",
+];
 const PHASE_ID_KEYS: readonly string[] = ["phaseId", "id"];
 const PHASE_NAME_KEYS: readonly string[] = ["phaseName", "name"];
 const EXTENT_TUPLE_KEYS: readonly string[] = ["extent", "dayRange"];
@@ -102,7 +110,10 @@ interface ConstructionSlot {
  */
 export function ingestRevision(revision: unknown): IngestedTimeline {
   if (!isPlainObject(revision)) {
-    throw new TimelineError("revision-entities-missing", "world revision must be a plain object");
+    throw new TimelineError(
+      "revision-entities-missing",
+      "world revision must be a plain object",
+    );
   }
 
   const entityList = readEntityCollection(revision);
@@ -114,15 +125,23 @@ export function ingestRevision(revision: unknown): IngestedTimeline {
 
   for (const [index, rawEntity] of entityList.entries()) {
     if (!isPlainObject(rawEntity)) {
-      throw new TimelineError("entity-id-missing", "entity must be a plain object", {
-        entityIndex: index,
-      });
+      throw new TimelineError(
+        "entity-id-missing",
+        "entity must be a plain object",
+        {
+          entityIndex: index,
+        },
+      );
     }
     const entityId = readEntityId(rawEntity, index);
     if (seenEntityIds.has(entityId)) {
-      throw new TimelineError("entity-id-duplicate", "duplicate entity id in revision", {
-        entityId,
-      });
+      throw new TimelineError(
+        "entity-id-duplicate",
+        "duplicate entity id in revision",
+        {
+          entityId,
+        },
+      );
     }
     seenEntityIds.add(entityId);
 
@@ -142,11 +161,14 @@ export function ingestRevision(revision: unknown): IngestedTimeline {
     }))
     .sort(
       (a, b) =>
-        a.startDay - b.startDay || a.endDay - b.endDay || compareStrings(a.phaseId, b.phaseId),
+        a.startDay - b.startDay ||
+        a.endDay - b.endDay ||
+        compareStrings(a.phaseId, b.phaseId),
     );
 
   const hasPhaseData = phaseRecords.length > 0;
-  const worldDigest = providedDigest ?? computeWorldDigest(entities, phaseRecords);
+  const worldDigest =
+    providedDigest ?? computeWorldDigest(entities, phaseRecords);
 
   return { worldDigest, hasPhaseData, entities, phaseRecords };
 }
@@ -172,7 +194,9 @@ function readEntityCollection(revision: Record<string, unknown>): unknown[] {
   );
 }
 
-function readProvidedDigest(revision: Record<string, unknown>): string | undefined {
+function readProvidedDigest(
+  revision: Record<string, unknown>,
+): string | undefined {
   for (const key of REVISION_DIGEST_KEYS) {
     if (!hasOwn(revision, key)) {
       continue;
@@ -214,7 +238,10 @@ function readEntityId(entity: Record<string, unknown>, index: number): string {
 
 function readEntityRefs(entityId: string, rawEntity: unknown): RawRef[] {
   if (!isPlainObject(rawEntity)) {
-    throw new TimelineError("entity-id-missing", "entity must be a plain object");
+    throw new TimelineError(
+      "entity-id-missing",
+      "entity must be a plain object",
+    );
   }
   const slot = findConstructionSlot(rawEntity, entityId);
   if (slot === undefined) {
@@ -272,12 +299,18 @@ function findConstructionSlot(
   return undefined;
 }
 
-function normalizeConstructionData(entityId: string, path: string, value: unknown): RawRef[] {
+function normalizeConstructionData(
+  entityId: string,
+  path: string,
+  value: unknown,
+): RawRef[] {
   if (Array.isArray(value)) {
     if (value.length === 0) {
       return []; // an explicitly empty phase list means "no phase data"
     }
-    return value.map((item, index) => normalizePhaseRef(entityId, `${path}[${index}]`, item));
+    return value.map((item, index) =>
+      normalizePhaseRef(entityId, `${path}[${index}]`, item),
+    );
   }
   if (isPlainObject(value)) {
     const nestedKey = findNestedPhaseListKey(value);
@@ -290,7 +323,11 @@ function normalizeConstructionData(entityId: string, path: string, value: unknow
       );
     }
     if (nestedKey !== undefined) {
-      return normalizeConstructionData(entityId, `${path}.${nestedKey}`, value[nestedKey]);
+      return normalizeConstructionData(
+        entityId,
+        `${path}.${nestedKey}`,
+        value[nestedKey],
+      );
     }
     return [normalizePhaseRef(entityId, path, value)];
   }
@@ -301,7 +338,9 @@ function normalizeConstructionData(entityId: string, path: string, value: unknow
   );
 }
 
-function findNestedPhaseListKey(value: Record<string, unknown>): string | undefined {
+function findNestedPhaseListKey(
+  value: Record<string, unknown>,
+): string | undefined {
   for (const key of NESTED_PHASE_LIST_KEYS) {
     if (hasOwn(value, key) && Array.isArray(value[key])) {
       return key;
@@ -310,18 +349,36 @@ function findNestedPhaseListKey(value: Record<string, unknown>): string | undefi
   return undefined;
 }
 
-function normalizePhaseRef(entityId: string, path: string, value: unknown): RawRef {
+function normalizePhaseRef(
+  entityId: string,
+  path: string,
+  value: unknown,
+): RawRef {
   if (!isPlainObject(value)) {
-    throw malformedConstruction(entityId, path, "phase reference must be a plain object");
+    throw malformedConstruction(
+      entityId,
+      path,
+      "phase reference must be a plain object",
+    );
   }
   const phaseId = readPhaseId(entityId, path, value);
   const phaseName = readPhaseName(entityId, path, value);
   const extent = readPhaseExtent(entityId, path, value);
   const role = readPhaseRole(entityId, path, value);
-  return { phaseId, phaseName, startDay: extent.startDay, endDay: extent.endDay, role };
+  return {
+    phaseId,
+    phaseName,
+    startDay: extent.startDay,
+    endDay: extent.endDay,
+    role,
+  };
 }
 
-function readPhaseId(entityId: string, path: string, ref: Record<string, unknown>): string {
+function readPhaseId(
+  entityId: string,
+  path: string,
+  ref: Record<string, unknown>,
+): string {
   const slot = firstOwn(ref, PHASE_ID_KEYS);
   if (slot === undefined) {
     throw malformedConstruction(
@@ -394,14 +451,28 @@ function readPhaseExtent(
     );
   }
   const [rawStart, rawEnd] = tupleSlot.value;
-  const startDay = readDayNumber(entityId, path, `${tupleSlot.key}[0]`, rawStart);
+  const startDay = readDayNumber(
+    entityId,
+    path,
+    `${tupleSlot.key}[0]`,
+    rawStart,
+  );
   const endDay = readDayNumber(entityId, path, `${tupleSlot.key}[1]`, rawEnd);
   return validateExtent(entityId, path, startDay, endDay);
 }
 
-function readDayNumber(entityId: string, path: string, label: string, value: unknown): number {
+function readDayNumber(
+  entityId: string,
+  path: string,
+  label: string,
+  value: unknown,
+): number {
   if (typeof value !== "number" || !Number.isInteger(value)) {
-    throw malformedConstruction(entityId, path, `${label} must be an integer ordinal day`);
+    throw malformedConstruction(
+      entityId,
+      path,
+      `${label} must be an integer ordinal day`,
+    );
   }
   return value;
 }
@@ -437,10 +508,18 @@ function readPhaseRole(
   if (value === "construct" || value === "remove") {
     return value;
   }
-  throw malformedConstruction(entityId, path, 'role must be "construct" or "remove"');
+  throw malformedConstruction(
+    entityId,
+    path,
+    'role must be "construct" or "remove"',
+  );
 }
 
-function malformedConstruction(entityId: string, path: string, reason: string): TimelineError {
+function malformedConstruction(
+  entityId: string,
+  path: string,
+  reason: string,
+): TimelineError {
   return new TimelineError(
     "entity-construction-malformed",
     `${reason} (at ${path} of entity "${entityId}")`,
@@ -448,7 +527,10 @@ function malformedConstruction(entityId: string, path: string, reason: string): 
   );
 }
 
-function mergePhaseAggregate(agg: Map<string, MutablePhaseAggregate>, ref: RawRef): void {
+function mergePhaseAggregate(
+  agg: Map<string, MutablePhaseAggregate>,
+  ref: RawRef,
+): void {
   const existing = agg.get(ref.phaseId);
   if (existing === undefined) {
     agg.set(ref.phaseId, {
@@ -459,19 +541,27 @@ function mergePhaseAggregate(agg: Map<string, MutablePhaseAggregate>, ref: RawRe
     return;
   }
   if (existing.startDay !== ref.startDay || existing.endDay !== ref.endDay) {
-    throw new TimelineError("phase-conflict", "conflicting planned extents for phase id", {
-      phaseId: ref.phaseId,
-      existingStartDay: existing.startDay,
-      existingEndDay: existing.endDay,
-      conflictingStartDay: ref.startDay,
-      conflictingEndDay: ref.endDay,
-    });
+    throw new TimelineError(
+      "phase-conflict",
+      "conflicting planned extents for phase id",
+      {
+        phaseId: ref.phaseId,
+        existingStartDay: existing.startDay,
+        existingEndDay: existing.endDay,
+        conflictingStartDay: ref.startDay,
+        conflictingEndDay: ref.endDay,
+      },
+    );
   }
   if (ref.phaseName !== undefined) {
     if (existing.name !== undefined && existing.name !== ref.phaseName) {
-      throw new TimelineError("phase-conflict", "conflicting names for phase id", {
-        phaseId: ref.phaseId,
-      });
+      throw new TimelineError(
+        "phase-conflict",
+        "conflicting names for phase id",
+        {
+          phaseId: ref.phaseId,
+        },
+      );
     }
     if (existing.name === undefined) {
       existing.name = ref.phaseName;
@@ -479,7 +569,9 @@ function mergePhaseAggregate(agg: Map<string, MutablePhaseAggregate>, ref: RawRe
   }
 }
 
-function dedupeParticipations(refs: readonly RawRef[]): IngestedParticipation[] {
+function dedupeParticipations(
+  refs: readonly RawRef[],
+): IngestedParticipation[] {
   const seen = new Set<string>();
   const participations: IngestedParticipation[] = [];
   for (const ref of refs) {
@@ -491,7 +583,8 @@ function dedupeParticipations(refs: readonly RawRef[]): IngestedParticipation[] 
     participations.push({ phaseId: ref.phaseId, role: ref.role });
   }
   participations.sort(
-    (a, b) => compareStrings(a.phaseId, b.phaseId) || compareStrings(a.role, b.role),
+    (a, b) =>
+      compareStrings(a.phaseId, b.phaseId) || compareStrings(a.role, b.role),
   );
   return participations;
 }

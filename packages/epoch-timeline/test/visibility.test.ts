@@ -14,26 +14,56 @@ import { gapWorld, phasedWorld, revision } from "./helpers.js";
 test("projects built, not-yet-built and ambient entities at day zero", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   const visible = visibleEntities(model, TimelineBuilder.position(model, 0));
-  assert.deepEqual([...visible].sort(), ["crane", "foundation", "scaffold", "site"]);
+  assert.deepEqual([...visible].sort(), [
+    "crane",
+    "foundation",
+    "scaffold",
+    "site",
+  ]);
 });
 
 test("projects entities mid-construction", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   const at10 = visibleEntities(model, TimelineBuilder.position(model, 10));
-  assert.deepEqual([...at10].sort(), ["crane", "foundation", "site", "structure"]);
+  assert.deepEqual([...at10].sort(), [
+    "crane",
+    "foundation",
+    "site",
+    "structure",
+  ]);
   const at15 = visibilityAtDay(model, 15);
-  assert.deepEqual([...at15].sort(), ["crane", "foundation", "site", "structure"]);
+  assert.deepEqual([...at15].sort(), [
+    "crane",
+    "foundation",
+    "site",
+    "structure",
+  ]);
 });
 
 test("removed entities disappear at the start of their removal phase", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   const at39 = visibilityAtDay(model, 39.999);
-  assert.deepEqual([...at39].sort(), ["crane", "foundation", "site", "structure"]);
+  assert.deepEqual([...at39].sort(), [
+    "crane",
+    "foundation",
+    "site",
+    "structure",
+  ]);
   assert.ok(!at39.has("facade"));
   const at40 = visibilityAtDay(model, 40);
-  assert.deepEqual([...at40].sort(), ["facade", "foundation", "site", "structure"]);
+  assert.deepEqual([...at40].sort(), [
+    "facade",
+    "foundation",
+    "site",
+    "structure",
+  ]);
   const at60 = visibilityAtDay(model, 60);
-  assert.deepEqual([...at60].sort(), ["facade", "foundation", "site", "structure"]);
+  assert.deepEqual([...at60].sort(), [
+    "facade",
+    "foundation",
+    "site",
+    "structure",
+  ]);
 });
 
 test("visibility is a pure view filter and never mutates the model", () => {
@@ -45,12 +75,9 @@ test("visibility is a pure view filter and never mutates the model", () => {
   assert.equal(serializeModel(model), before);
   const phase = model.phases[0];
   assert.ok(phase !== undefined);
-  assert.throws(
-    () => {
-      (phase as unknown as { name: string }).name = "tampered";
-    },
-    TypeError,
-  );
+  assert.throws(() => {
+    (phase as unknown as { name: string }).name = "tampered";
+  }, TypeError);
 });
 
 test("rejects positions bound to a different model", () => {
@@ -81,7 +108,10 @@ test("cursors bind positions to the world revision by digest", () => {
     [...TimelineBuilder.visibleAt(model, cursor)].sort(),
     [...visibilityAtDay(model, 12)].sort(),
   );
-  const foreignCursor: TimelineCursor = { position, worldDigest: "some-other-revision" };
+  const foreignCursor: TimelineCursor = {
+    position,
+    worldDigest: "some-other-revision",
+  };
   assert.ok(!cursorIsBound(foreignCursor, model));
   assert.throws(
     () => TimelineBuilder.visibleAt(model, foreignCursor),
@@ -122,7 +152,15 @@ test("remove-only entities are visible until their removal day", () => {
   const model = TimelineBuilder.fromRevision(
     revision({
       entities: [
-        { id: "scaffold", construction: { phaseId: "r", startDay: 4, endDay: 6, role: "remove" } },
+        {
+          id: "scaffold",
+          construction: {
+            phaseId: "r",
+            startDay: 4,
+            endDay: 6,
+            role: "remove",
+          },
+        },
       ],
     }),
   );

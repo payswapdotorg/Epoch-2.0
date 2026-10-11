@@ -1,11 +1,18 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { TimelineBuilder, visibleEntities, visibilityAtDay } from "../src/index.js";
+import {
+  TimelineBuilder,
+  visibleEntities,
+  visibilityAtDay,
+} from "../src/index.js";
 import { revision } from "./helpers.js";
 
 test("produces the honest single-phase as-built model when the world carries no phase data", () => {
   const model = TimelineBuilder.fromRevision(
-    revision({ digest: "w018-no-phases", entities: [{ id: "tower" }, { id: "site" }] }),
+    revision({
+      digest: "w018-no-phases",
+      entities: [{ id: "tower" }, { id: "site" }],
+    }),
   );
   assert.equal(model.phases.length, 1);
   const phase = model.phases[0];
@@ -37,7 +44,10 @@ test("never invents phases when some entities carry data and others do not", () 
   assert.equal(model.phases.length, 1);
   assert.equal(model.phases[0]?.id, "p");
   assert.deepEqual(model.ambientEntityIds, ["context"]);
-  assert.deepEqual(model.entityMembership.map((entry) => entry.entityId), ["built"]);
+  assert.deepEqual(
+    model.entityMembership.map((entry) => entry.entityId),
+    ["built"],
+  );
   assert.equal(model.phases[0]?.participantEntityIds.length, 1);
 });
 
@@ -53,7 +63,9 @@ test("as-built positions report the completed construction state", () => {
 });
 
 test("empty worlds produce an as-built model with no participants", () => {
-  const model = TimelineBuilder.fromRevision(revision({ digest: "w018-empty", entities: [] }));
+  const model = TimelineBuilder.fromRevision(
+    revision({ digest: "w018-empty", entities: [] }),
+  );
   assert.equal(model.phases.length, 1);
   assert.deepEqual(model.phases[0]?.participantEntityIds, []);
   assert.deepEqual(model.entityMembership, []);
@@ -63,7 +75,10 @@ test("empty worlds produce an as-built model with no participants", () => {
 
 test("as-built visibility includes every entity at any position", () => {
   const model = TimelineBuilder.fromRevision(
-    revision({ digest: "w018-no-phases", entities: [{ id: "tower" }, { id: "site" }] }),
+    revision({
+      digest: "w018-no-phases",
+      entities: [{ id: "tower" }, { id: "site" }],
+    }),
   );
   const visible = visibleEntities(model, TimelineBuilder.position(model, 0));
   assert.deepEqual([...visible].sort(), ["site", "tower"]);
@@ -71,7 +86,9 @@ test("as-built visibility includes every entity at any position", () => {
 });
 
 test("an explicitly empty phase list is treated as no phase data", () => {
-  const model = TimelineBuilder.fromRevision(revision({ entities: [{ id: "e", construction: [] }] }));
+  const model = TimelineBuilder.fromRevision(
+    revision({ entities: [{ id: "e", construction: [] }] }),
+  );
   assert.equal(model.phases.length, 1);
   assert.equal(model.phases[0]?.id, "as-built");
   assert.deepEqual(model.phases[0]?.participantEntityIds, ["e"]);

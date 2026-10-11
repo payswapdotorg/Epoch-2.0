@@ -145,7 +145,10 @@ test("zero-length phases complete instantly", () => {
 test("timeline positions serialize to a canonical portable JSON form", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   const json = serializePosition(TimelineBuilder.position(model, 0));
-  assert.equal(json, '{"activePhaseId":"p1","day":0,"phaseProgress":0,"totalProgress":0}');
+  assert.equal(
+    json,
+    '{"activePhaseId":"p1","day":0,"phaseProgress":0,"totalProgress":0}',
+  );
 });
 
 test("timeline positions parse back identically (portable round-trip)", () => {
@@ -171,11 +174,17 @@ test("parsePosition surfaces typed errors for corrupt positions", () => {
     (err) => isTimelineError(err) && err.code === "position-invalid",
   );
   assert.throws(
-    () => parsePosition('{"day":0,"activePhaseId":"p1","phaseProgress":2,"totalProgress":0}'),
+    () =>
+      parsePosition(
+        '{"day":0,"activePhaseId":"p1","phaseProgress":2,"totalProgress":0}',
+      ),
     (err) => isTimelineError(err) && err.code === "position-invalid",
   );
   assert.throws(
-    () => parsePosition('{"day":"0","activePhaseId":"p1","phaseProgress":0,"totalProgress":0}'),
+    () =>
+      parsePosition(
+        '{"day":"0","activePhaseId":"p1","phaseProgress":0,"totalProgress":0}',
+      ),
     (err) => isTimelineError(err) && err.code === "position-invalid",
   );
 });

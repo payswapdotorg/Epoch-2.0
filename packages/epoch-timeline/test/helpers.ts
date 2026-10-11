@@ -20,7 +20,9 @@ export function revision(spec: {
     }
     return record;
   });
-  return spec.digest === undefined ? { entities } : { entities, digest: spec.digest };
+  return spec.digest === undefined
+    ? { entities }
+    : { entities, digest: spec.digest };
 }
 
 /**
@@ -37,22 +39,43 @@ export function phasedWorld(): TimelineRevisionInput {
       { id: "site" },
       {
         id: "foundation",
-        construction: { phaseId: "p1", phaseName: "Foundation", startDay: 0, endDay: 10 },
+        construction: {
+          phaseId: "p1",
+          phaseName: "Foundation",
+          startDay: 0,
+          endDay: 10,
+        },
       },
       {
         id: "structure",
-        construction: { phaseId: "p2", phaseName: "Structure", startDay: 10, endDay: 40 },
+        construction: {
+          phaseId: "p2",
+          phaseName: "Structure",
+          startDay: 10,
+          endDay: 40,
+        },
       },
       {
         id: "crane",
         construction: [
           { phaseId: "p1", startDay: 0, endDay: 10 },
-          { phaseId: "p3", phaseName: "Facade", startDay: 40, endDay: 60, role: "remove" },
+          {
+            phaseId: "p3",
+            phaseName: "Facade",
+            startDay: 40,
+            endDay: 60,
+            role: "remove",
+          },
         ],
       },
       {
         id: "facade",
-        construction: { phaseId: "p3", phaseName: "Facade", startDay: 40, endDay: 60 },
+        construction: {
+          phaseId: "p3",
+          phaseName: "Facade",
+          startDay: 40,
+          endDay: 60,
+        },
       },
       {
         id: "scaffold",
@@ -73,8 +96,24 @@ export function gapWorld(): TimelineRevisionInput {
   return revision({
     digest: "w018-gap-0002",
     entities: [
-      { id: "x", construction: { phaseId: "a", phaseName: "Alpha", startDay: 0, endDay: 10 } },
-      { id: "y", construction: { phaseId: "b", phaseName: "Beta", startDay: 20, endDay: 30 } },
+      {
+        id: "x",
+        construction: {
+          phaseId: "a",
+          phaseName: "Alpha",
+          startDay: 0,
+          endDay: 10,
+        },
+      },
+      {
+        id: "y",
+        construction: {
+          phaseId: "b",
+          phaseName: "Beta",
+          startDay: 20,
+          endDay: 30,
+        },
+      },
     ],
   });
 }
@@ -83,8 +122,24 @@ export function gapWorld(): TimelineRevisionInput {
 export function overlapWorld(): TimelineRevisionInput {
   return revision({
     entities: [
-      { id: "a", construction: { phaseId: "p", phaseName: "Prime", startDay: 10, endDay: 40 } },
-      { id: "b", construction: { phaseId: "q", phaseName: "Quiet", startDay: 30, endDay: 50 } },
+      {
+        id: "a",
+        construction: {
+          phaseId: "p",
+          phaseName: "Prime",
+          startDay: 10,
+          endDay: 40,
+        },
+      },
+      {
+        id: "b",
+        construction: {
+          phaseId: "q",
+          phaseName: "Quiet",
+          startDay: 30,
+          endDay: 50,
+        },
+      },
     ],
   });
 }
@@ -101,7 +156,10 @@ export function zipWorld(): TimelineRevisionInput {
 
 /** Deep-freezes a value (including arrays and nested objects). */
 export function deepFreezeWorld<T>(value: T): T {
-  if (value !== null && (typeof value === "object" || typeof value === "function")) {
+  if (
+    value !== null &&
+    (typeof value === "object" || typeof value === "function")
+  ) {
     const record = value as unknown as Record<string, unknown>;
     for (const key of Object.keys(record)) {
       deepFreezeWorld(record[key]);

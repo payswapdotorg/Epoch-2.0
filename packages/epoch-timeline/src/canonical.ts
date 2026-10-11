@@ -34,9 +34,13 @@ function write(value: unknown): string {
 
 function writeNumber(value: number): string {
   if (!Number.isFinite(value)) {
-    throw new TimelineError("serialization-invalid", "cannot canonicalize a non-finite number", {
-      value: String(value),
-    });
+    throw new TimelineError(
+      "serialization-invalid",
+      "cannot canonicalize a non-finite number",
+      {
+        value: String(value),
+      },
+    );
   }
   // `String(number)` is the shortest round-trip representation and maps
   // `-0` to `"0"`, keeping canonical forms stable.
@@ -58,14 +62,20 @@ function writeObject(value: object): string {
     return `[${parts.join(",")}]`;
   }
   if (value instanceof Map || value instanceof Set || value instanceof Date) {
-    throw new TimelineError("serialization-invalid", "cannot canonicalize non-JSON containers", {
-      constructor: value.constructor.name,
-    });
+    throw new TimelineError(
+      "serialization-invalid",
+      "cannot canonicalize non-JSON containers",
+      {
+        constructor: value.constructor.name,
+      },
+    );
   }
   const record = value as Record<string, unknown>;
   const keys = Object.keys(record)
     .filter((key) => record[key] !== undefined)
     .sort();
-  const parts = keys.map((key) => `${JSON.stringify(key)}:${write(record[key])}`);
+  const parts = keys.map(
+    (key) => `${JSON.stringify(key)}:${write(record[key])}`,
+  );
   return `{${parts.join(",")}}`;
 }
