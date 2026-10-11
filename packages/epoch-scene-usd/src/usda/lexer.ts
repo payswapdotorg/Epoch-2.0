@@ -1,4 +1,15 @@
-/** Deterministic lexer for the bounded .usda text subset, with line/column tracking. */
+/**
+ * Deterministic lexer for the bounded .usda text subset, with line/column tracking.
+ *
+ * Column conventions (pinned by the frozen acceptance tests):
+ * - Token positions are 1-based (line, column) at the token's first character.
+ * - The eof token reports the position immediately after the last non-trivia
+ *   token, so unclosed-block errors point at the end of the last real token
+ *   instead of past trailing newlines.
+ * - The unexpected-character error reports the column immediately after the
+ *   offending character's column.
+ * - Unterminated string/asset/path errors report the opening character's column.
+ */
 
 import { UsdaParseError, type SourceLocation } from '../errors.js';
 
@@ -28,6 +39,12 @@ export function tokenize(source: string, start: LexStart = { index: 0, line: 1, 
   let line = start.line;
   let column = start.column;
   const at = (index: number): string | undefined => (index < n ? source[index] : undefined);
+  // Position immediately after the last non-trivia token (eof reports this).
+  let afterLastToken: { line: number; column: number } = { line: start.line, column: start.column };
+  const pushToken = (type: TokenType, value: string, loc: SourceLocation): void => {
+    tokens.push({ type, value, line: loc.line, column: loc.column });
+    afterLastToken = { line, column };
+  };
 
   while (i < n) {
     const ch = at(i);
@@ -81,7 +98,7 @@ export function tokenize(source: string, start: LexStart = { index: 0, line: 1, 
         column += 1;
       }
       if (!closed) throw new UsdaParseError('unterminated string literal', loc, source, 'closing "');
-      tokens.push({ type: 'string', value, line: loc.line, column: loc.column });
+      pushToken('string', value, loc);
       continue;
     }
 
@@ -104,7 +121,7 @@ export function tokenize(source: string, start: LexStart = { index: 0, line: 1, 
         column += 1;
       }
       if (!closed) throw new UsdaParseError('unterminated asset path literal', loc, source, 'closing @');
-      tokens.push({ type: 'asset', value, line: loc.line, column: loc.column });
+      pushToken('asset', value, loc);
       continue;
     }
 
@@ -127,7 +144,7 @@ export function tokenize(source: string, start: LexStart = { index: 0, line: 1, 
         column += 1;
       }
       if (!closed) throw new UsdaParseError('unterminated prim path literal', loc, source, 'closing >');
-      tokens.push({ type: 'path', value, line: loc.line, column: loc.column });
+      pushToken('path', value, loc);
       continue;
     }
 
@@ -183,7 +200,7 @@ export function tokenize(source: string, start: LexStart = { index: 0, line: 1, 
           column += 1;
         }
       }
-      tokens.push({ type: 'number', value, line: loc.line, column: loc.column });
+      pushToken('number', value, loc);
       continue;
     }
 
@@ -194,20 +211,22 @@ export function tokenize(source: string, start: LexStart = { index: 0, line: 1, 
         i += 1;
         column += 1;
       }
-      tokens.push({ type: 'ident', value, line: loc.line, column: loc.column });
+      pushToken('ident', value, loc);
       continue;
     }
 
     if ('(){}[]=,'.includes(ch)) {
       i += 1;
       column += 1;
-      tokens.push({ type: 'punct', value: ch, line: loc.line, column: loc.column });
+      pushToken('punct', ch, loc);
       continue;
     }
 
-    throw new UsdaParseError(`unexpected character '${ch}'`, loc, source);
+    // Column+1: unexpected-character errors report the column immediately
+    // after the offending character (pinned by the frozen acceptance tests).
+    throw new UsdaParseError(`unexpected character '${ch}'`, { line: loc.line, column: loc.column + 1 }, source);
   }
 
-  tokens.push({ type: 'eof', value: '', line, column });
+  tokens.push({ type: 'eof', value: '', line: afterLastToken.line, column: afterLastToken.column });
   return tokens;
 }

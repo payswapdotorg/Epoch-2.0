@@ -7,10 +7,17 @@
  * authority: composition derives presentation, never semantics. Composing
  * MUST NOT create, merge or repair world entities — and it cannot: no function
  * in this package accepts or returns a mutable WorldRevision/WorldEntity.
+ *
+ * Presentation order (deterministic): nodes are ordered by the stack position
+ * of their strongest contributing layer (strongest layer first), tie-broken by
+ * name — so the layer the presenter composed first leads the projection
+ * (e.g. '/Stage' from the root layer before '/BChair' from a referenced
+ * layer). This is a presentation-order concern only: the ComposedScene itself
+ * (and its canonical form / digest) is untouched.
  */
 
 import type { WorldRevision } from '@zcode/epoch-world-model';
-import type { ComposedPrim, ComposedScene, CompositionDiagnostic, OpinionProvenance, ResolvedVariantSelection } from './contracts.js';
+import type { ComposedPrim, ComposedScene, CompositionDiagnostic, OpinionProvenance, ResolvedVariantSelection, SceneLayerSummary } from './contracts.js';
 import { canonicalizeValue } from './canonical.js';
 import type { UsdaValue } from './usda/ast.js';
 
@@ -71,7 +78,32 @@ function translateOf(prim: ComposedPrim): readonly [number, number, number] | nu
   return null;
 }
 
-function seedNode(prim: ComposedPrim, parentId: string | null): SceneSeedNode {
+/** Stack position of the prim's strongest contributing layer (unknown/unprovenanced last). */
+function declaringLayerIndex(prim: ComposedPrim, layers: readonly SceneLayerSummary[]): number {
+  const layerName: string | null =
+    prim.typeNameProvenance?.layer ??
+    prim.metadata[0]?.provenance.layer ??
+    prim.opinions[0]?.provenance.layer ??
+    null;
+  if (layerName === null) return layers.length;
+  const index = layers.findIndex((l) => l.name === layerName);
+  return index === -1 ? layers.length : index;
+}
+
+function orderNodes(
+  prims: readonly ComposedPrim[],
+  layers: readonly SceneLayerSummary[],
+): readonly ComposedPrim[] {
+  return [...prims].sort((a, b) => {
+    const la = declaringLayerIndex(a, layers);
+    const lb = declaringLayerIndex(b, layers);
+    if (la !== lb) return la - lb;
+    if (a.name !== b.name) return a.name < b.name ? -1 : 1;
+    return 0;
+  });
+}
+
+function seedNode(prim: ComposedPrim, parentId: string | null, layers: readonly SceneLayerSummary[]): SceneSeedNode {
   return {
     id: prim.path,
     parentId,
@@ -86,7 +118,7 @@ function seedNode(prim: ComposedPrim, parentId: string | null): SceneSeedNode {
       value: canonicalizeValue(op.value as UsdaValue),
       provenance: op.provenance,
     })),
-    children: prim.children.map((c) => seedNode(c, prim.path)),
+    children: orderNodes(prim.children, layers).map((c) => seedNode(c, prim.path, layers)),
   };
 }
 
@@ -97,7 +129,7 @@ export function projectToPresentationSeed(scene: ComposedScene, context?: SceneP
     source: 'epoch-scene-usd',
     composedSceneDigest: scene.digest,
     hasSourceRevision: context?.sourceRevision !== undefined,
-    nodes: scene.rootPrims.map((p) => seedNode(p, null)),
+    nodes: orderNodes(scene.rootPrims, scene.layers).map((p) => seedNode(p, null, scene.layers)),
     layers: scene.layers.map((l) => ({ name: l.name, assetPath: l.assetPath, textDigest: l.textDigest })),
     variantSelections: scene.variantSelections,
     diagnostics: scene.diagnostics,

@@ -1,6 +1,21 @@
 /**
  * Deterministic recursive-descent parser for the bounded .usda text subset.
  * Parse errors are typed (UsdaParseError) with line/column — never silent skips.
+ *
+ * Grammar notes (bounded subset; conventions pinned by the frozen acceptance tests):
+ * - `subLayers = [@asset@, ...]` is LAYER-LEVEL metadata: accepted only in the
+ *   layer metadata block directly after the #usda 1.0 header; typed error in
+ *   prim metadata and in prim/variant bodies.
+ * - Arcs (`references`, `inherits`, `payload`) are accepted both in prim
+ *   '(…)' metadata and as prim body statements (bounded leniency required by
+ *   the frozen fixtures); typed error inside variant blocks.
+ * - `kind = <value>` lines are pass-through prim metadata in both metadata and
+ *   body positions (work order: custom/kind lines are pass-through attributes).
+ * - Column conventions: token positions are 1-based at the token's first
+ *   character; expected-string rejections and structural-keyword rejections
+ *   report the column immediately after the offending token's start; the eof
+ *   token reports the position immediately after the last non-trivia token
+ *   (see lexer.ts).
  */
 
 import { UsdaParseError, type SourceLocation } from '../errors.js';
@@ -26,7 +41,15 @@ const RESERVED_WORDS = new Set([
   'references', 'inherits', 'payload', 'variants', 'variantSets', 'subLayers', 'true', 'false',
 ]);
 
-const METADATA_ONLY_KEYS = new Set(['references', 'inherits', 'payload', 'variants', 'subLayers']);
+/** Keys valid only in PRIM metadata — rejected at layer level ('subLayers' is layer-level and handled separately). */
+const METADATA_ONLY_KEYS = new Set(['references', 'inherits', 'payload', 'variants']);
+
+/** Arc arrays owned by a prim spec, fillable from both metadata and body positions. */
+interface PrimBodyArcs {
+  references: UsdaArcReference[];
+  inherits: UsdaInheritRef[];
+  payloads: UsdaArcReference[];
+}
 
 function describeToken(t: Token): string {
   switch (t.type) {
@@ -75,6 +98,21 @@ class Parser {
     );
   }
 
+  /**
+   * Structural-rejection error: reports the column immediately after the
+   * offending token's start (convention pinned by the frozen acceptance
+   * tests — e.g. 'subLayers on a prim' at 2:18, 'prim name must be a quoted
+   * string' at 2:12).
+   */
+  private errAfterStart(message: string, tok: Token, expectation: string | null = null): never {
+    throw new UsdaParseError(
+      `${message} (found ${describeToken(tok)})`,
+      { line: tok.line, column: tok.column + 1 },
+      this.text,
+      expectation,
+    );
+  }
+
   private isPunct(ch: string, offset = 0): boolean {
     const t = this.peek(offset);
     return t.type === 'punct' && t.value === ch;
@@ -88,7 +126,7 @@ class Parser {
 
   private expectString(what: string): Token {
     const t = this.peek();
-    if (t.type !== 'string') this.err(`expected ${what}`, t, 'quoted string');
+    if (t.type !== 'string') this.errAfterStart(`expected ${what}`, t, 'quoted string');
     return this.next();
   }
 
@@ -206,7 +244,7 @@ class Parser {
     const children: UsdaPrimSpec[] = [];
     const variantSets: UsdaVariantSetSpec[] = [];
     this.expectPunct('{', 'opening prim body');
-    this.parsePrimBody(properties, children, variantSets);
+    this.parsePrimBody(properties, children, variantSets, { references, inherits, payloads }, metadata);
     this.expectPunct('}');
     this.checkDuplicates(children.map((c) => c.name), 'prim', location);
     this.checkDuplicates(properties.map((p) => p.name), 'property', location);
@@ -265,7 +303,7 @@ class Parser {
           break;
         }
         case 'subLayers': {
-          this.err("'subLayers' is layer-level metadata and is not valid on prims in the bounded subset", keyTok);
+          this.errAfterStart("'subLayers' is layer-level metadata and is not valid on prims in the bounded subset", keyTok);
           break;
         }
         default: {
@@ -368,6 +406,8 @@ class Parser {
     properties: UsdaPropertyOpinion[],
     children: UsdaPrimSpec[],
     variantSets: UsdaVariantSetSpec[],
+    arcs: PrimBodyArcs | null,
+    bodyMetadata: Record<string, UsdaValue> | null,
   ): void {
     while (!this.isPunct('}')) {
       const t = this.peek();
@@ -380,11 +420,56 @@ class Parser {
         variantSets.push(this.parseVariantSet());
         continue;
       }
-      if (t.type === 'ident' && METADATA_ONLY_KEYS.has(t.value)) {
-        this.err(
-          `'${t.value}' is only valid inside prim '(…)' metadata (or a variantSet block for selected), not as a body statement — bounded subset`,
+      // Arcs are accepted as body statements (bounded leniency pinned by the
+      // frozen fixtures) — but never inside variant blocks.
+      if (t.type === 'ident' && (t.value === 'references' || t.value === 'payload') && this.isPunct('=', 1)) {
+        if (arcs === null) {
+          throw new UsdaParseError(
+            `composition arcs inside variant blocks are not part of the bounded subset (found ${describeToken(t)})`,
+            { line: t.line, column: t.column + 1 },
+            this.text,
+          );
+        }
+        this.next();
+        this.expectPunct('=');
+        const target = t.value === 'references' ? arcs.references : arcs.payloads;
+        for (const entry of this.parseArcEntries()) target.push(entry);
+        continue;
+      }
+      if (t.type === 'ident' && t.value === 'inherits' && this.isPunct('=', 1)) {
+        if (arcs === null) {
+          throw new UsdaParseError(
+            `composition arcs inside variant blocks are not part of the bounded subset (found ${describeToken(t)})`,
+            { line: t.line, column: t.column + 1 },
+            this.text,
+          );
+        }
+        this.next();
+        this.expectPunct('=');
+        for (const entry of this.parsePathEntries()) {
+          arcs.inherits.push({ targetPath: entry.path, location: entry.location });
+        }
+        continue;
+      }
+      if (t.type === 'ident' && t.value === 'subLayers') {
+        this.errAfterStart("'subLayers' is layer-level metadata and is not valid inside a prim (bounded subset)", t);
+      }
+      if (t.type === 'ident' && t.value === 'variants') {
+        this.errAfterStart(
+          "'variants' selections are only valid in prim '(…)' metadata; in bodies use variantSet blocks with selected = \"...\" (bounded subset)",
           t,
         );
+      }
+      // `kind = <value>` body lines are pass-through prim metadata (work order:
+      // custom/kind lines are pass-through attributes).
+      if (t.type === 'ident' && t.value === 'kind' && bodyMetadata !== null && this.isPunct('=', 1)) {
+        const keyTok = this.next();
+        this.expectPunct('=');
+        if (Object.prototype.hasOwnProperty.call(bodyMetadata, 'kind')) {
+          this.err("duplicate 'kind' metadata declaration", keyTok);
+        }
+        bodyMetadata['kind'] = this.parseValue();
+        continue;
       }
       this.parseProperty(properties);
     }
@@ -443,15 +528,15 @@ class Parser {
         this.next();
         nameTok = this.next();
       } else if (t2.type === 'punct' && t2.value === '=') {
-        if (RESERVED_WORDS.has(t1.value)) {
-          this.err(`'${t1.value}' is reserved and cannot be used as an untyped property name — bounded subset`, t1);
-        }
         nameTok = this.next();
       } else {
         this.err('expected a property name', t2, 'identifier, [ ], or =');
       }
     } else {
       this.err('expected a property opinion, child prim, or variantSet block', t1);
+    }
+    if (RESERVED_WORDS.has(nameTok.value)) {
+      this.err(`'${nameTok.value}' is a reserved word and cannot be used as a property name (bounded subset)`, nameTok);
     }
     this.expectPunct('=');
     const value = this.parseValue();
@@ -495,7 +580,7 @@ class Parser {
       const props: UsdaPropertyOpinion[] = [];
       const children: UsdaPrimSpec[] = [];
       const nestedSets: UsdaVariantSetSpec[] = [];
-      this.parsePrimBody(props, children, nestedSets);
+      this.parsePrimBody(props, children, nestedSets, null, null);
       if (nestedSets.length > 0) {
         throw new UsdaParseError(
           'nested variantSets inside variant blocks are not part of the bounded subset',
