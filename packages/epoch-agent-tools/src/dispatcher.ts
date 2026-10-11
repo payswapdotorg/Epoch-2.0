@@ -10,75 +10,51 @@
  * Idempotency: commands are content-addressed by
  * `sha256(canonicalJson(command))`; a recorded digest fixes the outcome in
  * the append-only audit log and replays on re-dispatch.
+ *
+ * This module hosts the orchestration only: command execution lives in
+ * `./command-executor.js`, session bookkeeping in `./session-state.js`, and
+ * restore-by-digest in `./session-restore.js`.
  */
+import { AGENT_COMMAND_KINDS, REQUIRED_SCOPES_BY_KIND, isAgentCommandKind } from './kinds.js';
+import type { AgentCommandKind } from './kinds.js';
+import { validateAgentCommand } from './commands.js';
+import type { AgentCommand, AgentCommandOf } from './contract.js';
+import { evaluateAuthorization } from './authorization.js';
+import type { AgentAuthorization } from './authorization.js';
 import {
-  AGENT_COMMAND_KINDS,
-  REQUIRED_SCOPES_BY_KIND,
-  isAgentCommandKind,
-} from "./kinds.js";
-import type { AgentCommandKind } from "./kinds.js";
-import { validateAgentCommand } from "./commands.js";
-import type { AgentCommand, AgentCommandOf } from "./commands.js";
-import { evaluateAuthorization } from "./authorization.js";
-import type { AgentAuthorization } from "./authorization.js";
-import {
-  AgentPortError,
-  AgentToolsError,
   AuditDigestCollisionError,
   AuditOutcomeConflictError,
-  AuditRecordMismatchError,
-  AuditRecordMissingError,
   AuthorizationError,
   IllegalCommandError,
   SessionAlreadyExistsError,
   SessionNotFoundError,
   UnknownCommandKindError,
-} from "./errors.js";
-import type { AgentPortName } from "./errors.js";
+} from './errors.js';
 import type {
   AgentInteractionPort,
   AgentSolutionSurfacePort,
   AgentWorldStorePort,
-} from "./ports.js";
-import type {
-  AgentCommandResult,
-  AgentCommandValue,
-  AgentCommandValueMap,
-} from "./results.js";
-import { isAgentCommandAuditRecord } from "./audit.js";
-import type { AgentCommandAuditRecord, AgentCommandOutcome } from "./audit.js";
-import type {
-  AgentSessionDescriptor,
-  AgentSessionRestoreSource,
-} from "./session.js";
-import type { AgentToolsOverview } from "./overview.js";
-import { canonicalJson, sha256Hex } from "./hash.js";
-import type { AgentSolutionInfo } from "./values.js";
-
-const PORT_BY_KIND: Readonly<Record<AgentCommandKind, AgentPortName>> = {
-  "solution.open": "solution-surface",
-  "solution.select": "world-interaction",
-  "solution.inspect": "solution-surface",
-  "solution.navigate": "world-interaction",
-  "solution.isolate": "world-interaction",
-  "solution.measure": "world-interaction",
-  "solution.annotate": "world-interaction",
-  "solution.simulate": "solution-surface",
-  "solution.observe": "world-interaction",
-};
+} from './ports.js';
+import type { AgentCommandResult, AgentCommandValueMap } from './results.js';
+import type { AgentCommandAuditRecord, AgentCommandOutcome } from './audit.js';
+import type { AgentSessionDescriptor, AgentSessionRestoreSource } from './session.js';
+import type { AgentToolsOverview } from './overview.js';
+import { canonicalJson, sha256Hex } from './hash.js';
+import type { AgentSolutionInfo } from './values.js';
+import {
+  assertOpenSolution,
+  createSessionState,
+  noteDispatch,
+  toDescriptor,
+} from './session-state.js';
+import type { AgentSessionState } from './session-state.js';
+import { normalizeAuditRefs, rebuildSessionFromRecords } from './session-restore.js';
+import { executeAgentCommand } from './command-executor.js';
 
 export interface AgentToolDispatcherOptions {
   readonly surface: AgentSolutionSurfacePort;
   readonly interaction: AgentInteractionPort;
   readonly worldStore: AgentWorldStorePort;
-}
-
-interface AgentSessionState {
-  readonly sessionId: string;
-  readonly auditRefs: string[];
-  openSolution: AgentSolutionInfo | null;
-  lastCommandDigest: string | null;
-  readonly outcomeCounts: { succeeded: number; denied: number };
 }
 
 export class AgentToolDispatcher {
@@ -88,46 +64,40 @@ export class AgentToolDispatcher {
   private readonly sessions: Map<string, AgentSessionState>;
 
   constructor(options: AgentToolDispatcherOptions) {
-    if (options === null || typeof options !== "object") {
+    if (options === null || typeof options !== 'object') {
       throw new TypeError(
-        "AgentToolDispatcher requires an options object with surface, interaction and worldStore",
+        'AgentToolDispatcher requires an options object with surface, interaction and worldStore',
       );
     }
     const candidate = options as Partial<AgentToolDispatcherOptions>;
-    if (
-      !isPort(candidate.surface, [
-        "openSolution",
-        "inspectSolution",
-        "simulateSolution",
-      ])
-    ) {
+    if (!isPort(candidate.surface, ['openSolution', 'inspectSolution', 'simulateSolution'])) {
       throw new TypeError(
-        "options.surface must implement the AgentSolutionSurfacePort slice (openSolution, inspectSolution, simulateSolution)",
+        'options.surface must implement the AgentSolutionSurfacePort slice (openSolution, inspectSolution, simulateSolution)',
       );
     }
     if (
       !isPort(candidate.interaction, [
-        "applySelection",
-        "applyNavigation",
-        "applyIsolation",
-        "measure",
-        "applyAnnotation",
-        "getInteractionState",
+        'applySelection',
+        'applyNavigation',
+        'applyIsolation',
+        'measure',
+        'applyAnnotation',
+        'getInteractionState',
       ])
     ) {
       throw new TypeError(
-        "options.interaction must implement the AgentInteractionPort slice (applySelection, applyNavigation, applyIsolation, measure, applyAnnotation, getInteractionState)",
+        'options.interaction must implement the AgentInteractionPort slice (applySelection, applyNavigation, applyIsolation, measure, applyAnnotation, getInteractionState)',
       );
     }
     if (
       !isPort(candidate.worldStore, [
-        "appendCommandRecord",
-        "getCommandRecord",
-        "listCommandRecords",
+        'appendCommandRecord',
+        'getCommandRecord',
+        'listCommandRecords',
       ])
     ) {
       throw new TypeError(
-        "options.worldStore must implement the AgentWorldStorePort slice (appendCommandRecord, getCommandRecord, listCommandRecords)",
+        'options.worldStore must implement the AgentWorldStorePort slice (appendCommandRecord, getCommandRecord, listCommandRecords)',
       );
     }
     this.surface = candidate.surface as AgentSolutionSurfacePort;
@@ -138,19 +108,13 @@ export class AgentToolDispatcher {
 
   /** Attaches a new session with caller-supplied identity (deterministic: no RNG). */
   createSession(sessionId: string): AgentSessionDescriptor {
-    if (typeof sessionId !== "string" || sessionId.length === 0) {
-      throw new IllegalCommandError(["sessionId must be a non-empty string"]);
+    if (typeof sessionId !== 'string' || sessionId.length === 0) {
+      throw new IllegalCommandError(['sessionId must be a non-empty string']);
     }
     if (this.sessions.has(sessionId)) {
       throw new SessionAlreadyExistsError(sessionId);
     }
-    const state: AgentSessionState = {
-      sessionId,
-      auditRefs: [],
-      openSolution: null,
-      lastCommandDigest: null,
-      outcomeCounts: { succeeded: 0, denied: 0 },
-    };
+    const state = createSessionState(sessionId);
     this.sessions.set(sessionId, state);
     return toDescriptor(state);
   }
@@ -177,9 +141,7 @@ export class AgentToolDispatcher {
         throw new IllegalCommandError(validation.issues);
       }
       throw new UnknownCommandKindError(
-        typeof validation.kind === "string"
-          ? validation.kind
-          : String(validation.kind),
+        typeof validation.kind === 'string' ? validation.kind : String(validation.kind),
       );
     }
     const kind = validation.kind;
@@ -206,15 +168,13 @@ export class AgentToolDispatcher {
       if (denial !== null) {
         throw new AuthorizationError(denial);
       }
-      if (existing.outcome === "denied") {
+      if (existing.outcome === 'denied') {
         throw new AuditOutcomeConflictError(digest, existing.outcome);
       }
-      const replayedValue = JSON.parse(
-        existing.result ?? "null",
-      ) as AgentCommandValueMap[K];
-      this.noteDispatch(session, digest, "succeeded", false);
+      const replayedValue = JSON.parse(existing.result ?? 'null') as AgentCommandValueMap[K];
+      noteDispatch(session, digest, 'succeeded', false);
       return {
-        status: "replayed",
+        status: 'replayed',
         kind: kind as K,
         sessionId: cmd.sessionId,
         commandDigest: digest,
@@ -230,12 +190,12 @@ export class AgentToolDispatcher {
         sessionId: cmd.sessionId,
         agentId: cmd.provenance.agentId,
         command: canonicalCommand,
-        outcome: "denied",
-        errorCode: "authorization-denied",
+        outcome: 'denied',
+        errorCode: 'authorization-denied',
         deniedReason: denial.deniedReason,
       };
       await this.worldStore.appendCommandRecord(deniedRecord);
-      this.noteDispatch(session, digest, "denied", true);
+      noteDispatch(session, digest, 'denied', true);
       throw new AuthorizationError(denial);
     }
 
@@ -248,15 +208,11 @@ export class AgentToolDispatcher {
     assertOpenSolution(kind, session);
 
     // 7. Execute through the ports (Solution Surface + interaction commands only).
-    let value: AgentCommandValue;
-    try {
-      value = await this.executeCommand(cmd, session.openSolution);
-    } catch (error) {
-      if (error instanceof AgentToolsError) {
-        throw error;
-      }
-      throw new AgentPortError(PORT_BY_KIND[kind], kind, error);
-    }
+    const value = await executeAgentCommand(cmd, {
+      surface: this.surface,
+      interaction: this.interaction,
+      openSolution: session.openSolution,
+    });
 
     // 8. Persist the command record through the WorldStore port, then update the session.
     const succeededRecord: AgentCommandAuditRecord = {
@@ -265,19 +221,17 @@ export class AgentToolDispatcher {
       sessionId: cmd.sessionId,
       agentId: cmd.provenance.agentId,
       command: canonicalCommand,
-      outcome: "succeeded",
+      outcome: 'succeeded',
       result: canonicalJson(value),
     };
     await this.worldStore.appendCommandRecord(succeededRecord);
-    this.noteDispatch(session, digest, "succeeded", true);
-    if (kind === "solution.open") {
-      session.openSolution = (
-        value as { solution: AgentSolutionInfo }
-      ).solution;
+    noteDispatch(session, digest, 'succeeded', true);
+    if (kind === 'solution.open') {
+      session.openSolution = (value as { solution: AgentSolutionInfo }).solution;
     }
 
     return {
-      status: "executed",
+      status: 'executed',
       kind: kind as K,
       sessionId: cmd.sessionId,
       commandDigest: digest,
@@ -290,96 +244,27 @@ export class AgentToolDispatcher {
    * in the world store and belong to the session. Tallies and the open
    * solution are rebuilt from the records.
    */
-  async restoreSession(
-    source: AgentSessionRestoreSource,
-  ): Promise<AgentSessionDescriptor> {
-    if (source === null || typeof source !== "object") {
-      throw new IllegalCommandError(["restore source must be a plain object"]);
+  async restoreSession(source: AgentSessionRestoreSource): Promise<AgentSessionDescriptor> {
+    if (source === null || typeof source !== 'object') {
+      throw new IllegalCommandError(['restore source must be a plain object']);
     }
     const sessionId = source.sessionId;
-    if (typeof sessionId !== "string" || sessionId.length === 0) {
-      throw new IllegalCommandError([
-        "restore source must carry a non-empty sessionId",
-      ]);
+    if (typeof sessionId !== 'string' || sessionId.length === 0) {
+      throw new IllegalCommandError(['restore source must carry a non-empty sessionId']);
     }
     if (this.sessions.has(sessionId)) {
       throw new SessionAlreadyExistsError(sessionId);
     }
-    const refsSource = (source as { auditRefs?: unknown }).auditRefs;
-    if (refsSource !== undefined && !Array.isArray(refsSource)) {
-      throw new IllegalCommandError([
-        "restore source auditRefs must be an array of digests when present",
-      ]);
-    }
-    const auditRefs: string[] = [];
-    const seen = new Set<string>();
-    for (const entry of (refsSource ?? []) as unknown[]) {
-      if (typeof entry !== "string" || entry.length === 0) {
-        throw new IllegalCommandError([
-          "restore source auditRefs must contain non-empty digest strings",
-        ]);
-      }
-      if (!seen.has(entry)) {
-        seen.add(entry);
-        auditRefs.push(entry);
-      }
-    }
-
-    const outcomeCounts = { succeeded: 0, denied: 0 };
-    let openSolution: AgentSolutionInfo | null = null;
-    const lastCommandDigest =
-      auditRefs.length > 0 ? auditRefs[auditRefs.length - 1] : null;
-
+    const auditRefs = normalizeAuditRefs(source);
+    const rebuilt = await rebuildSessionFromRecords(sessionId, auditRefs, this.worldStore);
+    const state = createSessionState(sessionId);
     for (const digest of auditRefs) {
-      const record = await this.worldStore.getCommandRecord(digest);
-      if (record === undefined) {
-        throw new AuditRecordMissingError(sessionId, digest);
-      }
-      if (!isAgentCommandAuditRecord(record)) {
-        throw new AuditRecordMismatchError(
-          sessionId,
-          digest,
-          "stored record is malformed",
-        );
-      }
-      if (record.sessionId !== sessionId) {
-        throw new AuditRecordMismatchError(
-          sessionId,
-          digest,
-          `record belongs to session "${record.sessionId}"`,
-        );
-      }
-      if (record.outcome === "succeeded") {
-        outcomeCounts.succeeded += 1;
-        if (record.kind === "solution.open" && record.result !== undefined) {
-          const parsed = JSON.parse(record.result) as {
-            solution?: AgentSolutionInfo;
-          };
-          if (
-            parsed.solution === undefined ||
-            typeof parsed.solution.solutionId !== "string" ||
-            typeof parsed.solution.revision !== "string"
-          ) {
-            throw new AuditRecordMismatchError(
-              sessionId,
-              digest,
-              "solution.open record carries no valid solution payload",
-            );
-          }
-          openSolution = parsed.solution;
-        }
-      } else {
-        outcomeCounts.denied += 1;
-      }
+      state.auditRefs.push(digest);
     }
-
-    const state: AgentSessionState = {
-      sessionId,
-      auditRefs,
-      openSolution,
-      lastCommandDigest,
-      outcomeCounts,
-    };
+    state.openSolution = rebuilt.openSolution;
+    state.outcomeCounts.succeeded = rebuilt.outcomeCounts.succeeded;
+    state.outcomeCounts.denied = rebuilt.outcomeCounts.denied;
+    state.lastCommandDigest = auditRefs.length > 0 ? auditRefs[auditRefs.length - 1] : null;
     this.sessions.set(sessionId, state);
     return toDescriptor(state);
   }
@@ -387,12 +272,9 @@ export class AgentToolDispatcher {
   /** Read-only projection: available command kinds, session summaries, audit summary. */
   async overview(): Promise<AgentToolsOverview> {
     const records = await this.worldStore.listCommandRecords();
-    const outcomeCounts: Record<AgentCommandOutcome, number> = {
-      succeeded: 0,
-      denied: 0,
-    };
+    const outcomeCounts: Record<AgentCommandOutcome, number> = { succeeded: 0, denied: 0 };
     for (const record of records) {
-      if (record.outcome === "succeeded" || record.outcome === "denied") {
+      if (record.outcome === 'succeeded' || record.outcome === 'denied') {
         outcomeCounts[record.outcome] += 1;
       }
     }
@@ -400,16 +282,11 @@ export class AgentToolDispatcher {
       .map((state) => ({
         sessionId: state.sessionId,
         commandCount: state.auditRefs.length,
-        openSolutionId:
-          state.openSolution === null ? null : state.openSolution.solutionId,
+        openSolutionId: state.openSolution === null ? null : state.openSolution.solutionId,
         lastCommandDigest: state.lastCommandDigest,
       }))
       .sort((left, right) =>
-        left.sessionId < right.sessionId
-          ? -1
-          : left.sessionId > right.sessionId
-            ? 1
-            : 0,
+        left.sessionId < right.sessionId ? -1 : left.sessionId > right.sessionId ? 1 : 0,
       );
     return {
       availableCommandKinds: [...AGENT_COMMAND_KINDS],
@@ -427,133 +304,13 @@ export class AgentToolDispatcher {
     }
     return state;
   }
-
-  private noteDispatch(
-    session: AgentSessionState | undefined,
-    digest: string,
-    outcome: AgentCommandOutcome,
-    countRecord: boolean,
-  ): void {
-    if (session === undefined) {
-      return;
-    }
-    if (!session.auditRefs.includes(digest)) {
-      session.auditRefs.push(digest);
-    }
-    session.lastCommandDigest = digest;
-    if (countRecord) {
-      session.outcomeCounts[outcome] += 1;
-    }
-  }
-
-  private async executeCommand(
-    command: AgentCommand,
-    openSolution: AgentSolutionInfo | null,
-  ): Promise<AgentCommandValue> {
-    switch (command.kind) {
-      case "solution.open": {
-        const solution = await this.surface.openSolution({
-          solutionId: command.params.solutionId,
-          revision: command.params.revision,
-          readOnly: command.params.readOnly,
-        });
-        return { solution };
-      }
-      case "solution.select": {
-        const selection = await this.interaction.applySelection({
-          mode: command.params.mode,
-          elementIds: command.params.elementIds,
-        });
-        return { selection };
-      }
-      case "solution.inspect": {
-        const report = await this.surface.inspectSolution({
-          elementIds: command.params.elementIds,
-          includeProperties: command.params.includeProperties === true,
-          includeRelations: command.params.includeRelations === true,
-        });
-        return { elements: report.elements };
-      }
-      case "solution.navigate": {
-        const navigation = await this.interaction.applyNavigation({
-          target: command.params.target,
-          options: command.params.options,
-        });
-        return { navigation };
-      }
-      case "solution.isolate": {
-        const isolation = await this.interaction.applyIsolation({
-          mode: command.params.mode,
-          elementIds: command.params.elementIds,
-        });
-        return { isolation };
-      }
-      case "solution.measure": {
-        const measurement = await this.interaction.measure(command.params);
-        return { measurement };
-      }
-      case "solution.annotate": {
-        const annotation = await this.interaction.applyAnnotation(
-          command.params,
-        );
-        return { annotation };
-      }
-      case "solution.simulate": {
-        const simulation = await this.surface.simulateSolution({
-          scenarioId: command.params.scenarioId,
-          inputs: command.params.inputs,
-        });
-        return { simulation };
-      }
-      case "solution.observe": {
-        const interactionState = await this.interaction.getInteractionState();
-        const includeInteractionState =
-          command.params.includeInteractionState !== false;
-        const observation = {
-          openSolution,
-          interaction: includeInteractionState ? interactionState : null,
-        };
-        return { observation };
-      }
-    }
-  }
 }
 
 function isPort(candidate: unknown, methodNames: readonly string[]): boolean {
-  if (candidate === null || typeof candidate !== "object") {
+  if (candidate === null || typeof candidate !== 'object') {
     return false;
   }
   return methodNames.every(
-    (name) =>
-      typeof (candidate as Record<string, unknown>)[name] === "function",
+    (name) => typeof (candidate as Record<string, unknown>)[name] === 'function',
   );
-}
-
-function assertOpenSolution(
-  kind: AgentCommandKind,
-  session: AgentSessionState,
-): void {
-  if (kind === "solution.open") {
-    return;
-  }
-  if (session.openSolution === null) {
-    throw new IllegalCommandError([
-      `command kind "${kind}" requires an open solution; dispatch solution.open for session "${session.sessionId}" first`,
-    ]);
-  }
-}
-
-function toDescriptor(state: AgentSessionState): AgentSessionDescriptor {
-  return {
-    sessionId: state.sessionId,
-    openSolution:
-      state.openSolution === null ? null : { ...state.openSolution },
-    auditRefs: [...state.auditRefs],
-    commandCount: state.auditRefs.length,
-    lastCommandDigest: state.lastCommandDigest,
-    outcomeCounts: {
-      succeeded: state.outcomeCounts.succeeded,
-      denied: state.outcomeCounts.denied,
-    },
-  };
 }
