@@ -249,6 +249,14 @@ modules:
     managed: true
     requires: [epoch-reconstruction-contract, epoch-world-model]
     publicEntrypoints: [packages/epoch-scene-usd/src/index.ts]
+  # W018 — Timeline and construction state: phase/position/visibility/
+  # animate projections over world revisions, digest-bound cursor; a pure
+  # projection authority — never a second semantic authority.
+  - id: epoch-timeline
+    roots: [packages/epoch-timeline/src]
+    managed: true
+    requires: [epoch-world-model, epoch-construction-fixture]
+    publicEntrypoints: [packages/epoch-timeline/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
