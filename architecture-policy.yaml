@@ -273,6 +273,14 @@ modules:
     managed: true
     requires: [epoch-solution-surface, epoch-world-model, epoch-world-interaction, epoch-persistence]
     publicEntrypoints: [packages/epoch-agent-tools/src/index.ts]
+  # W025 — Human expert escalation: policy-gated escalation machine with
+  # typed protocol, provenance-bearing responses, rate limits, digest-keyed
+  # persistence; experts answer through the surface, never around it.
+  - id: epoch-human-escalation
+    roots: [packages/epoch-human-escalation/src]
+    managed: true
+    requires: [epoch-world-model, epoch-persistence, epoch-lifecycle]
+    publicEntrypoints: [packages/epoch-human-escalation/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
