@@ -9,7 +9,8 @@
  */
 import { AgentPortError, AgentToolsError } from './errors.js';
 import type { AgentPortName } from './errors.js';
-import type { AgentCommand, AgentCommandKind } from './contract.js';
+import type { AgentCommand } from './contract.js';
+import type { AgentCommandKind } from './kinds.js';
 import type { AgentInteractionPort, AgentSolutionSurfacePort } from './ports.js';
 import type { AgentCommandValue } from './results.js';
 import type { AgentSolutionInfo } from './values.js';
