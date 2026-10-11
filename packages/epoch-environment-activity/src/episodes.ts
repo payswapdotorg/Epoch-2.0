@@ -23,7 +23,6 @@ import {
   type JournalRecord,
   type SequenceRange,
   missingSequenceRanges,
-  validateRecordSubsequence,
 } from "./coverage.js";
 import { InvalidEpisodeError } from "./errors.js";
 
@@ -71,6 +70,47 @@ export interface EpisodeInput {
   readonly sessionLength: number;
 }
 
+/**
+ * Episode-level record validation. All record-list problems (empty list,
+ * non-record entries, mixed sessions, non-increasing sequences) surface as
+ * InvalidEpisodeError — the episode module's own contract — even though the
+ * underlying structural checks live in coverage.ts.
+ */
+function validateEpisodeRecords(records: readonly JournalRecord[]): void {
+  if (!Array.isArray(records) || records.length === 0) {
+    throw new InvalidEpisodeError(
+      "episode.records: at least one journal record is required",
+    );
+  }
+  for (const record of records) {
+    if (record === null || typeof record !== "object") {
+      throw new InvalidEpisodeError(
+        "episode.records: every entry must be a journal record",
+      );
+    }
+  }
+  const firstSession = records[0].session;
+  let previous = 0;
+  for (const record of records) {
+    if (!sameSession(record.session, firstSession)) {
+      throw new InvalidEpisodeError(
+        "episode.records: all records must belong to one session",
+      );
+    }
+    if (!Number.isInteger(record.sequence) || record.sequence < 1) {
+      throw new InvalidEpisodeError(
+        "episode.records: sequences must be integers >= 1",
+      );
+    }
+    if (record.sequence <= previous) {
+      throw new InvalidEpisodeError(
+        "episode.records: sequences must be strictly increasing",
+      );
+    }
+    previous = record.sequence;
+  }
+}
+
 function computeEpisodeCoverage(
   records: readonly JournalRecord[],
   sessionLength: number,
@@ -114,7 +154,7 @@ export function defineEpisode(input: EpisodeInput): ActivityEpisode {
     throw new InvalidEpisodeError("episodeId must be a non-empty string");
   }
   validateSessionRef(input.session, "episode session");
-  validateRecordSubsequence(input.records, "episode.records");
+  validateEpisodeRecords(input.records);
   if (!sameSession(input.records[0].session, input.session)) {
     throw new InvalidEpisodeError(
       "episode.records must belong to the episode session",
@@ -184,7 +224,7 @@ export function validateEpisode(episode: ActivityEpisode): void {
       "inferredIntentBasis requires inferredIntent (inferred intent is always labeled)",
     );
   }
-  validateRecordSubsequence(episode.records, "episode.records");
+  validateEpisodeRecords(episode.records);
   if (!sameSession(episode.records[0].session, episode.session)) {
     throw new InvalidEpisodeError(
       "episode.records must belong to the episode session",
