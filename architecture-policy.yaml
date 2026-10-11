@@ -218,6 +218,13 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-solution-contract]
     publicEntrypoints: [packages/epoch-persistence/src/index.ts]
+  # W011 — OCCT geometry capability: provider-neutral B-Rep kernel port,
+  # analytic adapter with honest capability levels, derive-only world bridge.
+  - id: epoch-geometry-occt
+    roots: [packages/epoch-geometry-occt/src]
+    managed: true
+    requires: [epoch-world-model, epoch-reconstruction-contract]
+    publicEntrypoints: [packages/epoch-geometry-occt/src/index.ts]
   # W022 — Universal engineering lifecycle: ten-phase evidence-keyed
   # deterministic state machine organizing work around the world-model
   # authority without becoming a second semantic authority.
