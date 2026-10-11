@@ -15,8 +15,9 @@ import {
 const GH_CLASSIC = "ghp_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8"; // epoch-scan-ignore
 const GH_OAUTH = "gho_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8"; // epoch-scan-ignore
 const GH_APP = "ghu_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8"; // epoch-scan-ignore
+// ghr_ + exactly 76 alphanumeric characters (github-refresh-token shape)
 const GH_REFRESH =
-  "ghr_X9y8Z7w6V5u4T3s2R1q0P9o8N7m6L5k4J3j2I1h0G9f8e7d6c5b4a3Z2Y1x0w9v8u7T5"; // epoch-scan-ignore
+  "ghr_X9y8Z7w6V5u4T3s2R1q0P9o8N7m6L5k4J3j2I1h0G9f8e7d6c5b4a3Z2Y1x0w9v8u7T5Q3r6K9p2"; // epoch-scan-ignore
 const GH_FINE = "github_pat_" + "A1b2C3".repeat(14); // epoch-scan-ignore
 const NPM_TOKEN = "npm_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8"; // epoch-scan-ignore
 const SLACK_TOKEN = "xoxb-A1b2C3d4E5f6G7h8I9j0K1l2M3n4"; // epoch-scan-ignore

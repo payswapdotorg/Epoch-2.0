@@ -90,10 +90,18 @@ test("deploymentTargetsForArtifact: web-bundle is required by every target", () 
   );
 });
 
-test("permissionInventory: deterministic ordering and channel-correct aggregation", () => {
+test("permissionInventory: deterministic channel-grouped ordering and channel-correct aggregation", () => {
   const inventory = permissionInventory();
   const permissions = inventory.map((entry) => entry.permission);
-  assert.deepEqual([...permissions].sort(), permissions);
+  assert.deepEqual(permissions, [
+    "persistent-storage",
+    "gpu-acceleration",
+    "clipboard-access",
+    "os-notifications",
+    "filesystem-read",
+    "filesystem-write",
+    "process-spawn",
+  ]);
   const filesystemWrite = inventory.find(
     (entry) => entry.permission === "filesystem-write",
   );
