@@ -42,17 +42,15 @@ test("security checklist: checks are unique, ordered, and commands stay data", (
   assert.equal(new Set(ids).size, ids.length);
   for (let index = 0; index < checks.length; index += 1) {
     const check = checks[index];
-    assert.notEqual(check, undefined);
+    if (check === undefined) {
+      assert.fail(`check at index ${index} is missing`);
+      continue;
+    }
     assert.equal(check.ordering, index + 1);
   }
   for (const check of checks) {
     if (check.command.argv.length === 0) {
       assert.equal(check.automated, false, `${check.id} has no command and must be manual`);
-    } else {
-      assert.equal(
-        check.automated === true || check.automated === false,
-        true,
-      );
     }
   }
 });

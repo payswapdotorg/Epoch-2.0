@@ -39,7 +39,12 @@ function buildManifest(
   version = VERSION,
   commit = COMMIT,
 ): PackageManifest {
-  const skeleton = { kind: "package-manifest", version, commit, artifacts };
+  const skeleton = {
+    kind: "package-manifest" as const,
+    version,
+    commit,
+    artifacts,
+  };
   return { ...skeleton, manifestDigest: digestCanonical(skeleton) };
 }
 

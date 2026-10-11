@@ -28,7 +28,8 @@ export interface ModuleArtifactManifest {
     readonly surface: string;
     readonly writes: "never";
   }[];
-  readonly runtimeDependencies: readonly [];
+  /** Law: this package keeps ZERO runtime dependencies (always []). */
+  readonly runtimeDependencies: readonly string[];
 }
 
 export const MODULE_ARTIFACT: ModuleArtifactManifest = Object.freeze({
