@@ -866,6 +866,22 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-lifecycle:
+    dependencies:
+      '@zcode/epoch-persistence':
+        specifier: workspace:*
+        version: link:../epoch-persistence
+      '@zcode/epoch-solution-contract':
+        specifier: workspace:*
+        version: link:../epoch-solution-contract
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+
   packages/epoch-persistence:
     dependencies:
       '@zcode/epoch-solution-contract':
