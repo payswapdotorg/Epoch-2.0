@@ -31,25 +31,24 @@
     "W018",
     "W029",
     "W024",
-    "W025"
+    "W025",
+    "W030",
+    "W026"
   ],
-  "active": [
-    "W026",
-    "W030"
-  ],
+  "active": [],
   "eligible": [
     "W013",
     "W014",
     "W015",
     "W016",
     "W017",
-    "W018",
-    "W029",
-    "W024",
-    "W025"
+    "W019",
+    "W031",
+    "W032",
+    "W033"
   ],
   "blocked": [],
-  "lastMergeSha": "2d8ba0d",
-  "lastAction": "W025 MERGED (2d8ba0d): station-verified 65/65 tests, tsc 0, lint 0, fmt clean, arch 0 (registration applied; module/contract artifacts + machine 5-way split). Worker chat f3841e02 (glm-5.3, text-delivery, 6 rounds). W026 (productization — FINAL core work order) dispatched into freed slot. W030 continuation streaming. On W026+W030 merge: all W0xx core work orders complete; ACR chain (W031-W035) remains.",
-  "lastMergeWorkOrder": "W025"
+  "lastMergeSha": "e6c901d",
+  "lastAction": "W026 MERGED (e6c901d) + W030 MERGED (b665f3a): ALL CORE-LANE WORK ORDERS W000-W026 COMPLETE. fullEngineeringArchitecture milestone CLOSED. ACR expansion chain fully unlocked: W031/W032/W033 all eligible, dispatching into the three free lanes. Remaining: W031-W035 (ACR) + leaf pool W013-W017, W019 (13 work orders total).",
+  "lastMergeWorkOrder": "W026"
 }

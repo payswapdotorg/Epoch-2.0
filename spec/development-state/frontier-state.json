@@ -1,15 +1,13 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_10_W025_MERGED_W026_DISPATCHED",
+  "status": "CORE_COMPLETE_ACR_EXPANSION_W031_W032_W033",
   "frontier": [
-    "W026",
-    "W030"
+    "W031",
+    "W032",
+    "W033"
   ],
-  "eligible": 8,
-  "inFlight": [
-    "W026",
-    "W030"
-  ],
+  "eligible": 9,
+  "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -19,19 +17,19 @@
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
     "ifcReconstruction": "COMPLETE (W009 IFC engine bb1ac04 + geometry chain W011 ef77f9c + W012 d2146f1 — scene composition live, 78 tests)",
-    "fullEngineeringArchitecture": "NEAR-COMPLETE (lifecycle + geometry + discovery + timeline + agent tools W024 + human escalation W025 merged; productization W026 in flight — the final core-lane work order; on merge the milestone closes)",
+    "fullEngineeringArchitecture": "COMPLETE (W026 merged e6c901d — all core work orders W000-W026 live: contracts, fixture, surface, renderers, hosts, visual closure, IFC, glTF, geometry chain, timeline, persistence, lifecycle, discovery, agent tools, escalation, productization)",
     "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
     "applicationEnvironmentFabric": "PARTIAL (W028 fabric + W029 environment activity merged — typed events, consent laws, demonstrations; ACR integration continues via W030+)",
-    "capabilityReproductionFactory": "FUTURE",
-    "capabilityGapLearning": "FUTURE",
+    "capabilityReproductionFactory": "IN FLIGHT (W031 dispatching)",
+    "capabilityGapLearning": "IN FLIGHT (W032 dispatching)",
     "arenaExpertLoop": "FUTURE",
     "engineeringAbundanceEvaluation": "FUTURE",
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W025 merged. W026 (productization) dispatched — final core work order. W030 (capability quality lab) continuation streaming (write-now round). On W026 merge: fullEngineeringArchitecture milestone COMPLETE; remaining work = ACR expansion chain (W031-W035 behind W030) + leaf pool (W013-W017, W019). Third lane free for leaf dispatch.",
+  "nextAction": "ALL CORE WORK ORDERS COMPLETE (25/36). Dispatching W031+W032+W033 (ACR expansion chain) into three free lanes. On their merges: W034 (needs W032), then W035 (needs W031+W032+W033+W034). Leaf pool W013-W017, W019 fills freed lanes in parallel.",
   "lastMerge": {
-    "workOrder": "W025",
-    "mergeSha": "2d8ba0d"
+    "workOrder": "W026",
+    "mergeSha": "e6c901d"
   }
 }
