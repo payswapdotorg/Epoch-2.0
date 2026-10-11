@@ -30,10 +30,11 @@
     "W023",
     "W018",
     "W029",
-    "W024"
+    "W024",
+    "W025"
   ],
   "active": [
-    "W025",
+    "W026",
     "W030"
   ],
   "eligible": [
@@ -48,7 +49,7 @@
     "W025"
   ],
   "blocked": [],
-  "lastMergeSha": "052634c",
-  "lastAction": "W024 MERGED (052634c): station-verified 82/82 tests, tsc 0, lint 0, fmt clean, arch 0 (registration applied; module/contract artifacts + command/dispatcher splits; import-path fix). Worker chat d54f443f (glm-5.3, text-delivery, 5 rounds). W025 in fix round (machine.ts delivered truncated + index re-exports incomplete — 53 tsc errors). W030 streaming (first turn, 1.2MB). On W025 merge: W026 (productization, final core work order) unlocks.",
-  "lastMergeWorkOrder": "W024"
+  "lastMergeSha": "2d8ba0d",
+  "lastAction": "W025 MERGED (2d8ba0d): station-verified 65/65 tests, tsc 0, lint 0, fmt clean, arch 0 (registration applied; module/contract artifacts + machine 5-way split). Worker chat f3841e02 (glm-5.3, text-delivery, 6 rounds). W026 (productization — FINAL core work order) dispatched into freed slot. W030 continuation streaming. On W026+W030 merge: all W0xx core work orders complete; ACR chain (W031-W035) remains.",
+  "lastMergeWorkOrder": "W025"
 }

@@ -1,13 +1,13 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_10_W024_MERGED_W025_FIXING",
+  "status": "WAVE_10_W025_MERGED_W026_DISPATCHED",
   "frontier": [
-    "W025",
+    "W026",
     "W030"
   ],
   "eligible": 8,
   "inFlight": [
-    "W025",
+    "W026",
     "W030"
   ],
   "blocked": [],
@@ -19,7 +19,7 @@
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
     "ifcReconstruction": "COMPLETE (W009 IFC engine bb1ac04 + geometry chain W011 ef77f9c + W012 d2146f1 — scene composition live, 78 tests)",
-    "fullEngineeringArchitecture": "PARTIAL (lifecycle + geometry + discovery + timeline + agent tools W024 merged; human escalation W025 in final fix round — W026 productization unlocks on its merge)",
+    "fullEngineeringArchitecture": "NEAR-COMPLETE (lifecycle + geometry + discovery + timeline + agent tools W024 + human escalation W025 merged; productization W026 in flight — the final core-lane work order; on merge the milestone closes)",
     "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
     "applicationEnvironmentFabric": "PARTIAL (W028 fabric + W029 environment activity merged — typed events, consent laws, demonstrations; ACR integration continues via W030+)",
     "capabilityReproductionFactory": "FUTURE",
@@ -29,9 +29,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W024 merged. W025 fix round in flight (truncated machine.ts re-delivery + index re-exports). W030 (capability quality lab) first turn streaming. On W025 merge: dispatch W026 (productization — final core work order; prompt authoring next). ACR chain behind W030. Leaf pool: W013-W017, W019.",
+  "nextAction": "W025 merged. W026 (productization) dispatched — final core work order. W030 (capability quality lab) continuation streaming (write-now round). On W026 merge: fullEngineeringArchitecture milestone COMPLETE; remaining work = ACR expansion chain (W031-W035 behind W030) + leaf pool (W013-W017, W019). Third lane free for leaf dispatch.",
   "lastMerge": {
-    "workOrder": "W024",
-    "mergeSha": "052634c"
+    "workOrder": "W025",
+    "mergeSha": "2d8ba0d"
   }
 }
