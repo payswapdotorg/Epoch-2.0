@@ -2,7 +2,7 @@
  * W024 — Agent Tools: session descriptor contract tests.
  */
 import { describe, expect, it } from 'vitest';
-import { IllegalCommandError } from '../src/errors.js';
+import { IllegalCommandError, SessionNotFoundError } from '../src/errors.js';
 import { command, createHarness, fullAuthorization, openSession } from './helpers/harness.js';
 
 describe('AgentSessionDescriptor', () => {
@@ -21,7 +21,7 @@ describe('AgentSessionDescriptor', () => {
 
   it('tracks audit refs by digest in first-dispatch order', async () => {
     const harness = createHarness();
-    await openSession(harness);
+    const opened = await openSession(harness);
     const select = await harness.dispatcher.dispatch(
       command('solution.select', 'session-1', 'token-1', 'c-1') as never,
       fullAuthorization(),
@@ -31,7 +31,12 @@ describe('AgentSessionDescriptor', () => {
       fullAuthorization(),
     );
     const descriptor = harness.dispatcher.getSession('session-1');
-    expect(descriptor.auditRefs).toEqual([select.commandDigest, observe.commandDigest]);
+    expect(descriptor.auditRefs).toEqual([
+      opened.commandDigest,
+      select.commandDigest,
+      observe.commandDigest,
+    ]);
+    expect(descriptor.commandCount).toBe(3);
     expect(descriptor.lastCommandDigest).toBe(observe.commandDigest);
   });
 
@@ -42,6 +47,7 @@ describe('AgentSessionDescriptor', () => {
     await harness.dispatcher.dispatch(command('solution.select') as never, fullAuthorization());
     const descriptor = harness.dispatcher.getSession('session-1');
     expect(descriptor.auditRefs.filter((digest) => digest === first.commandDigest)).toHaveLength(1);
+    expect(descriptor.commandCount).toBe(2); // open + select (replay not double-counted)
   });
 
   it('returns defensive copies — mutating them does not affect dispatcher state', async () => {
@@ -60,6 +66,6 @@ describe('AgentSessionDescriptor', () => {
 
   it('throws SessionNotFoundError for unknown sessions on getSession', () => {
     const harness = createHarness();
-    expect(() => harness.dispatcher.getSession('nope')).toThrow();
+    expect(() => harness.dispatcher.getSession('nope')).toThrow(SessionNotFoundError);
   });
 });

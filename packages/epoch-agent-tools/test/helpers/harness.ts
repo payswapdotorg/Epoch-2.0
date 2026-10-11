@@ -23,6 +23,13 @@ export function createHarness(): Harness {
   return { dispatcher, surface, interaction, worldStore };
 }
 
+/** Copies audit records between stores (simulates a shared durable store). */
+export async function copyAuditRecords(from: InMemoryWorldStore, to: InMemoryWorldStore): Promise<void> {
+  for (const record of await from.listCommandRecords()) {
+    await to.appendCommandRecord(record);
+  }
+}
+
 export function fullAuthorization(
   tokenId = 'token-1',
   subject = 'agent-1',
@@ -82,10 +89,18 @@ export function paramsFor(kind: AgentCommandKind, correlationId?: string): Recor
   }
 }
 
-export async function openSession(harness: Harness, sessionId = 'session-1'): Promise<void> {
+/**
+ * Attaches a session and opens the default solution. Returns the open
+ * command's digest so tests can assert exact audit-ref ordering.
+ */
+export async function openSession(
+  harness: Harness,
+  sessionId = 'session-1',
+): Promise<{ readonly commandDigest: string }> {
   harness.dispatcher.createSession(sessionId);
-  await harness.dispatcher.dispatch(
+  const result = await harness.dispatcher.dispatch(
     command('solution.open', sessionId) as never,
     fullAuthorization(),
   );
+  return { commandDigest: result.commandDigest };
 }

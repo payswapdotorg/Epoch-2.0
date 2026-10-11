@@ -53,13 +53,20 @@ export class AuthorizationError extends AgentToolsError {
   }
 }
 
-/** The command failed structural validation; every issue is listed. */
+/**
+ * The command failed structural validation; every issue is listed. Subclasses
+ * may override the code (e.g. `unknown-command-kind`) via the third argument.
+ */
 export class IllegalCommandError extends AgentToolsError {
   readonly issues: readonly string[];
 
-  constructor(issues: readonly string[], message?: string) {
+  constructor(
+    issues: readonly string[],
+    message?: string,
+    code: AgentErrorCode = 'illegal-command',
+  ) {
     const list = issues.length > 0 ? issues : ['command is not a valid agent command'];
-    super('illegal-command', message ?? `illegal agent command: ${list.join('; ')}`);
+    super(code, message ?? `illegal agent command: ${list.join('; ')}`);
     this.issues = list;
   }
 }
@@ -68,7 +75,11 @@ export class UnknownCommandKindError extends IllegalCommandError {
   readonly kind: string;
 
   constructor(kind: string) {
-    super([`unknown command kind "${kind}"`], `unknown agent command kind "${kind}"`);
+    super(
+      [`unknown command kind "${kind}"`],
+      `unknown agent command kind "${kind}"`,
+      'unknown-command-kind',
+    );
     this.kind = kind;
   }
 }

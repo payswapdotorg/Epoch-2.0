@@ -22,11 +22,11 @@ describe('determinism', () => {
     for (const harness of [harnessA, harnessB]) {
       harness.dispatcher.createSession('session-1');
       harness.dispatcher.createSession('session-2');
-      await harness.dispatcher.dispatch(command('solution.open', 'session-1') as never, fullAuthorization());
-      await harness.dispatcher.dispatch(command('solution.open', 'session-2') as never, fullAuthorization('token-2'));
+      await harness.dispatcher.dispatch(command('solution.open', 'session-1', 'token-1') as never, fullAuthorization('token-1'));
+      await harness.dispatcher.dispatch(command('solution.open', 'session-2', 'token-2') as never, fullAuthorization('token-2'));
       await harness.dispatcher.dispatch(
         command('solution.select', 'session-1', 'token-1', 'c-1') as never,
-        fullAuthorization(),
+        fullAuthorization('token-1'),
       );
       await harness.dispatcher.dispatch(
         command('solution.select', 'session-2', 'token-2', 'c-1') as never,

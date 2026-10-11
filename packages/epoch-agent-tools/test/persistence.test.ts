@@ -9,7 +9,8 @@ import {
   AuditRecordMissingError,
   SessionAlreadyExistsError,
 } from '../src/errors.js';
-import { command, createHarness, fullAuthorization, openSession } from './helpers/harness.js';
+import { command, copyAuditRecords, createHarness, fullAuthorization, openSession } from './helpers/harness.js';
+import type { Harness } from './helpers/harness.js';
 
 describe('persistence through the WorldStore port', () => {
   it('persists one append-only record per distinct command, keyed by digest', async () => {
@@ -34,7 +35,7 @@ describe('persistence through the WorldStore port', () => {
     const harness = createHarness();
     const descriptor = await openSessionAndDispatch(harness);
     const restoredHarness = createHarness();
-    restoredHarness.worldStore.recordsFrom(harness.worldStore);
+    await copyAuditRecords(harness.worldStore, restoredHarness.worldStore);
     const restored = await restoredHarness.dispatcher.restoreSession({
       sessionId: descriptor.sessionId,
       auditRefs: descriptor.auditRefs,
@@ -50,7 +51,7 @@ describe('persistence through the WorldStore port', () => {
     const harness = createHarness();
     const descriptor = await openSessionAndDispatch(harness);
     const restoredHarness = createHarness();
-    restoredHarness.worldStore.recordsFrom(harness.worldStore);
+    await copyAuditRecords(harness.worldStore, restoredHarness.worldStore);
     await restoredHarness.dispatcher.restoreSession({
       sessionId: descriptor.sessionId,
       auditRefs: descriptor.auditRefs,
@@ -100,7 +101,7 @@ describe('persistence through the WorldStore port', () => {
       .catch(() => undefined);
     const descriptor = harness.dispatcher.getSession('session-1');
     const restoredHarness = createHarness();
-    restoredHarness.worldStore.recordsFrom(harness.worldStore);
+    await copyAuditRecords(harness.worldStore, restoredHarness.worldStore);
     const restored = await restoredHarness.dispatcher.restoreSession({
       sessionId: 'session-1',
       auditRefs: descriptor.auditRefs,
@@ -118,7 +119,7 @@ describe('persistence through the WorldStore port', () => {
   });
 });
 
-async function openSessionAndDispatch(harness: ReturnType<typeof createHarness>) {
+async function openSessionAndDispatch(harness: Harness) {
   await openSession(harness);
   await harness.dispatcher.dispatch(command('solution.select') as never, fullAuthorization());
   return harness.dispatcher.getSession('session-1');

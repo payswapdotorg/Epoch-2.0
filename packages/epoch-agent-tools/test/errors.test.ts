@@ -3,6 +3,7 @@
  * typed errors, never silent corrections.
  */
 import { describe, expect, it } from 'vitest';
+import { AgentToolDispatcher } from '../src/dispatcher.js';
 import {
   AgentPortError,
   AgentToolsError,
@@ -33,6 +34,7 @@ describe('typed errors', () => {
       .dispatch({ kind: 'solution.explode' } as never, fullAuthorization())
       .catch((e) => e);
     expect(error).toBeInstanceOf(UnknownCommandKindError);
+    expect(error).toBeInstanceOf(IllegalCommandError);
     expect(error.kind).toBe('solution.explode');
     expect(error.code).toBe('unknown-command-kind');
   });
@@ -81,6 +83,7 @@ describe('typed errors', () => {
       new AgentPortError('solution-surface', 'solution.open', new Error('x')),
     ];
     const codes = cases.map((error) => error.code);
+    expect(codes).toEqual(['illegal-command', 'unknown-command-kind', 'session-not-found', 'port-error']);
     expect(new Set(codes).size).toBe(codes.length);
     for (const code of codes) {
       expect(typeof code).toBe('string');
@@ -89,6 +92,15 @@ describe('typed errors', () => {
   });
 
   it('constructor options validation raises TypeError', () => {
-    expect(() => new (require('../src/dispatcher.js').AgentToolDispatcher)({})).toThrow(TypeError);
+    expect(() => new AgentToolDispatcher({} as never)).toThrow(TypeError);
+    expect(() => new AgentToolDispatcher(null as never)).toThrow(TypeError);
+    expect(
+      () =>
+        new AgentToolDispatcher({
+          surface: {},
+          interaction: {},
+          worldStore: {},
+        } as never),
+    ).toThrow(TypeError);
   });
 });
