@@ -46,16 +46,11 @@ export interface EvidenceSeed {
 
 /** Role a correlated revision/artifact plays for an event. */
 export type CorrelationRole =
-  | "state-before"
-  | "state-after"
-  | "result"
-  | "input";
+  "state-before" | "state-after" | "result" | "input";
 
 /** Kind of entity a correlation digest refers to. */
 export type CorrelationKind =
-  | "world-revision"
-  | "document-revision"
-  | "artifact";
+  "world-revision" | "document-revision" | "artifact";
 
 /**
  * State/result correlation: a digest REFERENCE to a world/document revision.
@@ -108,9 +103,7 @@ export interface CoverageWindow {
 
 /** Why content was withheld. The fact is recorded, never the content. */
 export type RedactionReason =
-  | "sensitive-window"
-  | "policy-exclusion"
-  | "retroactive";
+  "sensitive-window" | "policy-exclusion" | "retroactive";
 
 /** Occupies a sequence number; records THAT something was withheld, and why. */
 export interface RedactionMarker {
@@ -219,10 +212,7 @@ export interface CapturePolicy {
 
 /** Why a scope decision came out as it did. */
 export type ScopeDecisionReason =
-  | "in-scope"
-  | "excluded-kind"
-  | "kind-not-included"
-  | "initiator-not-included";
+  "in-scope" | "excluded-kind" | "kind-not-included" | "initiator-not-included";
 
 export interface ScopeDecision {
   readonly capturable: boolean;

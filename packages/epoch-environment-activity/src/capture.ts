@@ -51,9 +51,7 @@ export interface EventInput {
 }
 
 export type RejectionReason =
-  | "capture-paused"
-  | "consent-not-granted"
-  | "out-of-scope";
+  "capture-paused" | "consent-not-granted" | "out-of-scope";
 
 export type RecordOutcome =
   | { readonly status: "recorded"; readonly event: EnvironmentEvent }
@@ -112,7 +110,9 @@ function validatePoliciesForSession(
   }
   for (const policy of policies) {
     if (!isCapturePolicy(policy)) {
-      throw new InvalidPolicyError("policies must be valid CapturePolicy values");
+      throw new InvalidPolicyError(
+        "policies must be valid CapturePolicy values",
+      );
     }
     if (
       policy.environmentId !== null &&

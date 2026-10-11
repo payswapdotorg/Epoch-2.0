@@ -244,9 +244,7 @@ function normalizeSteps(
   return Object.freeze(steps);
 }
 
-export function buildDemonstration(
-  input: DemonstrationInput,
-): Demonstration {
+export function buildDemonstration(input: DemonstrationInput): Demonstration {
   if (input === null || typeof input !== "object") {
     throw new InvalidDemonstrationError("input must be an object");
   }
@@ -289,9 +287,7 @@ export function buildDemonstration(
   return deepFreeze(demonstration);
 }
 
-export function validateDemonstration(
-  demonstration: Demonstration,
-): void {
+export function validateDemonstration(demonstration: Demonstration): void {
   if (demonstration === null || typeof demonstration !== "object") {
     throw new InvalidDemonstrationError("demonstration must be an object");
   }

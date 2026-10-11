@@ -126,7 +126,11 @@ export function buildCandidateExport(
   if (input.targetProject !== input.originProject) {
     for (const policy of input.policies) {
       if (
-        !crossProjectReuseAllowed(policy, input.originProject, input.targetProject)
+        !crossProjectReuseAllowed(
+          policy,
+          input.originProject,
+          input.targetProject,
+        )
       ) {
         throw new PolicyViolationError(
           `cross-project-reuse-not-permitted: policy '${policy.policyId}' does not permit reuse of captured activity in project '${input.targetProject}' (retention and reuse are separate permissions)`,
@@ -147,9 +151,7 @@ export function buildCandidateExport(
     consentSubjects: [
       ...new Set(input.policies.map((policy) => policy.subject)),
     ],
-    allConsentGranted: input.policies.every((policy) =>
-      consentGranted(policy),
-    ),
+    allConsentGranted: input.policies.every((policy) => consentGranted(policy)),
     coverage: input.demonstration.coverage,
     preparedBy: input.preparedBy,
     externalRef: input.externalRef ?? null,
@@ -167,10 +169,16 @@ export function buildCandidateExport(
         retentionAllowed(policy),
       ),
       crossProjectReuseAllowed: input.policies.every((policy) =>
-        crossProjectReuseAllowed(policy, input.originProject, input.targetProject),
+        crossProjectReuseAllowed(
+          policy,
+          input.originProject,
+          input.targetProject,
+        ),
       ),
       reuseProjects: [
-        ...new Set(input.policies.flatMap((policy) => [...policy.reuse.projects])),
+        ...new Set(
+          input.policies.flatMap((policy) => [...policy.reuse.projects]),
+        ),
       ],
     },
     targetProject: input.targetProject,

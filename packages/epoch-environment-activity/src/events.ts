@@ -122,9 +122,7 @@ export function validateEvidenceReference(ref: EvidenceReference): void {
   }
 }
 
-export function validateStateCorrelation(
-  correlation: StateCorrelation,
-): void {
+export function validateStateCorrelation(correlation: StateCorrelation): void {
   if (correlation === null || typeof correlation !== "object") {
     throw new InvalidEventError("correlation entry must be an object");
   }
