@@ -21,15 +21,14 @@ invariants 1, 4, 17).
 - **Derived animation.** `TimelineBuilder.animate(model, from, to)` produces
   renderer-neutral steps (appearance/disappearance + interpolation hints);
   renderers consume them and never re-derive animation.
-- **Determinism (invariant 17).** Identical revisions produce byte-identical
-  canonical `TimelineModel` serializations and identical digests. No
-  timestamps, no random ids; day ordinals are calendar-free integers. The
-  SHA-256 implementation is pure TypeScript (no `node:crypto`), so digests
-  are byte-identical in Node, Electron and browser hosts.
+- **Determinism.** Identical revisions produce byte-identical canonical
+  `TimelineModel` serializations and identical digests. No timestamps, no
+  random ids; day ordinals are calendar-free integers. Digests go through
+  `node:crypto` `createHash("sha256")` — the frozen W001/W011 convention —
+  over the canonical JSON text.
 - **Honesty.** Corrupt or unknown phase data surfaces as typed
-  `TimelineError`s — never silent repairs. When a world carries no phase
-  data, the builder produces the honest single-phase `as-built` model and
-  never invents phases.
+  `TimelineError`s — never silent repairs. When a world carries no phase data,
+  the builder produces the honest single-phase `as-built` model.
 
 ## Public surface (`src/index.ts`)
 

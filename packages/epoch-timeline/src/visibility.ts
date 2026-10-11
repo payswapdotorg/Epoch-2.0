@@ -6,13 +6,15 @@
  *
  * Semantics per entity:
  *   - ambient entities (no phase data) are visible at every day;
- *   - appear day  = min startDay over "construct" participations
- *                   (no construct participation -> visible from the start);
+ *   - appear day  = min startDay over "construct" participations; an entity
+ *                   with NO construct participation pre-exists and is
+ *                   visible from the beginning of the timeline;
  *   - remove day  = min startDay over "remove" participations
  *                   (none -> never removed);
  *   - visible iff `day >= appearDay && day < removeDay`
- *     (appearance is inclusive at the phase start, removal takes effect AT
- *     the removal phase start — the entity is gone from that day on).
+ *     (appearance is inclusive at the phase start day — a not-yet-built
+ *     entity is hidden while `day < startDay`; removal takes effect AT the
+ *     removal phase start day — the entity is gone from that day on).
  */
 import { TimelineError } from "./errors.js";
 import type {
@@ -45,8 +47,12 @@ function isEntityVisibleAtDay(
   phasesById: ReadonlyMap<string, ConstructionPhase>,
   day: number,
 ): boolean {
-  let appearDay = Number.NEGATIVE_INFINITY;
+  // Tracked from +Infinity and lowered by Math.min so that the EARLIEST
+  // participation boundary wins; the "no construct participation" case is
+  // resolved explicitly below (pre-existing entity, visible from the start).
+  let constructStart = Number.POSITIVE_INFINITY;
   let removeDay = Number.POSITIVE_INFINITY;
+  let hasConstruct = false;
   for (const participation of participations) {
     const phase = phasesById.get(participation.phaseId);
     if (phase === undefined) {
@@ -57,11 +63,13 @@ function isEntityVisibleAtDay(
       );
     }
     if (participation.role === "construct") {
-      appearDay = Math.min(appearDay, phase.startDay);
+      hasConstruct = true;
+      constructStart = Math.min(constructStart, phase.startDay);
     } else {
       removeDay = Math.min(removeDay, phase.startDay);
     }
   }
+  const appearDay = hasConstruct ? constructStart : Number.NEGATIVE_INFINITY;
   return day >= appearDay && day < removeDay;
 }
 
