@@ -63,9 +63,9 @@ describe('provider-neutral composition contracts', () => {
 def Xform "P" (
     inherits = </_C>
     payload = @big.usda@</Big>
+    references = @r.usda@</R>
 )
 {
-    references = @r.usda@</R>
     variantSet "style" { "on" { float v = 1 } selected = "on" }
 }
 `,

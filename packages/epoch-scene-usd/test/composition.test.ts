@@ -39,10 +39,11 @@ def Xform "World"
 
 const MAIN_LAYER = `#usda 1.0
 
-def Xform "Stage"
+def Xform "Stage" (
+    references = @chairs.usda@</BChair>
+)
 {
     float x = 1
-    references = @chairs.usda@</BChair>
 }
 `;
 
@@ -99,7 +100,7 @@ describe('opinion resolution: layer stack ordering (Local > Sublayers)', () => {
     expect(opinion(scene, '/W', 'cOnly')?.value).toEqual({ kind: 'number', value: 30 });
   });
 
-  it('the provided stack order is absolute: a layer\'s sublayers beat later root layers', () => {
+  it("the provided stack order is absolute: a layer's sublayers beat later root layers", () => {
     const root1 = `#usda 1.0\n(\n    subLayers = [@s.usda@]\n)\n\ndef Xform "W" { float aOnly = 1 }\n`;
     const s = `#usda 1.0\n\ndef Xform "W" { float v = 2 }\n`;
     const root2 = `#usda 1.0\n\ndef Xform "W" { float v = 3 }\n`;
@@ -115,7 +116,7 @@ describe('opinion resolution: layer stack ordering (Local > Sublayers)', () => {
 });
 
 describe('opinion resolution: references (Local > References; reference beats target locals)', () => {
-  it('referencing-site local opinions beat the referenced target\'s own local opinions', () => {
+  it("referencing-site local opinions beat the referenced target's own local opinions", () => {
     const scene = engine.compose([
       layer('main', MAIN_LAYER, 'main.usda'),
       layer('chairs', CHAIRS_LAYER, 'chairs.usda'),
@@ -149,8 +150,8 @@ describe('opinion resolution: references (Local > References; reference beats ta
   });
 
   it('reference chains order weakest-last (main > mid > deep)', () => {
-    const main = `#usda 1.0\n\ndef Xform "P" { float v = 1 references = @mid.usda@</M> }\n`;
-    const mid = `#usda 1.0\n\ndef Xform "M" { float v = 2 float mOnly = 22 references = @deep.usda@</D> }\n`;
+    const main = `#usda 1.0\n\ndef Xform "P" ( references = @mid.usda@</M> ) { float v = 1 }\n`;
+    const mid = `#usda 1.0\n\ndef Xform "M" ( references = @deep.usda@</D> ) { float v = 2 float mOnly = 22 }\n`;
     const deep = `#usda 1.0\n\ndef Xform "D" { float v = 3 float dOnly = 33 }\n`;
     const scene = engine.compose([
       layer('main', main, 'main.usda'),
@@ -163,7 +164,7 @@ describe('opinion resolution: references (Local > References; reference beats ta
   });
 
   it('internal (path-only) references resolve in the declaring stack', () => {
-    const text = `#usda 1.0\n\ndef Xform "P" { float v = 0 references = </Q> }\n\ndef Xform "Q" { float v = 5 float q = 1 }\n`;
+    const text = `#usda 1.0\n\ndef Xform "P" ( references = </Q> ) { float v = 0 }\n\ndef Xform "Q" { float v = 5 float q = 1 }\n`;
     const scene = engine.compose([layer('a', text, 'a.usda')]);
     expect(opinion(scene, '/P', 'v')?.value).toEqual({ kind: 'number', value: 0 });
     expect(opinion(scene, '/P', 'q')?.value).toEqual({ kind: 'number', value: 1 });
@@ -171,8 +172,8 @@ describe('opinion resolution: references (Local > References; reference beats ta
   });
 
   it('strongest declaration of a reference list wins (no list-edit merging — bounded)', () => {
-    const a = `#usda 1.0\n\ndef Xform "P" { references = @r1.usda@</R1> }\n`;
-    const b = `#usda 1.0\n\ndef Xform "P" { references = @r2.usda@</R2> }\n`;
+    const a = `#usda 1.0\n\ndef Xform "P" ( references = @r1.usda@</R1> ) { }\n`;
+    const b = `#usda 1.0\n\ndef Xform "P" ( references = @r2.usda@</R2> ) { }\n`;
     const r1 = `#usda 1.0\n\ndef Xform "R1" { float v = 1 }\n`;
     const r2 = `#usda 1.0\n\ndef Xform "R2" { float v = 2 float r2Only = 9 }\n`;
     const scene = engine.compose([
@@ -186,7 +187,7 @@ describe('opinion resolution: references (Local > References; reference beats ta
   });
 
   it('an over in a stronger layer strengthens a referenced def', () => {
-    const main = `#usda 1.0\n\ndef Xform "P" { float v = 1 references = @r.usda@</R> }\n`;
+    const main = `#usda 1.0\n\ndef Xform "P" ( references = @r.usda@</R> ) { float v = 1 }\n`;
     const over = `#usda 1.0\n\nover Xform "P" { float v = 9 }\n`;
     const r = `#usda 1.0\n\ndef Xform "R" { float v = 2 float w = 3 }\n`;
     const scene = engine.compose([
@@ -262,7 +263,7 @@ def Xform "Model"
   });
 
   it('variant opinions beat reference-target opinions (LIVRPS: Variants > References)', () => {
-    const main = `#usda 1.0\n\ndef Xform "P" {\n    references = @r.usda@</R>\n    variantSet "s" { "on" { float v = 2 string which = "variant" } selected = "on" }\n}\n`;
+    const main = `#usda 1.0\n\ndef Xform "P" ( references = @r.usda@</R> )\n{\n    variantSet "s" { "on" { float v = 2 string which = "variant" } selected = "on" }\n}\n`;
     const r = `#usda 1.0\n\ndef Xform "R" { float v = 3 string which = "reference" }\n`;
     const scene = engine.compose([
       layer('main', main, 'main.usda'),
@@ -282,9 +283,10 @@ class Xform "_class_Chair"
     string tag = "class"
 }
 
-def Xform "Chair"
-{
+def Xform "Chair" (
     inherits = </_class_Chair>
+)
+{
     float w = 1
     float q = 2
 }
@@ -297,7 +299,7 @@ def Xform "Chair"
   });
 
   it('class prims do not appear in the composed hierarchy (informational diagnostic)', () => {
-    const text = `#usda 1.0\nclass Xform "_class_C" { float a = 1 }\n\ndef Xform "P" { inherits = </_class_C> }\n`;
+    const text = `#usda 1.0\nclass Xform "_class_C" { float a = 1 }\n\ndef Xform "P" ( inherits = </_class_C> ) { }\n`;
     const scene = engine.compose([layer('a', text, 'a.usda')]);
     expect(scene.rootPrims.map((p) => p.name)).toEqual(['P']);
     expect(scene.diagnostics.some((d) => d.code === 'class-prim-not-composed')).toBe(true);
@@ -306,8 +308,8 @@ def Xform "Chair"
   it('inherit chains resolve recursively (P > C1 > C2)', () => {
     const text = `#usda 1.0
 class "_class_C2" { float a = 2 float b = 3 }
-class "_class_C1" { float a = 1 inherits = </_class_C2> }
-def Xform "P" { inherits = </_class_C1> }
+class "_class_C1" ( inherits = </_class_C2> ) { float a = 1 }
+def Xform "P" ( inherits = </_class_C1> ) { }
 `;
     const scene = engine.compose([layer('a', text, 'a.usda')]);
     expect(opinion(scene, '/P', 'a')?.value).toEqual({ kind: 'number', value: 1 });
@@ -320,9 +322,9 @@ class "_class_A" { float v = 1 string which = "inherit" }
 
 def Xform "P" (
     inherits = </_class_A>
+    references = @r.usda@</R>
 )
 {
-    references = @r.usda@</R>
     variantSet "s" { "on" { float v = 2 string which = "variant" } selected = "on" }
 }
 `;
@@ -337,7 +339,7 @@ def Xform "P" (
   });
 
   it('a missing inherit target is a recorded diagnostic — never silent', () => {
-    const text = `#usda 1.0\n\ndef Xform "P" { inherits = </_class_Missing> float v = 1 }\n`;
+    const text = `#usda 1.0\n\ndef Xform "P" ( inherits = </_class_Missing> ) { float v = 1 }\n`;
     const scene = engine.compose([layer('a', text, 'a.usda')]);
     expect(scene.diagnostics.some((d) => d.code === 'missing-arc-target')).toBe(true);
     expect(opinion(scene, '/P', 'v')?.value).toEqual({ kind: 'number', value: 1 });
@@ -349,9 +351,9 @@ describe('opinion resolution: payloads', () => {
 
 def Xform "P" (
     payload = @big.usda@</Big>
+    references = @small.usda@</Small>
 )
 {
-    references = @small.usda@</Small>
 }
 `;
   const BIG = `#usda 1.0\n\ndef Xform "Big" { float p = 1 float v = 10 string which = "payload" }\n`;
@@ -383,7 +385,7 @@ def Xform "P" (
 
 describe('composition diagnostics and hard errors (never silent)', () => {
   it('a reference to a missing prim in an existing layer is a diagnostic', () => {
-    const main = `#usda 1.0\n\ndef Xform "P" { references = @r.usda@</Missing> float v = 1 }\n`;
+    const main = `#usda 1.0\n\ndef Xform "P" ( references = @r.usda@</Missing> ) { float v = 1 }\n`;
     const r = `#usda 1.0\n\ndef Xform "Other" { float v = 2 }\n`;
     const scene = engine.compose([layer('main', main, 'main.usda'), layer('r', r, 'r.usda')]);
     expect(scene.diagnostics.some((d) => d.code === 'missing-arc-target')).toBe(true);
@@ -391,7 +393,7 @@ describe('composition diagnostics and hard errors (never silent)', () => {
   });
 
   it('a reference to an asset not in the layer set is a diagnostic', () => {
-    const main = `#usda 1.0\n\ndef Xform "P" { references = @nowhere.usda@</X> float v = 1 }\n`;
+    const main = `#usda 1.0\n\ndef Xform "P" ( references = @nowhere.usda@</X> ) { float v = 1 }\n`;
     const scene = engine.compose([layer('main', main, 'main.usda')]);
     expect(scene.diagnostics.some((d) => d.code === 'unresolved-reference-asset')).toBe(true);
   });
@@ -404,8 +406,8 @@ describe('composition diagnostics and hard errors (never silent)', () => {
   });
 
   it('composition cycles are detected and recorded, composition terminates', () => {
-    const a = `#usda 1.0\n\ndef Xform "A" { references = @b.usda@</B> float va = 1 }\n`;
-    const b = `#usda 1.0\n\ndef Xform "B" { references = @a.usda@</A> float vb = 2 }\n`;
+    const a = `#usda 1.0\n\ndef Xform "A" ( references = @b.usda@</B> ) { float va = 1 }\n`;
+    const b = `#usda 1.0\n\ndef Xform "B" ( references = @a.usda@</A> ) { float vb = 2 }\n`;
     const scene = engine.compose([
       layer('a', a, 'a.usda'),
       layer('b', b, 'b.usda'),

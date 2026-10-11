@@ -233,6 +233,14 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-solution-contract, epoch-persistence]
     publicEntrypoints: [packages/epoch-lifecycle/src/index.ts]
+  # W012 — OpenUSD composition: usda subset parser (strict USD grammar:
+  # arcs are prim metadata, never body statements), layer/variant/reference
+  # opinion resolution, derive-only world bridge.
+  - id: epoch-scene-usd
+    roots: [packages/epoch-scene-usd/src]
+    managed: true
+    requires: [epoch-reconstruction-contract, epoch-world-model]
+    publicEntrypoints: [packages/epoch-scene-usd/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).

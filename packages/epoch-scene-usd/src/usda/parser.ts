@@ -6,9 +6,9 @@
  * - `subLayers = [@asset@, ...]` is LAYER-LEVEL metadata: accepted only in the
  *   layer metadata block directly after the #usda 1.0 header; typed error in
  *   prim metadata and in prim/variant bodies.
- * - Arcs (`references`, `inherits`, `payload`) are accepted both in prim
- *   '(…)' metadata and as prim body statements (bounded leniency required by
- *   the frozen fixtures); typed error inside variant blocks.
+ * - Arcs (`references`, `inherits`, `payload`) are prim METADATA only —
+ *   USD-faithful (TL ruling): accepted in the prim '(…)' block after the
+ *   name; typed error as body statements and inside variant blocks.
  * - `kind = <value>` lines are pass-through prim metadata in both metadata and
  *   body positions (work order: custom/kind lines are pass-through attributes).
  * - Column conventions: token positions are 1-based at the token's first
@@ -43,13 +43,6 @@ const RESERVED_WORDS = new Set([
 
 /** Keys valid only in PRIM metadata — rejected at layer level ('subLayers' is layer-level and handled separately). */
 const METADATA_ONLY_KEYS = new Set(['references', 'inherits', 'payload', 'variants']);
-
-/** Arc arrays owned by a prim spec, fillable from both metadata and body positions. */
-interface PrimBodyArcs {
-  references: UsdaArcReference[];
-  inherits: UsdaInheritRef[];
-  payloads: UsdaArcReference[];
-}
 
 function describeToken(t: Token): string {
   switch (t.type) {
@@ -101,8 +94,8 @@ class Parser {
   /**
    * Structural-rejection error: reports the column immediately after the
    * offending token's start (convention pinned by the frozen acceptance
-   * tests — e.g. 'subLayers on a prim' at 2:18, 'prim name must be a quoted
-   * string' at 2:12).
+   * tests — e.g. 'arc keyword as a body statement' at 2:18, 'subLayers on a
+   * prim' at 2:18, 'prim name must be a quoted string' at 2:12).
    */
   private errAfterStart(message: string, tok: Token, expectation: string | null = null): never {
     throw new UsdaParseError(
@@ -244,7 +237,7 @@ class Parser {
     const children: UsdaPrimSpec[] = [];
     const variantSets: UsdaVariantSetSpec[] = [];
     this.expectPunct('{', 'opening prim body');
-    this.parsePrimBody(properties, children, variantSets, { references, inherits, payloads }, metadata);
+    this.parsePrimBody(properties, children, variantSets, metadata);
     this.expectPunct('}');
     this.checkDuplicates(children.map((c) => c.name), 'prim', location);
     this.checkDuplicates(properties.map((p) => p.name), 'property', location);
@@ -406,7 +399,6 @@ class Parser {
     properties: UsdaPropertyOpinion[],
     children: UsdaPrimSpec[],
     variantSets: UsdaVariantSetSpec[],
-    arcs: PrimBodyArcs | null,
     bodyMetadata: Record<string, UsdaValue> | null,
   ): void {
     while (!this.isPunct('}')) {
@@ -420,36 +412,13 @@ class Parser {
         variantSets.push(this.parseVariantSet());
         continue;
       }
-      // Arcs are accepted as body statements (bounded leniency pinned by the
-      // frozen fixtures) — but never inside variant blocks.
-      if (t.type === 'ident' && (t.value === 'references' || t.value === 'payload') && this.isPunct('=', 1)) {
-        if (arcs === null) {
-          throw new UsdaParseError(
-            `composition arcs inside variant blocks are not part of the bounded subset (found ${describeToken(t)})`,
-            { line: t.line, column: t.column + 1 },
-            this.text,
-          );
-        }
-        this.next();
-        this.expectPunct('=');
-        const target = t.value === 'references' ? arcs.references : arcs.payloads;
-        for (const entry of this.parseArcEntries()) target.push(entry);
-        continue;
-      }
-      if (t.type === 'ident' && t.value === 'inherits' && this.isPunct('=', 1)) {
-        if (arcs === null) {
-          throw new UsdaParseError(
-            `composition arcs inside variant blocks are not part of the bounded subset (found ${describeToken(t)})`,
-            { line: t.line, column: t.column + 1 },
-            this.text,
-          );
-        }
-        this.next();
-        this.expectPunct('=');
-        for (const entry of this.parsePathEntries()) {
-          arcs.inherits.push({ targetPath: entry.path, location: entry.location });
-        }
-        continue;
+      // Arcs are prim METADATA in USD — never body statements (typed error,
+      // USD-faithful per TL ruling).
+      if (t.type === 'ident' && (t.value === 'references' || t.value === 'inherits' || t.value === 'payload')) {
+        this.errAfterStart(
+          `'${t.value}' is only valid inside prim '(…)' metadata, not as a body statement (bounded subset — arcs are prim metadata in USD)`,
+          t,
+        );
       }
       if (t.type === 'ident' && t.value === 'subLayers') {
         this.errAfterStart("'subLayers' is layer-level metadata and is not valid inside a prim (bounded subset)", t);
@@ -580,7 +549,7 @@ class Parser {
       const props: UsdaPropertyOpinion[] = [];
       const children: UsdaPrimSpec[] = [];
       const nestedSets: UsdaVariantSetSpec[] = [];
-      this.parsePrimBody(props, children, nestedSets, null, null);
+      this.parsePrimBody(props, children, nestedSets, null);
       if (nestedSets.length > 0) {
         throw new UsdaParseError(
           'nested variantSets inside variant blocks are not part of the bounded subset',
