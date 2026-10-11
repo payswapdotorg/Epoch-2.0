@@ -1,5 +1,10 @@
-import { canonicalDigest, deepFreeze } from './canonical.js';
-import type { DiscoveryOverview, DiscoveryState, EvidenceKindCount, RoleCount } from './types.js';
+import { canonicalDigest, deepFreeze } from "./canonical.js";
+import type {
+  DiscoveryOverview,
+  DiscoveryState,
+  EvidenceKindCount,
+  RoleCount,
+} from "./types.js";
 
 /**
  * Read-only projection of a discovery state: counts, accepted roles and an
@@ -13,11 +18,18 @@ export function overviewOf(state: DiscoveryState): DiscoveryOverview {
   }
   const kinds = new Map<string, number>();
   for (const observation of state.observations) {
-    kinds.set(observation.evidenceKind, (kinds.get(observation.evidenceKind) ?? 0) + 1);
+    kinds.set(
+      observation.evidenceKind,
+      (kinds.get(observation.evidenceKind) ?? 0) + 1,
+    );
   }
   const acceptedRoles: RoleCount[] = [...roles.entries()]
     .map(([roleId, count]) => ({ roleId, count }))
-    .sort((a, b) => b.count - a.count || (a.roleId < b.roleId ? -1 : a.roleId > b.roleId ? 1 : 0));
+    .sort(
+      (a, b) =>
+        b.count - a.count ||
+        (a.roleId < b.roleId ? -1 : a.roleId > b.roleId ? 1 : 0),
+    );
   const evidenceKinds: EvidenceKindCount[] = [...kinds.entries()]
     .map(([kind, count]) => ({ kind, count }))
     .sort((a, b) => (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0));

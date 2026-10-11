@@ -1,5 +1,5 @@
-import type { LifecycleEvent } from '@zcode/epoch-lifecycle';
-import { canonicalDigest, deepFreeze } from './canonical.js';
+import type { LifecycleEvent } from "@zcode/epoch-lifecycle";
+import { canonicalDigest, deepFreeze } from "./canonical.js";
 import type {
   CapabilityEvidence,
   DiscoveryNote,
@@ -7,7 +7,7 @@ import type {
   EvidenceDigest,
   EvidenceKind,
   EvidenceSourceRef,
-} from './types.js';
+} from "./types.js";
 
 /**
  * W022 lifecycle integration — READ-ONLY.
@@ -25,9 +25,9 @@ import type {
  */
 export function lifecycleEventDigest(event: LifecycleEvent): EvidenceDigest {
   const record = event as unknown as Record<string, unknown>;
-  for (const key of ['digest', 'eventDigest', 'evidenceDigest', 'id']) {
+  for (const key of ["digest", "eventDigest", "evidenceDigest", "id"]) {
     const value = record[key];
-    if (typeof value === 'string' && value.length > 0) return value;
+    if (typeof value === "string" && value.length > 0) return value;
   }
   return canonicalDigest(event);
 }
@@ -35,15 +35,18 @@ export function lifecycleEventDigest(event: LifecycleEvent): EvidenceDigest {
 /** Derives a neutral evidence kind from a lifecycle event (namespaced under `lifecycle.`). */
 export function lifecycleEvidenceKind(event: LifecycleEvent): EvidenceKind {
   const record = event as unknown as Record<string, unknown>;
-  for (const key of ['kind', 'type', 'name']) {
+  for (const key of ["kind", "type", "name"]) {
     const value = record[key];
-    if (typeof value === 'string' && value.length > 0) return `lifecycle.${value}`;
+    if (typeof value === "string" && value.length > 0)
+      return `lifecycle.${value}`;
   }
-  return 'lifecycle.transition';
+  return "lifecycle.transition";
 }
 
 /** Maps a read-only lifecycle event stream to digest-keyed capability evidence. */
-export function lifecycleEvidence(events: readonly LifecycleEvent[]): CapabilityEvidence[] {
+export function lifecycleEvidence(
+  events: readonly LifecycleEvent[],
+): CapabilityEvidence[] {
   return events.map((event) => {
     const digest = lifecycleEventDigest(event);
     const sourceRef: EvidenceSourceRef = { lifecycleEventDigest: digest };
@@ -62,10 +65,16 @@ export function lifecycleEvidence(events: readonly LifecycleEvent[]): Capability
  */
 export function discoveryNote(state: DiscoveryState): DiscoveryNote {
   const capabilityIds = state.capabilities.map((capability) => capability.id);
-  const roles = [...new Set(state.capabilities.map((capability) => capability.roleId))].sort();
-  const evidenceDigests = [...new Set(state.observations.map((observation) => observation.payloadDigest))].sort();
+  const roles = [
+    ...new Set(state.capabilities.map((capability) => capability.roleId)),
+  ].sort();
+  const evidenceDigests = [
+    ...new Set(
+      state.observations.map((observation) => observation.payloadDigest),
+    ),
+  ].sort();
   const note: DiscoveryNote = {
-    kind: 'epoch.discovery-note',
+    kind: "epoch.discovery-note",
     version: 1,
     sessionId: state.sessionId,
     step: state.step,

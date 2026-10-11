@@ -6,13 +6,13 @@
  * WorldStore port, read-only lifecycle consumption, declaration-only
  * results (no execution authority, no world mutation).
  */
-export { CAPABILITY_DISCOVERY_DESCRIPTOR } from './descriptor.js';
-export type { CapabilityDiscoveryDescriptor } from './descriptor.js';
+export { CAPABILITY_DISCOVERY_DESCRIPTOR } from "./descriptor.js";
+export type { CapabilityDiscoveryDescriptor } from "./descriptor.js";
 
-export type * from './types.js';
+export type * from "./types.js";
 
-export { canonicalDigest, canonicalJSON, deepFreeze } from './canonical.js';
-export { sha256Hex } from './sha256.js';
+export { canonicalDigest, canonicalJSON, deepFreeze } from "./canonical.js";
+export { sha256Hex } from "./sha256.js";
 
 export {
   DEFAULT_PROMOTION_THRESHOLDS,
@@ -21,11 +21,11 @@ export {
   definePolicy,
   policyDigest,
   validatePolicy,
-} from './policy.js';
+} from "./policy.js";
 
-export { evidenceOf, revisionEvidence } from './evidence.js';
-export { init } from './machine.js';
-export { overviewOf } from './overview.js';
+export { evidenceOf, revisionEvidence } from "./evidence.js";
+export { init } from "./machine.js";
+export { overviewOf } from "./overview.js";
 
 export {
   SNAPSHOT_KIND,
@@ -35,7 +35,15 @@ export {
   discoveryPersistence,
   restoreSnapshot,
   snapshotOf,
-} from './persistence.js';
-export type { DiscoveryPersistence, InMemoryDiscoveryStore } from './persistence.js';
+} from "./persistence.js";
+export type {
+  DiscoveryPersistence,
+  InMemoryDiscoveryStore,
+} from "./persistence.js";
 
-export { discoveryNote, lifecycleEventDigest, lifecycleEvidence, lifecycleEvidenceKind } from './lifecycle.js';
+export {
+  discoveryNote,
+  lifecycleEventDigest,
+  lifecycleEvidence,
+  lifecycleEvidenceKind,
+} from "./lifecycle.js";

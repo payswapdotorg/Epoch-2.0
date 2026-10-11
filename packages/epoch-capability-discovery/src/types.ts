@@ -32,23 +32,23 @@ export type SessionId = string;
 
 /** Provider-neutral observation vocabulary (open: hosts may add their own neutral kinds). */
 export type EvidenceKind =
-  | 'task.completed'
-  | 'task.failed'
-  | 'task.attempted'
-  | 'solution.accepted'
-  | 'solution.rejected'
-  | 'revision.evaluated'
-  | 'interaction.observed'
-  | 'lifecycle.transition'
+  | "task.completed"
+  | "task.failed"
+  | "task.attempted"
+  | "solution.accepted"
+  | "solution.rejected"
+  | "revision.evaluated"
+  | "interaction.observed"
+  | "lifecycle.transition"
   | (string & Record<never, never>);
 
 /** Neutral subject taxonomy (open). */
 export type EvidenceSubjectKind =
-  | 'task'
-  | 'problem'
-  | 'solution'
-  | 'revision'
-  | 'session'
+  | "task"
+  | "problem"
+  | "solution"
+  | "revision"
+  | "session"
   | (string & Record<never, never>);
 
 /** A reference to the subject an observation is about — digest refs and labels only, never world content. */
@@ -77,11 +77,11 @@ export interface CapabilityEvidence {
 
 /** Provider-neutral capability domain (open). */
 export type CapabilityDomain =
-  | 'construction'
-  | 'analysis'
-  | 'verification'
-  | 'interaction'
-  | 'orchestration'
+  | "construction"
+  | "analysis"
+  | "verification"
+  | "interaction"
+  | "orchestration"
   | (string & Record<never, never>);
 
 /** A provider-neutral role declaration. Model names NEVER define roles. */
@@ -155,10 +155,10 @@ export interface DiscoveryPolicy {
 // ── Outcomes ───────────────────────────────────────────────────────────────
 
 export type RejectionReason =
-  | 'rule-not-enabled'
-  | 'duplicate'
-  | 'below-min-evidence'
-  | 'below-min-confidence';
+  | "rule-not-enabled"
+  | "duplicate"
+  | "below-min-evidence"
+  | "below-min-confidence";
 
 /** A candidate that matched a rule but was not promoted, with the deterministic reason. */
 export interface RejectedCandidate {
@@ -249,7 +249,7 @@ export interface DiscoveryOverview {
 
 /** Digest-keyed discovery snapshot persisted alongside revision lineage. */
 export interface PersistedDiscoverySnapshot {
-  readonly kind: 'epoch.discovery-snapshot';
+  readonly kind: "epoch.discovery-snapshot";
   readonly version: 1;
   readonly digest: Digest;
   readonly sessionId: SessionId;
@@ -264,7 +264,12 @@ export interface PersistedDiscoverySnapshot {
  */
 export interface DiscoveryStorePort {
   save(snapshot: PersistedDiscoverySnapshot): void | Promise<void>;
-  restore(digest: Digest): PersistedDiscoverySnapshot | null | Promise<PersistedDiscoverySnapshot | null>;
+  restore(
+    digest: Digest,
+  ):
+    | PersistedDiscoverySnapshot
+    | null
+    | Promise<PersistedDiscoverySnapshot | null>;
   digests?(): readonly Digest[] | Promise<readonly Digest[]>;
 }
 
@@ -272,7 +277,7 @@ export interface DiscoveryStorePort {
 
 /** Structured, provenance-bearing note a host may attach in the Learn phase. Never world content. */
 export interface DiscoveryNote {
-  readonly kind: 'epoch.discovery-note';
+  readonly kind: "epoch.discovery-note";
   readonly version: 1;
   readonly sessionId: SessionId;
   readonly step: number;
@@ -289,7 +294,10 @@ export interface DiscoveryMachine {
   readonly policy: DiscoveryPolicy;
   readonly policyDigest: Digest;
   initialState(sessionId?: SessionId): DiscoveryState;
-  evaluate(state: DiscoveryState, evidence: CapabilityEvidence): DiscoveryEvaluation;
+  evaluate(
+    state: DiscoveryState,
+    evidence: CapabilityEvidence,
+  ): DiscoveryEvaluation;
   historyOf(state: DiscoveryState): readonly DiscoveryHistoryEntry[];
   overviewOf(state: DiscoveryState): DiscoveryOverview;
   stateDigestOf(state: DiscoveryState): Digest;

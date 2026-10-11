@@ -1,12 +1,12 @@
-import type { WorldRevision } from '@zcode/epoch-world-model';
-import { canonicalDigest, deepFreeze } from './canonical.js';
+import type { WorldRevision } from "@zcode/epoch-world-model";
+import { canonicalDigest, deepFreeze } from "./canonical.js";
 import type {
   CapabilityEvidence,
   Digest,
   EvidenceKind,
   EvidenceSourceRef,
   EvidenceSubjectKind,
-} from './types.js';
+} from "./types.js";
 
 /**
  * Convenience constructor for provenance-bearing evidence.
@@ -29,7 +29,7 @@ export function evidenceOf(input: {
     sourceRefs.push({ revisionDigest: input.revisionDigest });
   }
   if (sourceRefs.length === 0) {
-    sourceRefs.push({ label: input.label ?? 'unattributed' });
+    sourceRefs.push({ label: input.label ?? "unattributed" });
   }
   const evidence: CapabilityEvidence =
     input.subjectKind === undefined
@@ -38,7 +38,11 @@ export function evidenceOf(input: {
           kind: input.kind,
           payloadDigest: input.payloadDigest,
           sourceRefs,
-          subject: { kind: input.subjectKind, digest: input.subjectDigest, label: input.label },
+          subject: {
+            kind: input.subjectKind,
+            digest: input.subjectDigest,
+            label: input.label,
+          },
         };
   return deepFreeze(evidence);
 }
@@ -47,7 +51,10 @@ export function evidenceOf(input: {
  * Read-only view of a WorldRevision as evidence: the revision is DIGESTED,
  * never stored, never mutated. Only the digest and a digest ref survive.
  */
-export function revisionEvidence(revision: WorldRevision, kind: EvidenceKind = 'revision.evaluated'): CapabilityEvidence {
+export function revisionEvidence(
+  revision: WorldRevision,
+  kind: EvidenceKind = "revision.evaluated",
+): CapabilityEvidence {
   const revisionDigest: Digest = canonicalDigest(revision);
   const evidence: CapabilityEvidence = {
     kind,

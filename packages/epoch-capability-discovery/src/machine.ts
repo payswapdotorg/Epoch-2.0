@@ -1,6 +1,6 @@
-import { canonicalDigest, canonicalJSON, deepFreeze } from './canonical.js';
-import { overviewOf } from './overview.js';
-import { policyDigest, validatePolicy } from './policy.js';
+import { canonicalDigest, canonicalJSON, deepFreeze } from "./canonical.js";
+import { overviewOf } from "./overview.js";
+import { policyDigest, validatePolicy } from "./policy.js";
 import type {
   CapabilityEvidence,
   CapabilityId,
@@ -21,7 +21,7 @@ import type {
   RejectedCandidate,
   RuleId,
   SessionId,
-} from './types.js';
+} from "./types.js";
 
 /**
  * W023 discovery machine: pure and deterministic.
@@ -36,7 +36,9 @@ import type {
  */
 export function init(policy: DiscoveryPolicy): DiscoveryMachine {
   validatePolicy(policy);
-  const frozenPolicy = deepFreeze(JSON.parse(canonicalJSON(policy))) as DiscoveryPolicy;
+  const frozenPolicy = deepFreeze(
+    JSON.parse(canonicalJSON(policy)),
+  ) as DiscoveryPolicy;
   const digest = policyDigest(frozenPolicy);
 
   const machine: DiscoveryMachine = {
@@ -56,7 +58,10 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
       return deepFreeze(state);
     },
 
-    evaluate(state: DiscoveryState, evidence: CapabilityEvidence): DiscoveryEvaluation {
+    evaluate(
+      state: DiscoveryState,
+      evidence: CapabilityEvidence,
+    ): DiscoveryEvaluation {
       if (state.policyDigest !== digest) {
         throw new Error(
           `evaluate: state policy digest ${state.policyDigest} does not match this machine's policy ${digest}`,
@@ -76,13 +81,32 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
         matchedRuleIds.push(rule.id);
 
         const enabled = frozenPolicy.enabledRuleIds.includes(rule.id);
-        const priorOccurrences = countRuleObservations(state.observations, rule.id);
+        const priorOccurrences = countRuleObservations(
+          state.observations,
+          rule.id,
+        );
         const occurrences = priorOccurrences + 1;
-        const evidenceRefs = ruleEvidenceDigests(state.observations, rule.id, evidence.payloadDigest);
-        const provenance = ruleProvenance(state.observations, rule.id, clonedSourceRefs);
-        const confidence = confidenceOf(occurrences, rule.weight, frozenPolicy.promotion);
+        const evidenceRefs = ruleEvidenceDigests(
+          state.observations,
+          rule.id,
+          evidence.payloadDigest,
+        );
+        const provenance = ruleProvenance(
+          state.observations,
+          rule.id,
+          clonedSourceRefs,
+        );
+        const confidence = confidenceOf(
+          occurrences,
+          rule.weight,
+          frozenPolicy.promotion,
+        );
         const candidate: DiscoveredCapability = deepFreeze({
-          id: capabilityIdOf(rule.candidate.roleId, rule.candidate.scope, evidenceRefs),
+          id: capabilityIdOf(
+            rule.candidate.roleId,
+            rule.candidate.scope,
+            evidenceRefs,
+          ),
           roleId: rule.candidate.roleId,
           scope: rule.candidate.scope,
           confidence,
@@ -95,7 +119,7 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
           rejected.push({
             ruleId: rule.id,
             capability: candidate,
-            reason: 'rule-not-enabled',
+            reason: "rule-not-enabled",
             detail: `rule ${rule.id} matched the evidence but is not enabled by the discovery policy`,
           });
           continue;
@@ -112,25 +136,29 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
 
         const key = capabilityKey(candidate.roleId, candidate.scope);
         const alreadyAccepted = state.capabilities.some(
-          (capability) => capabilityKey(capability.roleId, capability.scope) === key,
+          (capability) =>
+            capabilityKey(capability.roleId, capability.scope) === key,
         );
         if (alreadyAccepted) {
           rejected.push({
             ruleId: rule.id,
             capability: candidate,
-            reason: 'duplicate',
+            reason: "duplicate",
             detail: `role ${candidate.roleId} is already declared in this session; the accepted declaration keeps its original provenance`,
           });
           continue;
         }
 
         const ruleMinOccurrences = rule.match.minOccurrences ?? 1;
-        const requiredOccurrences = Math.max(ruleMinOccurrences, frozenPolicy.promotion.minEvidenceCount);
+        const requiredOccurrences = Math.max(
+          ruleMinOccurrences,
+          frozenPolicy.promotion.minEvidenceCount,
+        );
         if (occurrences < requiredOccurrences) {
           rejected.push({
             ruleId: rule.id,
             capability: candidate,
-            reason: 'below-min-evidence',
+            reason: "below-min-evidence",
             detail: `${occurrences} matching observation(s) is below the required ${requiredOccurrences} (rule minOccurrences ${ruleMinOccurrences}, policy minEvidenceCount ${frozenPolicy.promotion.minEvidenceCount})`,
           });
           continue;
@@ -139,7 +167,7 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
           rejected.push({
             ruleId: rule.id,
             capability: candidate,
-            reason: 'below-min-confidence',
+            reason: "below-min-confidence",
             detail: `confidence ${confidence} is below minConfidence ${frozenPolicy.promotion.minConfidence}`,
           });
           continue;
@@ -151,8 +179,12 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
         step,
         evidenceDigest,
         matchedRuleIds: deepFreeze([...matchedRuleIds]),
-        acceptedCapabilityIds: deepFreeze(accepted.map((capability) => capability.id)),
-        rejectedRuleIds: deepFreeze(rejected.map((rejection) => rejection.ruleId)),
+        acceptedCapabilityIds: deepFreeze(
+          accepted.map((capability) => capability.id),
+        ),
+        rejectedRuleIds: deepFreeze(
+          rejected.map((rejection) => rejection.ruleId),
+        ),
       });
 
       const nextState: DiscoveryState = deepFreeze({
@@ -204,34 +236,59 @@ export function init(policy: DiscoveryPolicy): DiscoveryMachine {
 // ── internals ───────────────────────────────────────────────────────────────
 
 function assertEvidence(evidence: CapabilityEvidence): void {
-  if (evidence === null || typeof evidence !== 'object') {
-    throw new Error('evaluate: evidence must be an object');
+  if (evidence === null || typeof evidence !== "object") {
+    throw new Error("evaluate: evidence must be an object");
   }
-  if (typeof evidence.kind !== 'string' || evidence.kind.length === 0) {
-    throw new Error('evaluate: evidence.kind must be a non-empty string');
+  if (typeof evidence.kind !== "string" || evidence.kind.length === 0) {
+    throw new Error("evaluate: evidence.kind must be a non-empty string");
   }
-  if (typeof evidence.payloadDigest !== 'string' || evidence.payloadDigest.length === 0) {
-    throw new Error('evaluate: evidence.payloadDigest must be a non-empty string');
+  if (
+    typeof evidence.payloadDigest !== "string" ||
+    evidence.payloadDigest.length === 0
+  ) {
+    throw new Error(
+      "evaluate: evidence.payloadDigest must be a non-empty string",
+    );
   }
   if (!Array.isArray(evidence.sourceRefs)) {
-    throw new Error('evaluate: evidence.sourceRefs must be an array');
+    throw new Error("evaluate: evidence.sourceRefs must be an array");
   }
-  if (evidence.subject !== undefined && (typeof evidence.subject !== 'object' || evidence.subject === null)) {
-    throw new Error('evaluate: evidence.subject must be an object when present');
+  if (
+    evidence.subject !== undefined &&
+    (typeof evidence.subject !== "object" || evidence.subject === null)
+  ) {
+    throw new Error(
+      "evaluate: evidence.subject must be an object when present",
+    );
   }
 }
 
-function ruleMatches(rule: DiscoveryPolicy['rules'][number], evidence: CapabilityEvidence): boolean {
+function ruleMatches(
+  rule: DiscoveryPolicy["rules"][number],
+  evidence: CapabilityEvidence,
+): boolean {
   const match = rule.match;
-  if (match.evidenceKind !== undefined && match.evidenceKind !== evidence.kind) return false;
+  if (match.evidenceKind !== undefined && match.evidenceKind !== evidence.kind)
+    return false;
   if (match.subjectKind !== undefined) {
-    if (evidence.subject === undefined || evidence.subject.kind !== match.subjectKind) return false;
+    if (
+      evidence.subject === undefined ||
+      evidence.subject.kind !== match.subjectKind
+    )
+      return false;
   }
-  if (match.payloadDigestIn !== undefined && !match.payloadDigestIn.includes(evidence.payloadDigest)) return false;
+  if (
+    match.payloadDigestIn !== undefined &&
+    !match.payloadDigestIn.includes(evidence.payloadDigest)
+  )
+    return false;
   return true;
 }
 
-function countRuleObservations(observations: readonly ObservationRecord[], ruleId: RuleId): number {
+function countRuleObservations(
+  observations: readonly ObservationRecord[],
+  ruleId: RuleId,
+): number {
   let count = 0;
   for (const observation of observations) {
     if (observation.ruleId === ruleId) count += 1;
@@ -239,7 +296,9 @@ function countRuleObservations(observations: readonly ObservationRecord[], ruleI
   return count;
 }
 
-function cloneSourceRefs(refs: readonly EvidenceSourceRef[]): EvidenceSourceRef[] {
+function cloneSourceRefs(
+  refs: readonly EvidenceSourceRef[],
+): EvidenceSourceRef[] {
   return refs.map((ref) => ({ ...ref }));
 }
 
@@ -281,7 +340,11 @@ function ruleProvenance(
  * other engine-varying functions). conf(n, w) = round6(nw / (nw + 1)),
  * clamped to maxConfidence.
  */
-function confidenceOf(occurrences: number, weight: number, promotion: PromotionThresholds): number {
+function confidenceOf(
+  occurrences: number,
+  weight: number,
+  promotion: PromotionThresholds,
+): number {
   const mass = occurrences * weight;
   const raw = mass <= 0 ? 0 : mass / (mass + 1);
   const rounded = Math.round(raw * 1e6) / 1e6;
@@ -298,5 +361,5 @@ function capabilityIdOf(
   scope: CapabilityScope,
   evidenceRefs: readonly EvidenceDigest[],
 ): CapabilityId {
-  return `capability/${canonicalDigest({ basis: 'evidence', roleId, scope, evidenceRefs: [...evidenceRefs] })}`;
+  return `capability/${canonicalDigest({ basis: "evidence", roleId, scope, evidenceRefs: [...evidenceRefs] })}`;
 }

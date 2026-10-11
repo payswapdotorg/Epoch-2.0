@@ -1,14 +1,14 @@
-import type { WorldStore } from '@zcode/epoch-persistence';
-import { canonicalDigest, canonicalJSON, deepFreeze } from './canonical.js';
+import type { WorldStore } from "@zcode/epoch-persistence";
+import { canonicalDigest, canonicalJSON, deepFreeze } from "./canonical.js";
 import type {
   Digest,
   DiscoveryMachine,
   DiscoveryState,
   DiscoveryStorePort,
   PersistedDiscoverySnapshot,
-} from './types.js';
+} from "./types.js";
 
-export const SNAPSHOT_KIND = 'epoch.discovery-snapshot';
+export const SNAPSHOT_KIND = "epoch.discovery-snapshot";
 export const SNAPSHOT_VERSION = 1;
 
 /** Builds a digest-keyed snapshot of a discovery session state. */
@@ -30,32 +30,52 @@ export function snapshotOf(state: DiscoveryState): PersistedDiscoverySnapshot {
  * Throws when the entry claims to be a snapshot but is corrupt
  * (wrong version, missing fields, digest mismatch, header/state mismatch).
  */
-export function restoreSnapshot(raw: unknown): PersistedDiscoverySnapshot | null {
-  if (raw === null || raw === undefined || typeof raw !== 'object') return null;
+export function restoreSnapshot(
+  raw: unknown,
+): PersistedDiscoverySnapshot | null {
+  if (raw === null || raw === undefined || typeof raw !== "object") return null;
   const candidate = raw as Record<string, unknown>;
   if (candidate.kind !== SNAPSHOT_KIND) return null;
   if (candidate.version !== SNAPSHOT_VERSION) {
-    throw new Error(`restoreSnapshot: unsupported snapshot version ${String(candidate.version)}`);
+    throw new Error(
+      `restoreSnapshot: unsupported snapshot version ${String(candidate.version)}`,
+    );
   }
   const state = candidate.state;
-  if (state === null || typeof state !== 'object') {
-    throw new Error('restoreSnapshot: snapshot.state must be an object');
+  if (state === null || typeof state !== "object") {
+    throw new Error("restoreSnapshot: snapshot.state must be an object");
   }
   const stateRecord = state as Record<string, unknown>;
-  if (typeof stateRecord.sessionId !== 'string' || typeof stateRecord.policyDigest !== 'string') {
-    throw new Error('restoreSnapshot: snapshot.state must carry sessionId and policyDigest');
+  if (
+    typeof stateRecord.sessionId !== "string" ||
+    typeof stateRecord.policyDigest !== "string"
+  ) {
+    throw new Error(
+      "restoreSnapshot: snapshot.state must carry sessionId and policyDigest",
+    );
   }
-  if (typeof candidate.digest !== 'string' || candidate.digest.length === 0) {
-    throw new Error('restoreSnapshot: snapshot.digest must be a non-empty string');
+  if (typeof candidate.digest !== "string" || candidate.digest.length === 0) {
+    throw new Error(
+      "restoreSnapshot: snapshot.digest must be a non-empty string",
+    );
   }
   const recomputed = canonicalDigest(state);
   if (recomputed !== candidate.digest) {
-    throw new Error(`restoreSnapshot: digest mismatch (key ${candidate.digest}, canonical ${recomputed})`);
+    throw new Error(
+      `restoreSnapshot: digest mismatch (key ${candidate.digest}, canonical ${recomputed})`,
+    );
   }
-  if (candidate.sessionId !== stateRecord.sessionId || candidate.policyDigest !== stateRecord.policyDigest) {
-    throw new Error('restoreSnapshot: snapshot header does not match its state');
+  if (
+    candidate.sessionId !== stateRecord.sessionId ||
+    candidate.policyDigest !== stateRecord.policyDigest
+  ) {
+    throw new Error(
+      "restoreSnapshot: snapshot header does not match its state",
+    );
   }
-  return deepFreeze(JSON.parse(canonicalJSON(candidate))) as PersistedDiscoverySnapshot;
+  return deepFreeze(
+    JSON.parse(canonicalJSON(candidate)),
+  ) as PersistedDiscoverySnapshot;
 }
 
 export interface InMemoryDiscoveryStore extends DiscoveryStorePort {
@@ -95,17 +115,32 @@ export function createInMemoryDiscoveryStore(): InMemoryDiscoveryStore {
 // frozen port's method names are known precisely, this bridge can be
 // tightened to a direct call (see questions for TL).
 
-const SAVE_METHOD_NAMES = ['saveSnapshot', 'save', 'put', 'write', 'persist'] as const;
-const LOAD_METHOD_NAMES = ['loadSnapshot', 'load', 'get', 'read', 'restore'] as const;
-const LIST_METHOD_NAMES = ['listDigests', 'digests', 'list', 'keys'] as const;
+const SAVE_METHOD_NAMES = [
+  "saveSnapshot",
+  "save",
+  "put",
+  "write",
+  "persist",
+] as const;
+const LOAD_METHOD_NAMES = [
+  "loadSnapshot",
+  "load",
+  "get",
+  "read",
+  "restore",
+] as const;
+const LIST_METHOD_NAMES = ["listDigests", "digests", "list", "keys"] as const;
 
 type UnknownRecord = Record<string, unknown>;
 type UnknownFn = (...args: unknown[]) => unknown;
 
-function pickMethod(store: UnknownRecord, names: readonly string[]): UnknownFn | undefined {
+function pickMethod(
+  store: UnknownRecord,
+  names: readonly string[],
+): UnknownFn | undefined {
   for (const name of names) {
     const candidate = store[name];
-    if (typeof candidate === 'function') {
+    if (typeof candidate === "function") {
       return candidate as UnknownFn;
     }
   }
@@ -114,17 +149,19 @@ function pickMethod(store: UnknownRecord, names: readonly string[]): UnknownFn |
 
 /** Binds a W021 WorldStore to the discovery store port (digest-keyed snapshots alongside revision lineage). */
 export function bindWorldStore(worldStore: WorldStore): DiscoveryStorePort {
-  if (worldStore === null || typeof worldStore !== 'object') {
-    throw new Error('bindWorldStore: WorldStore must be an object');
+  if (worldStore === null || typeof worldStore !== "object") {
+    throw new Error("bindWorldStore: WorldStore must be an object");
   }
   const record = worldStore as unknown as UnknownRecord;
   const save = pickMethod(record, SAVE_METHOD_NAMES);
   const load = pickMethod(record, LOAD_METHOD_NAMES);
   if (save === undefined || load === undefined) {
-    const found = Object.keys(record).filter((key) => typeof record[key] === 'function');
+    const found = Object.keys(record).filter(
+      (key) => typeof record[key] === "function",
+    );
     throw new Error(
       `bindWorldStore: could not bind the WorldStore (need a save-like and a load-like method; found functions: [${
-        found.length > 0 ? found.join(', ') : 'none'
+        found.length > 0 ? found.join(", ") : "none"
       }])`,
     );
   }
@@ -153,18 +190,26 @@ export function bindWorldStore(worldStore: WorldStore): DiscoveryStorePort {
 export interface DiscoveryPersistence {
   save(state: DiscoveryState): Promise<PersistedDiscoverySnapshot>;
   /** Re-attaches BY DIGEST (never by mutable pointer); validates the canonical digest and policy binding. */
-  restore(digest: Digest, machine: DiscoveryMachine): Promise<DiscoveryState | null>;
+  restore(
+    digest: Digest,
+    machine: DiscoveryMachine,
+  ): Promise<DiscoveryState | null>;
   snapshots(): Promise<readonly Digest[]>;
 }
 
-export function discoveryPersistence(store: DiscoveryStorePort): DiscoveryPersistence {
+export function discoveryPersistence(
+  store: DiscoveryStorePort,
+): DiscoveryPersistence {
   return {
     async save(state: DiscoveryState): Promise<PersistedDiscoverySnapshot> {
       const snapshot = snapshotOf(state);
       await store.save(snapshot);
       return snapshot;
     },
-    async restore(digest: Digest, machine: DiscoveryMachine): Promise<DiscoveryState | null> {
+    async restore(
+      digest: Digest,
+      machine: DiscoveryMachine,
+    ): Promise<DiscoveryState | null> {
       const snapshot = restoreSnapshot(await store.restore(digest));
       if (snapshot === null) return null;
       if (snapshot.digest !== digest) {
@@ -178,7 +223,9 @@ export function discoveryPersistence(store: DiscoveryStorePort): DiscoveryPersis
         );
       }
       if (machine.stateDigestOf(snapshot.state) !== digest) {
-        throw new Error('discoveryPersistence.restore: recomputed state digest does not match the snapshot digest');
+        throw new Error(
+          "discoveryPersistence.restore: recomputed state digest does not match the snapshot digest",
+        );
       }
       return snapshot.state;
     },
