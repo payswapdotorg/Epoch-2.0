@@ -218,6 +218,21 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-solution-contract]
     publicEntrypoints: [packages/epoch-persistence/src/index.ts]
+  # W011 — OCCT geometry capability: provider-neutral B-Rep kernel port,
+  # analytic adapter with honest capability levels, derive-only world bridge.
+  - id: epoch-geometry-occt
+    roots: [packages/epoch-geometry-occt/src]
+    managed: true
+    requires: [epoch-world-model, epoch-reconstruction-contract]
+    publicEntrypoints: [packages/epoch-geometry-occt/src/index.ts]
+  # W022 — Universal engineering lifecycle: ten-phase evidence-keyed
+  # deterministic state machine organizing work around the world-model
+  # authority without becoming a second semantic authority.
+  - id: epoch-lifecycle
+    roots: [packages/epoch-lifecycle/src]
+    managed: true
+    requires: [epoch-world-model, epoch-solution-contract, epoch-persistence]
+    publicEntrypoints: [packages/epoch-lifecycle/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).

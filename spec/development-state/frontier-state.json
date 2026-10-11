@@ -1,14 +1,14 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_5_W021_MERGED_W022_DISPATCHING",
+  "status": "WAVE_6_W022_MERGED_W023_DISPATCHING",
   "frontier": [
-    "W022",
+    "W023",
     "W011",
     "W012"
   ],
   "eligible": 8,
   "inFlight": [
-    "W022",
+    "W023",
     "W011",
     "W012"
   ],
@@ -21,7 +21,7 @@
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
     "ifcReconstruction": "PARTIAL (W009 IFC engine merged bb1ac04 — normalized WorldRevision + stable digest; geometry chain W011/W012 pending)",
-    "fullEngineeringArchitecture": "FUTURE",
+    "fullEngineeringArchitecture": "PARTIAL (lifecycle W022 merged 4aa5fa2 — evidence-keyed phase machine live; geometry chain W011/W012 + capability discovery W023 in flight)",
     "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
     "applicationEnvironmentFabric": "PARTIAL (W028 environment fabric + generic surface merged dcd9b13; ACR integration pending W029+)",
     "capabilityReproductionFactory": "FUTURE",
@@ -31,5 +31,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W021 merged and registered. W022 (universal engineering lifecycle, critical path to W023-W026) dispatching into the freed slot. W011 (geometry-occt) + W012 (scene-usd) sandboxes live, awaiting model slots. On W021+merge: W029 eligible. Leaf pool: W013-W018."
+  "nextAction": "W021 merged and registered. W022 (universal engineering lifecycle, critical path to W023-W026) dispatching into the freed slot. W011 (geometry-occt) + W012 (scene-usd) sandboxes live, awaiting model slots. On W021+merge: W029 eligible. Leaf pool: W013-W018.",
+  "lastMerge": {
+    "workOrder": "W022",
+    "mergeSha": "4aa5fa2"
+  }
 }

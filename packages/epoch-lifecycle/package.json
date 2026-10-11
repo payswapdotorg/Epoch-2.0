@@ -1,0 +1,32 @@
+{
+  "name": "@zcode/epoch-lifecycle",
+  "version": "0.1.0",
+  "private": true,
+  "description": "W022 - universal engineering lifecycle: a ten-phase, evidence-keyed, deterministic state machine that organizes work around the world-model authority without ever becoming a second semantic authority.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc -b",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "@zcode/epoch-persistence": "workspace:*",
+    "@zcode/epoch-solution-contract": "workspace:*",
+    "@zcode/epoch-world-model": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0"
+  }
+}
