@@ -47,8 +47,8 @@ test("phase definitions: entry and exit criteria are data, never behavior", () =
     assert.ok(definition.name.length > 0);
     assert.ok(definition.entryCriteria.length > 0);
     assert.ok(definition.exitCriteria.length > 0);
-    assert.ok(definition.entryCriteria.every((criterion) => typeof criterion === "string"));
-    assert.ok(definition.exitCriteria.every((criterion) => typeof criterion === "string"));
+    assert.ok(definition.entryCriteria.every((criterion: string) => typeof criterion === "string"));
+    assert.ok(definition.exitCriteria.every((criterion: string) => typeof criterion === "string"));
   }
 });
 

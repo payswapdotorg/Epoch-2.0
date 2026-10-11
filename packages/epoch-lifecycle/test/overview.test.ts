@@ -1,6 +1,11 @@
 /**
  * W022 tests — the LifecycleOverview read-only projection: phases, current
  * phase, counts, evidence summary — sufficient for any host lifecycle view.
+ *
+ * Visits semantics (contract): a phase's `visits` counts ENTRIES. The
+ * initial open at step 0 counts as the understand phase's first entry, and
+ * every transition into a phase — forward or rework — counts as one more
+ * entry. Exiting does not add a visit.
  */
 
 import * as assert from "node:assert";
@@ -42,12 +47,18 @@ test("overview: counts rework loops and revisited phases", () => {
   assert.strictEqual(overview.reworkCount, 2);
   assert.strictEqual(overview.visitedPhaseCount, 7);
   const byId = new Map(overview.phases.map((phase) => [phase.id, phase]));
-  assert.strictEqual(byId.get("understand")?.visits, 2);
-  assert.strictEqual(byId.get("decide")?.visits, 2);
-  assert.strictEqual(byId.get("verify")?.visits, 2);
+  // visits = entries; the initial open counts as understand's first entry.
+  assert.strictEqual(byId.get("understand")?.visits, 2); // open@0 + rework entry@11
+  assert.strictEqual(byId.get("decide")?.visits, 2); // entry@1 + entry@12
+  assert.strictEqual(byId.get("plan")?.visits, 2); // entry@2 + rework entry@6
+  assert.strictEqual(byId.get("acquire")?.visits, 2); // entry@3 + entry@7
+  assert.strictEqual(byId.get("realize")?.visits, 2); // entry@4 + entry@8
+  assert.strictEqual(byId.get("observe")?.visits, 2); // entry@5 + entry@9
+  assert.strictEqual(byId.get("verify")?.visits, 1); // entered exactly once@10, exited@11
   assert.strictEqual(byId.get("forecast")?.visits, 0);
   assert.strictEqual(byId.get("decide")?.enteredAtStep, 12);
   assert.strictEqual(byId.get("understand")?.enteredAtStep, 11);
+  assert.strictEqual(byId.get("verify")?.exitedAtStep, 11);
   assert.strictEqual(byId.get("understand")?.status, "visited");
   assert.strictEqual(byId.get("decide")?.status, "current");
   assert.strictEqual(byId.get("forecast")?.status, "pending");

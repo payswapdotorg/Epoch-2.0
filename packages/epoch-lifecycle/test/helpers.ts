@@ -3,7 +3,7 @@
  */
 
 import * as assert from "node:assert";
-import { LifecycleError, init } from "../src/index.ts";
+import { LifecycleError } from "../src/index.ts";
 import type { LifecycleMachine, LifecyclePhaseId, LifecycleState } from "../src/index.ts";
 
 export const ANCHOR = { kind: "solution", digest: "sha256:solution-fixture-1" } as const;

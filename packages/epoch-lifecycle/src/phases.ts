@@ -3,12 +3,20 @@
  * Understand → Decide → Plan → Acquire → Realize → Observe/Actualize →
  * Verify → Forecast → Close → Learn.
  *
+ * Shared type contracts live in ./types.ts (the leaf module of the import
+ * graph — it imports nothing, so no cycle is possible). This module imports
+ * the phase types from there and re-exports them, which is exactly what the
+ * package entrypoint's `export type { ... } from "./phases.ts"` consumes.
+ *
  * The catalog is DATA, not behavior: entry and exit criteria are strings a
- * host can render or a policy can reference. Nothing here executes work.
+ * host can render or a policy can reference. Nothing in this module executes
+ * work.
  */
 
 import { LifecycleError } from "./errors.ts";
-import type { LifecyclePhaseDefinition, LifecyclePhaseId } from "./index.ts";
+import type { LifecyclePhaseDefinition, LifecyclePhaseId } from "./types.ts";
+
+export type { LifecyclePhaseDefinition, LifecyclePhaseId };
 
 export const LIFECYCLE_PHASE_ORDER: readonly LifecyclePhaseId[] = [
   "understand",

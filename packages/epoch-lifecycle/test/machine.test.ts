@@ -6,7 +6,7 @@
 
 import * as assert from "node:assert";
 import { test } from "node:test";
-import { DEFAULT_LIFECYCLE_POLICY, DEFAULT_LIFECYCLE_POLICY_ID, LifecycleError, init } from "../src/index.ts";
+import { DEFAULT_LIFECYCLE_POLICY, DEFAULT_LIFECYCLE_POLICY_ID, init } from "../src/index.ts";
 import type { LifecycleAnchor, LifecycleEventRequest, LifecyclePhaseId } from "../src/index.ts";
 import { ANCHOR, expectLifecycleError, walkTo } from "./helpers.ts";
 
@@ -133,7 +133,7 @@ test("machine: apply validates the raw transition object itself", () => {
   const state = machine.open(ANCHOR);
   const good = machine.advance(state, { to: "decide", reason: "r", evidence: ["e"] });
   expectLifecycleError("step-mismatch", () =>
-    machine.apply(good, { from: "understand", to: "decide", step: 1, reason: "r", evidence: ["e"] }),
+    machine.apply(good, { from: "decide", to: "plan", step: 3, reason: "gap", evidence: ["e"] }),
   );
   const next = machine.apply(good, { from: "decide", to: "plan", step: 2, reason: "planning", evidence: ["e2"] });
   assert.strictEqual(next.phase, "plan");
