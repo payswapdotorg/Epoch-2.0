@@ -55,14 +55,20 @@ function writeCanonical(value: unknown, chunks: string[], depth: number): void {
   if (record instanceof Date || record instanceof Map || record instanceof Set || record instanceof RegExp) {
     throw new Error('canonicalJSON: only plain data can be serialized (no Date/Map/Set/RegExp)');
   }
+  // Keys come from Object.keys() and are sorted before iteration, so a
+  // `for...of` walk needs no index arithmetic. Under noUncheckedIndexedAccess
+  // `keys[i]` is `string | undefined` (TS2538 as an index type); iterating
+  // the sorted array directly keeps every key provably defined.
   const keys = Object.keys(record)
     .filter((key) => record[key] !== undefined)
     .sort();
   chunks.push('{');
-  for (let i = 0; i < keys.length; i++) {
-    if (i > 0) chunks.push(',');
-    chunks.push(JSON.stringify(keys[i]), ':');
-    writeCanonical(record[keys[i]], chunks, depth + 1);
+  let first = true;
+  for (const key of keys) {
+    if (!first) chunks.push(',');
+    first = false;
+    chunks.push(JSON.stringify(key), ':');
+    writeCanonical(record[key], chunks, depth + 1);
   }
   chunks.push('}');
 }
