@@ -106,8 +106,10 @@ function validateScope(scope: CaptureScope): void {
   if (scope === null || typeof scope !== "object") {
     throw new InvalidPolicyError("scope must be an object");
   }
-  if (!Array.isArray(scope.includedEventKinds) ||
-      scope.includedEventKinds.length === 0) {
+  if (
+    !Array.isArray(scope.includedEventKinds) ||
+    scope.includedEventKinds.length === 0
+  ) {
     throw new InvalidPolicyError(
       "scope.includedEventKinds must be a non-empty array",
     );
@@ -129,8 +131,10 @@ function validateScope(scope: CaptureScope): void {
       );
     }
   }
-  if (!Array.isArray(scope.includedInitiators) ||
-      scope.includedInitiators.length === 0) {
+  if (
+    !Array.isArray(scope.includedInitiators) ||
+    scope.includedInitiators.length === 0
+  ) {
     throw new InvalidPolicyError(
       "scope.includedInitiators must be a non-empty array",
     );
@@ -149,7 +153,9 @@ function validateConsent(consent: ConsentRecord, subject: string): void {
     throw new InvalidPolicyError("consent must be an object");
   }
   if (!isNonEmptyString(consent.consentId)) {
-    throw new InvalidPolicyError("consent.consentId must be a non-empty string");
+    throw new InvalidPolicyError(
+      "consent.consentId must be a non-empty string",
+    );
   }
   if (!isNonEmptyString(consent.subject)) {
     throw new InvalidPolicyError("consent.subject must be a non-empty string");
@@ -164,7 +170,10 @@ function validateConsent(consent: ConsentRecord, subject: string): void {
       `consent.state must be one of ${CONSENT_STATES.join("|")}`,
     );
   }
-  if (!isNullableString(consent.externalRef) || !isNullableString(consent.note)) {
+  if (
+    !isNullableString(consent.externalRef) ||
+    !isNullableString(consent.note)
+  ) {
     throw new InvalidPolicyError(
       "consent.externalRef/note must be null or strings",
     );
@@ -184,7 +193,10 @@ export function validateCapturePolicy(policy: CapturePolicy): void {
   if (!isNonEmptyString(policy.subject)) {
     throw new InvalidPolicyError("policy.subject must be a non-empty string");
   }
-  if (policy.environmentId !== null && !isNonEmptyString(policy.environmentId)) {
+  if (
+    policy.environmentId !== null &&
+    !isNonEmptyString(policy.environmentId)
+  ) {
     throw new InvalidPolicyError(
       "policy.environmentId must be null or a non-empty string",
     );
@@ -198,7 +210,9 @@ export function validateCapturePolicy(policy: CapturePolicy): void {
     throw new InvalidPolicyError("policy.retention.allowed must be a boolean");
   }
   if (!isNullableString(policy.retention.note)) {
-    throw new InvalidPolicyError("policy.retention.note must be null or a string");
+    throw new InvalidPolicyError(
+      "policy.retention.note must be null or a string",
+    );
   }
   if (typeof policy.reuse !== "object" || policy.reuse === null) {
     throw new InvalidPolicyError("policy.reuse must be an object");
@@ -299,10 +313,7 @@ export function crossProjectReuseAllowed(
 }
 
 export type ScopeDecisionReason =
-  | "in-scope"
-  | "excluded-kind"
-  | "kind-not-included"
-  | "initiator-not-included";
+  "in-scope" | "excluded-kind" | "kind-not-included" | "initiator-not-included";
 
 export interface ScopeDecision {
   readonly capturable: boolean;
@@ -372,15 +383,31 @@ export function captureDecision(
     if (scope.reason === "kind-not-included") {
       continue;
     }
-    return { recordable: true, reason: "granted-in-scope", authorizingPolicy: policy };
+    return {
+      recordable: true,
+      reason: "granted-in-scope",
+      authorizingPolicy: policy,
+    };
   }
   if (!applicable) {
-    return { recordable: false, reason: "no-applicable-policy", authorizingPolicy: null };
+    return {
+      recordable: false,
+      reason: "no-applicable-policy",
+      authorizingPolicy: null,
+    };
   }
   if (!grantedApplicable) {
-    return { recordable: false, reason: "consent-not-granted", authorizingPolicy: null };
+    return {
+      recordable: false,
+      reason: "consent-not-granted",
+      authorizingPolicy: null,
+    };
   }
   return excluded
     ? { recordable: false, reason: "excluded-kind", authorizingPolicy: null }
-    : { recordable: false, reason: "kind-not-included", authorizingPolicy: null };
+    : {
+        recordable: false,
+        reason: "kind-not-included",
+        authorizingPolicy: null,
+      };
 }

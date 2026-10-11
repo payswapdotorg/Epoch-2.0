@@ -41,8 +41,20 @@ function demonstration() {
     episodeId: "ep-1",
     session,
     records: [
-      makeEvent({ session, sequence: 1, kind: "command.invoked", initiator: "human", payload: { n: 1 } }),
-      makeEvent({ session, sequence: 2, kind: "tool.applied", initiator: "agent", payload: { n: 2 } }),
+      makeEvent({
+        session,
+        sequence: 1,
+        kind: "command.invoked",
+        initiator: "human",
+        payload: { n: 1 },
+      }),
+      makeEvent({
+        session,
+        sequence: 2,
+        kind: "tool.applied",
+        initiator: "agent",
+        payload: { n: 2 },
+      }),
     ],
     userIntent: "place a wall",
     sessionLength: 2,
@@ -52,10 +64,20 @@ function demonstration() {
     title: "Wall placement",
     episodes: [episode],
     narrativeSteps: [
-      { stepId: "s1", ordinal: 1, description: "invoke command", episodeId: "ep-1", sequence: 1 },
+      {
+        stepId: "s1",
+        ordinal: 1,
+        description: "invoke command",
+        episodeId: "ep-1",
+        sequence: 1,
+      },
     ],
     resultCorrelations: [
-      { role: "result", kind: "world-revision", digest: "sha256:simulated-revision" },
+      {
+        role: "result",
+        kind: "world-revision",
+        digest: "sha256:simulated-revision",
+      },
     ],
     boundary: {
       covers: ["the recorded command sequence"],
@@ -167,12 +189,17 @@ test("provenance carries sessions, policy digests, consent subjects and coverage
     notes: ["provenance note"],
   });
   assert.deepEqual(candidate.provenance.originatingSessions, [session]);
-  assert.deepEqual(candidate.provenance.policyDigests, [policyDigest(contributing)]);
+  assert.deepEqual(candidate.provenance.policyDigests, [
+    policyDigest(contributing),
+  ]);
   assert.deepEqual(candidate.provenance.consentSubjects, ["user-1"]);
   assert.equal(candidate.provenance.allConsentGranted, true);
   assert.equal(candidate.provenance.coverage.status, "complete");
   assert.deepEqual(candidate.provenance.notes, ["provenance note"]);
-  assert.equal(candidate.demonstrationDigest, verifyCandidateIntegrity(candidate).actual);
+  assert.equal(
+    candidate.demonstrationDigest,
+    verifyCandidateIntegrity(candidate).actual,
+  );
 });
 
 test("verifyCandidateIntegrity detects tampering", () => {

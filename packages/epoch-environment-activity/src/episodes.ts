@@ -14,11 +14,7 @@ import {
   isNullableString,
 } from "./canonical.js";
 import { deepFreeze, sameJson } from "./freeze.js";
-import {
-  type SessionRef,
-  sameSession,
-  validateSessionRef,
-} from "./events.js";
+import { type SessionRef, sameSession, validateSessionRef } from "./events.js";
 import {
   type JournalRecord,
   type SequenceRange,
@@ -27,10 +23,7 @@ import {
 import { InvalidEpisodeError } from "./errors.js";
 
 export type IntentLabel =
-  | "user-stated"
-  | "inferred"
-  | "user-stated+inferred"
-  | "none";
+  "user-stated" | "inferred" | "user-stated+inferred" | "none";
 
 export interface EpisodeCoverage {
   readonly status: "complete-subsequence" | "partial";
@@ -242,7 +235,10 @@ export function validateEpisode(episode: ActivityEpisode): void {
     coverage.containsGapMarkers !== episode.coverage.containsGapMarkers ||
     coverage.containsRedactionMarkers !==
       episode.coverage.containsRedactionMarkers ||
-    !sameJson(coverage.missingSequenceRanges, episode.coverage.missingSequenceRanges)
+    !sameJson(
+      coverage.missingSequenceRanges,
+      episode.coverage.missingSequenceRanges,
+    )
   ) {
     throw new InvalidEpisodeError(
       "episode.coverage does not match its records (coverage is derived, never asserted)",

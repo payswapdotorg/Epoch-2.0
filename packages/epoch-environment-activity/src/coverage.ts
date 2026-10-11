@@ -36,9 +36,7 @@ export interface CoverageWindow {
 }
 
 export type RedactionReason =
-  | "sensitive-window"
-  | "policy-exclusion"
-  | "retroactive";
+  "sensitive-window" | "policy-exclusion" | "retroactive";
 export const REDACTION_REASONS: readonly RedactionReason[] = [
   "sensitive-window",
   "policy-exclusion",
@@ -248,7 +246,9 @@ export function validateRecordSubsequence(
   what: string,
 ): void {
   if (!Array.isArray(records) || records.length === 0) {
-    throw new InvalidRecordError(`${what}: at least one journal record is required`);
+    throw new InvalidRecordError(
+      `${what}: at least one journal record is required`,
+    );
   }
   let session: SessionRef | null = null;
   let previous = 0;
@@ -266,9 +266,7 @@ export function validateRecordSubsequence(
       );
     }
     if (!Number.isInteger(record.sequence) || record.sequence < 1) {
-      throw new InvalidRecordError(
-        `${what}: sequences must be integers >= 1`,
-      );
+      throw new InvalidRecordError(`${what}: sequences must be integers >= 1`);
     }
     if (record.sequence <= previous) {
       throw new InvalidRecordError(
@@ -365,8 +363,7 @@ export function summarizeCoverage(
     redactionMarkers: records.filter(
       (record) => record.type === "redaction-marker",
     ).length,
-    gapMarkers: records.filter((record) => record.type === "gap-marker")
-      .length,
+    gapMarkers: records.filter((record) => record.type === "gap-marker").length,
     observedWindows: windows.filter((window) => window.kind === "observed")
       .length,
     partialWindows: windows.filter((window) => window.kind === "partial")

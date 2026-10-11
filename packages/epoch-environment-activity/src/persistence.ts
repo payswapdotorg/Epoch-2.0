@@ -55,7 +55,11 @@ export interface WorldStorePort {
   put(envelope: StoredEnvelope): void | Promise<void>;
   get(
     digest: string,
-  ): StoredEnvelope | null | undefined | Promise<StoredEnvelope | null | undefined>;
+  ):
+    | StoredEnvelope
+    | null
+    | undefined
+    | Promise<StoredEnvelope | null | undefined>;
 }
 
 export interface ActivityPersistenceBinding {
@@ -67,7 +71,9 @@ export interface ActivityPersistenceBinding {
   restoreCandidateExport(digest: string): Promise<CandidateExport>;
 }
 
-export function bindWorldStore(store: WorldStorePort): ActivityPersistenceBinding {
+export function bindWorldStore(
+  store: WorldStorePort,
+): ActivityPersistenceBinding {
   const save = async (
     kind: StoredKind,
     value: object,
@@ -93,7 +99,9 @@ export function bindWorldStore(store: WorldStorePort): ActivityPersistenceBindin
     }
     const found = await store.get(digest);
     if (found === null || found === undefined) {
-      throw new PersistenceBindingError(`${what} not found for digest ${digest}`);
+      throw new PersistenceBindingError(
+        `${what} not found for digest ${digest}`,
+      );
     }
     if (found.schema !== ACTIVITY_STORE_SCHEMA) {
       throw new PersistenceBindingError(
@@ -145,7 +153,11 @@ export function bindWorldStore(store: WorldStorePort): ActivityPersistenceBindin
           "saveDemonstration requires a valid Demonstration",
         );
       }
-      return save("demonstration", demonstration, demonstrationDigest(demonstration));
+      return save(
+        "demonstration",
+        demonstration,
+        demonstrationDigest(demonstration),
+      );
     },
     saveCandidateExport: async (candidate) => {
       if (!isCandidateExport(candidate)) {
@@ -156,7 +168,12 @@ export function bindWorldStore(store: WorldStorePort): ActivityPersistenceBindin
       return save("candidate-export", candidate, candidateDigest(candidate));
     },
     restoreEpisode: async (digest) =>
-      (await restore(digest, "episode", "episode", isActivityEpisode)) as ActivityEpisode,
+      (await restore(
+        digest,
+        "episode",
+        "episode",
+        isActivityEpisode,
+      )) as ActivityEpisode,
     restoreDemonstration: async (digest) =>
       (await restore(
         digest,

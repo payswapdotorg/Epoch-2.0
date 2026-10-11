@@ -91,7 +91,8 @@ export interface EvidenceSeed {
   readonly role?: string | null;
 }
 
-export type CorrelationRole = "state-before" | "state-after" | "result" | "input";
+export type CorrelationRole =
+  "state-before" | "state-after" | "result" | "input";
 export const CORRELATION_ROLES: readonly CorrelationRole[] = [
   "state-before",
   "state-after",
@@ -100,9 +101,7 @@ export const CORRELATION_ROLES: readonly CorrelationRole[] = [
 ];
 
 export type CorrelationKind =
-  | "world-revision"
-  | "document-revision"
-  | "artifact";
+  "world-revision" | "document-revision" | "artifact";
 export const CORRELATION_KINDS: readonly CorrelationKind[] = [
   "world-revision",
   "document-revision",
@@ -165,7 +164,9 @@ function validateEvidenceList(list: readonly EvidenceReference[]): void {
       );
     }
     if (!isNullableString(ref.label) || !isNullableString(ref.role)) {
-      throw new InvalidEventError("evidence label/role must be null or strings");
+      throw new InvalidEventError(
+        "evidence label/role must be null or strings",
+      );
     }
   }
 }
@@ -213,9 +214,7 @@ export function validateEvidenceReference(ref: EvidenceReference): void {
   }
 }
 
-export function validateStateCorrelation(
-  correlation: StateCorrelation,
-): void {
+export function validateStateCorrelation(correlation: StateCorrelation): void {
   if (correlation === null || typeof correlation !== "object") {
     throw new InvalidEventError("correlation entry must be an object");
   }
@@ -292,7 +291,9 @@ export function makeEvidence(seed: EvidenceSeed): EvidenceReference {
     (seed.label !== undefined && !isNullableString(seed.label)) ||
     (seed.role !== undefined && !isNullableString(seed.role))
   ) {
-    throw new InvalidEventError("evidence seed label/role must be null or strings");
+    throw new InvalidEventError(
+      "evidence seed label/role must be null or strings",
+    );
   }
   return Object.freeze({
     digest: seed.digest,
@@ -319,7 +320,9 @@ export function makeCorrelation(seed: CorrelationSeed): StateCorrelation {
     throw new InvalidEventError("correlation seed requires a non-empty digest");
   }
   if (seed.label !== undefined && !isNullableString(seed.label)) {
-    throw new InvalidEventError("correlation seed label must be null or a string");
+    throw new InvalidEventError(
+      "correlation seed label must be null or a string",
+    );
   }
   return Object.freeze({
     role: seed.role,

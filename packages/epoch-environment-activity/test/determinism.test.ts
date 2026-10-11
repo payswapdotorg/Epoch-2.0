@@ -41,20 +41,34 @@ function runPipeline(): {
   candidate: string;
 } {
   const recorder = createSessionRecorder({ session, policies: [policy()] });
-  recorder.record({ kind: "session.opened", initiator: "human", payload: { who: "u1" } });
+  recorder.record({
+    kind: "session.opened",
+    initiator: "human",
+    payload: { who: "u1" },
+  });
   recorder.record({
     kind: "command.invoked",
     initiator: "human",
     payload: { command: "wall.create", args: { height: 3.2 } },
   });
-  recorder.record({ kind: "tool.applied", initiator: "agent", payload: { tool: "place" } });
+  recorder.record({
+    kind: "tool.applied",
+    initiator: "agent",
+    payload: { tool: "place" },
+  });
   recorder.pause();
   recorder.resume();
   recorder.record({
     kind: "world.revision.committed",
     initiator: "application",
     payload: { note: "commit" },
-    correlations: [{ role: "result", kind: "world-revision", digest: "sha256:simulated-revision" }],
+    correlations: [
+      {
+        role: "result",
+        kind: "world-revision",
+        digest: "sha256:simulated-revision",
+      },
+    ],
   });
   const journal = recorder.snapshot();
   const episode = defineEpisode({
@@ -99,9 +113,27 @@ test("invariant 17: identical pipelines produce identical digests end-to-end", (
 });
 
 test("any change to event content or order changes the digest", () => {
-  const a = makeEvent({ session, sequence: 1, kind: "k", initiator: "human", payload: { n: 1 } });
-  const b = makeEvent({ session, sequence: 2, kind: "k", initiator: "human", payload: { n: 1 } });
-  const changed = makeEvent({ session, sequence: 1, kind: "k", initiator: "human", payload: { n: 2 } });
+  const a = makeEvent({
+    session,
+    sequence: 1,
+    kind: "k",
+    initiator: "human",
+    payload: { n: 1 },
+  });
+  const b = makeEvent({
+    session,
+    sequence: 2,
+    kind: "k",
+    initiator: "human",
+    payload: { n: 1 },
+  });
+  const changed = makeEvent({
+    session,
+    sequence: 1,
+    kind: "k",
+    initiator: "human",
+    payload: { n: 2 },
+  });
   assert.notEqual(computeEventDigest(a), computeEventDigest(changed));
   assert.notEqual(computeSequenceDigest([a, b]), computeSequenceDigest([b, a]));
 });

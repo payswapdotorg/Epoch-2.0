@@ -110,8 +110,20 @@ test("event digests are byte-identical regardless of payload key order", () => {
 });
 
 test("computeSequenceDigest is deterministic and order-sensitive", () => {
-  const e1 = makeEvent({ session, sequence: 1, kind: "a", initiator: "human", payload: {} });
-  const e2 = makeEvent({ session, sequence: 2, kind: "b", initiator: "human", payload: {} });
+  const e1 = makeEvent({
+    session,
+    sequence: 1,
+    kind: "a",
+    initiator: "human",
+    payload: {},
+  });
+  const e2 = makeEvent({
+    session,
+    sequence: 2,
+    kind: "b",
+    initiator: "human",
+    payload: {},
+  });
   const first = computeSequenceDigest([e1, e2]);
   assert.equal(first, computeSequenceDigest([e1, e2]));
   assert.notEqual(first, computeSequenceDigest([e2, e1]));
@@ -139,7 +151,14 @@ test("makeCorrelation and makeEvidence normalize optional fields and validate en
       }),
     InvalidEventError,
   );
-  const evidence = makeEvidence({ digest: "sha256:evidence-1", label: "screen" });
-  assert.deepEqual(evidence, { digest: "sha256:evidence-1", label: "screen", role: null });
+  const evidence = makeEvidence({
+    digest: "sha256:evidence-1",
+    label: "screen",
+  });
+  assert.deepEqual(evidence, {
+    digest: "sha256:evidence-1",
+    label: "screen",
+    role: null,
+  });
   assert.throws(() => makeEvidence({ digest: "" }), InvalidEventError);
 });

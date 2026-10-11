@@ -36,9 +36,18 @@ test("recorder assigns dense monotonic sequence numbers per session (never times
     initiator: "human",
     payload: { command: "wall.create" },
   });
-  recorder.record({ kind: "tool.applied", initiator: "agent", payload: {}, sensitive: true });
+  recorder.record({
+    kind: "tool.applied",
+    initiator: "agent",
+    payload: {},
+    sensitive: true,
+  });
   recorder.noteGap("missed-events", 2, "renderer dropped frames");
-  recorder.record({ kind: "view.changed", initiator: "application", payload: {} });
+  recorder.record({
+    kind: "view.changed",
+    initiator: "application",
+    payload: {},
+  });
   const journal = recorder.snapshot();
   assert.equal(journal.records.length, 5);
   for (let index = 0; index < journal.records.length; index += 1) {
@@ -51,7 +60,11 @@ test("recorder assigns dense monotonic sequence numbers per session (never times
 
 test("out-of-scope events are never recorded — not even as markers", () => {
   const recorder = createSessionRecorder({ session, policies: [fullPolicy()] });
-  recorder.record({ kind: "command.invoked", initiator: "human", payload: { a: 1 } });
+  recorder.record({
+    kind: "command.invoked",
+    initiator: "human",
+    payload: { a: 1 },
+  });
   const before = recorder.snapshot();
   const outcome = recorder.record({
     kind: "input.key",
@@ -70,7 +83,11 @@ test("out-of-scope events are never recorded — not even as markers", () => {
 
 test("events are rejected while capture is paused or consent is withdrawn", () => {
   const recorder = createSessionRecorder({ session, policies: [fullPolicy()] });
-  recorder.record({ kind: "command.invoked", initiator: "human", payload: { n: 1 } });
+  recorder.record({
+    kind: "command.invoked",
+    initiator: "human",
+    payload: { n: 1 },
+  });
   recorder.pause();
   const paused = recorder.record({
     kind: "command.invoked",
@@ -140,7 +157,9 @@ test("sensitive inputs and sensitive windows produce redaction markers, never co
   assert.equal(journal.coverage.counts.redactionMarkers, 4);
   assert.equal(journal.coverage.counts.events, 0);
   assert.equal(journal.coverage.complete, false);
-  assert.ok(journal.coverage.windows.some((window) => window.kind === "partial"));
+  assert.ok(
+    journal.coverage.windows.some((window) => window.kind === "partial"),
+  );
 });
 
 test("pause and resume insert gap markers and unobserved coverage windows", () => {
@@ -175,7 +194,12 @@ test("inspect exposes mode, policies, counts and coverage at any time", () => {
   assert.equal(empty.coverage.complete, false);
   assert.deepEqual(empty.loadedPolicyDigests, [policyDigest(policy)]);
   recorder.record({ kind: "command.invoked", initiator: "human", payload: {} });
-  recorder.record({ kind: "view.changed", initiator: "human", payload: {}, sensitive: true });
+  recorder.record({
+    kind: "view.changed",
+    initiator: "human",
+    payload: {},
+    sensitive: true,
+  });
   recorder.pause();
   const inspected = recorder.inspect();
   assert.equal(inspected.mode, "paused");
@@ -190,19 +214,32 @@ test("inspect exposes mode, policies, counts and coverage at any time", () => {
 test("noteGap records missed-event gaps with estimates and unobserved coverage", () => {
   const recorder = createSessionRecorder({ session, policies: [fullPolicy()] });
   recorder.record({ kind: "session.opened", initiator: "human", payload: {} });
-  const marker = recorder.noteGap("missed-events", 3, "source briefly unavailable");
+  const marker = recorder.noteGap(
+    "missed-events",
+    3,
+    "source briefly unavailable",
+  );
   assert.equal(marker.estimatedMissed, 3);
   recorder.record({ kind: "session.closed", initiator: "human", payload: {} });
   const journal = recorder.snapshot();
   assert.equal(journal.records[1].type, "gap-marker");
-  assert.ok(journal.coverage.windows.some((window) => window.kind === "unobserved"));
+  assert.ok(
+    journal.coverage.windows.some((window) => window.kind === "unobserved"),
+  );
   assert.equal(journal.coverage.complete, false);
 });
 
 test("identical sessions produce identical journal digests (determinism)", () => {
   const runSession = (): string => {
-    const recorder = createSessionRecorder({ session, policies: [fullPolicy()] });
-    recorder.record({ kind: "session.opened", initiator: "human", payload: { who: "u1" } });
+    const recorder = createSessionRecorder({
+      session,
+      policies: [fullPolicy()],
+    });
+    recorder.record({
+      kind: "session.opened",
+      initiator: "human",
+      payload: { who: "u1" },
+    });
     recorder.record({
       kind: "command.invoked",
       initiator: "human",
@@ -210,7 +247,11 @@ test("identical sessions produce identical journal digests (determinism)", () =>
     });
     recorder.pause();
     recorder.resume();
-    recorder.record({ kind: "tool.applied", initiator: "agent", payload: { tool: "t" } });
+    recorder.record({
+      kind: "tool.applied",
+      initiator: "agent",
+      payload: { tool: "t" },
+    });
     return journalDigest(recorder.snapshot());
   };
   assert.equal(runSession(), runSession());

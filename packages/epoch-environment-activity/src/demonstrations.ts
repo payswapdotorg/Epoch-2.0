@@ -206,11 +206,11 @@ function normalizeSteps(
   });
   const stepIds = new Set(steps.map((step) => step.stepId));
   if (stepIds.size !== steps.length) {
-    throw new InvalidDemonstrationError("narrative step stepIds must be unique");
+    throw new InvalidDemonstrationError(
+      "narrative step stepIds must be unique",
+    );
   }
-  const ordinals = steps
-    .map((step) => step.ordinal)
-    .sort((a, b) => a - b);
+  const ordinals = steps.map((step) => step.ordinal).sort((a, b) => a - b);
   if (ordinals.some((value, index) => value !== index + 1)) {
     throw new InvalidDemonstrationError(
       "narrative step ordinals must be exactly 1..n",
@@ -245,9 +245,7 @@ function normalizeSteps(
   return Object.freeze(steps);
 }
 
-export function buildDemonstration(
-  input: DemonstrationInput,
-): Demonstration {
+export function buildDemonstration(input: DemonstrationInput): Demonstration {
   if (input === null || typeof input !== "object") {
     throw new InvalidDemonstrationError("input must be an object");
   }
@@ -290,9 +288,7 @@ export function buildDemonstration(
   return deepFreeze(demonstration);
 }
 
-export function validateDemonstration(
-  demonstration: Demonstration,
-): void {
+export function validateDemonstration(demonstration: Demonstration): void {
   if (demonstration === null || typeof demonstration !== "object") {
     throw new InvalidDemonstrationError("demonstration must be an object");
   }
@@ -364,7 +360,10 @@ export function validateDemonstration(
       "boundary.covers must be a non-empty list of statements",
     );
   }
-  if (!Array.isArray(boundary.doesNotCover) || boundary.doesNotCover.length === 0) {
+  if (
+    !Array.isArray(boundary.doesNotCover) ||
+    boundary.doesNotCover.length === 0
+  ) {
     throw new InvalidDemonstrationError(
       "boundary.doesNotCover must be a non-empty list of explicit exclusions",
     );
@@ -372,7 +371,10 @@ export function validateDemonstration(
   const coverage = computeDemonstrationCoverage(demonstration.episodes);
   if (
     coverage.status !== demonstration.coverage.status ||
-    !sameJson(coverage.partialEpisodeIds, demonstration.coverage.partialEpisodeIds) ||
+    !sameJson(
+      coverage.partialEpisodeIds,
+      demonstration.coverage.partialEpisodeIds,
+    ) ||
     !sameJson(coverage.episodes, demonstration.coverage.episodes)
   ) {
     throw new InvalidDemonstrationError(

@@ -16,7 +16,13 @@ import {
 const session = { sessionId: "s-1", environmentId: "env-1" };
 
 function event(sequence: number, kind = "command.invoked") {
-  return makeEvent({ session, sequence, kind, initiator: "human", payload: { n: sequence } });
+  return makeEvent({
+    session,
+    sequence,
+    kind,
+    initiator: "human",
+    payload: { n: sequence },
+  });
 }
 
 test("user-stated and inferred intent are kept as distinct fields", () => {
@@ -53,7 +59,12 @@ test("user-stated and inferred intent are kept as distinct fields", () => {
   assert.equal(userOnly.inferredIntent, null);
   assert.equal(
     intentLabel(
-      defineEpisode({ episodeId: "ep-4", session, records: [event(1)], sessionLength: 1 }),
+      defineEpisode({
+        episodeId: "ep-4",
+        session,
+        records: [event(1)],
+        sessionLength: 1,
+      }),
     ),
     "none",
   );
@@ -127,7 +138,8 @@ test("gap and redaction markers make an episode partial and are labeled", () => 
 
 test("record lists must be non-empty, single-session, increasing and within sessionLength", () => {
   assert.throws(
-    () => defineEpisode({ episodeId: "e", session, records: [], sessionLength: 0 }),
+    () =>
+      defineEpisode({ episodeId: "e", session, records: [], sessionLength: 0 }),
     InvalidEpisodeError,
   );
   const otherSession = { sessionId: "s-2", environmentId: "env-1" };
@@ -136,19 +148,38 @@ test("record lists must be non-empty, single-session, increasing and within sess
       defineEpisode({
         episodeId: "e",
         session,
-        records: [event(1), makeEvent({ session: otherSession, sequence: 2, kind: "k", initiator: "human", payload: {} })],
+        records: [
+          event(1),
+          makeEvent({
+            session: otherSession,
+            sequence: 2,
+            kind: "k",
+            initiator: "human",
+            payload: {},
+          }),
+        ],
         sessionLength: 2,
       }),
     InvalidEpisodeError,
   );
   assert.throws(
     () =>
-      defineEpisode({ episodeId: "e", session, records: [event(2), event(1)], sessionLength: 2 }),
+      defineEpisode({
+        episodeId: "e",
+        session,
+        records: [event(2), event(1)],
+        sessionLength: 2,
+      }),
     InvalidEpisodeError,
   );
   assert.throws(
     () =>
-      defineEpisode({ episodeId: "e", session, records: [event(5)], sessionLength: 3 }),
+      defineEpisode({
+        episodeId: "e",
+        session,
+        records: [event(5)],
+        sessionLength: 3,
+      }),
     InvalidEpisodeError,
   );
 });

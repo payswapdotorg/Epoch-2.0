@@ -35,8 +35,20 @@ function episode() {
     episodeId: "ep-1",
     session,
     records: [
-      makeEvent({ session, sequence: 1, kind: "command.invoked", initiator: "human", payload: { n: 1 } }),
-      makeEvent({ session, sequence: 2, kind: "tool.applied", initiator: "agent", payload: { n: 2 } }),
+      makeEvent({
+        session,
+        sequence: 1,
+        kind: "command.invoked",
+        initiator: "human",
+        payload: { n: 1 },
+      }),
+      makeEvent({
+        session,
+        sequence: 2,
+        kind: "tool.applied",
+        initiator: "agent",
+        payload: { n: 2 },
+      }),
     ],
     userIntent: "place a wall",
     sessionLength: 2,
@@ -49,7 +61,11 @@ function demonstration(): Demonstration {
     title: "Wall placement",
     episodes: [episode()],
     resultCorrelations: [
-      { role: "result", kind: "world-revision", digest: "sha256:simulated-revision" },
+      {
+        role: "result",
+        kind: "world-revision",
+        digest: "sha256:simulated-revision",
+      },
     ],
     boundary: {
       covers: ["the recorded command sequence"],
@@ -118,12 +134,14 @@ test("restoring verifies digests and rejects mismatches, wrong kinds and unknown
   await assert.rejects(
     () => binding.restoreDemonstration(digest),
     (error: unknown) =>
-      error instanceof PersistenceBindingError && /does not match requested kind/.test(error.message),
+      error instanceof PersistenceBindingError &&
+      /does not match requested kind/.test(error.message),
   );
   await assert.rejects(
     () => binding.restoreEpisode(`sha256:${"0".repeat(64)}`),
     (error: unknown) =>
-      error instanceof PersistenceBindingError && /not found/.test(error.message),
+      error instanceof PersistenceBindingError &&
+      /not found/.test(error.message),
   );
   await assert.rejects(
     () => binding.restoreEpisode(""),
@@ -150,7 +168,8 @@ test("restoring verifies digests and rejects mismatches, wrong kinds and unknown
   await assert.rejects(
     () => tamperingBinding.restoreEpisode(savedDigest),
     (error: unknown) =>
-      error instanceof PersistenceBindingError && /digest mismatch/.test(error.message),
+      error instanceof PersistenceBindingError &&
+      /digest mismatch/.test(error.message),
   );
 });
 

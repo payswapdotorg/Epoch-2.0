@@ -19,8 +19,20 @@ function completeEpisode(id: string) {
     episodeId: id,
     session,
     records: [
-      makeEvent({ session, sequence: 2, kind: "command.invoked", initiator: "human", payload: { n: 1 } }),
-      makeEvent({ session, sequence: 3, kind: "tool.applied", initiator: "agent", payload: { n: 2 } }),
+      makeEvent({
+        session,
+        sequence: 2,
+        kind: "command.invoked",
+        initiator: "human",
+        payload: { n: 1 },
+      }),
+      makeEvent({
+        session,
+        sequence: 3,
+        kind: "tool.applied",
+        initiator: "agent",
+        payload: { n: 2 },
+      }),
     ],
     userIntent: "place a wall",
     sessionLength: 5,
@@ -32,8 +44,20 @@ function partialEpisode(id: string) {
     episodeId: id,
     session,
     records: [
-      makeEvent({ session, sequence: 2, kind: "command.invoked", initiator: "human", payload: { n: 1 } }),
-      makeEvent({ session, sequence: 5, kind: "view.changed", initiator: "human", payload: { n: 2 } }),
+      makeEvent({
+        session,
+        sequence: 2,
+        kind: "command.invoked",
+        initiator: "human",
+        payload: { n: 1 },
+      }),
+      makeEvent({
+        session,
+        sequence: 5,
+        kind: "view.changed",
+        initiator: "human",
+        payload: { n: 2 },
+      }),
     ],
     sessionLength: 6,
   });
@@ -109,7 +133,13 @@ test("narrative steps must be ordinally complete and reference real episodes", (
       buildDemonstration({
         ...base,
         narrativeSteps: [
-          { stepId: "s1", ordinal: 1, description: "a", sequence: 99, episodeId: "ep-1" },
+          {
+            stepId: "s1",
+            ordinal: 1,
+            description: "a",
+            sequence: 99,
+            episodeId: "ep-1",
+          },
         ],
       }),
     InvalidDemonstrationError,
@@ -128,7 +158,13 @@ test("narrative steps must be ordinally complete and reference real episodes", (
     ...base,
     narrativeSteps: [
       { stepId: "s1", ordinal: 2, description: "second" },
-      { stepId: "s2", ordinal: 1, description: "first", episodeId: "ep-1", sequence: 2 },
+      {
+        stepId: "s2",
+        ordinal: 1,
+        description: "first",
+        episodeId: "ep-1",
+        sequence: 2,
+      },
     ],
   });
   assert.equal(demo.narrativeSteps.length, 2);

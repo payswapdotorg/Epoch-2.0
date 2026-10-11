@@ -20,7 +20,10 @@ import {
   makeCapturePolicy,
 } from "../src/index.js";
 
-const session = { sessionId: "SIMULATED-session-1", environmentId: "SIMULATED-env-1" };
+const session = {
+  sessionId: "SIMULATED-session-1",
+  environmentId: "SIMULATED-env-1",
+};
 
 function simulatedWorldRevision(): Record<string, unknown> {
   return {
@@ -56,7 +59,10 @@ function buildSimulatedPipeline(): {
 } {
   const revision = simulatedWorldRevision();
   const revisionDigest = digestRecord(revision);
-  const recorder = createSessionRecorder({ session, policies: [simulatedPolicy()] });
+  const recorder = createSessionRecorder({
+    session,
+    policies: [simulatedPolicy()],
+  });
   recorder.record({
     kind: "session.opened",
     initiator: "human",
@@ -65,9 +71,17 @@ function buildSimulatedPipeline(): {
   recorder.record({
     kind: "command.invoked",
     initiator: "human",
-    payload: { command: "wall.create", args: { height: 3.2 }, label: "SIMULATED" },
+    payload: {
+      command: "wall.create",
+      args: { height: 3.2 },
+      label: "SIMULATED",
+    },
     correlations: [
-      { role: "input", kind: "artifact", digest: digestRecord({ type: "SIMULATED-input" }) },
+      {
+        role: "input",
+        kind: "artifact",
+        digest: digestRecord({ type: "SIMULATED-input" }),
+      },
     ],
   });
   recorder.beginSensitiveWindow("SIMULATED screen share with personal content");
@@ -128,7 +142,8 @@ function buildSimulatedPipeline(): {
       {
         stepId: "step-2",
         ordinal: 2,
-        description: "SIMULATED: the user creates walls; the agent places them; a revision is committed",
+        description:
+          "SIMULATED: the user creates walls; the agent places them; a revision is committed",
         episodeId: "ep-sim-1",
         sequence: journal.records.length,
       },
@@ -148,7 +163,9 @@ function buildSimulatedPipeline(): {
         "the semantic correctness of the SIMULATED revision",
         "the redacted sensitive window content (withheld by design)",
       ],
-      openQuestions: ["did the paused window hide relevant SIMULATED commands?"],
+      openQuestions: [
+        "did the paused window hide relevant SIMULATED commands?",
+      ],
     },
   });
   const candidate = buildCandidateExport({
@@ -175,7 +192,8 @@ test("SIMULATED workflow trace correlates episodes with a resulting world revisi
   // The correlated event inside the episode references the same digest.
   const committed = demonstration.episodes[0].records.find(
     (record) =>
-      record.type === "environment-event" && record.kind === "world.revision.committed",
+      record.type === "environment-event" &&
+      record.kind === "world.revision.committed",
   );
   assert.ok(committed !== undefined);
   assert.equal(
@@ -189,9 +207,15 @@ test("the SIMULATED demonstration reports incomplete coverage honestly", () => {
   const { demonstration, candidate } = buildSimulatedPipeline();
   assert.equal(demonstration.coverage.status, "incomplete");
   assert.deepEqual(demonstration.coverage.partialEpisodeIds, ["ep-sim-1"]);
-  assert.ok(demonstration.coverage.reasons.some((reason) => reason.includes("gap markers")));
   assert.ok(
-    demonstration.coverage.reasons.some((reason) => reason.includes("redaction markers")),
+    demonstration.coverage.reasons.some((reason) =>
+      reason.includes("gap markers"),
+    ),
+  );
+  assert.ok(
+    demonstration.coverage.reasons.some((reason) =>
+      reason.includes("redaction markers"),
+    ),
   );
   assert.ok(demonstration.boundary.doesNotCover.length > 0);
   assert.equal(candidate.provenance.coverage.status, "incomplete");
@@ -208,8 +232,7 @@ test("the SIMULATED candidate export persists and restores by digest", async () 
     put: async (envelope) => {
       entries.set(envelope.digest, envelope);
     },
-    get: async (digest) =>
-      (entries.get(digest) as never) ?? null,
+    get: async (digest) => (entries.get(digest) as never) ?? null,
   });
   const digest = await binding.saveCandidateExport(candidate);
   assert.equal(digest, candidateDigest(candidate));
