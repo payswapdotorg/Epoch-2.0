@@ -1,10 +1,18 @@
 /**
  * Timeline model construction, canonical serialization and strict parsing.
  *
- * Determinism law (invariant 17): `modelDigest` is the SHA-256 of the
- * canonical JSON of the model WITHOUT the `modelDigest` field, so identical
- * revisions always produce byte-identical serializations and identical
- * digests — no timestamps, no random ids.
+ * Determinism law (invariant 17): the canonical serialization of a model is
+ * the digest-LESS canonical JSON body, and `modelDigest` is defined as the
+ * SHA-256 of exactly that text. Identical revisions therefore produce
+ * byte-identical serializations and identical digests — no timestamps, no
+ * random ids.
+ *
+ * `parseModel` accepts two forms:
+ *   - the canonical digest-less body (exactly what `serializeModel` emits):
+ *     the digest is computed and attached at parse time;
+ *   - a digest-carrying form: the declared `modelDigest` must match the
+ *     recomputed canonical hash, otherwise a typed
+ *     `model-digest-mismatch` error surfaces (never a silent repair).
  */
 import { canonicalJson } from "./canonical.js";
 import { TimelineError } from "./errors.js";
@@ -20,6 +28,7 @@ import type { IngestedTimeline } from "./ingest.js";
 import {
   compareStrings,
   deepFreeze,
+  hasOwn,
   isPlainObject,
   requireArray,
   requireInteger,
@@ -123,15 +132,20 @@ export function buildModel(ingested: IngestedTimeline): TimelineModel {
   return deepFreeze({ ...base, modelDigest });
 }
 
-/** Canonical (byte-deterministic) serialization of a timeline model. */
+/**
+ * Canonical (byte-deterministic) serialization of a timeline model — the
+ * digest-less body whose SHA-256 IS the model digest.
+ */
 export function serializeModel(model: TimelineModel): string {
   return canonicalJson(projectModel(model));
 }
 
 /**
- * Parse and strictly validate a serialized model. The recomputed canonical
- * digest must match the declared one; any deviation surfaces as a typed
- * error (never a silent repair).
+ * Parse and strictly validate a serialized model. Accepts the canonical
+ * digest-less body (the digest is computed and attached) or a
+ * digest-carrying form (the declared digest is verified against the
+ * recomputed canonical hash). Any deviation surfaces as a typed error —
+ * never a silent repair.
  */
 export function parseModel(json: string): TimelineModel {
   let parsed: unknown;
@@ -168,13 +182,32 @@ function projectModel(model: TimelineModel): unknown {
   };
 }
 
+/**
+ * Read an optional declared `modelDigest`. Absent -> `undefined` (the digest
+ * is computed at parse time); present -> must be a non-empty string, and is
+ * verified against the recomputed canonical hash.
+ */
+function readDeclaredDigest(value: Record<string, unknown>): string | undefined {
+  if (!hasOwn(value, "modelDigest")) {
+    return undefined;
+  }
+  const raw = value.modelDigest;
+  if (typeof raw !== "string" || raw.length === 0) {
+    throw new TimelineError(
+      "model-invalid",
+      'timeline model field "modelDigest" must be a non-empty string when present',
+    );
+  }
+  return raw;
+}
+
 function validateModel(value: unknown): TimelineModel {
   if (!isPlainObject(value)) {
     throw new TimelineError("model-invalid", "timeline model must be a JSON object");
   }
   const subject = "timeline model";
   const worldDigest = requireNonEmptyString(value, "worldDigest", "model-invalid", subject);
-  const modelDigest = requireNonEmptyString(value, "modelDigest", "model-invalid", subject);
+  const declaredDigest = readDeclaredDigest(value);
   const firstDay = requireInteger(value, "firstDay", "model-invalid", subject);
   const lastDay = requireInteger(value, "lastDay", "model-invalid", subject);
   const ambientRaw = requireArray(value, "ambientEntityIds", "model-invalid", subject);
@@ -218,12 +251,7 @@ function validateModel(value: unknown): TimelineModel {
       throw new TimelineError("model-invalid", "entity membership entries must be JSON objects");
     }
     const entrySubject = "entity membership entry";
-    const entityId = requireNonEmptyString(
-      rawEntry,
-      "entityId",
-      "model-invalid",
-      entrySubject,
-    );
+    const entityId = requireNonEmptyString(rawEntry, "entityId", "model-invalid", entrySubject);
     const participationsRaw = requireArray(rawEntry, "phases", "model-invalid", entrySubject);
     if (participationsRaw.length === 0) {
       throw new TimelineError(
@@ -321,14 +349,14 @@ function validateModel(value: unknown): TimelineModel {
     worldDigest,
   };
   const recomputed = sha256Hex(canonicalJson(candidate));
-  if (recomputed !== modelDigest) {
+  if (declaredDigest !== undefined && declaredDigest !== recomputed) {
     throw new TimelineError(
       "model-digest-mismatch",
       "timeline model digest does not match its canonical serialization",
-      { recomputed, declared: modelDigest },
+      { recomputed, declared: declaredDigest },
     );
   }
-  return deepFreeze({ ...candidate, modelDigest });
+  return deepFreeze({ ...candidate, modelDigest: recomputed });
 }
 
 function validatePhase(value: unknown, index: number): ConstructionPhase {
@@ -388,18 +416,16 @@ function validateParticipation(
   const phaseId = requireNonEmptyString(value, "phaseId", "model-invalid", subject);
   const role = requireNonEmptyString(value, "role", "model-invalid", subject);
   if (role !== "construct" && role !== "remove") {
-    throw new TimelineError(
-      "model-invalid",
-      `${subject} role must be "construct" or "remove"`,
-      { entityId, phaseId },
-    );
+    throw new TimelineError("model-invalid", `${subject} role must be "construct" or "remove"`, {
+      entityId,
+      phaseId,
+    });
   }
   if (!phaseIds.has(phaseId)) {
-    throw new TimelineError(
-      "model-invalid",
-      `${subject} references unknown phase "${phaseId}"`,
-      { entityId, phaseId },
-    );
+    throw new TimelineError("model-invalid", `${subject} references unknown phase "${phaseId}"`, {
+      entityId,
+      phaseId,
+    });
   }
   return deepFreeze({ phaseId, role });
 }

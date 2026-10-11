@@ -15,10 +15,7 @@ test("identical revisions produce byte-identical models and identical digests", 
   const third = TimelineBuilder.fromRevision(phasedWorld());
   assert.equal(serializeModel(first), serializeModel(second));
   assert.equal(first.modelDigest, second.modelDigest);
-  assert.equal(
-    new Set([first.modelDigest, second.modelDigest, third.modelDigest]).size,
-    1,
-  );
+  assert.equal(new Set([first.modelDigest, second.modelDigest, third.modelDigest]).size, 1);
 });
 
 test("byte-identity holds under shuffled entity order and key insertion order", () => {
@@ -79,6 +76,10 @@ test("tampered model JSON fails the digest check", () => {
   const model = TimelineBuilder.fromRevision(phasedWorld());
   const tampered = JSON.parse(serializeModel(model));
   tampered.phases[0].name = "Not The Foundation";
+  // Declare the ORIGINAL digest alongside the mutated body: the serialized
+  // form now carries a stale `modelDigest` that no longer matches the
+  // canonical hash of its content, so parsing must reject it.
+  tampered.modelDigest = model.modelDigest;
   assert.throws(
     () => parseModel(JSON.stringify(tampered)),
     (err) => isTimelineError(err) && err.code === "model-digest-mismatch",
