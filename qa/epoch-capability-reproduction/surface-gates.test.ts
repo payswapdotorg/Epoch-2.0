@@ -35,9 +35,15 @@ describe("workbench surface binding", () => {
   it("refuses a non-Epoch surface authority", () => {
     const hijacked = {
       ...validDescriptor(),
-      surface: { ...validDescriptor().surface, surfaceAuthority: "mcp.gateway" },
+      surface: {
+        ...validDescriptor().surface,
+        surfaceAuthority: "mcp.gateway",
+      },
     } as unknown as MiniAppDescriptor;
-    assertRefusal(validateMiniAppDescriptor(hijacked), "wrong-surface-authority");
+    assertRefusal(
+      validateMiniAppDescriptor(hijacked),
+      "wrong-surface-authority",
+    );
   });
 
   it("detects MCP wrapper markers at depth", () => {

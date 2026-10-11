@@ -1,8 +1,4 @@
-import type {
-  AlternativesAnalysis,
-  DigestRef,
-  Result,
-} from "./contract";
+import type { AlternativesAnalysis, DigestRef, Result } from "./contract";
 import { digestRefOf } from "./digest";
 import { ok, refuse } from "./result";
 

@@ -1,13 +1,10 @@
 import type * as ApplicationEnvironment from "@zcode/epoch-application-environment";
-import type {
-  DigestRef,
-  MiniAppDescriptor,
-  Result,
-} from "./contract";
+import type { DigestRef, MiniAppDescriptor, Result } from "./contract";
 import { digestRefOf, isDigestRef } from "./digest";
 import { ok, refuse } from "./result";
 
-export const WORKBENCH_SURFACE_AUTHORITY = "@zcode/epoch-application-environment";
+export const WORKBENCH_SURFACE_AUTHORITY =
+  "@zcode/epoch-application-environment";
 
 /** Opaque authority view of the W028 workbench surface module. */
 export type WorkbenchSurfaceAuthority = typeof ApplicationEnvironment;

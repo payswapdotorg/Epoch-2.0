@@ -25,7 +25,9 @@ describe("reproduction lifecycle", () => {
   it("opens at intake bound to the request digest", () => {
     const lifecycle = unwrap(openLifecycle(validRequest()));
     expect(lifecycle.phase).toBe("intake");
-    expect(lifecycle.requestRef.digest).toBe(digestRefOf(validRequest()).digest);
+    expect(lifecycle.requestRef.digest).toBe(
+      digestRefOf(validRequest()).digest,
+    );
   });
 
   it("governed path reaches release with a keyed release record", () => {
@@ -84,7 +86,10 @@ describe("reproduction lifecycle", () => {
       applyTransition(lifecycle, {
         kind: "intake-rejected",
         evidence: [seedRef("evidence-reject")],
-        verdict: { ...evaluateIntake(validRequest()), outcome: "reject" as const },
+        verdict: {
+          ...evaluateIntake(validRequest()),
+          outcome: "reject" as const,
+        },
       }),
     );
     expect(lifecycle.phase).toBe("rejected");
@@ -126,7 +131,10 @@ describe("reproduction lifecycle", () => {
       ...releaseTransition(),
       release: { ...releasePackage(), descriptor: standalone },
     };
-    assertRefusal(applyTransition(runToBenchmark(), attempt), "invalid-descriptor");
+    assertRefusal(
+      applyTransition(runToBenchmark(), attempt),
+      "invalid-descriptor",
+    );
   });
 
   it("rollback from released preserves version and limits", () => {

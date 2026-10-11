@@ -1,16 +1,9 @@
-import type {
-  BenchmarkPlan,
-  BuildPlan,
-  Result,
-} from "./contract";
+import type { BenchmarkPlan, BuildPlan, Result } from "./contract";
 import { digestRefOf, isDigestRef } from "./digest";
 import { ok, refuse } from "./result";
 
 export type PlanReasonCode =
-  | "empty-plan"
-  | "invalid-ref"
-  | "no-work-items"
-  | "no-outputs";
+  "empty-plan" | "invalid-ref" | "no-work-items" | "no-outputs";
 
 export type BuildPlanInput = Omit<BuildPlan, "planRef">;
 export type BenchmarkPlanInput = Omit<BenchmarkPlan, "planRef">;

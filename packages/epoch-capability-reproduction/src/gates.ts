@@ -9,9 +9,7 @@ import { digestRefOf, isDigestRef } from "./digest";
 import { ok, refuse } from "./result";
 
 export type ReleaseGateErrorCode =
-  | "insufficient-evidence"
-  | "invalid-ref"
-  | "gate-blocked";
+  "insufficient-evidence" | "invalid-ref" | "gate-blocked";
 
 /**
  * Unforgeable proof that every release gate is green with evidence. Only

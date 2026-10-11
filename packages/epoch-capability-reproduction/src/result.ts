@@ -6,6 +6,9 @@ export function ok<T>(value: T): Result<T, never> {
 }
 
 /** Wrap a deterministic refusal with a single reason code. */
-export function refuse<C extends string>(code: C, reason: string): Result<never, C> {
+export function refuse<C extends string>(
+  code: C,
+  reason: string,
+): Result<never, C> {
   return { ok: false, reason, codes: [code] };
 }

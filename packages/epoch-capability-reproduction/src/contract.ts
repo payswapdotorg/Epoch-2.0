@@ -15,8 +15,7 @@ export interface DigestRef {
 
 /** Deterministic machine result: a value, or a refusal with reason codes. */
 export type Result<T, C extends string = string> =
-  | { ok: true; value: T }
-  | { ok: false; reason: string; codes: readonly C[] };
+  { ok: true; value: T } | { ok: false; reason: string; codes: readonly C[] };
 
 // -- 1. intake ---------------------------------------------------------------
 export type CapabilityGap = "missing" | "inadequate";
@@ -45,16 +44,10 @@ export interface IntakeVerdict {
 
 // -- 2. alternatives analysis (data) ----------------------------------------
 export type AlternativeKind =
-  | "native-commercial"
-  | "open-source"
-  | "standards-based";
+  "native-commercial" | "open-source" | "standards-based";
 
 export type LicenseClassification =
-  | "permissive"
-  | "copyleft"
-  | "proprietary"
-  | "unlicensed"
-  | "unknown";
+  "permissive" | "copyleft" | "proprietary" | "unlicensed" | "unknown";
 
 export type RightsStatus = "cleared" | "negotiation-required" | "absent";
 
@@ -230,12 +223,7 @@ export type LifecycleTransitionKind =
   | "rollback";
 
 export type ReleaseGateName =
-  | "rights"
-  | "quality"
-  | "security"
-  | "safety"
-  | "license"
-  | "provenance";
+  "rights" | "quality" | "security" | "safety" | "license" | "provenance";
 
 export type GateStatus = "green" | "red" | "blocked";
 

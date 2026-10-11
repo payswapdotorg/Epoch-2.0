@@ -58,7 +58,10 @@ describe("intake", () => {
   it("rejects a scope conflict", () => {
     const request = {
       ...validRequest(),
-      scope: { includes: ["pdf-export.surface"], excludes: ["pdf-export.surface"] },
+      scope: {
+        includes: ["pdf-export.surface"],
+        excludes: ["pdf-export.surface"],
+      },
     };
     assertRefusal(evaluateIntake(request), "scope-conflict");
   });
@@ -84,7 +87,10 @@ describe("alternatives", () => {
 
   it("rejects an unknown license classification", () => {
     const base = validAlternatives();
-    const unclassified = { ...base.alternatives[1]!, license: "unknown" as const };
+    const unclassified = {
+      ...base.alternatives[1]!,
+      license: "unknown" as const,
+    };
     assertRefusal(
       evaluateAlternatives({
         ...base,
@@ -203,7 +209,9 @@ describe("foundation selection", () => {
   it("selects the fewest-restrictive eligible foundation", () => {
     const choice = unwrap(selectFoundation(foundationOptions()));
     expect(choice.selected.foundationId).toBe("foundation-permissive");
-    expect(choice.policy).toBe("fewest-restrictive-then-smallest-then-stable-id");
+    expect(choice.policy).toBe(
+      "fewest-restrictive-then-smallest-then-stable-id",
+    );
   });
 
   it("breaks ties by size then stable id", () => {
@@ -226,9 +234,9 @@ describe("foundation selection", () => {
       foundationId: "a-wide",
       dependencies: [dep("core-c"), dep("core-d")],
     };
-    expect(unwrap(selectFoundation([wideZ, wideA, lean])).selected.foundationId).toBe(
-      "c-lean",
-    );
+    expect(
+      unwrap(selectFoundation([wideZ, wideA, lean])).selected.foundationId,
+    ).toBe("c-lean");
     expect(unwrap(selectFoundation([wideZ, wideA])).selected.foundationId).toBe(
       "a-wide",
     );

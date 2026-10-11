@@ -19,7 +19,9 @@ export type RightsReasonCode = "invalid-ref";
  * remediation plan is attached, in which case the check stays un-clearable
  * as negotiation-required.
  */
-export function evaluateRightsCheck(input: RightsCheckInput): RightsCheckResult {
+export function evaluateRightsCheck(
+  input: RightsCheckInput,
+): RightsCheckResult {
   const missingRights: string[] = [];
   for (const right of input.requiredRights) {
     if (!input.heldRights.includes(right)) {
@@ -54,7 +56,12 @@ export function evaluateProtectedSource(
       reviewRef: null,
     };
   }
-  return { subject: request.subject, access: "authorized", authorizationRef, reviewRef };
+  return {
+    subject: request.subject,
+    access: "authorized",
+    authorizationRef,
+    reviewRef,
+  };
 }
 
 /** Evaluate the whole gate: any blocked check or inaccessible protected source blocks. */
@@ -63,7 +70,10 @@ export function evaluateRightsGate(
 ): Result<RightsGateResult, RightsReasonCode> {
   for (const check of gate.checks) {
     if (check.licenseRef !== null && !isDigestRef(check.licenseRef)) {
-      return refuse("invalid-ref", `license ref for ${check.subject} is malformed`);
+      return refuse(
+        "invalid-ref",
+        `license ref for ${check.subject} is malformed`,
+      );
     }
     if (
       check.remediationPlanRef !== null &&

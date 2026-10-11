@@ -1,14 +1,8 @@
-import type {
-  FoundationChoice,
-  FoundationOption,
-  Result,
-} from "./contract";
+import type { FoundationChoice, FoundationOption, Result } from "./contract";
 import { digestRefOf } from "./digest";
 import { ok, refuse } from "./result";
 
-export type FoundationReasonCode =
-  | "empty-options"
-  | "no-eligible-foundation";
+export type FoundationReasonCode = "empty-options" | "no-eligible-foundation";
 
 const INELIGIBLE_CLASSIFICATIONS: readonly string[] = [
   "proprietary",
@@ -33,7 +27,10 @@ export function selectFoundation(
   options: readonly FoundationOption[],
 ): Result<FoundationChoice, FoundationReasonCode> {
   if (options.length === 0) {
-    return refuse("empty-options", "at least one foundation option is required");
+    return refuse(
+      "empty-options",
+      "at least one foundation option is required",
+    );
   }
   const eligible: RankedFoundation[] = [];
   const rejections: string[] = [];

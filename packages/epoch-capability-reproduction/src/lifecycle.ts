@@ -253,7 +253,10 @@ function acceptIntake(
     );
   }
   if (transition.verdict.requestRef.digest !== lifecycle.requestRef.digest) {
-    return refuse("invalid-ref", "intake verdict does not reference this request");
+    return refuse(
+      "invalid-ref",
+      "intake verdict does not reference this request",
+    );
   }
   return ok(
     append(lifecycle, "intake-accepted", "alternatives", transition.evidence, {
@@ -273,7 +276,10 @@ function rejectIntake(
     );
   }
   if (transition.verdict.requestRef.digest !== lifecycle.requestRef.digest) {
-    return refuse("invalid-ref", "intake verdict does not reference this request");
+    return refuse(
+      "invalid-ref",
+      "intake verdict does not reference this request",
+    );
   }
   return ok(
     append(lifecycle, "intake-rejected", "rejected", transition.evidence, {
@@ -386,7 +392,10 @@ function applyRollback(
   if (lifecycle.phase === "released") {
     const release = lifecycle.release;
     if (release === null) {
-      return refuse("rollback-mismatch", "released phase has no release record");
+      return refuse(
+        "rollback-mismatch",
+        "released phase has no release record",
+      );
     }
     if (input.preserved === null) {
       return refuse(
