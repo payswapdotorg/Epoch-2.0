@@ -1,0 +1,35 @@
+{
+  "name": "@zcode/epoch-capability-discovery",
+  "version": "0.1.0",
+  "private": true,
+  "description": "W023 — evidence-derived capability discovery: deterministic, digest-keyed, declaration-only. No execution authority, no world mutation.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@zcode/epoch-lifecycle": "workspace:*",
+    "@zcode/epoch-persistence": "workspace:*",
+    "@zcode/epoch-world-model": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
