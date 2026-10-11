@@ -1,27 +1,22 @@
 /**
  * Contract home for @zcode/epoch-environment-activity (W029).
  *
- * The public data-contract types and contract constants of this package are
- * declared here (W011/W012/W018/W023 contract.ts precedent). The modules
- * that previously declared them re-export this file, so the public surface
- * through index.ts is unchanged. Construction, validation and decision
- * logic stays in the domain modules; builder/input shapes stay next to
- * their constructors. This file declares types and constants only.
+ * The public data-contract TYPES of this package are declared here
+ * (W011/W012/W018/W023 contract.ts precedent). The runtime constants
+ * (initiator universe, capture qualities, correlation roles/kinds,
+ * well-known event kinds, coverage/redaction/gap reason lists, consent
+ * states) are internal validation helpers — they live beside the domain
+ * modules that use them (events.ts, coverage.ts, policy.ts) and are
+ * re-exported through index.ts, so the public surface is unchanged.
+ * This file declares types only.
  */
 
 import type { CanonicalValue } from "./canonical.js";
 
-// ---------------------------------------------------------------------------
-// Typed event core (moved from events.ts)
-// ---------------------------------------------------------------------------
+// --- Typed event core -------------------------------------------------------
 
 /** Who initiated an event: a human, an agent, or the application itself. */
 export type Initiator = "human" | "agent" | "application";
-export const INITIATORS: readonly Initiator[] = [
-  "human",
-  "agent",
-  "application",
-];
 
 /** Session identity: (sessionId, environmentId). */
 export interface SessionRef {
@@ -32,29 +27,8 @@ export interface SessionRef {
 /** Event kind discriminator (dotted names by convention). */
 export type EventKind = string;
 
-/** Well-known event kinds; hosts may define their own kinds. */
-export const WELL_KNOWN_EVENT_KINDS = {
-  sessionOpened: "session.opened",
-  sessionClosed: "session.closed",
-  pointerInput: "input.pointer",
-  keyInput: "input.key",
-  commandInvoked: "command.invoked",
-  toolApplied: "tool.applied",
-  toolCanceled: "tool.canceled",
-  documentSaved: "document.saved",
-  worldRevisionCommitted: "world.revision.committed",
-  viewChanged: "view.changed",
-  selectionChanged: "selection.changed",
-  agentMessage: "agent.message",
-  noteComposed: "note.composed",
-} as const;
-
 /** Per-event capture quality; whole unobserved spans are gap markers. */
 export type EventCaptureQuality = "observed" | "partial";
-export const EVENT_CAPTURE_QUALITIES: readonly EventCaptureQuality[] = [
-  "observed",
-  "partial",
-];
 
 /** Opaque digest reference to a foreign supporting artifact. */
 export interface EvidenceReference {
@@ -76,23 +50,12 @@ export type CorrelationRole =
   | "state-after"
   | "result"
   | "input";
-export const CORRELATION_ROLES: readonly CorrelationRole[] = [
-  "state-before",
-  "state-after",
-  "result",
-  "input",
-];
 
 /** Kind of entity a correlation digest refers to. */
 export type CorrelationKind =
   | "world-revision"
   | "document-revision"
   | "artifact";
-export const CORRELATION_KINDS: readonly CorrelationKind[] = [
-  "world-revision",
-  "document-revision",
-  "artifact",
-];
 
 /**
  * State/result correlation: a digest REFERENCE to a world/document revision.
@@ -130,17 +93,10 @@ export interface EnvironmentEvent {
   readonly correlations: readonly StateCorrelation[];
 }
 
-// ---------------------------------------------------------------------------
-// Coverage, gaps and redaction (moved from coverage.ts)
-// ---------------------------------------------------------------------------
+// --- Coverage, gaps and redaction -------------------------------------------
 
 /** Derived coverage classification of a record span. */
 export type CoverageKind = "observed" | "partial" | "unobserved";
-export const COVERAGE_KINDS: readonly CoverageKind[] = [
-  "observed",
-  "partial",
-  "unobserved",
-];
 
 /** A contiguous span of one coverage kind (sequences inclusive). */
 export interface CoverageWindow {
@@ -155,11 +111,6 @@ export type RedactionReason =
   | "sensitive-window"
   | "policy-exclusion"
   | "retroactive";
-export const REDACTION_REASONS: readonly RedactionReason[] = [
-  "sensitive-window",
-  "policy-exclusion",
-  "retroactive",
-];
 
 /** Occupies a sequence number; records THAT something was withheld, and why. */
 export interface RedactionMarker {
@@ -177,13 +128,6 @@ export type GapReason =
   | "source-unavailable"
   | "missed-events"
   | "unknown";
-export const GAP_REASONS: readonly GapReason[] = [
-  "capture-paused",
-  "capture-resumed",
-  "source-unavailable",
-  "missed-events",
-  "unknown",
-];
 
 /** Occupies a sequence number; documents a window that was not captured. */
 export interface GapMarker {
@@ -222,9 +166,7 @@ export interface SessionCoverageSummary {
   readonly counts: CoverageCounts;
 }
 
-// ---------------------------------------------------------------------------
-// Consent and privacy (moved from policy.ts)
-// ---------------------------------------------------------------------------
+// --- Consent and privacy ----------------------------------------------------
 
 /** What a policy allows to be captured. Exclusions always win. */
 export interface CaptureScope {
@@ -233,14 +175,10 @@ export interface CaptureScope {
   readonly includedInitiators: readonly Initiator[];
 }
 
+/** Consent state of one subject: granted, withdrawn, or never granted. */
 export type ConsentState = "granted" | "withdrawn" | "never-granted";
-export const CONSENT_STATES: readonly ConsentState[] = [
-  "granted",
-  "withdrawn",
-  "never-granted",
-];
 
-/** Consent state of one subject (time-free; externalRef anchors evidence). */
+/** One subject's consent record (time-free; externalRef anchors evidence). */
 export interface ConsentRecord {
   readonly consentId: string;
   readonly subject: string;
@@ -305,9 +243,7 @@ export interface CaptureDecision {
   readonly authorizingPolicy: CapturePolicy | null;
 }
 
-// ---------------------------------------------------------------------------
-// Demonstration shape (moved from demonstrations.ts)
-// ---------------------------------------------------------------------------
+// --- Demonstration shape ----------------------------------------------------
 
 /** One narrative step of a demonstration (curated, human-authored). */
 export interface NarrativeStep {

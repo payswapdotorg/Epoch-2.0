@@ -1,13 +1,14 @@
 /**
  * Consent and privacy laws (W029 task 2).
  *
- * The contract types live in contract.ts; this module re-exports the
- * contract and keeps the decisions. CapturePolicy is the per-source
- * scope/consent record: what is capturable, what is excluded, and TWO
- * SEPARATE permissions — retention (may captured activity be kept at all)
- * and reuse (may it be reused, and in which projects). RETENTION AND REUSE
- * ARE SEPARATE PERMISSIONS: neither is derivable from the other, and both
- * must be inspected independently.
+ * The contract types live in contract.ts; the policy-domain runtime
+ * constant (consent states) is declared here and re-exported through
+ * index.ts, so the public surface is unchanged. CapturePolicy is the
+ * per-source scope/consent record: what is capturable, what is excluded,
+ * and TWO SEPARATE permissions — retention (may captured activity be kept
+ * at all) and reuse (may it be reused, and in which projects). RETENTION
+ * AND REUSE ARE SEPARATE PERMISSIONS: neither is derivable from the other,
+ * and both must be inspected independently.
  */
 
 import {
@@ -25,13 +26,19 @@ import {
   type RetentionPermission,
   type ReusePermission,
   type ScopeDecision,
-  CONSENT_STATES,
-  INITIATORS,
 } from "./contract.js";
+import { INITIATORS } from "./events.js";
 import { deepFreeze } from "./freeze.js";
 import { InvalidPolicyError } from "./errors.js";
 
 export * from "./contract.js";
+
+/** Allowed consent states. */
+export const CONSENT_STATES: readonly ConsentState[] = [
+  "granted",
+  "withdrawn",
+  "never-granted",
+];
 
 /** Input form of CaptureScope. */
 export interface CaptureScopeInput {

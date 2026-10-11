@@ -25,10 +25,10 @@ import {
   type RedactionMarker,
   type SessionCoverageSummary,
   type SessionRef,
-  GAP_REASONS,
 } from "./contract.js";
 import { makeEvent, validateSessionRef } from "./events.js";
 import {
+  GAP_REASONS,
   isEventRecord,
   isGapMarker,
   isRedactionMarker,

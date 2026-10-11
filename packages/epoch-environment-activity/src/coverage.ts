@@ -1,8 +1,10 @@
 /**
  * Coverage, gap and redaction record construction and derivation (W029
- * tasks 1-2). The contract types live in contract.ts; this module
- * re-exports the contract and keeps the markers, validators and the
- * DERIVED coverage windows.
+ * tasks 1-2). The contract types live in contract.ts; the coverage-domain
+ * runtime constants (coverage kinds, redaction reasons, gap reasons) are
+ * declared here and re-exported through index.ts, so the public surface is
+ * unchanged. This module keeps the markers, validators and the DERIVED
+ * coverage windows.
  *
  * A session journal is a dense sequence of records: events, redaction
  * markers (the FACT of redaction is recorded, never the content) and gap
@@ -25,8 +27,6 @@ import {
   type SequenceRange,
   type SessionCoverageSummary,
   type SessionRef,
-  GAP_REASONS,
-  REDACTION_REASONS,
 } from "./contract.js";
 import { deepFreeze } from "./freeze.js";
 import {
@@ -37,6 +37,29 @@ import {
 import { InvalidCoverageError, InvalidRecordError } from "./errors.js";
 
 export * from "./contract.js";
+
+/** Allowed coverage classifications. */
+export const COVERAGE_KINDS: readonly CoverageKind[] = [
+  "observed",
+  "partial",
+  "unobserved",
+];
+
+/** Allowed redaction reasons. */
+export const REDACTION_REASONS: readonly RedactionReason[] = [
+  "sensitive-window",
+  "policy-exclusion",
+  "retroactive",
+];
+
+/** Allowed gap reasons. */
+export const GAP_REASONS: readonly GapReason[] = [
+  "capture-paused",
+  "capture-resumed",
+  "source-unavailable",
+  "missed-events",
+  "unknown",
+];
 
 /** Input form of RedactionMarker. */
 export interface RedactionMarkerInput {

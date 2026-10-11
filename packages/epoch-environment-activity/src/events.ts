@@ -1,13 +1,16 @@
 /**
  * Typed event core construction and validation (W029 task 1).
  *
- * The contract types and constants live in contract.ts (W011/W012/W018/W023
- * precedent); this module re-exports the contract and keeps the
- * constructors, validators and digests. EnvironmentEvent values are ordered
- * by a per-session monotonic sequence number — deliberately NOT timestamps —
- * so the determinism law (invariant 17) can hold. Evidence and state/result
- * correlations are opaque digest REFERENCES to foreign artifacts; this
- * package can never resolve or write them (no-authority law, task 4).
+ * The contract types live in contract.ts (W011/W012/W018/W023 precedent);
+ * the event-domain runtime constants (initiator universe, capture
+ * qualities, correlation roles/kinds, well-known kinds) are declared here
+ * and re-exported through index.ts, so the public surface is unchanged.
+ * This module keeps the constructors, validators and digests.
+ * EnvironmentEvent values are ordered by a per-session monotonic sequence
+ * number — deliberately NOT timestamps — so the determinism law
+ * (invariant 17) can hold. Evidence and state/result correlations are
+ * opaque digest REFERENCES to foreign artifacts; this package can never
+ * resolve or write them (no-authority law, task 4).
  */
 
 import {
@@ -29,15 +32,56 @@ import {
   type Initiator,
   type SessionRef,
   type StateCorrelation,
-  CORRELATION_KINDS,
-  CORRELATION_ROLES,
-  EVENT_CAPTURE_QUALITIES,
-  INITIATORS,
 } from "./contract.js";
 import { EpochActivityError } from "./errors.js";
 import { cloneCanonical, deepFreeze } from "./freeze.js";
 
 export * from "./contract.js";
+
+/** The typed initiator universe. */
+export const INITIATORS: readonly Initiator[] = [
+  "human",
+  "agent",
+  "application",
+];
+
+/** Allowed per-event capture quality values. */
+export const EVENT_CAPTURE_QUALITIES: readonly EventCaptureQuality[] = [
+  "observed",
+  "partial",
+];
+
+/** Allowed correlation roles. */
+export const CORRELATION_ROLES: readonly CorrelationRole[] = [
+  "state-before",
+  "state-after",
+  "result",
+  "input",
+];
+
+/** Allowed correlation kinds. */
+export const CORRELATION_KINDS: readonly CorrelationKind[] = [
+  "world-revision",
+  "document-revision",
+  "artifact",
+];
+
+/** Well-known event kinds; hosts may define their own kinds. */
+export const WELL_KNOWN_EVENT_KINDS = {
+  sessionOpened: "session.opened",
+  sessionClosed: "session.closed",
+  pointerInput: "input.pointer",
+  keyInput: "input.key",
+  commandInvoked: "command.invoked",
+  toolApplied: "tool.applied",
+  toolCanceled: "tool.canceled",
+  documentSaved: "document.saved",
+  worldRevisionCommitted: "world.revision.committed",
+  viewChanged: "view.changed",
+  selectionChanged: "selection.changed",
+  agentMessage: "agent.message",
+  noteComposed: "note.composed",
+} as const;
 
 export class InvalidEventError extends EpochActivityError {
   constructor(message: string) {
