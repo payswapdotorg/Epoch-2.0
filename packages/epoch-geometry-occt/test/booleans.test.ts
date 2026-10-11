@@ -3,7 +3,6 @@ import { test } from 'node:test';
 import { createAnalyticKernel } from '../src/index.ts';
 
 const k = () => createAnalyticKernel();
-const vol = (ref: string) => k().execute;
 const close = (actual: number, expected: number) =>
   assert.ok(Math.abs(actual - expected) <= 1e-12 * Math.max(1, Math.abs(expected)));
 

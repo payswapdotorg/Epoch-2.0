@@ -27,7 +27,7 @@ export function isIdentity(m: Mat4): boolean {
 }
 
 export function matMul(a: Mat4, b: Mat4): Mat4 {
-  const r = new Array<number>(16).fill(0);
+  const r = Array.from({ length: 16 }, () => 0);
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
       let s = 0;

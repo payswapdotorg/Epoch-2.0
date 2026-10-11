@@ -1,6 +1,6 @@
 import { contentDigest } from './canonical.ts';
 import { booleanIntersect, booleanSubtract, booleanUnion } from './booleans.ts';
-import type { BRepShape, BRepSolid, GeometryKernelDescriptor, GeometryOperation, GeometryResult, ShapeRef, TransformSpec, Vec3 } from './contracts.ts';
+import type { BRepShape, BRepSolid, GeometryKernelDescriptor, GeometryOperation, GeometryResult, ShapeRef, Vec3 } from './contracts.ts';
 import { InvalidGeometryError, UnknownShapeError, UnsupportedOperationError } from './errors.ts';
 import { matMul, matTranslate, rotationFromZTo } from './linear.ts';
 import { boxPairDistance, distanceToPoint, shapeArea, shapeBounds, shapeContains, shapeVolume } from './queries.ts';
