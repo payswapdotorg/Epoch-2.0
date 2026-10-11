@@ -222,7 +222,8 @@ export function generalizingCandidate(): LearningCandidate {
     null,
   );
   if (validation.kind !== "generalized") {
-    throw new Error(`fixture generalization failed: ${validation.reason}`);
+    const detail = validation.kind === "rejected" ? validation.reason : validation.kind;
+    throw new Error(`fixture generalization failed: ${detail}`);
   }
   return appliedCandidate(candidate, validation);
 }
@@ -231,7 +232,7 @@ export function rejectedCandidate(): LearningCandidate {
   const candidate = makeCandidate();
   const validation = validateGeneralization(candidate, [], null);
   if (validation.kind !== "rejected") {
-    throw new Error("fixture rejection failed");
+    throw new Error(`fixture expected rejection but got "${validation.kind}"`);
   }
   return appliedCandidate(candidate, validation);
 }
