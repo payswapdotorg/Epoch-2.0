@@ -12,24 +12,23 @@
  */
 
 import { digestRecord } from "./canonical.js";
-import { deepFreeze } from "./freeze.js";
 import {
+  type CapturePolicy,
   type CorrelationSeed,
   type EnvironmentEvent,
-  type EvidenceSeed,
   type EventKind,
-  type Initiator,
-  type SessionRef,
-  makeEvent,
-  validateSessionRef,
-} from "./events.js";
-import {
+  type EvidenceSeed,
   type GapMarker,
   type GapReason,
-  GAP_REASONS,
+  type Initiator,
   type JournalRecord,
   type RedactionMarker,
   type SessionCoverageSummary,
+  type SessionRef,
+  GAP_REASONS,
+} from "./contract.js";
+import { makeEvent, validateSessionRef } from "./events.js";
+import {
   isEventRecord,
   isGapMarker,
   isRedactionMarker,
@@ -37,12 +36,8 @@ import {
   makeRedactionMarker,
   summarizeCoverage,
 } from "./coverage.js";
-import {
-  type CapturePolicy,
-  captureDecision,
-  isCapturePolicy,
-  policyDigest,
-} from "./policy.js";
+import { captureDecision, isCapturePolicy, policyDigest } from "./policy.js";
+import { deepFreeze } from "./freeze.js";
 import { InvalidPolicyError, InvalidRecordError } from "./errors.js";
 
 export interface EventInput {
@@ -56,7 +51,9 @@ export interface EventInput {
 }
 
 export type RejectionReason =
-  "capture-paused" | "consent-not-granted" | "out-of-scope";
+  | "capture-paused"
+  | "consent-not-granted"
+  | "out-of-scope";
 
 export type RecordOutcome =
   | { readonly status: "recorded"; readonly event: EnvironmentEvent }
@@ -115,9 +112,7 @@ function validatePoliciesForSession(
   }
   for (const policy of policies) {
     if (!isCapturePolicy(policy)) {
-      throw new InvalidPolicyError(
-        "policies must be valid CapturePolicy values",
-      );
+      throw new InvalidPolicyError("policies must be valid CapturePolicy values");
     }
     if (
       policy.environmentId !== null &&

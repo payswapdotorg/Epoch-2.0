@@ -1,11 +1,13 @@
 /**
  * Consent and privacy laws (W029 task 2).
  *
- * CapturePolicy is the per-source scope/consent record: what is capturable,
- * what is excluded, and TWO SEPARATE permissions — retention (may captured
- * activity be kept at all) and reuse (may it be reused, and in which
- * projects). RETENTION AND REUSE ARE SEPARATE PERMISSIONS: neither is
- * derivable from the other, and both must be inspected independently.
+ * The contract types live in contract.ts; this module re-exports the
+ * contract and keeps the decisions. CapturePolicy is the per-source
+ * scope/consent record: what is capturable, what is excluded, and TWO
+ * SEPARATE permissions — retention (may captured activity be kept at all)
+ * and reuse (may it be reused, and in which projects). RETENTION AND REUSE
+ * ARE SEPARATE PERMISSIONS: neither is derivable from the other, and both
+ * must be inspected independently.
  */
 
 import {
@@ -13,40 +15,32 @@ import {
   isNonEmptyString,
   isNullableString,
 } from "./canonical.js";
+import {
+  type CaptureDecision,
+  type CapturePolicy,
+  type CaptureScope,
+  type ConsentRecord,
+  type ConsentState,
+  type Initiator,
+  type RetentionPermission,
+  type ReusePermission,
+  type ScopeDecision,
+  CONSENT_STATES,
+  INITIATORS,
+} from "./contract.js";
 import { deepFreeze } from "./freeze.js";
-import { type Initiator, INITIATORS } from "./events.js";
 import { InvalidPolicyError } from "./errors.js";
 
-export interface CaptureScope {
-  /** Event kinds that may be captured; "*" means all non-excluded kinds. */
-  readonly includedEventKinds: readonly string[];
-  /** Exclusions always win over inclusions. */
-  readonly excludedEventKinds: readonly string[];
-  readonly includedInitiators: readonly Initiator[];
-}
+export * from "./contract.js";
 
+/** Input form of CaptureScope. */
 export interface CaptureScopeInput {
   readonly includedEventKinds: readonly string[];
   readonly excludedEventKinds?: readonly string[];
   readonly includedInitiators: readonly Initiator[];
 }
 
-export type ConsentState = "granted" | "withdrawn" | "never-granted";
-export const CONSENT_STATES: readonly ConsentState[] = [
-  "granted",
-  "withdrawn",
-  "never-granted",
-];
-
-export interface ConsentRecord {
-  readonly consentId: string;
-  readonly subject: string;
-  readonly state: ConsentState;
-  /** Opaque reference to an external consent artifact (time-free). */
-  readonly externalRef: string | null;
-  readonly note: string | null;
-}
-
+/** Input form of ConsentRecord. */
 export interface ConsentRecordInput {
   readonly consentId: string;
   readonly subject: string;
@@ -55,43 +49,20 @@ export interface ConsentRecordInput {
   readonly note?: string | null;
 }
 
-/** Permission to RETAIN captured activity at all. */
-export interface RetentionPermission {
-  readonly allowed: boolean;
-  readonly note: string | null;
-}
-
-/** Permission to REUSE captured activity (independent of retention). */
-export interface ReusePermission {
-  readonly allowed: boolean;
-  /** Projects in which reuse is permitted; "*" means any project. */
-  readonly projects: readonly string[];
-  readonly note: string | null;
-}
-
+/** Input form of RetentionPermission. */
 export interface RetentionPermissionInput {
   readonly allowed: boolean;
   readonly note?: string | null;
 }
 
+/** Input form of ReusePermission. */
 export interface ReusePermissionInput {
   readonly allowed: boolean;
   readonly projects?: readonly string[];
   readonly note?: string | null;
 }
 
-export interface CapturePolicy {
-  readonly type: "capture-policy";
-  readonly policyId: string;
-  readonly subject: string;
-  /** null means the policy applies in any environment. */
-  readonly environmentId: string | null;
-  readonly scope: CaptureScope;
-  readonly consent: ConsentRecord;
-  readonly retention: RetentionPermission;
-  readonly reuse: ReusePermission;
-}
-
+/** Input form of CapturePolicy. */
 export interface CapturePolicyInput {
   readonly policyId: string;
   readonly subject: string;
@@ -106,10 +77,8 @@ function validateScope(scope: CaptureScope): void {
   if (scope === null || typeof scope !== "object") {
     throw new InvalidPolicyError("scope must be an object");
   }
-  if (
-    !Array.isArray(scope.includedEventKinds) ||
-    scope.includedEventKinds.length === 0
-  ) {
+  if (!Array.isArray(scope.includedEventKinds) ||
+      scope.includedEventKinds.length === 0) {
     throw new InvalidPolicyError(
       "scope.includedEventKinds must be a non-empty array",
     );
@@ -131,10 +100,8 @@ function validateScope(scope: CaptureScope): void {
       );
     }
   }
-  if (
-    !Array.isArray(scope.includedInitiators) ||
-    scope.includedInitiators.length === 0
-  ) {
+  if (!Array.isArray(scope.includedInitiators) ||
+      scope.includedInitiators.length === 0) {
     throw new InvalidPolicyError(
       "scope.includedInitiators must be a non-empty array",
     );
@@ -153,9 +120,7 @@ function validateConsent(consent: ConsentRecord, subject: string): void {
     throw new InvalidPolicyError("consent must be an object");
   }
   if (!isNonEmptyString(consent.consentId)) {
-    throw new InvalidPolicyError(
-      "consent.consentId must be a non-empty string",
-    );
+    throw new InvalidPolicyError("consent.consentId must be a non-empty string");
   }
   if (!isNonEmptyString(consent.subject)) {
     throw new InvalidPolicyError("consent.subject must be a non-empty string");
@@ -170,10 +135,7 @@ function validateConsent(consent: ConsentRecord, subject: string): void {
       `consent.state must be one of ${CONSENT_STATES.join("|")}`,
     );
   }
-  if (
-    !isNullableString(consent.externalRef) ||
-    !isNullableString(consent.note)
-  ) {
+  if (!isNullableString(consent.externalRef) || !isNullableString(consent.note)) {
     throw new InvalidPolicyError(
       "consent.externalRef/note must be null or strings",
     );
@@ -193,10 +155,7 @@ export function validateCapturePolicy(policy: CapturePolicy): void {
   if (!isNonEmptyString(policy.subject)) {
     throw new InvalidPolicyError("policy.subject must be a non-empty string");
   }
-  if (
-    policy.environmentId !== null &&
-    !isNonEmptyString(policy.environmentId)
-  ) {
+  if (policy.environmentId !== null && !isNonEmptyString(policy.environmentId)) {
     throw new InvalidPolicyError(
       "policy.environmentId must be null or a non-empty string",
     );
@@ -210,9 +169,7 @@ export function validateCapturePolicy(policy: CapturePolicy): void {
     throw new InvalidPolicyError("policy.retention.allowed must be a boolean");
   }
   if (!isNullableString(policy.retention.note)) {
-    throw new InvalidPolicyError(
-      "policy.retention.note must be null or a string",
-    );
+    throw new InvalidPolicyError("policy.retention.note must be null or a string");
   }
   if (typeof policy.reuse !== "object" || policy.reuse === null) {
     throw new InvalidPolicyError("policy.reuse must be an object");
@@ -312,14 +269,6 @@ export function crossProjectReuseAllowed(
   );
 }
 
-export type ScopeDecisionReason =
-  "in-scope" | "excluded-kind" | "kind-not-included" | "initiator-not-included";
-
-export interface ScopeDecision {
-  readonly capturable: boolean;
-  readonly reason: ScopeDecisionReason;
-}
-
 export function scopeDecision(
   scope: CaptureScope,
   kind: string,
@@ -338,19 +287,6 @@ export function scopeDecision(
     return { capturable: false, reason: "kind-not-included" };
   }
   return { capturable: true, reason: "in-scope" };
-}
-
-export type CaptureDecisionReason =
-  | "granted-in-scope"
-  | "consent-not-granted"
-  | "no-applicable-policy"
-  | "excluded-kind"
-  | "kind-not-included";
-
-export interface CaptureDecision {
-  readonly recordable: boolean;
-  readonly reason: CaptureDecisionReason;
-  readonly authorizingPolicy: CapturePolicy | null;
 }
 
 /**
@@ -383,31 +319,15 @@ export function captureDecision(
     if (scope.reason === "kind-not-included") {
       continue;
     }
-    return {
-      recordable: true,
-      reason: "granted-in-scope",
-      authorizingPolicy: policy,
-    };
+    return { recordable: true, reason: "granted-in-scope", authorizingPolicy: policy };
   }
   if (!applicable) {
-    return {
-      recordable: false,
-      reason: "no-applicable-policy",
-      authorizingPolicy: null,
-    };
+    return { recordable: false, reason: "no-applicable-policy", authorizingPolicy: null };
   }
   if (!grantedApplicable) {
-    return {
-      recordable: false,
-      reason: "consent-not-granted",
-      authorizingPolicy: null,
-    };
+    return { recordable: false, reason: "consent-not-granted", authorizingPolicy: null };
   }
   return excluded
     ? { recordable: false, reason: "excluded-kind", authorizingPolicy: null }
-    : {
-        recordable: false,
-        reason: "kind-not-included",
-        authorizingPolicy: null,
-      };
+    : { recordable: false, reason: "kind-not-included", authorizingPolicy: null };
 }

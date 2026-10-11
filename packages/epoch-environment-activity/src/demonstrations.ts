@@ -7,36 +7,29 @@
  * world/document revisions; this module has no store/write/commit surface
  * of any kind, and nothing here promotes a capability. Coverage status is
  * DERIVED from the episodes — a demonstration never claims completeness
- * over partial episodes.
+ * over partial episodes. Shape types live in contract.ts.
  */
 
-import { isNonEmptyString } from "./canonical.js";
-import { digestRecord } from "./canonical.js";
+import { digestRecord, isNonEmptyString } from "./canonical.js";
+import type {
+  CorrelationSeed,
+  DemonstrationBoundary,
+  DemonstrationCoverage,
+  EpisodeCoverageEntry,
+  NarrativeStep,
+  StateCorrelation,
+} from "./contract.js";
 import { deepFreeze, sameJson } from "./freeze.js";
-import {
-  type CorrelationSeed,
-  type StateCorrelation,
-  makeCorrelation,
-  validateStateCorrelation,
-} from "./events.js";
-import {
-  type ActivityEpisode,
-  episodeDigest,
-  isActivityEpisode,
-} from "./episodes.js";
+import { makeCorrelation, validateStateCorrelation } from "./events.js";
+import { type ActivityEpisode, isActivityEpisode } from "./episodes.js";
 import {
   IncompleteSequenceError,
   InvalidDemonstrationError,
 } from "./errors.js";
 
-export interface NarrativeStep {
-  readonly stepId: string;
-  readonly ordinal: number;
-  readonly description: string;
-  readonly episodeId: string | null;
-  readonly sequence: number | null;
-}
+export * from "./contract.js";
 
+/** Input form of NarrativeStep. */
 export interface NarrativeStepInput {
   readonly stepId: string;
   readonly ordinal: number;
@@ -45,33 +38,14 @@ export interface NarrativeStepInput {
   readonly sequence?: number | null;
 }
 
-export interface DemonstrationBoundary {
-  /** What the demonstration covers — must be stated explicitly. */
-  readonly covers: readonly string[];
-  /** What it does NOT cover — must be stated explicitly (non-empty). */
-  readonly doesNotCover: readonly string[];
-  readonly openQuestions: readonly string[];
-}
-
+/** Input form of DemonstrationBoundary. */
 export interface DemonstrationBoundaryInput {
   readonly covers: readonly string[];
   readonly doesNotCover: readonly string[];
   readonly openQuestions?: readonly string[];
 }
 
-export interface EpisodeCoverageEntry {
-  readonly episodeId: string;
-  readonly status: "complete-subsequence" | "partial";
-}
-
-export interface DemonstrationCoverage {
-  readonly status: "complete" | "incomplete";
-  readonly episodes: readonly EpisodeCoverageEntry[];
-  readonly partialEpisodeIds: readonly string[];
-  readonly reasons: readonly string[];
-  readonly note: string | null;
-}
-
+/** A curated workflow: episodes, narrative, digest-referenced results. */
 export interface Demonstration {
   readonly type: "demonstration";
   readonly demonstrationId: string;
@@ -84,6 +58,7 @@ export interface Demonstration {
   readonly coverage: DemonstrationCoverage;
 }
 
+/** Input form of Demonstration. */
 export interface DemonstrationInput {
   readonly demonstrationId: string;
   readonly title: string;
@@ -135,23 +110,14 @@ function computeDemonstrationCoverage(
   });
 }
 
-function normalizeBoundary(
-  input: DemonstrationBoundaryInput,
-): DemonstrationBoundary {
-  if (input === null || typeof input !== "object") {
+function validateBoundary(boundary: DemonstrationBoundary): void {
+  if (boundary === null || typeof boundary !== "object") {
     throw new InvalidDemonstrationError("boundary must be an object");
   }
-  if (!Array.isArray(input.covers) || input.covers.length === 0) {
-    throw new InvalidDemonstrationError(
-      "boundary.covers must be a non-empty list of statements",
-    );
-  }
-  if (!Array.isArray(input.doesNotCover) || input.doesNotCover.length === 0) {
-    throw new InvalidDemonstrationError(
-      "boundary.doesNotCover must be a non-empty list of explicit exclusions (a demonstration must state what it does NOT cover)",
-    );
-  }
-  const clean = (list: readonly string[], what: string): readonly string[] => {
+  const check = (list: readonly string[], what: string): void => {
+    if (!Array.isArray(list)) {
+      throw new InvalidDemonstrationError(`${what} must be an array`);
+    }
     for (const entry of list) {
       if (!isNonEmptyString(entry)) {
         throw new InvalidDemonstrationError(
@@ -159,24 +125,94 @@ function normalizeBoundary(
         );
       }
     }
-    return Object.freeze([...list]);
   };
-  const openQuestions =
-    input.openQuestions === undefined
-      ? Object.freeze([])
-      : clean(input.openQuestions, "boundary.openQuestions");
-  return Object.freeze({
-    covers: clean(input.covers, "boundary.covers"),
-    doesNotCover: clean(input.doesNotCover, "boundary.doesNotCover"),
-    openQuestions,
+  check(boundary.covers, "boundary.covers");
+  check(boundary.doesNotCover, "boundary.doesNotCover");
+  check(boundary.openQuestions, "boundary.openQuestions");
+  if (boundary.covers.length === 0) {
+    throw new InvalidDemonstrationError(
+      "boundary.covers must be a non-empty list of statements",
+    );
+  }
+  if (boundary.doesNotCover.length === 0) {
+    throw new InvalidDemonstrationError(
+      "boundary.doesNotCover must be a non-empty list of explicit exclusions (a demonstration must state what it does NOT cover)",
+    );
+  }
+}
+
+function normalizeBoundary(
+  input: DemonstrationBoundaryInput,
+): DemonstrationBoundary {
+  if (input === null || typeof input !== "object") {
+    throw new InvalidDemonstrationError("boundary must be an object");
+  }
+  validateBoundary({
+    covers: input.covers,
+    doesNotCover: input.doesNotCover,
+    openQuestions: input.openQuestions ?? [],
   });
+  return Object.freeze({
+    covers: Object.freeze([...input.covers]),
+    doesNotCover: Object.freeze([...input.doesNotCover]),
+    openQuestions: Object.freeze([...(input.openQuestions ?? [])]),
+  });
+}
+
+function validateNarrativeSteps(
+  steps: readonly NarrativeStep[],
+  episodes: readonly ActivityEpisode[],
+): void {
+  const episodeIds = episodes.map((episode) => episode.episodeId);
+  const stepIds = new Set(steps.map((step) => step.stepId));
+  if (stepIds.size !== steps.length) {
+    throw new InvalidDemonstrationError(
+      "narrative step stepIds must be unique",
+    );
+  }
+  const ordinals = steps.map((step) => step.ordinal).sort((a, b) => a - b);
+  if (ordinals.some((value, index) => value !== index + 1)) {
+    throw new InvalidDemonstrationError(
+      "narrative step ordinals must be exactly 1..n",
+    );
+  }
+  for (const step of steps) {
+    if (!isNonEmptyString(step.stepId) || !isNonEmptyString(step.description)) {
+      throw new InvalidDemonstrationError(
+        "narrative steps require non-empty stepId and description",
+      );
+    }
+    if (step.episodeId !== null && !episodeIds.includes(step.episodeId)) {
+      throw new InvalidDemonstrationError(
+        `narrative step '${step.stepId}' references unknown episode '${step.episodeId}'`,
+      );
+    }
+    if (step.sequence !== null) {
+      if (step.episodeId === null) {
+        throw new InvalidDemonstrationError(
+          `narrative step '${step.stepId}': a sequence reference requires an episodeId`,
+        );
+      }
+      const episode = episodes.find(
+        (candidate) => candidate.episodeId === step.episodeId,
+      );
+      if (
+        episode === undefined ||
+        step.sequence < episode.coverage.fromSequence ||
+        step.sequence > episode.coverage.toSequence
+      ) {
+        throw new InvalidDemonstrationError(
+          `narrative step '${step.stepId}' sequence ${step.sequence} is outside episode '${step.episodeId}' span`,
+        );
+      }
+    }
+  }
 }
 
 function normalizeSteps(
   inputs: readonly NarrativeStepInput[],
   episodes: readonly ActivityEpisode[],
 ): readonly NarrativeStep[] {
-  const episodeIds = new Set(episodes.map((episode) => episode.episodeId));
   const steps = inputs.map((step) => {
     if (step === null || typeof step !== "object") {
       throw new InvalidDemonstrationError("narrative step must be an object");
@@ -204,48 +240,13 @@ function normalizeSteps(
       sequence: step.sequence ?? null,
     });
   });
-  const stepIds = new Set(steps.map((step) => step.stepId));
-  if (stepIds.size !== steps.length) {
-    throw new InvalidDemonstrationError(
-      "narrative step stepIds must be unique",
-    );
-  }
-  const ordinals = steps.map((step) => step.ordinal).sort((a, b) => a - b);
-  if (ordinals.some((value, index) => value !== index + 1)) {
-    throw new InvalidDemonstrationError(
-      "narrative step ordinals must be exactly 1..n",
-    );
-  }
-  for (const step of steps) {
-    if (step.episodeId !== null && !episodeIds.has(step.episodeId)) {
-      throw new InvalidDemonstrationError(
-        `narrative step '${step.stepId}' references unknown episode '${step.episodeId}'`,
-      );
-    }
-    if (step.sequence !== null) {
-      if (step.episodeId === null) {
-        throw new InvalidDemonstrationError(
-          `narrative step '${step.stepId}': a sequence reference requires an episodeId`,
-        );
-      }
-      const episode = episodes.find(
-        (candidate) => candidate.episodeId === step.episodeId,
-      );
-      if (
-        episode === undefined ||
-        step.sequence < episode.coverage.fromSequence ||
-        step.sequence > episode.coverage.toSequence
-      ) {
-        throw new InvalidDemonstrationError(
-          `narrative step '${step.stepId}' sequence ${step.sequence} is outside episode '${step.episodeId}' span`,
-        );
-      }
-    }
-  }
+  validateNarrativeSteps(steps, episodes);
   return Object.freeze(steps);
 }
 
-export function buildDemonstration(input: DemonstrationInput): Demonstration {
+export function buildDemonstration(
+  input: DemonstrationInput,
+): Demonstration {
   if (input === null || typeof input !== "object") {
     throw new InvalidDemonstrationError("input must be an object");
   }
@@ -288,7 +289,9 @@ export function buildDemonstration(input: DemonstrationInput): Demonstration {
   return deepFreeze(demonstration);
 }
 
-export function validateDemonstration(demonstration: Demonstration): void {
+export function validateDemonstration(
+  demonstration: Demonstration,
+): void {
   if (demonstration === null || typeof demonstration !== "object") {
     throw new InvalidDemonstrationError("demonstration must be an object");
   }
@@ -325,49 +328,14 @@ export function validateDemonstration(demonstration: Demonstration): void {
   if (!Array.isArray(demonstration.narrativeSteps)) {
     throw new InvalidDemonstrationError("narrativeSteps must be an array");
   }
-  const ordinals = demonstration.narrativeSteps
-    .map((step) => step.ordinal)
-    .sort((a, b) => a - b);
-  if (ordinals.some((value, index) => value !== index + 1)) {
-    throw new InvalidDemonstrationError(
-      "narrative step ordinals must be exactly 1..n",
-    );
-  }
-  for (const step of demonstration.narrativeSteps) {
-    if (!isNonEmptyString(step.stepId) || !isNonEmptyString(step.description)) {
-      throw new InvalidDemonstrationError(
-        "narrative steps require non-empty stepId and description",
-      );
-    }
-    if (step.episodeId !== null && !ids.includes(step.episodeId)) {
-      throw new InvalidDemonstrationError(
-        `narrative step '${step.stepId}' references unknown episode '${step.episodeId}'`,
-      );
-    }
-  }
+  validateNarrativeSteps(demonstration.narrativeSteps, demonstration.episodes);
   if (!Array.isArray(demonstration.resultCorrelations)) {
     throw new InvalidDemonstrationError("resultCorrelations must be an array");
   }
   for (const correlation of demonstration.resultCorrelations) {
     validateStateCorrelation(correlation);
   }
-  const boundary = demonstration.boundary;
-  if (boundary === null || typeof boundary !== "object") {
-    throw new InvalidDemonstrationError("boundary must be an object");
-  }
-  if (!Array.isArray(boundary.covers) || boundary.covers.length === 0) {
-    throw new InvalidDemonstrationError(
-      "boundary.covers must be a non-empty list of statements",
-    );
-  }
-  if (
-    !Array.isArray(boundary.doesNotCover) ||
-    boundary.doesNotCover.length === 0
-  ) {
-    throw new InvalidDemonstrationError(
-      "boundary.doesNotCover must be a non-empty list of explicit exclusions",
-    );
-  }
+  validateBoundary(demonstration.boundary);
   const coverage = computeDemonstrationCoverage(demonstration.episodes);
   if (
     coverage.status !== demonstration.coverage.status ||
@@ -406,5 +374,3 @@ export function assertDemonstrationCoverageComplete(
 export function demonstrationDigest(demonstration: Demonstration): string {
   return digestRecord(demonstration);
 }
-
-void episodeDigest;

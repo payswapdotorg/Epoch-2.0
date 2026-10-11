@@ -1,13 +1,13 @@
 /**
- * Typed event core (W029 task 1).
+ * Typed event core construction and validation (W029 task 1).
  *
- * EnvironmentEvent values are ordered by a per-session monotonic sequence
- * number — deliberately NOT timestamps; no wall-clock field exists anywhere
- * in this package so that the determinism law (invariant 17) can hold.
- * Initiators are typed (human | agent | application). Evidence and
- * state/result correlations are opaque digest REFERENCES to foreign
- * artifacts (world/document revisions) — this package can never resolve
- * or write them (no-authority law, task 4).
+ * The contract types and constants live in contract.ts (W011/W012/W018/W023
+ * precedent); this module re-exports the contract and keeps the
+ * constructors, validators and digests. EnvironmentEvent values are ordered
+ * by a per-session monotonic sequence number — deliberately NOT timestamps —
+ * so the determinism law (invariant 17) can hold. Evidence and state/result
+ * correlations are opaque digest REFERENCES to foreign artifacts; this
+ * package can never resolve or write them (no-authority law, task 4).
  */
 
 import {
@@ -17,23 +17,33 @@ import {
   isNonEmptyString,
   isNullableString,
 } from "./canonical.js";
+import {
+  type CorrelationKind,
+  type CorrelationRole,
+  type CorrelationSeed,
+  type EnvironmentEvent,
+  type EventCaptureQuality,
+  type EventKind,
+  type EvidenceReference,
+  type EvidenceSeed,
+  type Initiator,
+  type SessionRef,
+  type StateCorrelation,
+  CORRELATION_KINDS,
+  CORRELATION_ROLES,
+  EVENT_CAPTURE_QUALITIES,
+  INITIATORS,
+} from "./contract.js";
 import { EpochActivityError } from "./errors.js";
 import { cloneCanonical, deepFreeze } from "./freeze.js";
 
-export type Initiator = "human" | "agent" | "application";
-export const INITIATORS: readonly Initiator[] = [
-  "human",
-  "agent",
-  "application",
-];
+export * from "./contract.js";
 
-export interface SessionRef {
-  readonly sessionId: string;
-  readonly environmentId: string;
-}
-
-export function sameSession(a: SessionRef, b: SessionRef): boolean {
-  return a.sessionId === b.sessionId && a.environmentId === b.environmentId;
+export class InvalidEventError extends EpochActivityError {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidEventError";
+  }
 }
 
 export function validateSessionRef(value: SessionRef, what: string): void {
@@ -50,154 +60,8 @@ export function validateSessionRef(value: SessionRef, what: string): void {
   }
 }
 
-export type EventKind = string;
-
-export const WELL_KNOWN_EVENT_KINDS = {
-  sessionOpened: "session.opened",
-  sessionClosed: "session.closed",
-  pointerInput: "input.pointer",
-  keyInput: "input.key",
-  commandInvoked: "command.invoked",
-  toolApplied: "tool.applied",
-  toolCanceled: "tool.canceled",
-  documentSaved: "document.saved",
-  worldRevisionCommitted: "world.revision.committed",
-  viewChanged: "view.changed",
-  selectionChanged: "selection.changed",
-  agentMessage: "agent.message",
-  noteComposed: "note.composed",
-} as const;
-
-/**
- * Per-event capture quality. Whole spans with no records are expressed as
- * unobserved/partial coverage windows at the stream level (see coverage.ts).
- */
-export type EventCaptureQuality = "observed" | "partial";
-export const EVENT_CAPTURE_QUALITIES: readonly EventCaptureQuality[] = [
-  "observed",
-  "partial",
-];
-
-export interface EvidenceReference {
-  /** Opaque digest of a foreign supporting artifact (any non-empty format). */
-  readonly digest: string;
-  readonly label: string | null;
-  readonly role: string | null;
-}
-
-export interface EvidenceSeed {
-  readonly digest: string;
-  readonly label?: string | null;
-  readonly role?: string | null;
-}
-
-export type CorrelationRole =
-  "state-before" | "state-after" | "result" | "input";
-export const CORRELATION_ROLES: readonly CorrelationRole[] = [
-  "state-before",
-  "state-after",
-  "result",
-  "input",
-];
-
-export type CorrelationKind =
-  "world-revision" | "document-revision" | "artifact";
-export const CORRELATION_KINDS: readonly CorrelationKind[] = [
-  "world-revision",
-  "document-revision",
-  "artifact",
-];
-
-/**
- * State/result correlation: a digest REFERENCE to a world/document revision.
- * Reference only — this package never writes the referenced entity.
- */
-export interface StateCorrelation {
-  readonly role: CorrelationRole;
-  readonly kind: CorrelationKind;
-  readonly digest: string;
-  readonly label: string | null;
-}
-
-export interface CorrelationSeed {
-  readonly role: CorrelationRole;
-  readonly kind: CorrelationKind;
-  readonly digest: string;
-  readonly label?: string | null;
-}
-
-export interface EnvironmentEvent {
-  readonly type: "environment-event";
-  readonly session: SessionRef;
-  /**
-   * 1-based, dense per session across recorded events AND redaction/gap
-   * markers. Sequence numbers are the ONLY ordering primitive — timestamps
-   * are never used.
-   */
-  readonly sequence: number;
-  readonly kind: EventKind;
-  readonly initiator: Initiator;
-  readonly payload: CanonicalValue;
-  readonly captureQuality: EventCaptureQuality;
-  readonly evidence: readonly EvidenceReference[];
-  readonly correlations: readonly StateCorrelation[];
-}
-
-export class InvalidEventError extends EpochActivityError {
-  constructor(message: string) {
-    super(message);
-    this.name = "InvalidEventError";
-  }
-}
-
-function validateEvidenceList(list: readonly EvidenceReference[]): void {
-  if (!Array.isArray(list)) {
-    throw new InvalidEventError("evidence must be an array");
-  }
-  for (const ref of list) {
-    if (ref === null || typeof ref !== "object") {
-      throw new InvalidEventError("evidence entry must be an object");
-    }
-    if (!isNonEmptyString(ref.digest)) {
-      throw new InvalidEventError(
-        "evidence entry requires a non-empty digest (foreign digests are opaque strings)",
-      );
-    }
-    if (!isNullableString(ref.label) || !isNullableString(ref.role)) {
-      throw new InvalidEventError(
-        "evidence label/role must be null or strings",
-      );
-    }
-  }
-}
-
-function validateCorrelationList(list: readonly StateCorrelation[]): void {
-  if (!Array.isArray(list)) {
-    throw new InvalidEventError("correlations must be an array");
-  }
-  for (const correlation of list) {
-    if (correlation === null || typeof correlation !== "object") {
-      throw new InvalidEventError("correlation entry must be an object");
-    }
-    if (!CORRELATION_ROLES.includes(correlation.role)) {
-      throw new InvalidEventError(
-        `correlation role must be one of ${CORRELATION_ROLES.join("|")}`,
-      );
-    }
-    if (!CORRELATION_KINDS.includes(correlation.kind)) {
-      throw new InvalidEventError(
-        `correlation kind must be one of ${CORRELATION_KINDS.join("|")}`,
-      );
-    }
-    if (!isNonEmptyString(correlation.digest)) {
-      throw new InvalidEventError(
-        "correlation entry requires a non-empty digest (foreign digests are opaque strings)",
-      );
-    }
-    if (!isNullableString(correlation.label)) {
-      throw new InvalidEventError("correlation label must be null or a string");
-    }
-  }
+export function sameSession(a: SessionRef, b: SessionRef): boolean {
+  return a.sessionId === b.sessionId && a.environmentId === b.environmentId;
 }
 
 export function validateEvidenceReference(ref: EvidenceReference): void {
@@ -214,7 +78,9 @@ export function validateEvidenceReference(ref: EvidenceReference): void {
   }
 }
 
-export function validateStateCorrelation(correlation: StateCorrelation): void {
+export function validateStateCorrelation(
+  correlation: StateCorrelation,
+): void {
   if (correlation === null || typeof correlation !== "object") {
     throw new InvalidEventError("correlation entry must be an object");
   }
@@ -235,6 +101,24 @@ export function validateStateCorrelation(correlation: StateCorrelation): void {
   }
   if (!isNullableString(correlation.label)) {
     throw new InvalidEventError("correlation label must be null or a string");
+  }
+}
+
+function validateEvidenceList(list: readonly EvidenceReference[]): void {
+  if (!Array.isArray(list)) {
+    throw new InvalidEventError("evidence must be an array");
+  }
+  for (const ref of list) {
+    validateEvidenceReference(ref);
+  }
+}
+
+function validateCorrelationList(list: readonly StateCorrelation[]): void {
+  if (!Array.isArray(list)) {
+    throw new InvalidEventError("correlations must be an array");
+  }
+  for (const correlation of list) {
+    validateStateCorrelation(correlation);
   }
 }
 
@@ -332,6 +216,7 @@ export function makeCorrelation(seed: CorrelationSeed): StateCorrelation {
   });
 }
 
+/** Input form of EnvironmentEvent (the recorder assigns the sequence). */
 export interface EnvironmentEventInput {
   readonly session: SessionRef;
   readonly sequence: number;

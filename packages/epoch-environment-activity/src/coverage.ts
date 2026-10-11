@@ -1,90 +1,44 @@
 /**
- * Source coverage, gaps and redaction metadata (W029 task 1/2).
+ * Coverage, gap and redaction record construction and derivation (W029
+ * tasks 1-2). The contract types live in contract.ts; this module
+ * re-exports the contract and keeps the markers, validators and the
+ * DERIVED coverage windows.
  *
  * A session journal is a dense sequence of records: events, redaction
  * markers (the FACT of redaction is recorded, never the content) and gap
  * markers (lost/unobserved windows are explicit, never silently absent).
- * Coverage windows are DERIVED from the record stream: "observed" spans
- * real events, "partial" spans redaction (observed but content withheld),
- * "unobserved" spans gaps. Incomplete coverage is typed — a journal with
- * any partial/unobserved window is never "complete".
+ * Coverage windows are derived from the record stream; a journal with any
+ * partial/unobserved window is never "complete".
  */
 
-import { isNonEmptyString, isNullableString } from "./canonical.js";
+import { isNullableString } from "./canonical.js";
+import {
+  type CoverageCounts,
+  type CoverageKind,
+  type CoverageWindow,
+  type EnvironmentEvent,
+  type GapMarker,
+  type GapReason,
+  type JournalRecord,
+  type RedactionMarker,
+  type RedactionReason,
+  type SequenceRange,
+  type SessionCoverageSummary,
+  type SessionRef,
+  GAP_REASONS,
+  REDACTION_REASONS,
+} from "./contract.js";
 import { deepFreeze } from "./freeze.js";
 import {
-  type EnvironmentEvent,
-  type SessionRef,
   isEnvironmentEvent,
   sameSession,
   validateSessionRef,
 } from "./events.js";
 import { InvalidCoverageError, InvalidRecordError } from "./errors.js";
 
-export type CoverageKind = "observed" | "partial" | "unobserved";
-export const COVERAGE_KINDS: readonly CoverageKind[] = [
-  "observed",
-  "partial",
-  "unobserved",
-];
+export * from "./contract.js";
 
-export interface CoverageWindow {
-  readonly kind: CoverageKind;
-  readonly fromSequence: number;
-  readonly toSequence: number;
-  readonly note: string | null;
-}
-
-export type RedactionReason =
-  "sensitive-window" | "policy-exclusion" | "retroactive";
-export const REDACTION_REASONS: readonly RedactionReason[] = [
-  "sensitive-window",
-  "policy-exclusion",
-  "retroactive",
-];
-
-/**
- * A redaction marker occupies a sequence number. It records THAT something
- * was withheld and why — never the withheld content itself.
- */
-export interface RedactionMarker {
-  readonly type: "redaction-marker";
-  readonly session: SessionRef;
-  readonly sequence: number;
-  readonly reason: RedactionReason;
-  readonly note: string | null;
-}
-
-export type GapReason =
-  | "capture-paused"
-  | "capture-resumed"
-  | "source-unavailable"
-  | "missed-events"
-  | "unknown";
-export const GAP_REASONS: readonly GapReason[] = [
-  "capture-paused",
-  "capture-resumed",
-  "source-unavailable",
-  "missed-events",
-  "unknown",
-];
-
-/**
- * A gap marker occupies a sequence number and documents a window where
- * activity may have occurred but was not captured. Lost/unobserved events
- * are NEVER reconstructed — only the gap itself is represented.
- */
-export interface GapMarker {
-  readonly type: "gap-marker";
-  readonly session: SessionRef;
-  readonly sequence: number;
-  readonly reason: GapReason;
-  readonly estimatedMissed: number | null;
-  readonly note: string | null;
-}
-
-export type JournalRecord = EnvironmentEvent | RedactionMarker | GapMarker;
-
+/** Input form of RedactionMarker. */
 export interface RedactionMarkerInput {
   readonly session: SessionRef;
   readonly sequence: number;
@@ -92,6 +46,7 @@ export interface RedactionMarkerInput {
   readonly note?: string | null;
 }
 
+/** Input form of GapMarker. */
 export interface GapMarkerInput {
   readonly session: SessionRef;
   readonly sequence: number;
@@ -246,9 +201,7 @@ export function validateRecordSubsequence(
   what: string,
 ): void {
   if (!Array.isArray(records) || records.length === 0) {
-    throw new InvalidRecordError(
-      `${what}: at least one journal record is required`,
-    );
+    throw new InvalidRecordError(`${what}: at least one journal record is required`);
   }
   let session: SessionRef | null = null;
   let previous = 0;
@@ -266,7 +219,9 @@ export function validateRecordSubsequence(
       );
     }
     if (!Number.isInteger(record.sequence) || record.sequence < 1) {
-      throw new InvalidRecordError(`${what}: sequences must be integers >= 1`);
+      throw new InvalidRecordError(
+        `${what}: sequences must be integers >= 1`,
+      );
     }
     if (record.sequence <= previous) {
       throw new InvalidRecordError(
@@ -337,22 +292,6 @@ export function deriveCoverage(
   return Object.freeze(windows);
 }
 
-export interface CoverageCounts {
-  readonly events: number;
-  readonly redactionMarkers: number;
-  readonly gapMarkers: number;
-  readonly observedWindows: number;
-  readonly partialWindows: number;
-  readonly unobservedWindows: number;
-}
-
-export interface SessionCoverageSummary {
-  /** True ONLY when the stream is non-empty and entirely observed. */
-  readonly complete: boolean;
-  readonly windows: readonly CoverageWindow[];
-  readonly counts: CoverageCounts;
-}
-
 export function summarizeCoverage(
   records: readonly JournalRecord[],
 ): SessionCoverageSummary {
@@ -363,7 +302,8 @@ export function summarizeCoverage(
     redactionMarkers: records.filter(
       (record) => record.type === "redaction-marker",
     ).length,
-    gapMarkers: records.filter((record) => record.type === "gap-marker").length,
+    gapMarkers: records.filter((record) => record.type === "gap-marker")
+      .length,
     observedWindows: windows.filter((window) => window.kind === "observed")
       .length,
     partialWindows: windows.filter((window) => window.kind === "partial")
@@ -374,11 +314,6 @@ export function summarizeCoverage(
   const complete =
     records.length > 0 && windows.every((window) => window.kind === "observed");
   return Object.freeze({ complete, windows, counts });
-}
-
-export interface SequenceRange {
-  readonly fromSequence: number;
-  readonly toSequence: number;
 }
 
 /**
@@ -402,5 +337,3 @@ export function missingSequenceRanges(
   }
   return Object.freeze(ranges);
 }
-
-void isNonEmptyString;
