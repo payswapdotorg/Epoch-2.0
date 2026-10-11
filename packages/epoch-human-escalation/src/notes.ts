@@ -1,5 +1,6 @@
 import type {
   ConfidenceLevel,
+  EscalationHistoryEntry,
   EscalationQuestionKind,
   EscalationState,
   ExpertResponse,
@@ -44,8 +45,8 @@ export interface EscalationLearnNote {
 /** Derives structured, provenance-bearing notes from resolved requests. Pure and read-only. */
 export function learnPhaseNotes(state: EscalationState): readonly EscalationLearnNote[] {
   return historyOf(state)
-    .filter((entry) => entry.status === 'resolved' && entry.acceptedResponse !== undefined)
-    .map((entry): EscalationLearnNote => {
+    .filter((entry: EscalationHistoryEntry) => entry.status === 'resolved' && entry.acceptedResponse !== undefined)
+    .map((entry: EscalationHistoryEntry): EscalationLearnNote => {
       const response = entry.acceptedResponse as ExpertResponse;
       return {
         kind: ESCALATION_LEARN_NOTE_KIND,

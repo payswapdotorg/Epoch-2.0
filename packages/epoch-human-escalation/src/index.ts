@@ -5,7 +5,9 @@
  *  - contracts: EscalationRequest / EscalationPolicy / ExpertProfile /
  *    ExpertResponse / EscalationOutcome (provenance-bearing data only),
  *  - EscalationAdapter port + in-memory test adapter (never an authority),
- *  - EscalationMachine: pure, deterministic, digest-chained state,
+ *  - EscalationMachine: pure, deterministic, digest-chained state
+ *    (init / request / resolve / expire / sweepExpiries / advanceStep /
+ *    historyOf / openRequests / DEFAULT_ESCALATION_POLICY),
  *  - digest-keyed persistence through the W021 WorldStore port slice,
  *  - read-only W022 Learn-phase note and W023 capability-routing seams,
  *    each behind default-deny grants.
