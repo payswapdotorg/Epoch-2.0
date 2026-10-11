@@ -868,6 +868,22 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-environment-activity:
+    dependencies:
+      '@zcode/epoch-application-environment':
+        specifier: workspace:*
+        version: link:../epoch-application-environment
+      '@zcode/epoch-persistence':
+        specifier: workspace:*
+        version: link:../epoch-persistence
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+
   packages/epoch-environment-surface:
     dependencies:
       '@zcode/epoch-application-environment':
@@ -907,6 +923,15 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-human-escalation:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+
   packages/epoch-lifecycle:
     dependencies:
       '@zcode/epoch-persistence':
@@ -938,6 +963,12 @@ importers:
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
+
+  packages/epoch-productization:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.5
 
   packages/epoch-reconstruction-contract:
     dependencies:
@@ -5484,6 +5515,9 @@ packages:
   '@types/node@18.19.130':
     resolution: {integrity: sha512-GRaXQx6jGfL8sKfaIDD6OupbIHBr9jv7Jnaml9tB7l4v068PAOXqfcujMMo5PhbIs6ggR1XODELqahT2R8v0fg==}
 
+  '@types/node@22.20.5':
+    resolution: {integrity: sha512-U2+DNr+wSjpsTS/wZGYHq7GcwfuSmKiKvoPvK22zwTlRhU91yOniN4qRR5KhIjvif7ysw/dz/hKmfDH0Ris4aA==}
+
   '@types/node@24.12.2':
     resolution: {integrity: sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==}
 
@@ -9870,6 +9904,9 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
@@ -14132,6 +14169,10 @@ snapshots:
   '@types/node@18.19.130':
     dependencies:
       undici-types: 5.26.5
+
+  '@types/node@22.20.5':
+    dependencies:
+      undici-types: 6.21.0
 
   '@types/node@24.12.2':
     dependencies:
@@ -19534,6 +19575,8 @@ snapshots:
   unbash@4.0.1: {}
 
   undici-types@5.26.5: {}
+
+  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
