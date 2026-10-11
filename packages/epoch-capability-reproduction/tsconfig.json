@@ -11,11 +11,17 @@
     "declaration": true,
     "declarationMap": true,
     "composite": true,
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true,
     "outDir": "dist",
     "rootDir": "src",
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["node"]
+    "types": ["node"],
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    { "path": "../epoch-application-environment" },
+    { "path": "../epoch-capability-evaluation" },
+    { "path": "../epoch-environment-activity" }
+  ]
 }

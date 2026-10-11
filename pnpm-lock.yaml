@@ -864,6 +864,25 @@ importers:
         specifier: ^5.5.4
         version: 5.9.3
 
+  packages/epoch-capability-reproduction:
+    dependencies:
+      '@zcode/epoch-application-environment':
+        specifier: workspace:*
+        version: link:../epoch-application-environment
+      '@zcode/epoch-capability-evaluation':
+        specifier: workspace:*
+        version: link:../epoch-capability-evaluation
+      '@zcode/epoch-environment-activity':
+        specifier: workspace:*
+        version: link:../epoch-environment-activity
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+
   packages/epoch-construction-fixture:
     dependencies:
       '@zcode/epoch-reconstruction-contract':
