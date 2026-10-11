@@ -4,7 +4,7 @@
 // place that can break if W023 field shapes evolve; callers get typed outcomes.
 
 import type { CapabilityEvidence, DiscoveredCapability } from "@zcode/epoch-capability-discovery";
-import type { CapabilityUnderTest, DiscoveryAdapterOutcome, EvidenceRef, QualificationStatus } from "./contract.js";
+import type { DiscoveryAdapterOutcome, EvidenceRef, QualificationStatus } from "./contract.js";
 import { isSha256Digest } from "./digest.js";
 import { metricIdsForClass } from "./catalog.js";
 import { QUALIFICATION_STATUSES } from "./qualification.js";
