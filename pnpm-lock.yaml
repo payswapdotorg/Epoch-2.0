@@ -853,6 +853,19 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-geometry-occt:
+    dependencies:
+      '@zcode/epoch-reconstruction-contract':
+        specifier: workspace:*
+        version: link:../epoch-reconstruction-contract
+      '@zcode/epoch-world-model':
+        specifier: workspace:*
+        version: link:../epoch-world-model
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.12.2
+
   packages/epoch-gltf:
     dependencies:
       '@zcode/epoch-world-presentation':
