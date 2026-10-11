@@ -1,15 +1,22 @@
 import { test } from "node:test";
 import { deepStrictEqual, ok, strictEqual } from "node:assert";
-import * as epoch from "../../packages/epoch-capability-learning/dist/index.js";
+import * as epoch from "../../../packages/epoch-capability-learning/dist/index.js";
+import type {
+  AutonomyLevelDescriptor,
+  ModuleDependencyRef,
+  ModuleLaw,
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 
 test("the manifest declares no execution authority and digest-only dependencies", () => {
   strictEqual(epoch.moduleManifest.moduleId, "epoch-capability-learning");
   strictEqual(epoch.moduleManifest.authority.execution, "none");
   deepStrictEqual(
-    epoch.moduleManifest.dependencies.map((dependency) => dependency.mode),
+    epoch.moduleManifest.dependencies.map(
+      (dependency: ModuleDependencyRef) => dependency.mode,
+    ),
     ["digest-reference", "digest-reference", "digest-reference"],
   );
-  const laws = epoch.moduleManifest.laws.map((law) => law.law);
+  const laws = epoch.moduleManifest.laws.map((law: ModuleLaw) => law.law);
   ok(laws.includes("hash-law"));
   ok(laws.includes("no-execution-authority"));
   ok(laws.includes("human-in-the-loop-law"));
@@ -21,11 +28,11 @@ test("the manifest declares no execution authority and digest-only dependencies"
 
 test("the autonomy ladder climbs one rung at a time", () => {
   deepStrictEqual(
-    epoch.AUTONOMY_LADDER.map((descriptor) => descriptor.rung),
+    epoch.AUTONOMY_LADDER.map((descriptor: AutonomyLevelDescriptor) => descriptor.rung),
     [0, 1, 2, 3],
   );
   deepStrictEqual(
-    epoch.AUTONOMY_LADDER.map((descriptor) => descriptor.level),
+    epoch.AUTONOMY_LADDER.map((descriptor: AutonomyLevelDescriptor) => descriptor.level),
     ["proposal-only", "supervised", "observed", "autonomous"],
   );
   for (const descriptor of epoch.AUTONOMY_LADDER) {

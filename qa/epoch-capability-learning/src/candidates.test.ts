@@ -3,12 +3,12 @@ import { ok, strictEqual } from "node:assert";
 import {
   extractLearningCandidate,
   reviseCandidate,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import type {
   BehaviorDraft,
   CandidateSourceRef,
   DemonstrationVerification,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import { draftBehavior, hex, makeCandidate, projectPolicy } from "./helpers.js";
 
 function verifiedSource(): CandidateSourceRef {

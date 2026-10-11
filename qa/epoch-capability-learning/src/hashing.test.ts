@@ -5,7 +5,7 @@ import {
   digestRecord,
   isValidDigest,
   sha256Hex,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 
 test("canonicalJson is deterministic and key-order-insensitive", () => {
   strictEqual(canonicalJson({ b: 2, a: 1 }), '{"a":1,"b":2}');

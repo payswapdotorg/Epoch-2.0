@@ -4,7 +4,7 @@ import {
   applyGeneralization,
   declareScope,
   validateGeneralization,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import {
   dims,
   fail,
@@ -68,7 +68,13 @@ test("rejects an original case linked to a different demonstration", () => {
   const candidate = makeCandidate();
   const validation = validateGeneralization(
     candidate,
-    [originalCase(candidate.source.demonstrationDigest.replace(/^./, "f"), dims("ci"), pass("obs-original"))],
+    [
+      originalCase(
+        candidate.source.demonstrationDigest.replace(/^./, "f"),
+        dims("ci"),
+        pass("obs-original"),
+      ),
+    ],
     null,
   );
   ok(validation.kind === "rejected");

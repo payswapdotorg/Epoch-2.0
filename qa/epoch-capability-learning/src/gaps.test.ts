@@ -5,8 +5,8 @@ import {
   GAP_ROUTES,
   InvalidRecordError,
   recordGap,
-} from "../../packages/epoch-capability-learning/dist/index.js";
-import type { GapFacts } from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
+import type { GapFacts } from "../../../packages/epoch-capability-learning/dist/index.js";
 import { capabilityAlpha, capabilityBeta, episodeOne, hex } from "./helpers.js";
 
 function baseFacts(): GapFacts {

@@ -3,7 +3,7 @@ import { deepStrictEqual, ok, strictEqual } from "node:assert";
 import {
   approvePromotion,
   proposePromotion,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import type {
   AutonomyLevel,
   HumanIntervention,
@@ -11,7 +11,7 @@ import type {
   PromotionBasis,
   ReuseContext,
   RollbackPlan,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import {
   alice,
   bob,

@@ -5,7 +5,7 @@ import {
   defineReusePolicy,
   extractLearningCandidate,
   validateGeneralization,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import type {
   BehaviorDraft,
   GeneralizationValidation,
@@ -20,7 +20,7 @@ import type {
   RollbackPlan,
   RollbackTrigger,
   ScopeDimension,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 
 export function hex(seed: string): string {
   return createHash("sha256").update(seed, "utf8").digest("hex");

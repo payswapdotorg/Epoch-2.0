@@ -5,11 +5,12 @@ import {
   establishRegressionWatch,
   evaluateRegression,
   interventionCostUnits,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import type {
   PromotionRef,
+  RegressionFinding,
   RollbackTrigger,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import { generalizingCandidate, hex, makeSnapshot } from "./helpers.js";
 
 const promotionRef: PromotionRef = {
@@ -65,11 +66,19 @@ test("rejects malformed watch references", () => {
 
 test("weights expert escalations above routine interventions", () => {
   strictEqual(
-    interventionCostUnits({ routineInterventions: 2, expertEscalations: 1, meanStepsPerEpisode: 3 }),
+    interventionCostUnits({
+      routineInterventions: 2,
+      expertEscalations: 1,
+      meanStepsPerEpisode: 3,
+    }),
     7,
   );
   strictEqual(
-    interventionCostUnits({ routineInterventions: 0, expertEscalations: 4, meanStepsPerEpisode: 3 }),
+    interventionCostUnits({
+      routineInterventions: 0,
+      expertEscalations: 4,
+      meanStepsPerEpisode: 3,
+    }),
     20,
   );
 });
@@ -77,7 +86,9 @@ test("weights expert escalations above routine interventions", () => {
 test("detects a quality regression beyond tolerance", () => {
   const reading = evaluateRegression(makeWatch(), makeSnapshot({ qualityScore: 0.4 }));
   strictEqual(reading.verdict, "regressed");
-  const quality = reading.comparison.findings.find((finding) => finding.metric === "quality");
+  const quality = reading.comparison.findings.find(
+    (finding: RegressionFinding) => finding.metric === "quality",
+  );
   ok(quality !== undefined);
   strictEqual(quality.severity, "regression");
   strictEqual(reading.rollbackSignal.rollbackAdvised, true);
@@ -87,10 +98,15 @@ test("detects a quality regression beyond tolerance", () => {
 });
 
 test("detects a safety regression and incident increase", () => {
-  const reading = evaluateRegression(makeWatch(), makeSnapshot({ safetyScore: 0.5, incidents: 3 }));
+  const reading = evaluateRegression(
+    makeWatch(),
+    makeSnapshot({ safetyScore: 0.5, incidents: 3 }),
+  );
   strictEqual(reading.verdict, "regressed");
   strictEqual(reading.comparison.safetyIncidentsIncreased, true);
-  const safety = reading.comparison.findings.find((finding) => finding.metric === "safety");
+  const safety = reading.comparison.findings.find(
+    (finding: RegressionFinding) => finding.metric === "safety",
+  );
   ok(safety !== undefined);
   strictEqual(safety.severity, "regression");
 });
@@ -100,7 +116,7 @@ test("detects an intervention-cost regression", () => {
   strictEqual(reading.verdict, "regressed");
   strictEqual(reading.comparison.interventionCostDelta, 23);
   const cost = reading.comparison.findings.find(
-    (finding) => finding.metric === "intervention-cost",
+    (finding: RegressionFinding) => finding.metric === "intervention-cost",
   );
   ok(cost !== undefined);
   strictEqual(cost.severity, "regression");

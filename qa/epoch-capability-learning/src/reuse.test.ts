@@ -1,12 +1,15 @@
 import { test } from "node:test";
 import { deepStrictEqual, ok, strictEqual } from "node:assert";
-import { authorizeReuse, defineReusePolicy } from "../../packages/epoch-capability-learning/dist/index.js";
+import {
+  authorizeReuse,
+  defineReusePolicy,
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import type {
   CandidateRight,
   ReuseBasis,
   ReuseLevel,
   ReusePolicyDraft,
-} from "../../packages/epoch-capability-learning/dist/index.js";
+} from "../../../packages/epoch-capability-learning/dist/index.js";
 import { makeCandidate, projectContext, rejectedCandidate } from "./helpers.js";
 
 interface DraftOverrides {
@@ -45,7 +48,9 @@ test("defines a policy within its level envelope", () => {
 });
 
 test("rejects a right outside the level envelope", () => {
-  const definition = defineReusePolicy(draft({ level: "project-local", rights: ["redistribute"] }));
+  const definition = defineReusePolicy(
+    draft({ level: "project-local", rights: ["redistribute"] }),
+  );
   ok(definition.kind === "rejected");
   strictEqual(definition.reason, "right-exceeds-level-envelope");
 });
