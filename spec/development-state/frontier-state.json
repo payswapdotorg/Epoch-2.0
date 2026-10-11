@@ -1,12 +1,14 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_9_W012_MERGED_W023_CRITICAL",
+  "status": "WAVE_10_W023_MERGED_W024_W025_ELIGIBLE",
   "frontier": [
-    "W023"
+    "W029",
+    "W018"
   ],
-  "eligible": 7,
+  "eligible": 9,
   "inFlight": [
-    "W023"
+    "W029",
+    "W018"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -17,7 +19,7 @@
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
     "ifcReconstruction": "COMPLETE (W009 IFC engine bb1ac04 + geometry chain W011 ef77f9c + W012 d2146f1 — scene composition live, 78 tests)",
-    "fullEngineeringArchitecture": "PARTIAL (lifecycle W022 + geometry W011/W012 merged; capability discovery W023 in flight — critical path to W024/W025/W026)",
+    "fullEngineeringArchitecture": "PARTIAL (lifecycle W022 + geometry W011/W012 + capability discovery W023 merged; agent tools W024 + human escalation W025 now eligible — critical path to W026)",
     "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
     "applicationEnvironmentFabric": "PARTIAL (W028 environment fabric + generic surface merged dcd9b13; ACR integration pending W029+)",
     "capabilityReproductionFactory": "FUTURE",
@@ -27,9 +29,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W012 merged (d2146f1). W023 begin-kick refiring now (critical path: unlocks W024+W025). W029 (prompt staged w029-combined.md) dispatches into the freed slot. Leaf pool W013-W018 available for the third lane when capacity allows. On W023 merge: W024+W025 parallel dispatch, then W026.",
+  "nextAction": "W023 merged. W024+W025 dispatching now (prompts staged, free chat lanes). W029 in fix round (9 tsc errors). W018 in final architecture-artifacts round (80/80 tests already green). On W024+W025 merge: W026 (productization) unlocks. ACR chain: W030 eligible after W023+W027+W020 (all complete) — dispatch when a lane frees.",
   "lastMerge": {
-    "workOrder": "W012",
-    "mergeSha": "d2146f1"
+    "workOrder": "W023",
+    "mergeSha": "ac2a31b0b66c72ed578f2d5d1e69b364c61b5e05"
   }
 }

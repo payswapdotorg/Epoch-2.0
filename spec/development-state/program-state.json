@@ -26,10 +26,12 @@
     "W021",
     "W022",
     "W011",
-    "W012"
+    "W012",
+    "W023"
   ],
   "active": [
-    "W023"
+    "W029",
+    "W018"
   ],
   "eligible": [
     "W013",
@@ -38,10 +40,12 @@
     "W016",
     "W017",
     "W018",
-    "W029"
+    "W029",
+    "W024",
+    "W025"
   ],
   "blocked": [],
-  "lastMergeSha": "d2146f1",
-  "lastAction": "W012 MERGED (d2146f1): station-verified 78/78 tests, tsc 0, lint 0/0, arch 0 (registration applied; module artifacts + parser split in final round). Worker chat c815e402 (glm-5.3, text-delivery protocol, 6 rounds). Geometry chain COMPLETE (W011+W012). W023 refire next (hollow agents-tab lane cured via begin-kick); W029 dispatch into freed slot.",
-  "lastMergeWorkOrder": "W012"
+  "lastMergeSha": "HEAD",
+  "lastAction": "W023 MERGED: station-verified 49/49 tests, tsc 0, lint 0, fmt clean, arch 0 (registration applied; node:crypto sha256 per repo convention after fix round). Worker chat af283ea1 (glm-5.3, text-delivery protocol, 3 rounds). W024+W025 newly eligible — dispatching into free lanes. W029 in fix iteration (9 tsc errors round 1); W018 in final artifacts round (module/contract/splits after 80/80 green).",
+  "lastMergeWorkOrder": "W023"
 }
