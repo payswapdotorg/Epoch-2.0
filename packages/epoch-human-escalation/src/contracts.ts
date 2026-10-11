@@ -80,6 +80,8 @@ export interface ExpertResponse {
 /** The recorded escalation request (what the system could not resolve). */
 export interface EscalationRequest {
   readonly id: RequestId;
+  /** The question kind, mirrored from `question.kind` for direct access. */
+  readonly kind: EscalationQuestionKind;
   readonly question: EscalationQuestion;
   readonly serial: number;
   readonly openedAtStep: number;

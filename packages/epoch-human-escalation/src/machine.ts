@@ -80,7 +80,13 @@ export function request(
   }
   const serial = state.serial + 1;
   const id = `req-${String(serial).padStart(8, '0')}`;
-  const escalationRequest: EscalationRequest = { id, question, serial, openedAtStep: state.step };
+  const escalationRequest: EscalationRequest = {
+    id,
+    kind: question.kind,
+    question,
+    serial,
+    openedAtStep: state.step,
+  };
   const record: EscalatedRequestRecord = { request: escalationRequest, status: 'open', rejectionCount: 0 };
   return {
     state: {
