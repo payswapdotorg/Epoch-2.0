@@ -1,3 +1,4 @@
+import { releaseAuthorizationBrand } from "./contract";
 import type {
   DigestRef,
   ReleaseGateName,
@@ -12,12 +13,11 @@ export type ReleaseGateErrorCode =
   | "invalid-ref"
   | "gate-blocked";
 
-declare const releaseAuthorizationBrand: unique symbol;
-
 /**
  * Unforgeable proof that every release gate is green with evidence. Only
  * authorizeRelease() can construct it, so a release transition is impossible
- * to type or run without all six gates passing.
+ * to type or run without all six gates passing. The brand is a real runtime
+ * symbol imported from contract.ts (declared once, exported there).
  */
 export interface ReleaseAuthorization {
   readonly [releaseAuthorizationBrand]: "all-gates-green";

@@ -290,3 +290,14 @@ export interface ReproductionLifecycle {
   readonly release: ReleaseRecord | null;
   readonly rollback: RollbackRecord | null;
 }
+
+// -- 9. release authorization brand -----------------------------------------
+/**
+ * Runtime brand for release authorization proofs. Declared exactly once here
+ * as a REAL value (not an ambient declaration) and imported by gates.ts, so
+ * the branded property exists at runtime while the unique symbol type keeps
+ * ReleaseAuthorization constructible only through authorizeRelease().
+ */
+export const releaseAuthorizationBrand: unique symbol = Symbol.for(
+  "zcode.epoch-capability-reproduction.releaseAuthorization",
+);

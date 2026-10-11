@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   applyTransition,
+  authorizeRelease,
   digestRefOf,
   evaluateIntake,
   openLifecycle,
@@ -98,13 +99,11 @@ describe("reproduction lifecycle", () => {
   });
 
   it("release is impossible when any gate fails", () => {
-    assertRefusal(
-      // A red quality gate can never produce an authorization token.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      redQualityGates() as any,
-      "gate-blocked",
-    );
-    // AuthorizeRelease refuses first; verify the lifecycle re-check too.
+    // A red quality gate can never produce an all-gates-green authorization:
+    // authorizeRelease itself refuses with a proper Result (codes present).
+    assertRefusal(authorizeRelease(redQualityGates()), "gate-blocked");
+    // The lifecycle re-verifies the authorization inside the release
+    // transition, so a forged token cannot smuggle a red gate through.
     const forged = {
       ...releaseTransition(),
       authorization: {
