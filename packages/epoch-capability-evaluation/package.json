@@ -1,0 +1,30 @@
+{
+  "name": "@zcode/epoch-capability-evaluation",
+  "version": "0.1.0",
+  "description": "W030 capability quality lab: qualification ladder, versioned benchmarks with corpus rights laws, per-class metric selection, differential conformance harness, known limits, drift/regression checks, release gate.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "node -e \"const fs = require('node:fs'); fs.rmSync('dist', { recursive: true, force: true });\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@zcode/epoch-capability-discovery": "workspace:*",
+    "typescript": "^5.5.4"
+  }
+}

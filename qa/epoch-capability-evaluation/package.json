@@ -1,0 +1,13 @@
+{
+  "name": "@zcode/epoch-capability-evaluation-qa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "W030 test battery for @zcode/epoch-capability-evaluation (node:test, zero runtime dependencies).",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "test": "node --test tests/"
+  }
+}
