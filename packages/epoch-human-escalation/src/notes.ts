@@ -6,11 +6,11 @@ import type {
   ExpertResponse,
   ExpertiseTag,
   RequestId,
-} from './contracts.js';
-import { historyOf } from './machine.js';
-import { digestOf } from './serialize.js';
-import { isRecord } from './guards.js';
-import type { LifecycleEventView } from './ports.js';
+} from "./contracts.js";
+import { historyOf } from "./machine.js";
+import { digestOf } from "./serialize.js";
+import { isRecord } from "./guards.js";
+import type { LifecycleEventView } from "./ports.js";
 
 /**
  * W022 integration seam (read-only): escalation results may attach to
@@ -19,7 +19,7 @@ import type { LifecycleEventView } from './ports.js';
  * never mutates lifecycle state, and notes carry no world mutations.
  */
 
-export const ESCALATION_LEARN_NOTE_KIND = 'epoch.escalation.note/v1';
+export const ESCALATION_LEARN_NOTE_KIND = "epoch.escalation.note/v1";
 
 export interface EscalationLearnNoteProvenance {
   readonly providerId: string;
@@ -39,13 +39,18 @@ export interface EscalationLearnNote {
   readonly confidence: ConfidenceLevel;
   readonly provenance: EscalationLearnNoteProvenance;
   /** Explicit: expert data never mutates world content. */
-  readonly worldMutation: 'none';
+  readonly worldMutation: "none";
 }
 
 /** Derives structured, provenance-bearing notes from resolved requests. Pure and read-only. */
-export function learnPhaseNotes(state: EscalationState): readonly EscalationLearnNote[] {
+export function learnPhaseNotes(
+  state: EscalationState,
+): readonly EscalationLearnNote[] {
   return historyOf(state)
-    .filter((entry: EscalationHistoryEntry) => entry.status === 'resolved' && entry.acceptedResponse !== undefined)
+    .filter(
+      (entry: EscalationHistoryEntry) =>
+        entry.status === "resolved" && entry.acceptedResponse !== undefined,
+    )
     .map((entry: EscalationHistoryEntry): EscalationLearnNote => {
       const response = entry.acceptedResponse as ExpertResponse;
       return {
@@ -63,7 +68,7 @@ export function learnPhaseNotes(state: EscalationState): readonly EscalationLear
           answeredAt: response.answeredVia.answeredAt,
           expertise: [...response.answeredBy.expertise],
         },
-        worldMutation: 'none',
+        worldMutation: "none",
       };
     });
 }
@@ -73,8 +78,9 @@ export function isLearnPhaseEvent(event: LifecycleEventView): boolean {
   if (!isRecord(event)) {
     return false;
   }
-  const phase = typeof event.phase === 'string' ? event.phase.trim().toLowerCase() : '';
-  return phase === 'learn' || phase === 'learn-phase' || phase === 'learning';
+  const phase =
+    typeof event.phase === "string" ? event.phase.trim().toLowerCase() : "";
+  return phase === "learn" || phase === "learn-phase" || phase === "learning";
 }
 
 /** Notes are attachable only when at least one Learn-phase event is present. Pure and read-only. */

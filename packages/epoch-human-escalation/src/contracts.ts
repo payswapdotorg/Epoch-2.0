@@ -18,10 +18,15 @@ export type RequestId = string;
 /** Provider-neutral expertise tag (e.g. 'ifc', 'construction', 'gltf'). */
 export type ExpertiseTag = string;
 
-export const CONFIDENCE_LEVELS = ['low', 'medium', 'high'] as const;
+export const CONFIDENCE_LEVELS = ["low", "medium", "high"] as const;
 export type ConfidenceLevel = (typeof CONFIDENCE_LEVELS)[number];
 
-export const ESCALATION_QUESTION_KINDS = ['factual', 'interpretive', 'procedural', 'advisory'] as const;
+export const ESCALATION_QUESTION_KINDS = [
+  "factual",
+  "interpretive",
+  "procedural",
+  "advisory",
+] as const;
 export type EscalationQuestionKind = (typeof ESCALATION_QUESTION_KINDS)[number];
 
 /** Reference to evidence by content digest (never by mutable pointer). */
@@ -109,18 +114,35 @@ export interface EscalationPolicy {
 }
 
 export type EscalationRejectionReason =
-  | 'unknown-request'
-  | 'request-not-open'
-  | 'confidence-below-threshold'
-  | 'expertise-mismatch';
+  | "unknown-request"
+  | "request-not-open"
+  | "confidence-below-threshold"
+  | "expertise-mismatch";
 
 export type EscalationOutcome =
-  | { readonly kind: 'accepted'; readonly requestId: RequestId; readonly response: ExpertResponse }
-  | { readonly kind: 'rejected'; readonly requestId: RequestId; readonly reason: EscalationRejectionReason }
-  | { readonly kind: 'expired'; readonly requestId: RequestId; readonly expiredAtStep: number };
+  | {
+      readonly kind: "accepted";
+      readonly requestId: RequestId;
+      readonly response: ExpertResponse;
+    }
+  | {
+      readonly kind: "rejected";
+      readonly requestId: RequestId;
+      readonly reason: EscalationRejectionReason;
+    }
+  | {
+      readonly kind: "expired";
+      readonly requestId: RequestId;
+      readonly expiredAtStep: number;
+    };
 
-export const ESCALATION_REQUEST_STATUSES = ['open', 'resolved', 'expired'] as const;
-export type EscalationRequestStatus = (typeof ESCALATION_REQUEST_STATUSES)[number];
+export const ESCALATION_REQUEST_STATUSES = [
+  "open",
+  "resolved",
+  "expired",
+] as const;
+export type EscalationRequestStatus =
+  (typeof ESCALATION_REQUEST_STATUSES)[number];
 
 /** Stored record for one escalation request. */
 export interface EscalatedRequestRecord {

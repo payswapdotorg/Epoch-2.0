@@ -5,15 +5,15 @@
  * accepted data.
  */
 export type EscalationErrorCode =
-  | 'policy-invalid'
-  | 'question-invalid'
-  | 'question-kind-not-allowed'
-  | 'rate-limit-exceeded'
-  | 'response-invalid'
-  | 'provenance-incomplete'
-  | 'grant-required'
-  | 'policy-mismatch'
-  | 'state-corrupt';
+  | "policy-invalid"
+  | "question-invalid"
+  | "question-kind-not-allowed"
+  | "rate-limit-exceeded"
+  | "response-invalid"
+  | "provenance-incomplete"
+  | "grant-required"
+  | "policy-mismatch"
+  | "state-corrupt";
 
 export interface EscalationErrorDetail {
   readonly field: string;
@@ -24,9 +24,13 @@ export class EscalationError extends Error {
   readonly code: EscalationErrorCode;
   readonly details: readonly EscalationErrorDetail[];
 
-  constructor(code: EscalationErrorCode, message: string, details: readonly EscalationErrorDetail[] = []) {
+  constructor(
+    code: EscalationErrorCode,
+    message: string,
+    details: readonly EscalationErrorDetail[] = [],
+  ) {
     super(`[${code}] ${message}`);
-    this.name = 'EscalationError';
+    this.name = "EscalationError";
     this.code = code;
     this.details = details;
   }

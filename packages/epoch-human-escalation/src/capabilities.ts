@@ -1,6 +1,10 @@
-import type { EscalationState, ExpertProfile, ExpertiseTag } from './contracts.js';
-import { openRequests } from './machine.js';
-import type { CapabilityView } from './ports.js';
+import type {
+  EscalationState,
+  ExpertProfile,
+  ExpertiseTag,
+} from "./contracts.js";
+import { openRequests } from "./machine.js";
+import type { CapabilityView } from "./ports.js";
 
 /**
  * W023 integration seam (read-only): open requests' requested expertise tags
@@ -25,7 +29,9 @@ export function routeExpertise(
   }
   const matches: ExpertiseMatch[] = [];
   for (const tag of [...wanted].sort()) {
-    const matching = capabilities.filter((capability) => capability.tags.includes(tag));
+    const matching = capabilities.filter((capability) =>
+      capability.tags.includes(tag),
+    );
     if (matching.length > 0) {
       matches.push({ tag, matchingCapabilities: matching });
     }
@@ -39,5 +45,7 @@ export function matchProfilesToTags(
   tags: readonly ExpertiseTag[],
 ): readonly ExpertProfile[] {
   const wanted = new Set<ExpertiseTag>(tags);
-  return profiles.filter((profile) => profile.expertise.some((tag) => wanted.has(tag)));
+  return profiles.filter((profile) =>
+    profile.expertise.some((tag) => wanted.has(tag)),
+  );
 }

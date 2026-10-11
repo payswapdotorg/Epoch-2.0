@@ -1,8 +1,13 @@
-import { TextEncoder } from 'node:util';
-import type { EscalationPolicy, EscalationState } from './contracts.js';
-import { EscalationError } from './errors.js';
-import { digestOf, parseState, serializeState, stateDigest } from './serialize.js';
-import type { WorldStorePort } from './ports.js';
+import { TextEncoder } from "node:util";
+import type { EscalationPolicy, EscalationState } from "./contracts.js";
+import { EscalationError } from "./errors.js";
+import {
+  digestOf,
+  parseState,
+  serializeState,
+  stateDigest,
+} from "./serialize.js";
+import type { WorldStorePort } from "./ports.js";
 
 /**
  * Persistence binding: escalation sessions persist THROUGH the W021 WorldStore
@@ -14,14 +19,17 @@ import type { WorldStorePort } from './ports.js';
  * question for the Tech Lead in the work report).
  */
 
-export const ESCALATION_STORE_PREFIX = 'epoch.escalation/session/';
+export const ESCALATION_STORE_PREFIX = "epoch.escalation/session/";
 
 export function sessionKey(digest: string): string {
   return `${ESCALATION_STORE_PREFIX}${digest}`;
 }
 
 /** Persists a state snapshot under its own digest. Returns the digest (the restore handle). */
-export async function persistState(store: WorldStorePort, state: EscalationState): Promise<string> {
+export async function persistState(
+  store: WorldStorePort,
+  state: EscalationState,
+): Promise<string> {
   const digest = stateDigest(state);
   const bytes = new TextEncoder().encode(serializeState(state));
   await store.put(sessionKey(digest), bytes);
@@ -38,22 +46,33 @@ export async function restoreState(
   keyOrDigest: string,
   options: { readonly policy?: EscalationPolicy } = {},
 ): Promise<EscalationState> {
-  const key = keyOrDigest.startsWith(ESCALATION_STORE_PREFIX) ? keyOrDigest : sessionKey(keyOrDigest);
+  const key = keyOrDigest.startsWith(ESCALATION_STORE_PREFIX)
+    ? keyOrDigest
+    : sessionKey(keyOrDigest);
   const bytes = await store.get(key);
   if (bytes === null) {
-    throw new EscalationError('state-corrupt', `no escalation session persisted at key ${key}`);
+    throw new EscalationError(
+      "state-corrupt",
+      `no escalation session persisted at key ${key}`,
+    );
   }
   const state = parseState(bytes);
   const digest = stateDigest(state);
   const expected = key.slice(ESCALATION_STORE_PREFIX.length);
   if (expected !== digest) {
     throw new EscalationError(
-      'state-corrupt',
+      "state-corrupt",
       `digest key mismatch: key says ${expected}, content digests to ${digest}`,
     );
   }
-  if (options.policy !== undefined && state.policyDigest !== digestOf(options.policy)) {
-    throw new EscalationError('policy-mismatch', 'restored session was created under a different escalation policy');
+  if (
+    options.policy !== undefined &&
+    state.policyDigest !== digestOf(options.policy)
+  ) {
+    throw new EscalationError(
+      "policy-mismatch",
+      "restored session was created under a different escalation policy",
+    );
   }
   return state;
 }

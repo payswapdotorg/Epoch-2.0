@@ -5,7 +5,7 @@ import type {
   ExpertResponse,
   ExpertiseTag,
   RequestId,
-} from './contracts.js';
+} from "./contracts.js";
 
 /**
  * The adapter boundary. The port is provider-neutral: concrete providers
@@ -22,7 +22,7 @@ import type {
  */
 
 /** Fixed default clock reading so adapter-produced responses are deterministic. */
-export const DETERMINISTIC_EPOCH = '1970-01-01T00:00:00.000Z';
+export const DETERMINISTIC_EPOCH = "1970-01-01T00:00:00.000Z";
 
 export interface AdapterReceipt {
   readonly providerId: string;
@@ -62,7 +62,10 @@ interface AnswerProfile {
 }
 
 /** Module-level response synthesis (deliberately off the class prototype). */
-function buildExpertResponse(profile: AnswerProfile, request: EscalationRequest): ExpertResponse {
+function buildExpertResponse(
+  profile: AnswerProfile,
+  request: EscalationRequest,
+): ExpertResponse {
   const expertise: readonly ExpertiseTag[] = [...profile.expertise];
   const answeredBy: ExpertProfile = {
     expertise,
@@ -80,7 +83,11 @@ function buildExpertResponse(profile: AnswerProfile, request: EscalationRequest)
         : `in-memory expert answer for ${request.id} (${request.question.kind})`,
     confidence: profile.confidence,
     answeredBy,
-    answeredVia: { providerId: profile.providerId, channel: profile.channel, answeredAt: profile.answeredAt },
+    answeredVia: {
+      providerId: profile.providerId,
+      channel: profile.channel,
+      answeredAt: profile.answeredAt,
+    },
   };
 }
 
@@ -93,16 +100,17 @@ export class InMemoryEscalationAdapter implements EscalationAdapter {
   private readonly confidence: ConfidenceLevel;
   private readonly answeredAt: string;
   private readonly autoRespond: boolean;
-  private readonly answerFor: ((request: EscalationRequest) => string) | undefined;
+  private readonly answerFor:
+    ((request: EscalationRequest) => string) | undefined;
   private readonly submitted: EscalationRequest[] = [];
   private readonly fulfilled = new Map<RequestId, ExpertResponse>();
 
   constructor(options: InMemoryEscalationAdapterOptions = {}) {
-    this.providerId = options.providerId ?? 'in-memory';
-    this.channel = options.channel ?? 'direct';
-    this.expertKey = options.expertKey ?? 'in-memory-expert-1';
-    this.expertise = options.expertise ?? ['general'];
-    this.confidence = options.confidence ?? 'medium';
+    this.providerId = options.providerId ?? "in-memory";
+    this.channel = options.channel ?? "direct";
+    this.expertKey = options.expertKey ?? "in-memory-expert-1";
+    this.expertise = options.expertise ?? ["general"];
+    this.confidence = options.confidence ?? "medium";
     this.answeredAt = options.answeredAt ?? DETERMINISTIC_EPOCH;
     this.autoRespond = options.autoRespond ?? true;
     this.answerFor = options.answerFor;
@@ -126,7 +134,9 @@ export class InMemoryEscalationAdapter implements EscalationAdapter {
     if (!this.autoRespond) {
       return null;
     }
-    const request = this.submitted.find((candidate) => candidate.id === requestId);
+    const request = this.submitted.find(
+      (candidate) => candidate.id === requestId,
+    );
     if (request === undefined) {
       return null;
     }

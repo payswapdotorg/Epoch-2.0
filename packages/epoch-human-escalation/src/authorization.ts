@@ -1,4 +1,4 @@
-import { EscalationError } from './errors.js';
+import { EscalationError } from "./errors.js";
 
 /**
  * Default-deny authorization for the integration seams: nothing is permitted
@@ -19,7 +19,9 @@ export const DENY_ALL_GRANTS: EscalationGrants = {
   consumeCapabilityTags: false,
 };
 
-export function parseGrants(input?: Partial<EscalationGrants>): EscalationGrants {
+export function parseGrants(
+  input?: Partial<EscalationGrants>,
+): EscalationGrants {
   if (input === undefined) {
     return { ...DENY_ALL_GRANTS };
   }
@@ -30,10 +32,15 @@ export function parseGrants(input?: Partial<EscalationGrants>): EscalationGrants
   };
 }
 
-export function assertGranted(grants: EscalationGrants, grant: EscalationGrant): void {
+export function assertGranted(
+  grants: EscalationGrants,
+  grant: EscalationGrant,
+): void {
   if (!grants[grant]) {
-    throw new EscalationError('grant-required', `escalation session lacks the "${grant}" grant (default-deny)`, [
-      { field: grant, message: 'not granted' },
-    ]);
+    throw new EscalationError(
+      "grant-required",
+      `escalation session lacks the "${grant}" grant (default-deny)`,
+      [{ field: grant, message: "not granted" }],
+    );
   }
 }

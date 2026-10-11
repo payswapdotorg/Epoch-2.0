@@ -6,7 +6,7 @@ import type {
   EscalationState,
   ExpertResponse,
   RequestId,
-} from './contracts.js';
+} from "./contracts.js";
 import {
   advanceStep as machineAdvanceStep,
   expire as machineExpire,
@@ -16,15 +16,24 @@ import {
   request as machineRequest,
   resolve as machineResolve,
   sweepExpiries,
-} from './machine.js';
-import type { AdapterReceipt, EscalationAdapter } from './adapter.js';
-import { assertGranted, parseGrants, type EscalationGrants } from './authorization.js';
-import type { CapabilitySourcePort, LifecycleEventView, WorldRevisionView, WorldStorePort } from './ports.js';
-import { attachableNotesFor, type EscalationLearnNote } from './notes.js';
-import { routeExpertise, type ExpertiseMatch } from './capabilities.js';
-import { persistState, restoreState } from './persistence.js';
-import { stateDigest } from './serialize.js';
-import { EscalationError } from './errors.js';
+} from "./machine.js";
+import type { AdapterReceipt, EscalationAdapter } from "./adapter.js";
+import {
+  assertGranted,
+  parseGrants,
+  type EscalationGrants,
+} from "./authorization.js";
+import type {
+  CapabilitySourcePort,
+  LifecycleEventView,
+  WorldRevisionView,
+  WorldStorePort,
+} from "./ports.js";
+import { attachableNotesFor, type EscalationLearnNote } from "./notes.js";
+import { routeExpertise, type ExpertiseMatch } from "./capabilities.js";
+import { persistState, restoreState } from "./persistence.js";
+import { stateDigest } from "./serialize.js";
+import { EscalationError } from "./errors.js";
 
 /**
  * EscalationSession binds the pure machine to the outside world:
@@ -75,10 +84,16 @@ export class EscalationSession {
   static create(deps: EscalationSessionDeps): EscalationSession {
     const grants = parseGrants(deps.grants);
     if (grants.persist && deps.store === undefined) {
-      throw new EscalationError('grant-required', 'the persist grant requires a WorldStore binding');
+      throw new EscalationError(
+        "grant-required",
+        "the persist grant requires a WorldStore binding",
+      );
     }
     if (grants.consumeCapabilityTags && deps.capabilitySource === undefined) {
-      throw new EscalationError('grant-required', 'the consumeCapabilityTags grant requires a capability source binding');
+      throw new EscalationError(
+        "grant-required",
+        "the consumeCapabilityTags grant requires a capability source binding",
+      );
     }
     return new EscalationSession(deps, grants);
   }
@@ -100,12 +115,16 @@ export class EscalationSession {
     const result = machineRequest(this.state_, question);
     this.state_ = result.state;
     await this.persist();
-    const receipt = this.adapter === undefined ? undefined : await this.adapter.submit(result.request);
+    const receipt =
+      this.adapter === undefined
+        ? undefined
+        : await this.adapter.submit(result.request);
     return {
       state: this.state_,
       request: result.request,
       receipt,
-      worldRevisionDigest: this.world === undefined ? undefined : this.world.revisionDigest,
+      worldRevisionDigest:
+        this.world === undefined ? undefined : this.world.revisionDigest,
     };
   }
 
@@ -160,21 +179,26 @@ export class EscalationSession {
     return result.outcomes;
   }
 
-  history(): readonly import('./contracts.js').EscalationHistoryEntry[] {
+  history(): readonly import("./contracts.js").EscalationHistoryEntry[] {
     return historyOf(this.state_);
   }
 
   /** W022 seam (read-only, grant-gated): Learn-phase notes for the given lifecycle events. */
-  learnNotes(events: readonly LifecycleEventView[]): readonly EscalationLearnNote[] {
-    assertGranted(this.grants, 'attachLearnNotes');
+  learnNotes(
+    events: readonly LifecycleEventView[],
+  ): readonly EscalationLearnNote[] {
+    assertGranted(this.grants, "attachLearnNotes");
     return attachableNotesFor(events, this.state_);
   }
 
   /** W023 seam (read-only, grant-gated): expertise routing over discovered capability tags. */
   expertiseRouting(): readonly ExpertiseMatch[] {
-    assertGranted(this.grants, 'consumeCapabilityTags');
+    assertGranted(this.grants, "consumeCapabilityTags");
     if (this.capabilitySource === undefined) {
-      throw new EscalationError('grant-required', 'the consumeCapabilityTags grant requires a capability source binding');
+      throw new EscalationError(
+        "grant-required",
+        "the consumeCapabilityTags grant requires a capability source binding",
+      );
     }
     return routeExpertise(this.state_, this.capabilitySource.discovered());
   }
@@ -182,9 +206,14 @@ export class EscalationSession {
   /** Re-attaches a persisted session by digest (read; the persist grant governs writes). */
   async restore(keyOrDigest: string): Promise<void> {
     if (this.store === undefined) {
-      throw new EscalationError('grant-required', 'restore requires a WorldStore binding');
+      throw new EscalationError(
+        "grant-required",
+        "restore requires a WorldStore binding",
+      );
     }
-    const restored = await restoreState(this.store, keyOrDigest, { policy: this.state_.policy });
+    const restored = await restoreState(this.store, keyOrDigest, {
+      policy: this.state_.policy,
+    });
     this.state_ = restored;
     this.audit.push(stateDigest(restored));
   }
@@ -202,6 +231,8 @@ export class EscalationSession {
   }
 }
 
-export function createEscalationSession(deps: EscalationSessionDeps): EscalationSession {
+export function createEscalationSession(
+  deps: EscalationSessionDeps,
+): EscalationSession {
   return EscalationSession.create(deps);
 }
