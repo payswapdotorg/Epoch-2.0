@@ -21,15 +21,15 @@
     "W009",
     "W010",
     "W027",
-    "W020"
+    "W020",
+    "W028"
   ],
   "active": [
-    "W028",
     "W011",
+    "W012",
     "W021"
   ],
   "eligible": [
-    "W012",
     "W013",
     "W014",
     "W015",
@@ -38,6 +38,6 @@
     "W018"
   ],
   "blocked": [],
-  "lastMergeSha": "d73be11",
-  "lastAction": "W020 MERGED (9132a82 + epoch-world module registration d73be11): station battery green with PARITY (13 pass/1 skip/0 fail — the battery re-run at station); real web journey evidence 8 shots; renderer equivalence green. W021 dispatched (chat 8d726dd1). W028/W011 in flight."
+  "lastMergeSha": "12330c5",
+  "lastAction": "Post-reset resumption: forensics showed the Oct10 W011/W012/W021 dispatches never delivered payloads (empty-bootstrap sends; dead trees). All three cleanly re-dispatched via agents-tab dispatcher (tabs 2888C6CC/CFB0282D/9D8FA3A0, prompts verified complete in-tree: 8137/9048/9977 chars). Resident loop resumed."
 }
