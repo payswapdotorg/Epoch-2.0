@@ -265,6 +265,14 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-application-environment, epoch-persistence]
     publicEntrypoints: [packages/epoch-environment-activity/src/index.ts]
+  # W024 — Agent tools: typed command contracts with default-deny
+  # authorization, digest-keyed append-only audit, no-renderer boundary;
+  # agents act through the solution surface, never around it.
+  - id: epoch-agent-tools
+    roots: [packages/epoch-agent-tools/src]
+    managed: true
+    requires: [epoch-solution-surface, epoch-world-model, epoch-world-interaction, epoch-persistence]
+    publicEntrypoints: [packages/epoch-agent-tools/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
