@@ -1,14 +1,12 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "WAVE_9_W011_MERGED_W012_FINAL_ITERATION",
+  "status": "WAVE_9_W012_MERGED_W023_CRITICAL",
   "frontier": [
-    "W023",
-    "W012"
+    "W023"
   ],
   "eligible": 7,
   "inFlight": [
-    "W023",
-    "W012"
+    "W023"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -18,8 +16,8 @@
     "webNavigableSolution": "COMPLETE (W005 journey evidence)",
     "desktopNavigableSolution": "COMPLETE (W006 journey evidence)",
     "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
-    "ifcReconstruction": "PARTIAL (W009 IFC engine merged bb1ac04 — normalized WorldRevision + stable digest; geometry chain W011 merged ef77f9c; W012 scene-usd in final iteration)",
-    "fullEngineeringArchitecture": "PARTIAL (lifecycle W022 merged 4aa5fa2 — evidence-keyed phase machine live; geometry W011 merged ef77f9c; capability discovery W023 in flight)",
+    "ifcReconstruction": "COMPLETE (W009 IFC engine bb1ac04 + geometry chain W011 ef77f9c + W012 d2146f1 — scene composition live, 78 tests)",
+    "fullEngineeringArchitecture": "PARTIAL (lifecycle W022 + geometry W011/W012 merged; capability discovery W023 in flight — critical path to W024/W025/W026)",
     "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
     "applicationEnvironmentFabric": "PARTIAL (W028 environment fabric + generic surface merged dcd9b13; ACR integration pending W029+)",
     "capabilityReproductionFactory": "FUTURE",
@@ -29,9 +27,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W011 merged and registered (ef77f9c + e65388f). W012 round-5 (Group F ruling: strict USD grammar, amend body-position fixtures to metadata position) streaming; on green → merge → frees a lane. W023 begin-kick queued behind fleet MODEL_CONCURRENCY_LIMIT (one generation slot; refire when W012's stream ends). W029 (staged prompt) is the dependency-optimal next dispatch (feeds W031/W032/W034); leaf pool W013-W018 behind it. On W023 merge: W024+W025 unlock (critical path to W026/W035).",
+  "nextAction": "W012 merged (d2146f1). W023 begin-kick refiring now (critical path: unlocks W024+W025). W029 (prompt staged w029-combined.md) dispatches into the freed slot. Leaf pool W013-W018 available for the third lane when capacity allows. On W023 merge: W024+W025 parallel dispatch, then W026.",
   "lastMerge": {
-    "workOrder": "W011",
-    "mergeSha": "ef77f9c"
+    "workOrder": "W012",
+    "mergeSha": "d2146f1"
   }
 }

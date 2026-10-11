@@ -25,10 +25,10 @@
     "W028",
     "W021",
     "W022",
-    "W011"
+    "W011",
+    "W012"
   ],
   "active": [
-    "W012",
     "W023"
   ],
   "eligible": [
@@ -41,7 +41,7 @@
     "W029"
   ],
   "blocked": [],
-  "lastMergeSha": "ef77f9c",
-  "lastAction": "W011 MERGED (ef77f9c + registration e65388f): station-verified 38/38 tests, tsc 0, lint 0/0, arch 0 (registration applied). Worker chat aab82fce (glm-5.3, text-delivery protocol). Eligible list corrected: W024/W025 depend on active W023 and are not eligible yet. W012 in final iteration (round-5, Group F ruling: strict USD grammar); W023 kick queued behind fleet concurrency limit.",
-  "lastMergeWorkOrder": "W011"
+  "lastMergeSha": "d2146f1",
+  "lastAction": "W012 MERGED (d2146f1): station-verified 78/78 tests, tsc 0, lint 0/0, arch 0 (registration applied; module artifacts + parser split in final round). Worker chat c815e402 (glm-5.3, text-delivery protocol, 6 rounds). Geometry chain COMPLETE (W011+W012). W023 refire next (hollow agents-tab lane cured via begin-kick); W029 dispatch into freed slot.",
+  "lastMergeWorkOrder": "W012"
 }
