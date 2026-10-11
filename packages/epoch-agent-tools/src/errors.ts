@@ -3,28 +3,32 @@
  * are typed errors — never silent corrections — and every error carries a
  * stable machine-readable `code`.
  */
-import type { AgentCommandKind, AgentScope } from './kinds.js';
-import type { AgentDeniedReason } from './authorization.js';
-import type { AgentCommandOutcome } from './audit.js';
+import type { AgentCommandKind, AgentScope } from "./kinds.js";
+import type { AgentDeniedReason } from "./authorization.js";
+import type { AgentCommandOutcome } from "./audit.js";
 
 export type AgentErrorCode =
-  | 'authorization-denied'
-  | 'illegal-command'
-  | 'unknown-command-kind'
-  | 'session-not-found'
-  | 'session-already-exists'
-  | 'audit-digest-collision'
-  | 'audit-outcome-conflict'
-  | 'audit-record-missing'
-  | 'audit-record-mismatch'
-  | 'port-error';
+  | "authorization-denied"
+  | "illegal-command"
+  | "unknown-command-kind"
+  | "session-not-found"
+  | "session-already-exists"
+  | "audit-digest-collision"
+  | "audit-outcome-conflict"
+  | "audit-record-missing"
+  | "audit-record-mismatch"
+  | "port-error";
 
-export type AgentPortName = 'solution-surface' | 'world-interaction';
+export type AgentPortName = "solution-surface" | "world-interaction";
 
 export class AgentToolsError extends Error {
   readonly code: AgentErrorCode;
 
-  constructor(code: AgentErrorCode, message: string, options?: { readonly cause?: unknown }) {
+  constructor(
+    code: AgentErrorCode,
+    message: string,
+    options?: { readonly cause?: unknown },
+  ) {
     super(message, options);
     this.name = new.target.name;
     this.code = code;
@@ -45,7 +49,7 @@ export class AuthorizationError extends AgentToolsError {
     readonly missingScopes?: readonly AgentScope[];
     readonly allowedCommands?: readonly AgentCommandKind[];
   }) {
-    super('authorization-denied', denial.message);
+    super("authorization-denied", denial.message);
     this.deniedReason = denial.deniedReason;
     this.requiredScopes = denial.requiredScopes ?? [];
     this.missingScopes = denial.missingScopes ?? [];
@@ -63,10 +67,11 @@ export class IllegalCommandError extends AgentToolsError {
   constructor(
     issues: readonly string[],
     message?: string,
-    code: AgentErrorCode = 'illegal-command',
+    code: AgentErrorCode = "illegal-command",
   ) {
-    const list = issues.length > 0 ? issues : ['command is not a valid agent command'];
-    super(code, message ?? `illegal agent command: ${list.join('; ')}`);
+    const list =
+      issues.length > 0 ? issues : ["command is not a valid agent command"];
+    super(code, message ?? `illegal agent command: ${list.join("; ")}`);
     this.issues = list;
   }
 }
@@ -78,7 +83,7 @@ export class UnknownCommandKindError extends IllegalCommandError {
     super(
       [`unknown command kind "${kind}"`],
       `unknown agent command kind "${kind}"`,
-      'unknown-command-kind',
+      "unknown-command-kind",
     );
     this.kind = kind;
   }
@@ -88,7 +93,10 @@ export class SessionNotFoundError extends AgentToolsError {
   readonly sessionId: string;
 
   constructor(sessionId: string) {
-    super('session-not-found', `agent session "${sessionId}" is not attached to this dispatcher`);
+    super(
+      "session-not-found",
+      `agent session "${sessionId}" is not attached to this dispatcher`,
+    );
     this.sessionId = sessionId;
   }
 }
@@ -97,7 +105,10 @@ export class SessionAlreadyExistsError extends AgentToolsError {
   readonly sessionId: string;
 
   constructor(sessionId: string) {
-    super('session-already-exists', `agent session "${sessionId}" is already attached to this dispatcher`);
+    super(
+      "session-already-exists",
+      `agent session "${sessionId}" is already attached to this dispatcher`,
+    );
     this.sessionId = sessionId;
   }
 }
@@ -106,7 +117,10 @@ export class AuditDigestCollisionError extends AgentToolsError {
   readonly digest: string;
 
   constructor(digest: string) {
-    super('audit-digest-collision', `audit record for digest "${digest}" already exists with different content`);
+    super(
+      "audit-digest-collision",
+      `audit record for digest "${digest}" already exists with different content`,
+    );
     this.digest = digest;
   }
 }
@@ -121,7 +135,7 @@ export class AuditOutcomeConflictError extends AgentToolsError {
 
   constructor(digest: string, recordedOutcome: AgentCommandOutcome) {
     super(
-      'audit-outcome-conflict',
+      "audit-outcome-conflict",
       `command digest "${digest}" was already recorded with outcome "${recordedOutcome}"; the append-only audit log fixes the outcome per digest — vary provenance.correlationId to issue a distinct command`,
     );
     this.digest = digest;
@@ -135,7 +149,7 @@ export class AuditRecordMissingError extends AgentToolsError {
 
   constructor(sessionId: string, digest: string) {
     super(
-      'audit-record-missing',
+      "audit-record-missing",
       `audit record "${digest}" referenced by session "${sessionId}" was not found in the world store`,
     );
     this.sessionId = sessionId;
@@ -149,7 +163,10 @@ export class AuditRecordMismatchError extends AgentToolsError {
   readonly detail: string;
 
   constructor(sessionId: string, digest: string, detail: string) {
-    super('audit-record-mismatch', `audit record "${digest}" does not match session "${sessionId}": ${detail}`);
+    super(
+      "audit-record-mismatch",
+      `audit record "${digest}" does not match session "${sessionId}": ${detail}`,
+    );
     this.sessionId = sessionId;
     this.digest = digest;
     this.detail = detail;
@@ -161,9 +178,13 @@ export class AgentPortError extends AgentToolsError {
   readonly port: AgentPortName;
   readonly commandKind: AgentCommandKind;
 
-  constructor(port: AgentPortName, commandKind: AgentCommandKind, cause?: unknown) {
+  constructor(
+    port: AgentPortName,
+    commandKind: AgentCommandKind,
+    cause?: unknown,
+  ) {
     super(
-      'port-error',
+      "port-error",
       `port "${port}" failed while executing command kind "${commandKind}"`,
       cause === undefined ? undefined : { cause },
     );

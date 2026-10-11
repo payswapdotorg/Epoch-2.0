@@ -17,7 +17,7 @@
  * The slices are presentation-free by construction: no method exposes a
  * renderer object, and the dispatcher never touches presentation state.
  */
-import type { AgentCommandAuditRecord } from './audit.js';
+import type { AgentCommandAuditRecord } from "./audit.js";
 import type {
   IsolationMode,
   NavigationOptions,
@@ -25,7 +25,7 @@ import type {
   SelectionMode,
   SolutionAnnotateParams,
   SolutionMeasureParams,
-} from './commands.js';
+} from "./commands.js";
 import type {
   AgentAnnotationReport,
   AgentElementReport,
@@ -33,7 +33,7 @@ import type {
   AgentMeasurementReport,
   AgentSolutionInfo,
   AgentViewpoint,
-} from './values.js';
+} from "./values.js";
 
 /** Structural slice of the W003 Solution Surface port (data plane). */
 export interface AgentSolutionSurfacePort {
@@ -64,21 +64,32 @@ export interface AgentInteractionPort {
   applySelection(command: {
     readonly mode: SelectionMode;
     readonly elementIds: readonly string[];
-  }): Promise<{ readonly selectedElementIds: readonly string[]; readonly changed: boolean }>;
+  }): Promise<{
+    readonly selectedElementIds: readonly string[];
+    readonly changed: boolean;
+  }>;
 
   applyNavigation(command: {
     readonly target: NavigationTarget;
     readonly options?: NavigationOptions;
-  }): Promise<{ readonly viewpoint: AgentViewpoint; readonly applied: boolean }>;
+  }): Promise<{
+    readonly viewpoint: AgentViewpoint;
+    readonly applied: boolean;
+  }>;
 
   applyIsolation(command: {
     readonly mode: IsolationMode;
     readonly elementIds: readonly string[];
-  }): Promise<{ readonly isolatedElementIds: readonly string[]; readonly changed: boolean }>;
+  }): Promise<{
+    readonly isolatedElementIds: readonly string[];
+    readonly changed: boolean;
+  }>;
 
   measure(request: SolutionMeasureParams): Promise<AgentMeasurementReport>;
 
-  applyAnnotation(command: SolutionAnnotateParams): Promise<AgentAnnotationReport>;
+  applyAnnotation(
+    command: SolutionAnnotateParams,
+  ): Promise<AgentAnnotationReport>;
 
   getInteractionState(): Promise<AgentInteractionState>;
 }
@@ -91,6 +102,10 @@ export interface AgentInteractionPort {
  */
 export interface AgentWorldStorePort {
   appendCommandRecord(record: AgentCommandAuditRecord): Promise<void>;
-  getCommandRecord(digest: string): Promise<AgentCommandAuditRecord | undefined>;
-  listCommandRecords(filter?: { readonly sessionId?: string }): Promise<AgentCommandAuditRecord[]>;
+  getCommandRecord(
+    digest: string,
+  ): Promise<AgentCommandAuditRecord | undefined>;
+  listCommandRecords(filter?: {
+    readonly sessionId?: string;
+  }): Promise<AgentCommandAuditRecord[]>;
 }

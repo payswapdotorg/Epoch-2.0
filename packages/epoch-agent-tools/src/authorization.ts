@@ -13,17 +13,22 @@ import {
   requiredScopesFor,
   type AgentCommandKind,
   type AgentScope,
-} from './kinds.js';
-import type { AgentCommand } from './commands.js';
-import { isNonEmptyString, isObject, isString, isStringArray } from './guards.js';
+} from "./kinds.js";
+import type { AgentCommand } from "./commands.js";
+import {
+  isNonEmptyString,
+  isObject,
+  isString,
+  isStringArray,
+} from "./guards.js";
 
 export type AgentDeniedReason =
-  | 'missing-authorization'
-  | 'malformed-authorization'
-  | 'token-mismatch'
-  | 'command-kind-not-authorized'
-  | 'scope-not-authorized'
-  | 'session-not-bound';
+  | "missing-authorization"
+  | "malformed-authorization"
+  | "token-mismatch"
+  | "command-kind-not-authorized"
+  | "scope-not-authorized"
+  | "session-not-bound";
 
 /** Capability-token-style declaration: which command kinds + scopes a caller may invoke. */
 export interface AgentAuthorization {
@@ -36,26 +41,37 @@ export interface AgentAuthorization {
   readonly notes?: string;
 }
 
-export function isValidAgentAuthorization(value: unknown): value is AgentAuthorization {
+export function isValidAgentAuthorization(
+  value: unknown,
+): value is AgentAuthorization {
   if (!isObject(value)) {
     return false;
   }
-  if (!isNonEmptyString(value['tokenId']) || !isNonEmptyString(value['subject'])) {
+  if (
+    !isNonEmptyString(value["tokenId"]) ||
+    !isNonEmptyString(value["subject"])
+  ) {
     return false;
   }
-  const allowedCommands = value['allowedCommands'];
-  if (!Array.isArray(allowedCommands) || !allowedCommands.every((item) => isAgentCommandKind(item))) {
+  const allowedCommands = value["allowedCommands"];
+  if (
+    !Array.isArray(allowedCommands) ||
+    !allowedCommands.every((item) => isAgentCommandKind(item))
+  ) {
     return false;
   }
-  const scopes = value['scopes'];
+  const scopes = value["scopes"];
   if (!Array.isArray(scopes) || !scopes.every((item) => isAgentScope(item))) {
     return false;
   }
-  const boundSessions = value['boundSessions'];
-  if (boundSessions !== undefined && !(Array.isArray(boundSessions) && isStringArray(boundSessions))) {
+  const boundSessions = value["boundSessions"];
+  if (
+    boundSessions !== undefined &&
+    !(Array.isArray(boundSessions) && isStringArray(boundSessions))
+  ) {
     return false;
   }
-  const notes = value['notes'];
+  const notes = value["notes"];
   if (notes !== undefined && !isString(notes)) {
     return false;
   }
@@ -82,8 +98,8 @@ export function evaluateAuthorization(
 ): AgentAuthorizationDenial | null {
   if (authorization === undefined || authorization === null) {
     return denial(
-      'missing-authorization',
-      'no AgentAuthorization was provided; agents must prove what they may do',
+      "missing-authorization",
+      "no AgentAuthorization was provided; agents must prove what they may do",
       [],
       [],
       [],
@@ -91,8 +107,8 @@ export function evaluateAuthorization(
   }
   if (!isValidAgentAuthorization(authorization)) {
     return denial(
-      'malformed-authorization',
-      'the provided AgentAuthorization is not a valid capability declaration',
+      "malformed-authorization",
+      "the provided AgentAuthorization is not a valid capability declaration",
       [],
       [],
       [],
@@ -100,7 +116,7 @@ export function evaluateAuthorization(
   }
   if (authorization.tokenId !== command.authorization.tokenId) {
     return denial(
-      'token-mismatch',
+      "token-mismatch",
       `command references authorization token "${command.authorization.tokenId}" but token "${authorization.tokenId}" was provided`,
       [],
       [],
@@ -109,7 +125,7 @@ export function evaluateAuthorization(
   }
   if (!authorization.allowedCommands.includes(command.kind)) {
     return denial(
-      'command-kind-not-authorized',
+      "command-kind-not-authorized",
       `token "${authorization.tokenId}" does not allow command kind "${command.kind}"`,
       requiredScopesFor(command.kind),
       [],
@@ -117,11 +133,13 @@ export function evaluateAuthorization(
     );
   }
   const required = requiredScopesFor(command.kind);
-  const missing = required.filter((scope) => !authorization.scopes.includes(scope));
+  const missing = required.filter(
+    (scope) => !authorization.scopes.includes(scope),
+  );
   if (missing.length > 0) {
     return denial(
-      'scope-not-authorized',
-      `token "${authorization.tokenId}" is missing required scope(s) ${missing.join(', ')} for command kind "${command.kind}"`,
+      "scope-not-authorized",
+      `token "${authorization.tokenId}" is missing required scope(s) ${missing.join(", ")} for command kind "${command.kind}"`,
       required,
       missing,
       authorization.allowedCommands,
@@ -132,7 +150,7 @@ export function evaluateAuthorization(
     !authorization.boundSessions.includes(command.sessionId)
   ) {
     return denial(
-      'session-not-bound',
+      "session-not-bound",
       `token "${authorization.tokenId}" is not bound to session "${command.sessionId}"`,
       [],
       [],
@@ -149,5 +167,11 @@ function denial(
   missingScopes: readonly AgentScope[],
   allowedCommands: readonly AgentCommandKind[],
 ): AgentAuthorizationDenial {
-  return { deniedReason, message, requiredScopes, missingScopes, allowedCommands };
+  return {
+    deniedReason,
+    message,
+    requiredScopes,
+    missingScopes,
+    allowedCommands,
+  };
 }

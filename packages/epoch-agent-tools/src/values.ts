@@ -55,9 +55,9 @@ export interface AgentInteractionState {
 }
 
 export type AgentMeasurementReport =
-  | { readonly kind: 'distance'; readonly distance: number }
-  | { readonly kind: 'clear'; readonly clearedMeasurements: number };
+  | { readonly kind: "distance"; readonly distance: number }
+  | { readonly kind: "clear"; readonly clearedMeasurements: number };
 
 export type AgentAnnotationReport =
-  | { readonly action: 'add'; readonly annotation: AgentAnnotationSnapshot }
-  | { readonly action: 'remove'; readonly annotationId: string };
+  | { readonly action: "add"; readonly annotation: AgentAnnotationSnapshot }
+  | { readonly action: "remove"; readonly annotationId: string };
