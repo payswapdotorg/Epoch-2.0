@@ -15,6 +15,10 @@ import type {
  * The adapter NEVER becomes an authority: it produces ExpertResponse values
  * (provenance-bearing input). The escalation machine decides acceptance;
  * expert data never becomes world content.
+ *
+ * The adapter's prototype surface is exactly submit / awaitResponse / fulfill
+ * / submittedRequests — response synthesis lives in a module-level function,
+ * NOT a class method, so no hidden behavior rides the boundary.
  */
 
 /** Fixed default clock reading so adapter-produced responses are deterministic. */
@@ -44,6 +48,40 @@ export interface InMemoryEscalationAdapterOptions {
   readonly answeredAt?: string;
   readonly autoRespond?: boolean;
   readonly answerFor?: (request: EscalationRequest) => string;
+}
+
+/** Answer-profile data used to synthesize provenance-bearing responses. */
+interface AnswerProfile {
+  readonly providerId: string;
+  readonly channel: string;
+  readonly expertKey: string;
+  readonly expertise: readonly ExpertiseTag[];
+  readonly confidence: ConfidenceLevel;
+  readonly answeredAt: string;
+  readonly answerFor: ((request: EscalationRequest) => string) | undefined;
+}
+
+/** Module-level response synthesis (deliberately off the class prototype). */
+function buildExpertResponse(profile: AnswerProfile, request: EscalationRequest): ExpertResponse {
+  const expertise: readonly ExpertiseTag[] = [...profile.expertise];
+  const answeredBy: ExpertProfile = {
+    expertise,
+    provenance: {
+      providerId: profile.providerId,
+      expertKey: profile.expertKey,
+      declaredExpertise: expertise,
+    },
+  };
+  return {
+    requestId: request.id,
+    answer:
+      profile.answerFor !== undefined
+        ? profile.answerFor(request)
+        : `in-memory expert answer for ${request.id} (${request.question.kind})`,
+    confidence: profile.confidence,
+    answeredBy,
+    answeredVia: { providerId: profile.providerId, channel: profile.channel, answeredAt: profile.answeredAt },
+  };
 }
 
 /** In-memory test adapter: deterministic by default, scriptable for negative tests. */
@@ -92,7 +130,18 @@ export class InMemoryEscalationAdapter implements EscalationAdapter {
     if (request === undefined) {
       return null;
     }
-    const response = this.buildResponse(request);
+    const response = buildExpertResponse(
+      {
+        providerId: this.providerId,
+        channel: this.channel,
+        expertKey: this.expertKey,
+        expertise: this.expertise,
+        confidence: this.confidence,
+        answeredAt: this.answeredAt,
+        answerFor: this.answerFor,
+      },
+      request,
+    );
     this.fulfilled.set(requestId, response);
     return response;
   }
@@ -104,23 +153,5 @@ export class InMemoryEscalationAdapter implements EscalationAdapter {
 
   submittedRequests(): readonly EscalationRequest[] {
     return [...this.submitted];
-  }
-
-  private buildResponse(request: EscalationRequest): ExpertResponse {
-    const expertise: readonly ExpertiseTag[] = [...this.expertise];
-    const profile: ExpertProfile = {
-      expertise,
-      provenance: { providerId: this.providerId, expertKey: this.expertKey, declaredExpertise: expertise },
-    };
-    return {
-      requestId: request.id,
-      answer:
-        this.answerFor !== undefined
-          ? this.answerFor(request)
-          : `in-memory expert answer for ${request.id} (${request.question.kind})`,
-      confidence: this.confidence,
-      answeredBy: profile,
-      answeredVia: { providerId: this.providerId, channel: this.channel, answeredAt: this.answeredAt },
-    };
   }
 }

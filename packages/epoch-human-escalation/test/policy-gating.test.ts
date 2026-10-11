@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EscalationError, advanceStep, init, request, resolve } from '../src/index.js';
+import { EscalationError, advanceStep, init, openRequests, request, resolve } from '../src/index.js';
 import { baseQuestion, fullResponse, openPolicy } from './helpers.js';
 
 test('init rejects an invalid policy with a typed policy-invalid error', () => {
@@ -55,18 +55,21 @@ test('request rejects a question body outside the policy length bounds (question
 
 test('request rejects when maxOpenRequests is reached (rate-limit-exceeded)', () => {
   const state = init(openPolicy({ rateLimits: { maxOpenRequests: 1, maxNewRequestsPerStep: 5 } }));
-  request(state, baseQuestion());
+  const afterFirst = request(state, baseQuestion()).state;
+  assert.equal(openRequests(afterFirst).length, 1);
   assert.throws(
-    () => request(state, baseQuestion({ body: 'A second open request exceeds the budget.' })),
+    () => request(afterFirst, baseQuestion({ body: 'A second open request exceeds the budget.' })),
     (error: unknown) => error instanceof EscalationError && error.code === 'rate-limit-exceeded',
   );
 });
 
 test('request rejects when maxNewRequestsPerStep is reached for the current step (rate-limit-exceeded)', () => {
   const state = init(openPolicy({ rateLimits: { maxOpenRequests: 10, maxNewRequestsPerStep: 1 } }));
-  request(state, baseQuestion());
+  const afterFirst = request(state, baseQuestion()).state;
+  assert.equal(openRequests(afterFirst).length, 1);
+  assert.equal(afterFirst.step, 0);
   assert.throws(
-    () => request(state, baseQuestion({ body: 'A second request in the same step exceeds the budget.' })),
+    () => request(afterFirst, baseQuestion({ body: 'A second request in the same step exceeds the budget.' })),
     (error: unknown) => error instanceof EscalationError && error.code === 'rate-limit-exceeded',
   );
 });
