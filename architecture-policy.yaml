@@ -233,6 +233,14 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-solution-contract, epoch-persistence]
     publicEntrypoints: [packages/epoch-lifecycle/src/index.ts]
+  # W023 — Capability discovery: evidence-derived capability/role discovery on
+  # the W021/W022 authority spine; declarations are frozen data, discovery
+  # never grants execution authority.
+  - id: epoch-capability-discovery
+    roots: [packages/epoch-capability-discovery/src]
+    managed: true
+    requires: [epoch-world-model, epoch-persistence, epoch-lifecycle]
+    publicEntrypoints: [packages/epoch-capability-discovery/src/index.ts]
   # W012 — OpenUSD composition: usda subset parser (strict USD grammar:
   # arcs are prim metadata, never body statements), layer/variant/reference
   # opinion resolution, derive-only world bridge.
