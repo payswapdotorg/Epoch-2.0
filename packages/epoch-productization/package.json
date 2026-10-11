@@ -1,0 +1,34 @@
+{
+  "name": "@zcode/epoch-productization",
+  "version": "0.1.0",
+  "private": true,
+  "description": "W026 productization infrastructure adapters: deployment planning data (commands are data, never executed), read-only WorldStore integrity sweeps, security review surface with a pure secret matcher, privacy-safe telemetry contracts, and release manifest verification. Plans and verifies; never executes, never deploys.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/src",
+    "src/module.ts",
+    "src/contract.ts"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
+    "typecheck": "tsc -b",
+    "test": "node --test dist/test/"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0"
+  }
+}

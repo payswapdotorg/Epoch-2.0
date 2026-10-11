@@ -1,0 +1,16 @@
+{
+  "worlds": [
+    {
+      "id": "w-example",
+      "digest": null,
+      "content": { "id": "w-example", "label": "example world" },
+      "records": [
+        {
+          "id": "r-meta",
+          "digest": null,
+          "content": { "id": "r-meta", "worldId": "w-example" }
+        }
+      ]
+    }
+  ]
+}
