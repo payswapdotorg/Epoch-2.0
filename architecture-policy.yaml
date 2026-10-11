@@ -257,6 +257,14 @@ modules:
     managed: true
     requires: [epoch-world-model, epoch-construction-fixture]
     publicEntrypoints: [packages/epoch-timeline/src/index.ts]
+  # W029 — Environment activity and demonstrations: typed event core with
+  # consent/privacy laws, episodes/demonstrations, coverage honesty,
+  # candidate exports (unverified only), digest-keyed persistence binding.
+  - id: epoch-environment-activity
+    roots: [packages/epoch-environment-activity/src]
+    managed: true
+    requires: [epoch-world-model, epoch-application-environment, epoch-persistence]
+    publicEntrypoints: [packages/epoch-environment-activity/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
