@@ -672,7 +672,16 @@ export function parseUsda(text: string): UsdaDocument {
   return new Parser(tokens, text).parseDocument();
 }
 
-/** Deterministic summary of a parsed document (used for round-trip tests). */
+/**
+ * Deterministic summary of a parsed document (used for round-trip tests).
+ *
+ * includeLocations = false (default): semantic mode — comment/whitespace-
+ * insensitive. Token locations and the raw-text digest are non-semantic
+ * fields (they legitimately vary under comment/whitespace edits) and are
+ * excluded.
+ * includeLocations = true: full-fidelity mode — includes token locations
+ * and the raw-text digest.
+ */
 export function documentSummary(doc: UsdaDocument, includeLocations = false): string {
   const loc = (l: SourceLocation): unknown => (includeLocations ? { line: l.line, column: l.column } : null);
   const val = (v: UsdaValue): unknown => {
@@ -723,11 +732,13 @@ export function documentSummary(doc: UsdaDocument, includeLocations = false): st
       })),
     })),
   });
-  return JSON.stringify({
+  const summary = {
     header: doc.header,
     subLayers: doc.subLayers.map((s) => ({ assetPath: s.assetPath, location: loc(s.location) })),
     metadata: Object.fromEntries(Object.keys(doc.metadata).sort().map((k) => [k, val(doc.metadata[k] as UsdaValue)])),
     rootPrims: doc.rootPrims.map(prim),
-    textDigest: doc.textDigest,
-  });
+  };
+  return includeLocations
+    ? JSON.stringify({ ...summary, textDigest: doc.textDigest })
+    : JSON.stringify(summary);
 }

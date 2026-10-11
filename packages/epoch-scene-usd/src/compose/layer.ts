@@ -1,4 +1,10 @@
-/** Layer-stack resolution: asset resolution, sublayer expansion, cycle detection. */
+/** Layer-stack resolution: asset resolution, sublayer expansion, cycle detection.
+ *
+ * Roles are entry-path based (pinned by the frozen acceptance suite): a layer
+ * that first enters the resolved stack via another layer's subLayers arc is a
+ * 'sublayer' — even when it was also passed as a direct compose input; layers
+ * entering as their own expansion root are 'root-stack'.
+ */
 
 import { SceneCompositionError } from '../errors.js';
 import type { SceneLayer } from '../contracts.js';
@@ -9,6 +15,13 @@ export interface LayerRecord {
   readonly name: string;
   readonly assetPath: string;
   readonly doc: UsdaDocument;
+  /**
+   * Entry-path role in the resolved stack, assigned during stack expansion:
+   * the expansion root enters as 'root-stack'; a layer pulled in via another
+   * layer's subLayers arc enters as 'sublayer' — even when it was also passed
+   * as a direct compose input (first entry wins).
+   */
+  role: 'root-stack' | 'sublayer';
 }
 
 export interface ResolvedLayerStack {
@@ -79,6 +92,7 @@ export function resolveLayerStack(
       name: layer.name,
       assetPath: layer.assetPath ?? layer.name,
       doc: parse(layer.text),
+      role: 'root-stack',
     };
     byName.set(layer.name, record);
     if (!byAsset.has(record.assetPath)) byAsset.set(record.assetPath, record);
@@ -86,18 +100,22 @@ export function resolveLayerStack(
   const resolveAsset = (assetPath: string): LayerRecord | null =>
     byAsset.get(assetPath) ?? byName.get(assetPath) ?? null;
 
-  const rootNames = new Set<string>(layers.map((l) => l.name));
   const stack: LayerRecord[] = [];
   const inStack = new Set<string>();
   for (const layer of layers) {
     const root = byName.get(layer.name) as LayerRecord;
-    for (const rec of expandStackFrom(root, resolveAsset)) {
-      if (inStack.has(rec.name)) continue;
+    const expanded = expandStackFrom(root, resolveAsset);
+    expanded.forEach((rec, position) => {
+      if (inStack.has(rec.name)) return;
       inStack.add(rec.name);
       stack.push(rec);
-    }
+      // Entry-path role: the expansion root enters as 'root-stack'; layers
+      // pulled in via subLayers arcs enter as 'sublayer' — even when they are
+      // also direct inputs (first entry wins).
+      rec.role = position === 0 ? 'root-stack' : 'sublayer';
+    });
   }
   const roles = new Map<string, 'root-stack' | 'sublayer'>();
-  for (const rec of stack) roles.set(rec.name, rootNames.has(rec.name) ? 'root-stack' : 'sublayer');
+  for (const rec of stack) roles.set(rec.name, rec.role);
   return { stack, resolveAsset, roles };
 }

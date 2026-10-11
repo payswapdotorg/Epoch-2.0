@@ -4,11 +4,25 @@
  * Implemented strength ordering (strongest -> weakest), a DFS pre-order
  * flattening of the composition node tree:
  *   1. Local opinions across the layer stack (root layer, then sublayers in
- *      listed order, recursively)
+ *      listed order, recursively) — with the bounded strengthen rule below
  *   2. Inherits (target composed recursively in the declaring stack)
  *   3. Variants (only the selected variant block)
  *   4. References (referencing site beats the referenced target's own locals)
  *   5. Payloads (only when included)
+ *
+ * Bounded strengthen rule (pinned by the frozen acceptance suite): `over`
+ * specs contributed by root-stack layers (direct compose inputs — see
+ * LayerRecord.role) are strengthened to the front of the local opinion
+ * block: they override all other local opinions for the same prim, and
+ * thereby strengthen (override the composed result of) a referenced def.
+ * `over` specs contributed via sublayers keep ordinary stack-order strength
+ * (a stronger layer's local opinions still beat sublayer overs).
+ *
+ * Provenance trail labels (pinned by the frozen acceptance suite):
+ * - asset arcs:   `reference @asset@</Prim>` / `payload @asset@</Prim>`
+ * - internal arcs: `reference /Prim` / `payload /Prim`
+ * - inherits:      `inherits /Prim`
+ * - variants:      `variant set=variant`
  *
  * Consciously bounded out: specializes, list-edits, time samples,
  * connections, defaults, relationship propagation, arcs inside variant
@@ -107,6 +121,23 @@ export function nodeSeeds(
   return seeds;
 }
 
+/**
+ * Bounded strengthen rule (pinned by the frozen acceptance suite): `over`
+ * specs contributed by root-stack layers lead the local opinion block
+ * (stable partition; original order otherwise preserved).
+ */
+function strengthenRootStackOvers(seeds: readonly Site[]): readonly Site[] {
+  const hoisted: Site[] = [];
+  const rest: Site[] = [];
+  for (const s of seeds) {
+    const isRootStackOver =
+      s.spec !== null && s.spec.specifier === 'over' && s.layer.role === 'root-stack';
+    if (isRootStackOver) hoisted.push(s);
+    else rest.push(s);
+  }
+  return hoisted.length === 0 ? seeds : [...hoisted, ...rest];
+}
+
 function firstDeclaring(seeds: readonly PrimSite[], field: 'references' | 'inherits' | 'payloads'): PrimSite | null {
   for (const s of seeds) {
     if (s.spec[field].length > 0) return s;
@@ -172,8 +203,10 @@ function expandArcTarget(
 }
 
 export function expandSites(seeds: readonly Site[], composedPath: string, ctx: ExpandContext): readonly Site[] {
-  const out: Site[] = [...seeds];
-  const specSeeds = seeds.filter(isPrimSite);
+  // Bounded strengthen rule: root-stack `over` specs lead the local block.
+  const locals = strengthenRootStackOvers(seeds);
+  const out: Site[] = [...locals];
+  const specSeeds = locals.filter(isPrimSite);
 
   // --- INHERITS (Local > Inherits) ---
   const inheritSeed = firstDeclaring(specSeeds, 'inherits');
@@ -237,7 +270,11 @@ export function expandSites(seeds: readonly Site[], composedPath: string, ctx: E
         });
         continue;
       }
-      const label = `reference ${ref.assetPath === '' ? '' : `@${ref.assetPath}@`}${ref.targetPath}`;
+      // Provenance label (pinned by the frozen acceptance suite): asset arcs
+      // carry the target prim path in angle-bracket form.
+      const label = ref.assetPath === ''
+        ? `reference ${ref.targetPath}`
+        : `reference @${ref.assetPath}@<${ref.targetPath}>`;
       expandArcTarget(out, targetStack, ref.targetPath, refSeed, label, ctx, composedPath);
     }
   }
@@ -267,7 +304,9 @@ export function expandSites(seeds: readonly Site[], composedPath: string, ctx: E
         });
         continue;
       }
-      const label = `payload ${pl.assetPath === '' ? '' : `@${pl.assetPath}@`}${pl.targetPath}`;
+      const label = pl.assetPath === ''
+        ? `payload ${pl.targetPath}`
+        : `payload @${pl.assetPath}@<${pl.targetPath}>`;
       expandArcTarget(out, targetStack, pl.targetPath, payloadSeed, label, ctx, composedPath);
     }
   }
