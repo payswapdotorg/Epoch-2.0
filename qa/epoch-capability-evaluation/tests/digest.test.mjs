@@ -1,6 +1,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { canonicalJson, digestOf, isSha256Digest, sha256Hex } from "./under-test.mjs";
+import {
+  canonicalJson,
+  digestOf,
+  isSha256Digest,
+  sha256Hex,
+} from "./under-test.mjs";
 
 test("canonicalJson sorts object keys independently of insertion order", () => {
   assert.equal(canonicalJson({ b: 1, a: 2 }), '{"a":2,"b":1}');
@@ -15,7 +20,10 @@ test("canonicalJson serializes primitives, arrays and nested objects determinist
   assert.equal(canonicalJson(1), "1");
   assert.equal(canonicalJson(-0), "0");
   assert.equal(canonicalJson([1, "x", null, true]), '[1,"x",null,true]');
-  assert.equal(canonicalJson({ a: { c: 1, b: [2, 3] } }), '{"a":{"b":[2,3],"c":1}}');
+  assert.equal(
+    canonicalJson({ a: { c: 1, b: [2, 3] } }),
+    '{"a":{"b":[2,3],"c":1}}',
+  );
 });
 
 test("canonicalJson rejects non-finite numbers", () => {

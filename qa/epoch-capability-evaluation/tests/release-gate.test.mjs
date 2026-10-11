@@ -33,7 +33,11 @@ test("blocks candidates below the required status", () => {
   const verdict = evaluateRelease(candidate, releasePolicyFixture());
   assert.equal(verdict.released, false);
   assert.equal(verdict.statusRequirementMet, false);
-  assert.ok(verdict.blockers.some((blocker) => blocker.code === "release/status-below-required"));
+  assert.ok(
+    verdict.blockers.some(
+      (blocker) => blocker.code === "release/status-below-required",
+    ),
+  );
 });
 
 test("blocks stale evidence", () => {
@@ -45,14 +49,22 @@ test("blocks stale evidence", () => {
   const verdict = evaluateRelease(candidate, releasePolicyFixture());
   assert.equal(verdict.released, false);
   assert.deepEqual(verdict.staleEvidenceDigests, [result.resultDigest]);
-  assert.ok(verdict.blockers.some((blocker) => blocker.code === "release/stale-evidence"));
+  assert.ok(
+    verdict.blockers.some(
+      (blocker) => blocker.code === "release/stale-evidence",
+    ),
+  );
 });
 
 test("blocks candidates without supporting results", () => {
   const candidate = releaseCandidateFixture({ supportingResults: [] });
   const verdict = evaluateRelease(candidate, releasePolicyFixture());
   assert.equal(verdict.released, false);
-  assert.ok(verdict.blockers.some((blocker) => blocker.code === "release/no-supporting-results"));
+  assert.ok(
+    verdict.blockers.some(
+      (blocker) => blocker.code === "release/no-supporting-results",
+    ),
+  );
 });
 
 test("blocks when a required benchmark is missing", () => {
@@ -61,9 +73,16 @@ test("blocks when a required benchmark is missing", () => {
     qualificationStatus: result.decision.to,
     supportingResults: [supportingRef(result, 180)],
   });
-  const verdict = evaluateRelease(candidate, releasePolicyFixture({ requiredBenchmarkIds: ["bench/other-fidelity"] }));
+  const verdict = evaluateRelease(
+    candidate,
+    releasePolicyFixture({ requiredBenchmarkIds: ["bench/other-fidelity"] }),
+  );
   assert.equal(verdict.released, false);
-  assert.ok(verdict.blockers.some((blocker) => blocker.code === "release/missing-required-benchmark"));
+  assert.ok(
+    verdict.blockers.some(
+      (blocker) => blocker.code === "release/missing-required-benchmark",
+    ),
+  );
 });
 
 test("blocks unqualified supporting results", () => {
@@ -71,11 +90,17 @@ test("blocks unqualified supporting results", () => {
   const ref = supportingRef(result, 180);
   const candidate = releaseCandidateFixture({
     qualificationStatus: result.decision.to,
-    supportingResults: [{ ...ref, decision: { ...ref.decision, qualifiedForRelease: false } }],
+    supportingResults: [
+      { ...ref, decision: { ...ref.decision, qualifiedForRelease: false } },
+    ],
   });
   const verdict = evaluateRelease(candidate, releasePolicyFixture());
   assert.equal(verdict.released, false);
-  assert.ok(verdict.blockers.some((blocker) => blocker.code === "release/unqualified-supporting-result"));
+  assert.ok(
+    verdict.blockers.some(
+      (blocker) => blocker.code === "release/unqualified-supporting-result",
+    ),
+  );
 });
 
 test("blocks unmitigated severe known limits but not mitigated ones", () => {
@@ -89,9 +114,16 @@ test("blocks unmitigated severe known limits but not mitigated ones", () => {
     releasePolicyFixture(),
   );
   assert.equal(unmitigated.released, false);
-  assert.ok(unmitigated.blockers.some((blocker) => blocker.code === "release/unmitigated-severe-limits"));
+  assert.ok(
+    unmitigated.blockers.some(
+      (blocker) => blocker.code === "release/unmitigated-severe-limits",
+    ),
+  );
   const mitigated = evaluateRelease(
-    releaseCandidateFixture({ ...base, knownLimits: [severeLimitFixture({ mitigation: "tracked-mitigation" })] }),
+    releaseCandidateFixture({
+      ...base,
+      knownLimits: [severeLimitFixture({ mitigation: "tracked-mitigation" })],
+    }),
     releasePolicyFixture(),
   );
   assert.equal(mitigated.released, true);

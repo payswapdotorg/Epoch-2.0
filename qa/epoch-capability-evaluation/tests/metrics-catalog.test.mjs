@@ -1,6 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { METRIC_CATALOG, knownCapabilityClasses, metricIdsForClass } from "./under-test.mjs";
+import {
+  METRIC_CATALOG,
+  knownCapabilityClasses,
+  metricIdsForClass,
+} from "./under-test.mjs";
 
 test("catalog covers all eight metric families", () => {
   const families = new Set(METRIC_CATALOG.map((metric) => metric.family));
@@ -35,13 +39,18 @@ test("no class selects every metric (no misleading universal score)", () => {
   for (const classId of knownCapabilityClasses()) {
     const ids = metricIdsForClass(classId);
     assert.ok(ids !== null);
-    assert.ok(ids.length < METRIC_CATALOG.length, `${classId} selects the whole catalog`);
+    assert.ok(
+      ids.length < METRIC_CATALOG.length,
+      `${classId} selects the whole catalog`,
+    );
   }
 });
 
 test("class selections differ between classes", () => {
   const classes = knownCapabilityClasses();
-  const signatures = new Set(classes.map((classId) => JSON.stringify(metricIdsForClass(classId))));
+  const signatures = new Set(
+    classes.map((classId) => JSON.stringify(metricIdsForClass(classId))),
+  );
   assert.equal(signatures.size, classes.length);
 });
 

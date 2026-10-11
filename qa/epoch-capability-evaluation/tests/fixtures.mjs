@@ -37,7 +37,11 @@ export function corpusFixture(overrides = {}) {
         generatorVersion: "1.0.0",
         seed: "seed-0001",
       },
-      rights: { licenseId: "CC0-1.0", permitsBenchmarkUse: true, clarity: "clear" },
+      rights: {
+        licenseId: "CC0-1.0",
+        permitsBenchmarkUse: true,
+        clarity: "clear",
+      },
       notes: "fixture corpus",
     },
     items: [
@@ -55,7 +59,11 @@ export function descriptorFixture(overrides = {}) {
     id: "bench/gltf-fidelity",
     version: 2,
     capabilityClass: CLASS,
-    corpus: { corpusId: "corpus/gltf-reference-v1", corpusVersion: 1, corpusDigest: DIGEST_D },
+    corpus: {
+      corpusId: "corpus/gltf-reference-v1",
+      corpusVersion: 1,
+      corpusDigest: DIGEST_D,
+    },
     metricSelections: [
       {
         metricId: M_PASS,
@@ -74,9 +82,18 @@ export function descriptorFixture(overrides = {}) {
       { metricId: M_LAT, weight: 0.2, qualificationThreshold: 250 },
     ],
     hardConstraints: [
-      { metricId: M_FAIL, kind: "maximum", value: 0.02, rationale: "hard ceiling on unplanned failures" },
+      {
+        metricId: M_FAIL,
+        kind: "maximum",
+        value: 0.02,
+        rationale: "hard ceiling on unplanned failures",
+      },
     ],
-    qualificationPolicy: { minQualifiedMetrics: 4, minDifferentialMetrics: 2, evidenceRequired: true },
+    qualificationPolicy: {
+      minQualifiedMetrics: 4,
+      minDifferentialMetrics: 2,
+      evidenceRequired: true,
+    },
     notes: "fixture descriptor",
     ...overrides,
   };
@@ -97,8 +114,20 @@ export function cutFixture(overrides = {}) {
       measurement(M_LAT, 210, DIGEST_E),
     ],
     evidence: [
-      { digest: DIGEST_A, source: "measurement-record", benchmarkId: "bench/gltf-fidelity", benchmarkVersion: 2, capturedAtEpoch: 100 },
-      { digest: DIGEST_B, source: "measurement-record", benchmarkId: "bench/gltf-fidelity", benchmarkVersion: 2, capturedAtEpoch: 100 },
+      {
+        digest: DIGEST_A,
+        source: "measurement-record",
+        benchmarkId: "bench/gltf-fidelity",
+        benchmarkVersion: 2,
+        capturedAtEpoch: 100,
+      },
+      {
+        digest: DIGEST_B,
+        source: "measurement-record",
+        benchmarkId: "bench/gltf-fidelity",
+        benchmarkVersion: 2,
+        capturedAtEpoch: 100,
+      },
     ],
     knownLimits: [],
     ...overrides,
@@ -173,6 +202,9 @@ export function releasePolicyFixture(overrides = {}) {
 
 export function run(descriptor, cut, reference) {
   const outcome = runBenchmark(descriptor, cut, reference);
-  assert.ok(outcome.ok, `fixture benchmark must run: ${JSON.stringify(outcome.error)}`);
+  assert.ok(
+    outcome.ok,
+    `fixture benchmark must run: ${JSON.stringify(outcome.error)}`,
+  );
   return outcome.result;
 }

@@ -4,13 +4,22 @@
 
 /** Capability qualification ladder; a capability moves UP only via benchmark evidence. */
 export type QualificationStatus =
-  | "prototype" | "named-task-qualified" | "reference-comparable" | "reference-superior";
+  | "prototype"
+  | "named-task-qualified"
+  | "reference-comparable"
+  | "reference-superior";
 
 export type TransitionDirection = "promotion" | "regression" | "hold";
 
 export type MetricFamily =
-  | "correctness" | "engineering-tolerance" | "coverage" | "reliability" | "performance"
-  | "recovery" | "ux-accessibility" | "lifecycle-cost";
+  | "correctness"
+  | "engineering-tolerance"
+  | "coverage"
+  | "reliability"
+  | "performance"
+  | "recovery"
+  | "ux-accessibility"
+  | "lifecycle-cost";
 
 /** Namespaced metric identifier, e.g. "correctness/conformance-pass-rate". */
 export type MetricId = string;
@@ -21,7 +30,9 @@ export type CapabilityClassId = string;
 export type MetricDirection = "higher-is-better" | "lower-is-better";
 
 export type MetricDescriptor = {
-  readonly id: MetricId; readonly family: MetricFamily; readonly unit: string;
+  readonly id: MetricId;
+  readonly family: MetricFamily;
+  readonly unit: string;
   readonly direction: MetricDirection;
   readonly aggregation: "mean" | "median" | "max" | "sum";
   readonly regressionTolerance: number; // absolute worsening tolerance used by detectRegression
@@ -50,8 +61,17 @@ export type HardConstraint = {
 };
 
 export type CorpusRepeatability =
-  | { readonly kind: "deterministic-seeded"; readonly generatorId: string; readonly generatorVersion: string; readonly seed: string }
-  | { readonly kind: "recorded-artifacts"; readonly recorderId: string; readonly recorderVersion: string }
+  | {
+      readonly kind: "deterministic-seeded";
+      readonly generatorId: string;
+      readonly generatorVersion: string;
+      readonly seed: string;
+    }
+  | {
+      readonly kind: "recorded-artifacts";
+      readonly recorderId: string;
+      readonly recorderVersion: string;
+    }
   | { readonly kind: "unverified" };
 
 export type CorpusRights = {
@@ -67,29 +87,44 @@ export type CorpusProvenance = {
 };
 
 export type CorpusItem = {
-  readonly id: string; readonly contentDigest: string; readonly bytes: number;
+  readonly id: string;
+  readonly contentDigest: string;
+  readonly bytes: number;
 };
 
 export type BenchmarkCorpus = {
-  readonly kind: "benchmark-corpus"; readonly id: string; readonly version: number;
+  readonly kind: "benchmark-corpus";
+  readonly id: string;
+  readonly version: number;
   readonly capabilityClass: CapabilityClassId;
   readonly provenance: CorpusProvenance;
   readonly items: readonly CorpusItem[];
 };
 
 export type CorpusRejectionCode =
-  | "corpus/invalid-identity" | "corpus/unknown-capability-class" | "corpus/rights-unclear"
-  | "corpus/rights-declined" | "corpus/non-repeatable" | "corpus/empty" | "corpus/invalid-artifact"
-  | "corpus/bad-digest" | "corpus/duplicate-artifact";
+  | "corpus/invalid-identity"
+  | "corpus/unknown-capability-class"
+  | "corpus/rights-unclear"
+  | "corpus/rights-declined"
+  | "corpus/non-repeatable"
+  | "corpus/empty"
+  | "corpus/invalid-artifact"
+  | "corpus/bad-digest"
+  | "corpus/duplicate-artifact";
 
-export type CorpusRejection = { readonly code: CorpusRejectionCode; readonly detail: string };
+export type CorpusRejection = {
+  readonly code: CorpusRejectionCode;
+  readonly detail: string;
+};
 
 export type CorpusValidation =
   | { readonly ok: true; readonly corpusDigest: string }
   | { readonly ok: false; readonly rejection: CorpusRejection };
 
 export type CorpusRef = {
-  readonly corpusId: string; readonly corpusVersion: number; readonly corpusDigest: string;
+  readonly corpusId: string;
+  readonly corpusVersion: number;
+  readonly corpusDigest: string;
 };
 
 export type BenchmarkQualificationPolicy = {
@@ -99,7 +134,9 @@ export type BenchmarkQualificationPolicy = {
 };
 
 export type BenchmarkDescriptor = {
-  readonly kind: "benchmark-descriptor"; readonly id: string; readonly version: number;
+  readonly kind: "benchmark-descriptor";
+  readonly id: string;
+  readonly version: number;
   readonly capabilityClass: CapabilityClassId;
   readonly corpus: CorpusRef;
   readonly metricSelections: readonly MetricSelection[];
@@ -109,13 +146,24 @@ export type BenchmarkDescriptor = {
 };
 
 export type DescriptorRejectionCode =
-  | "descriptor/invalid-identity" | "descriptor/unknown-capability-class" | "descriptor/corpus-ref-malformed"
-  | "descriptor/no-metrics" | "descriptor/metric-not-selected-for-class" | "descriptor/duplicate-metric"
-  | "descriptor/invalid-weight" | "descriptor/invalid-threshold" | "descriptor/invalid-differential-band"
-  | "descriptor/hard-constraint-unknown-metric" | "descriptor/duplicate-hard-constraint"
-  | "descriptor/invalid-hard-constraint" | "descriptor/invalid-qualification-policy";
+  | "descriptor/invalid-identity"
+  | "descriptor/unknown-capability-class"
+  | "descriptor/corpus-ref-malformed"
+  | "descriptor/no-metrics"
+  | "descriptor/metric-not-selected-for-class"
+  | "descriptor/duplicate-metric"
+  | "descriptor/invalid-weight"
+  | "descriptor/invalid-threshold"
+  | "descriptor/invalid-differential-band"
+  | "descriptor/hard-constraint-unknown-metric"
+  | "descriptor/duplicate-hard-constraint"
+  | "descriptor/invalid-hard-constraint"
+  | "descriptor/invalid-qualification-policy";
 
-export type DescriptorRejection = { readonly code: DescriptorRejectionCode; readonly detail: string };
+export type DescriptorRejection = {
+  readonly code: DescriptorRejectionCode;
+  readonly detail: string;
+};
 
 export type DescriptorValidation =
   | { readonly ok: true; readonly descriptorDigest: string }
@@ -147,10 +195,14 @@ export type KnownLimit = {
   readonly evidenceDigest?: string;
 };
 
-export type KnownLimitRejection = { readonly code: "limit/invalid"; readonly detail: string };
+export type KnownLimitRejection = {
+  readonly code: "limit/invalid";
+  readonly detail: string;
+};
 
 export type CapabilityUnderTest = {
-  readonly kind: "capability-under-test"; readonly capabilityId: string;
+  readonly kind: "capability-under-test";
+  readonly capabilityId: string;
   readonly capabilityClass: CapabilityClassId;
   readonly version: string;
   readonly currentStatus: QualificationStatus;
@@ -160,8 +212,11 @@ export type CapabilityUnderTest = {
 };
 
 export type ReferenceRun = {
-  readonly kind: "reference-run"; readonly referenceId: string; readonly referenceVersion: string;
-  readonly benchmarkId: string; readonly benchmarkVersion: number;
+  readonly kind: "reference-run";
+  readonly referenceId: string;
+  readonly referenceVersion: string;
+  readonly benchmarkId: string;
+  readonly benchmarkVersion: number;
   readonly measurements: readonly MetricMeasurement[];
   readonly recordedAtEpoch: number;
 };
@@ -194,26 +249,42 @@ export type QualificationDecision = {
 };
 
 export type BenchmarkResult = {
-  readonly kind: "benchmark-result"; readonly benchmarkId: string; readonly benchmarkVersion: number;
+  readonly kind: "benchmark-result";
+  readonly benchmarkId: string;
+  readonly benchmarkVersion: number;
   readonly descriptorDigest: string;
   readonly corpusDigest: string;
   readonly capabilityDigest: string;
   readonly referenceDigest: string;
   readonly metricOutcomes: readonly MetricOutcome[];
-  readonly outcomeCounts: { readonly passed: number; readonly failed: number; readonly notEvaluated: number };
+  readonly outcomeCounts: {
+    readonly passed: number;
+    readonly failed: number;
+    readonly notEvaluated: number;
+  };
   readonly decision: QualificationDecision;
   readonly knownLimits: readonly KnownLimit[];
   readonly resultDigest: string;
 };
 
 export type HarnessErrorCode =
-  | "harness/descriptor-invalid" | "harness/class-mismatch" | "harness/invalid-capability-declaration"
-  | "harness/invalid-reference-run" | "harness/reference-benchmark-mismatch"
-  | "harness/measurement-metric-not-selected" | "harness/duplicate-measurement"
-  | "harness/invalid-measurement" | "harness/invalid-evidence" | "harness/invalid-known-limit"
-  | "harness/missing-measurement" | "harness/missing-reference-measurement";
+  | "harness/descriptor-invalid"
+  | "harness/class-mismatch"
+  | "harness/invalid-capability-declaration"
+  | "harness/invalid-reference-run"
+  | "harness/reference-benchmark-mismatch"
+  | "harness/measurement-metric-not-selected"
+  | "harness/duplicate-measurement"
+  | "harness/invalid-measurement"
+  | "harness/invalid-evidence"
+  | "harness/invalid-known-limit"
+  | "harness/missing-measurement"
+  | "harness/missing-reference-measurement";
 
-export type HarnessError = { readonly code: HarnessErrorCode; readonly detail: string };
+export type HarnessError = {
+  readonly code: HarnessErrorCode;
+  readonly detail: string;
+};
 
 export type HarnessOutcome =
   | { readonly ok: true; readonly result: BenchmarkResult }
@@ -240,14 +311,17 @@ export type RegressionReport = {
 };
 
 export type SupportingResultRef = {
-  readonly resultDigest: string; readonly benchmarkId: string; readonly benchmarkVersion: number;
+  readonly resultDigest: string;
+  readonly benchmarkId: string;
+  readonly benchmarkVersion: number;
   readonly descriptorDigest: string;
   readonly capturedAtEpoch: number;
   readonly decision: QualificationDecision;
 };
 
 export type ReleaseCandidate = {
-  readonly kind: "release-candidate"; readonly capabilityId: string;
+  readonly kind: "release-candidate";
+  readonly capabilityId: string;
   readonly capabilityClass: CapabilityClassId;
   readonly version: string;
   readonly qualificationStatus: QualificationStatus;
@@ -264,11 +338,17 @@ export type ReleasePolicy = {
 };
 
 export type ReleaseBlockerCode =
-  | "release/status-below-required" | "release/no-supporting-results" | "release/stale-evidence"
-  | "release/missing-required-benchmark" | "release/unqualified-supporting-result"
+  | "release/status-below-required"
+  | "release/no-supporting-results"
+  | "release/stale-evidence"
+  | "release/missing-required-benchmark"
+  | "release/unqualified-supporting-result"
   | "release/unmitigated-severe-limits";
 
-export type ReleaseBlocker = { readonly code: ReleaseBlockerCode; readonly detail: string };
+export type ReleaseBlocker = {
+  readonly code: ReleaseBlockerCode;
+  readonly detail: string;
+};
 
 export type ReleaseVerdict = {
   readonly kind: "release-verdict";
@@ -279,8 +359,15 @@ export type ReleaseVerdict = {
   readonly rationale: readonly string[];
 };
 
-export type DiscoveryAdapterErrorCode = "adapter/insufficient-declaration" | "adapter/unknown-capability-class";
+export type DiscoveryAdapterErrorCode =
+  "adapter/insufficient-declaration" | "adapter/unknown-capability-class";
 
 export type DiscoveryAdapterOutcome =
   | { readonly ok: true; readonly capability: CapabilityUnderTest }
-  | { readonly ok: false; readonly error: { readonly code: DiscoveryAdapterErrorCode; readonly detail: string } };
+  | {
+      readonly ok: false;
+      readonly error: {
+        readonly code: DiscoveryAdapterErrorCode;
+        readonly detail: string;
+      };
+    };

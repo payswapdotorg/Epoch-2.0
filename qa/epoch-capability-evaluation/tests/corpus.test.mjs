@@ -22,7 +22,11 @@ test("accepts a rights-clear, repeatably-seeded corpus and returns its digest", 
 
 test("rejects unclear rights (clarity: unclear)", () => {
   const validation = validateCorpus(
-    corpusWithRights({ licenseId: "CC0-1.0", permitsBenchmarkUse: true, clarity: "unclear" }),
+    corpusWithRights({
+      licenseId: "CC0-1.0",
+      permitsBenchmarkUse: true,
+      clarity: "unclear",
+    }),
   );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/rights-unclear");
@@ -30,7 +34,11 @@ test("rejects unclear rights (clarity: unclear)", () => {
 
 test("rejects unclear rights (empty license id)", () => {
   const validation = validateCorpus(
-    corpusWithRights({ licenseId: "  ", permitsBenchmarkUse: true, clarity: "clear" }),
+    corpusWithRights({
+      licenseId: "  ",
+      permitsBenchmarkUse: true,
+      clarity: "clear",
+    }),
   );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/rights-unclear");
@@ -38,21 +46,32 @@ test("rejects unclear rights (empty license id)", () => {
 
 test("rejects rights that decline benchmark use", () => {
   const validation = validateCorpus(
-    corpusWithRights({ licenseId: "Proprietary-1.0", permitsBenchmarkUse: false, clarity: "clear" }),
+    corpusWithRights({
+      licenseId: "Proprietary-1.0",
+      permitsBenchmarkUse: false,
+      clarity: "clear",
+    }),
   );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/rights-declined");
 });
 
 test("rejects unverified repeatability provenance", () => {
-  const validation = validateCorpus(corpusWithRepeatability({ kind: "unverified" }));
+  const validation = validateCorpus(
+    corpusWithRepeatability({ kind: "unverified" }),
+  );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/non-repeatable");
 });
 
 test("rejects deterministic-seeded provenance without a seed", () => {
   const validation = validateCorpus(
-    corpusWithRepeatability({ kind: "deterministic-seeded", generatorId: "g", generatorVersion: "1", seed: "" }),
+    corpusWithRepeatability({
+      kind: "deterministic-seeded",
+      generatorId: "g",
+      generatorVersion: "1",
+      seed: "",
+    }),
   );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/non-repeatable");
@@ -64,7 +83,11 @@ test("rejects recorded-artifacts provenance with zero items", () => {
     corpusFixture({
       provenance: {
         ...base.provenance,
-        repeatability: { kind: "recorded-artifacts", recorderId: "r", recorderVersion: "1" },
+        repeatability: {
+          kind: "recorded-artifacts",
+          recorderId: "r",
+          recorderVersion: "1",
+        },
       },
       items: [],
     }),
@@ -80,7 +103,11 @@ test("rejects corpora with no items", () => {
 });
 
 test("rejects malformed item digests", () => {
-  const validation = validateCorpus(corpusFixture({ items: [{ id: "item-0001", contentDigest: NOT_A_DIGEST, bytes: 10 }] }));
+  const validation = validateCorpus(
+    corpusFixture({
+      items: [{ id: "item-0001", contentDigest: NOT_A_DIGEST, bytes: 10 }],
+    }),
+  );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/bad-digest");
 });
@@ -107,7 +134,9 @@ test("rejects malformed corpus identity", () => {
 });
 
 test("rejects corpora for capability classes outside the registry", () => {
-  const validation = validateCorpus(corpusFixture({ capabilityClass: "warp-drive" }));
+  const validation = validateCorpus(
+    corpusFixture({ capabilityClass: "warp-drive" }),
+  );
   assert.equal(validation.ok, false);
   assert.equal(validation.rejection.code, "corpus/unknown-capability-class");
 });

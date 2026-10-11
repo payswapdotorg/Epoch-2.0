@@ -55,7 +55,9 @@ function serializeObject(value: object): string {
   if (keys.length === 0) {
     return "{}";
   }
-  const entries = keys.map((key) => `${JSON.stringify(key)}:${serialize(record[key])}`);
+  const entries = keys.map(
+    (key) => `${JSON.stringify(key)}:${serialize(record[key])}`,
+  );
   return `{${entries.join(",")}}`;
 }
 
@@ -71,5 +73,9 @@ export function digestOf(value: unknown): string {
 
 /** Structural check for lowercase hex SHA-256 digests. */
 export function isSha256Digest(value: string): boolean {
-  return typeof value === "string" && DIGEST_PATTERN.test(value) && value.length === DIGEST_HEX_LENGTH;
+  return (
+    typeof value === "string" &&
+    DIGEST_PATTERN.test(value) &&
+    value.length === DIGEST_HEX_LENGTH
+  );
 }

@@ -3,7 +3,10 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { MODULE_MANIFEST } from "./under-test.mjs";
 
-const SRC_URL = new URL("../../../packages/epoch-capability-evaluation/src/", import.meta.url);
+const SRC_URL = new URL(
+  "../../../packages/epoch-capability-evaluation/src/",
+  import.meta.url,
+);
 
 function sourceFiles() {
   return readdirSync(SRC_URL).filter((name) => name.endsWith(".ts"));
@@ -37,7 +40,9 @@ test('hashing goes through node:crypto createHash("sha256") only', () => {
   assert.ok(digestSource.includes('from "node:crypto"'));
   for (const name of sourceFiles()) {
     const source = readSource(name);
-    const algorithms = [...source.matchAll(/createHash\(\s*["']([^"']+)["']/g)].map((match) => match[1]);
+    const algorithms = [
+      ...source.matchAll(/createHash\(\s*["']([^"']+)["']/g),
+    ].map((match) => match[1]);
     for (const algorithm of algorithms) {
       assert.equal(algorithm, "sha256");
     }
@@ -45,7 +50,10 @@ test('hashing goes through node:crypto createHash("sha256") only', () => {
 });
 
 test("module manifest declares the contract home and the package laws", () => {
-  assert.equal(MODULE_MANIFEST.moduleName, "@zcode/epoch-capability-evaluation");
+  assert.equal(
+    MODULE_MANIFEST.moduleName,
+    "@zcode/epoch-capability-evaluation",
+  );
   assert.equal(MODULE_MANIFEST.workOrder, "W030");
   assert.equal(MODULE_MANIFEST.contractHome, "./src/contract.ts");
   assert.equal(MODULE_MANIFEST.authority.execution, "none");
@@ -61,12 +69,19 @@ test("module manifest declares the contract home and the package laws", () => {
 
 test("source imports stay within node builtins, relative files and the frozen discovery spine", () => {
   const allowed = (specifier) =>
-    specifier.startsWith("./") || specifier === "node:crypto" || specifier === "@zcode/epoch-capability-discovery";
+    specifier.startsWith("./") ||
+    specifier === "node:crypto" ||
+    specifier === "@zcode/epoch-capability-discovery";
   for (const name of sourceFiles()) {
     const source = readSource(name);
-    const specifiers = [...source.matchAll(/from\s+["']([^"']+)["']/g)].map((match) => match[1]);
+    const specifiers = [...source.matchAll(/from\s+["']([^"']+)["']/g)].map(
+      (match) => match[1],
+    );
     for (const specifier of specifiers) {
-      assert.ok(allowed(specifier), `${name} imports disallowed specifier ${specifier}`);
+      assert.ok(
+        allowed(specifier),
+        `${name} imports disallowed specifier ${specifier}`,
+      );
     }
   }
 });

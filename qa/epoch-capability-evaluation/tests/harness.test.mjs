@@ -27,8 +27,18 @@ test("promotes a passing prototype to named-task-qualified", () => {
   assert.equal(result.decision.to, "named-task-qualified");
   assert.equal(result.decision.direction, "promotion");
   assert.equal(result.decision.qualifiedForRelease, true);
-  assert.deepEqual(result.outcomeCounts, { passed: 5, failed: 0, notEvaluated: 0 });
-  assert.deepEqual(result.decision.evidenceRefs, [DIGEST_A, DIGEST_B, DIGEST_C, DIGEST_D, DIGEST_E]);
+  assert.deepEqual(result.outcomeCounts, {
+    passed: 5,
+    failed: 0,
+    notEvaluated: 0,
+  });
+  assert.deepEqual(result.decision.evidenceRefs, [
+    DIGEST_A,
+    DIGEST_B,
+    DIGEST_C,
+    DIGEST_D,
+    DIGEST_E,
+  ]);
 });
 
 test("clamps promotion to one rung even when every differential is superior", () => {
@@ -54,11 +64,17 @@ test("clamps promotion to one rung even when every differential is superior", ()
   assert.equal(result.decision.to, "named-task-qualified");
   assert.equal(result.decision.direction, "promotion");
   for (const outcome of result.metricOutcomes) {
-    if (outcome.differential !== null && outcome.metricId !== M_PASS && outcome.metricId !== M_AGREE) {
+    if (
+      outcome.differential !== null &&
+      outcome.metricId !== M_PASS &&
+      outcome.metricId !== M_AGREE
+    ) {
       assert.fail("unexpected differential metric");
     }
   }
-  const pass = result.metricOutcomes.find((outcome) => outcome.metricId === M_PASS);
+  const pass = result.metricOutcomes.find(
+    (outcome) => outcome.metricId === M_PASS,
+  );
   assert.equal(pass.differential, "superior");
 });
 
@@ -109,7 +125,11 @@ test("missing measurement evidence holds promotion when evidence is required", (
     ],
   });
   const result = run(descriptorFixture(), cut, referenceFixture());
-  assert.deepEqual(result.outcomeCounts, { passed: 5, failed: 0, notEvaluated: 0 });
+  assert.deepEqual(result.outcomeCounts, {
+    passed: 5,
+    failed: 0,
+    notEvaluated: 0,
+  });
   assert.equal(result.decision.direction, "hold");
   assert.equal(result.decision.to, "prototype");
   assert.equal(result.decision.qualifiedForRelease, false);
@@ -177,13 +197,21 @@ test("inferior differentials demote one rung even when all thresholds pass", () 
 });
 
 test("rejects a reference run for a different benchmark", () => {
-  const outcome = runBenchmark(descriptorFixture(), cutFixture(), referenceFixture({ benchmarkVersion: 3 }));
+  const outcome = runBenchmark(
+    descriptorFixture(),
+    cutFixture(),
+    referenceFixture({ benchmarkVersion: 3 }),
+  );
   assert.equal(outcome.ok, false);
   assert.equal(outcome.error.code, "harness/reference-benchmark-mismatch");
 });
 
 test("rejects a capability from a different capability class", () => {
-  const outcome = runBenchmark(descriptorFixture(), cutFixture({ capabilityClass: "rendering" }), referenceFixture());
+  const outcome = runBenchmark(
+    descriptorFixture(),
+    cutFixture({ capabilityClass: "rendering" }),
+    referenceFixture(),
+  );
   assert.equal(outcome.ok, false);
   assert.equal(outcome.error.code, "harness/class-mismatch");
 });
@@ -202,7 +230,13 @@ test("rejects differential metrics without reference measurements", () => {
   const descriptor = descriptorFixture({
     metricSelections: base.metricSelections.map((selection) =>
       selection.metricId === M_COVER
-        ? { ...selection, differential: { comparableTolerance: 0.01, superiorityMargin: 0.03 } }
+        ? {
+            ...selection,
+            differential: {
+              comparableTolerance: 0.01,
+              superiorityMargin: 0.03,
+            },
+          }
         : selection,
     ),
   });
@@ -220,7 +254,10 @@ test("rejects differential metrics without reference measurements", () => {
 });
 
 test("carries known limits into the benchmark result", () => {
-  const limit = severeLimitFixture({ severity: "minor", mitigation: "tracked-mitigation" });
+  const limit = severeLimitFixture({
+    severity: "minor",
+    mitigation: "tracked-mitigation",
+  });
   const cut = cutFixture({ knownLimits: [limit] });
   const result = run(descriptorFixture(), cut, referenceFixture());
   assert.deepEqual(result.knownLimits, [limit]);
@@ -229,7 +266,14 @@ test("carries known limits into the benchmark result", () => {
 test("rejects invalid known limits with a typed error", () => {
   const cut = cutFixture({
     knownLimits: [
-      { id: "limit/bad", scope: "scope", affectedMetrics: ["nope/nonsense"], severity: "minor", mitigation: "none", acknowledgedAtEpoch: 1 },
+      {
+        id: "limit/bad",
+        scope: "scope",
+        affectedMetrics: ["nope/nonsense"],
+        severity: "minor",
+        mitigation: "none",
+        acknowledgedAtEpoch: 1,
+      },
     ],
   });
   const outcome = runBenchmark(descriptorFixture(), cut, referenceFixture());
@@ -240,6 +284,9 @@ test("rejects invalid known limits with a typed error", () => {
 test("verifies sealed result digests and detects tampering", () => {
   const result = run(descriptorFixture(), cutFixture(), referenceFixture());
   assert.equal(verifyResultDigest(result), true);
-  const tampered = { ...result, outcomeCounts: { ...result.outcomeCounts, passed: 99 } };
+  const tampered = {
+    ...result,
+    outcomeCounts: { ...result.outcomeCounts, passed: 99 },
+  };
   assert.equal(verifyResultDigest(tampered), false);
 });

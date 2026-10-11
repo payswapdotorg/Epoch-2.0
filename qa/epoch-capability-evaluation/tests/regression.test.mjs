@@ -45,7 +45,9 @@ test("metric worsening beyond tolerance is reported as regression", () => {
   );
   const report = detectRegression(previous, worsened);
   assert.equal(report.regressionDetected, true);
-  const latency = report.metricRegressions.find((regression) => regression.metricId === M_LAT);
+  const latency = report.metricRegressions.find(
+    (regression) => regression.metricId === M_LAT,
+  );
   assert.ok(latency);
   assert.equal(latency.exceededTolerance, true);
   assert.equal(latency.improvement, -20);
@@ -70,7 +72,9 @@ test("metric worsening within tolerance is not a regression", () => {
   );
   const report = detectRegression(previous, current);
   assert.equal(report.regressionDetected, false);
-  const latency = report.metricRegressions.find((regression) => regression.metricId === M_LAT);
+  const latency = report.metricRegressions.find(
+    (regression) => regression.metricId === M_LAT,
+  );
   assert.ok(latency);
   assert.equal(latency.exceededTolerance, false);
 });
@@ -98,7 +102,11 @@ test("new hard-constraint violations are regressions", () => {
 
 test("status drops are regressions", () => {
   const descriptor = descriptorFixture();
-  const previous = run(descriptor, cutFixture({ currentStatus: "reference-comparable" }), referenceFixture());
+  const previous = run(
+    descriptor,
+    cutFixture({ currentStatus: "reference-comparable" }),
+    referenceFixture(),
+  );
   const current = run(
     descriptor,
     cutFixture({
@@ -144,9 +152,15 @@ test("drift is detected when the same capability declaration yields a different 
 test("metric comparison is skipped across different benchmarks", () => {
   const cut = cutFixture();
   const first = run(descriptorFixture(), cut, referenceFixture());
-  const second = run(descriptorFixture({ version: 3 }), cut, referenceFixture({ benchmarkVersion: 3 }));
+  const second = run(
+    descriptorFixture({ version: 3 }),
+    cut,
+    referenceFixture({ benchmarkVersion: 3 }),
+  );
   const report = detectRegression(first, second);
   assert.equal(report.sameBenchmark, false);
   assert.deepEqual(report.metricRegressions, []);
-  assert.ok(report.rationale.some((line) => line.startsWith("benchmark-changed:")));
+  assert.ok(
+    report.rationale.some((line) => line.startsWith("benchmark-changed:")),
+  );
 });

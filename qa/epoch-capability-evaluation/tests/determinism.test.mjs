@@ -1,6 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { evaluateRelease, validateBenchmarkDescriptor, validateCorpus } from "./under-test.mjs";
+import {
+  evaluateRelease,
+  validateBenchmarkDescriptor,
+  validateCorpus,
+} from "./under-test.mjs";
 import {
   corpusFixture,
   cutFixture,
@@ -40,7 +44,11 @@ test("runBenchmark digests are independent of object key insertion order", () =>
   const cut = cutFixture();
   const reference = referenceFixture();
   const first = run(descriptor, cut, reference);
-  const second = run(reverseKeyOrder(descriptor), reverseKeyOrder(cut), reverseKeyOrder(reference));
+  const second = run(
+    reverseKeyOrder(descriptor),
+    reverseKeyOrder(cut),
+    reverseKeyOrder(reference),
+  );
   assert.equal(second.capabilityDigest, first.capabilityDigest);
   assert.equal(second.referenceDigest, first.referenceDigest);
   assert.equal(second.resultDigest, first.resultDigest);

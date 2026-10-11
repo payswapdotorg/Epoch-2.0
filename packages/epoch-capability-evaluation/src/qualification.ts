@@ -3,12 +3,13 @@
 
 import type { QualificationStatus, TransitionDirection } from "./contract.js";
 
-export const QUALIFICATION_STATUSES: readonly QualificationStatus[] = Object.freeze([
-  "prototype",
-  "named-task-qualified",
-  "reference-comparable",
-  "reference-superior",
-]);
+export const QUALIFICATION_STATUSES: readonly QualificationStatus[] =
+  Object.freeze([
+    "prototype",
+    "named-task-qualified",
+    "reference-comparable",
+    "reference-superior",
+  ]);
 
 const RANK: Readonly<Record<QualificationStatus, number>> = Object.freeze({
   prototype: 0,
@@ -17,23 +18,28 @@ const RANK: Readonly<Record<QualificationStatus, number>> = Object.freeze({
   "reference-superior": 3,
 });
 
-const transitions: Record<QualificationStatus, readonly QualificationStatus[]> = {
-  prototype: ["named-task-qualified"],
-  "named-task-qualified": ["reference-comparable", "prototype"],
-  "reference-comparable": ["reference-superior", "named-task-qualified"],
-  "reference-superior": ["reference-comparable"],
-};
+const transitions: Record<QualificationStatus, readonly QualificationStatus[]> =
+  {
+    prototype: ["named-task-qualified"],
+    "named-task-qualified": ["reference-comparable", "prototype"],
+    "reference-comparable": ["reference-superior", "named-task-qualified"],
+    "reference-superior": ["reference-comparable"],
+  };
 
 /** Adjacent-rung transition table; jumps of more than one rung are illegal. */
-export const QUALIFICATION_TRANSITIONS: Readonly<Record<QualificationStatus, readonly QualificationStatus[]>> =
-  Object.freeze(transitions);
+export const QUALIFICATION_TRANSITIONS: Readonly<
+  Record<QualificationStatus, readonly QualificationStatus[]>
+> = Object.freeze(transitions);
 
 export function rankOf(status: QualificationStatus): number {
   return RANK[status];
 }
 
 /** Direction of a legal transition, or null for illegal transitions (e.g. two-rung jumps). */
-export function transitionDirection(from: QualificationStatus, to: QualificationStatus): TransitionDirection | null {
+export function transitionDirection(
+  from: QualificationStatus,
+  to: QualificationStatus,
+): TransitionDirection | null {
   if (!QUALIFICATION_TRANSITIONS[from].includes(to)) {
     return null;
   }
@@ -57,6 +63,9 @@ export function isQualifiedStatus(status: QualificationStatus): boolean {
   return RANK[status] >= 1;
 }
 
-export function statusSatisfies(status: QualificationStatus, required: QualificationStatus): boolean {
+export function statusSatisfies(
+  status: QualificationStatus,
+  required: QualificationStatus,
+): boolean {
   return RANK[status] >= RANK[required];
 }

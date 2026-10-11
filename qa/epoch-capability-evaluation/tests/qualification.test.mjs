@@ -26,10 +26,22 @@ test("QUALIFICATION_TRANSITIONS allows exactly one-rung moves", () => {
 });
 
 test("transitionDirection labels promotions and regressions", () => {
-  assert.equal(transitionDirection("prototype", "named-task-qualified"), "promotion");
-  assert.equal(transitionDirection("named-task-qualified", "prototype"), "regression");
-  assert.equal(transitionDirection("reference-comparable", "reference-superior"), "promotion");
-  assert.equal(transitionDirection("reference-superior", "reference-comparable"), "regression");
+  assert.equal(
+    transitionDirection("prototype", "named-task-qualified"),
+    "promotion",
+  );
+  assert.equal(
+    transitionDirection("named-task-qualified", "prototype"),
+    "regression",
+  );
+  assert.equal(
+    transitionDirection("reference-comparable", "reference-superior"),
+    "promotion",
+  );
+  assert.equal(
+    transitionDirection("reference-superior", "reference-comparable"),
+    "regression",
+  );
 });
 
 test("transitionDirection rejects multi-rung jumps and self-transitions", () => {
@@ -53,7 +65,13 @@ test("isQualifiedStatus is false only for prototype", () => {
 });
 
 test("statusSatisfies compares by rank", () => {
-  assert.equal(statusSatisfies("reference-superior", "named-task-qualified"), true);
-  assert.equal(statusSatisfies("named-task-qualified", "named-task-qualified"), true);
+  assert.equal(
+    statusSatisfies("reference-superior", "named-task-qualified"),
+    true,
+  );
+  assert.equal(
+    statusSatisfies("named-task-qualified", "named-task-qualified"),
+    true,
+  );
   assert.equal(statusSatisfies("prototype", "named-task-qualified"), false);
 });
