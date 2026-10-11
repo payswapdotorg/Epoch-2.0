@@ -1,19 +1,38 @@
 // Benchmark descriptor validation (descriptors are data, not behavior).
+// The descriptor rejection vocabulary lives here, beside its validator, and is
+// re-exported by src/index.ts.
 
-import type {
-  BenchmarkDescriptor,
-  DescriptorRejectionCode,
-  DescriptorValidation,
-} from "./contract.js";
+import type { BenchmarkDescriptor } from "./contract.js";
 import { digestOf, isSha256Digest } from "./digest.js";
 import { lookupMetricDescriptor, metricIdsForClass } from "./catalog.js";
 
+export type DescriptorRejectionCode =
+  | "descriptor/invalid-identity"
+  | "descriptor/unknown-capability-class"
+  | "descriptor/corpus-ref-malformed"
+  | "descriptor/no-metrics"
+  | "descriptor/metric-not-selected-for-class"
+  | "descriptor/duplicate-metric"
+  | "descriptor/invalid-weight"
+  | "descriptor/invalid-threshold"
+  | "descriptor/invalid-differential-band"
+  | "descriptor/hard-constraint-unknown-metric"
+  | "descriptor/duplicate-hard-constraint"
+  | "descriptor/invalid-hard-constraint"
+  | "descriptor/invalid-qualification-policy";
+
+export type DescriptorRejection = {
+  readonly code: DescriptorRejectionCode;
+  readonly detail: string;
+};
+
+export type DescriptorValidation =
+  | { readonly ok: true; readonly descriptorDigest: string }
+  | { readonly ok: false; readonly rejection: DescriptorRejection };
+
 const RATIO_UNIT = "ratio";
 
-function reject(
-  code: DescriptorRejectionCode,
-  detail: string,
-): DescriptorValidation {
+function reject(code: DescriptorRejectionCode, detail: string): DescriptorValidation {
   return { ok: false, rejection: { code, detail } };
 }
 
@@ -21,19 +40,14 @@ function inRatioRange(value: number): boolean {
   return value >= 0 && value <= 1;
 }
 
-export function validateBenchmarkDescriptor(
-  descriptor: BenchmarkDescriptor,
-): DescriptorValidation {
+export function validateBenchmarkDescriptor(descriptor: BenchmarkDescriptor): DescriptorValidation {
   if (
     typeof descriptor.id !== "string" ||
     descriptor.id.trim() === "" ||
     !Number.isInteger(descriptor.version) ||
     descriptor.version < 1
   ) {
-    return reject(
-      "descriptor/invalid-identity",
-      "descriptor id must be non-empty and version a positive integer",
-    );
+    return reject("descriptor/invalid-identity", "descriptor id must be non-empty and version a positive integer");
   }
   const classMetricIds = metricIdsForClass(descriptor.capabilityClass);
   if (classMetricIds === null) {
@@ -70,32 +84,15 @@ export function validateBenchmarkDescriptor(
       );
     }
     if (selectedIds.has(selection.metricId)) {
-      return reject(
-        "descriptor/duplicate-metric",
-        `metric ${selection.metricId} is selected more than once`,
-      );
+      return reject("descriptor/duplicate-metric", `metric ${selection.metricId} is selected more than once`);
     }
     selectedIds.add(selection.metricId);
-    if (
-      !Number.isFinite(selection.weight) ||
-      selection.weight <= 0 ||
-      selection.weight > 1
-    ) {
-      return reject(
-        "descriptor/invalid-weight",
-        `weight for ${selection.metricId} must be in (0,1]`,
-      );
+    if (!Number.isFinite(selection.weight) || selection.weight <= 0 || selection.weight > 1) {
+      return reject("descriptor/invalid-weight", `weight for ${selection.metricId} must be in (0,1]`);
     }
     const threshold = selection.qualificationThreshold;
-    if (
-      threshold !== undefined &&
-      (!Number.isFinite(threshold) ||
-        (metric.unit === RATIO_UNIT && !inRatioRange(threshold)))
-    ) {
-      return reject(
-        "descriptor/invalid-threshold",
-        `threshold for ${selection.metricId} is non-finite or out of unit range`,
-      );
+    if (threshold !== undefined && (!Number.isFinite(threshold) || (metric.unit === RATIO_UNIT && !inRatioRange(threshold)))) {
+      return reject("descriptor/invalid-threshold", `threshold for ${selection.metricId} is non-finite or out of unit range`);
     }
     const differential = selection.differential;
     if (differential !== undefined) {
@@ -122,10 +119,7 @@ export function validateBenchmarkDescriptor(
       );
     }
     if (constrainedIds.has(constraint.metricId)) {
-      return reject(
-        "descriptor/duplicate-hard-constraint",
-        `duplicate hard constraint for ${constraint.metricId}`,
-      );
+      return reject("descriptor/duplicate-hard-constraint", `duplicate hard constraint for ${constraint.metricId}`);
     }
     constrainedIds.add(constraint.metricId);
     const metric = lookupMetricDescriptor(constraint.metricId);

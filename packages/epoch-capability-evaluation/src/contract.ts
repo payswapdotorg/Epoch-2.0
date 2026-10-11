@@ -1,5 +1,8 @@
 // @zcode/epoch-capability-evaluation — contract home (W030).
-// Law: every public type of this package is declared in this file and only here.
+// Law: the SHARED type vocabulary is declared here and only here; per-domain
+// result/error vocabularies live beside their validators in the domain modules
+// (corpus/descriptor/limits/harness-measure/regression/release/discovery-adapter)
+// and are re-exported by src/index.ts, so the public surface is unchanged.
 // The lab has no execution authority: it is read-only over declarations.
 
 /** Capability qualification ladder; a capability moves UP only via benchmark evidence. */
@@ -35,21 +38,27 @@ export type MetricDescriptor = {
   readonly unit: string;
   readonly direction: MetricDirection;
   readonly aggregation: "mean" | "median" | "max" | "sum";
-  readonly regressionTolerance: number; // absolute worsening tolerance used by detectRegression
+  /** Absolute worsening tolerance used by detectRegression. */
+  readonly regressionTolerance: number;
   readonly description: string;
 };
 
 /** Differential comparison band against the reference run. */
 export type DifferentialBand = {
-  readonly comparableTolerance: number; // worsening within this magnitude still counts as comparable
-  readonly superiorityMargin: number; // improvement at or beyond this margin counts as superior
+  /** Worsening within this magnitude still counts as comparable. */
+  readonly comparableTolerance: number;
+  /** Improvement at or beyond this margin counts as superior. */
+  readonly superiorityMargin: number;
 };
 
 export type MetricSelection = {
   readonly metricId: MetricId;
-  readonly weight: number; // reporting weight in (0,1]; never tradeable against hard constraints
-  readonly qualificationThreshold?: number; // absolute, direction-aware
-  readonly differential?: DifferentialBand; // present => compared differentially to the reference run
+  /** Reporting weight in (0,1]; never tradeable against hard constraints. */
+  readonly weight: number;
+  /** Absolute, direction-aware. */
+  readonly qualificationThreshold?: number;
+  /** Present => compared differentially to the reference run. */
+  readonly differential?: DifferentialBand;
 };
 
 /** Non-tradeable constraint; violation can never qualify, regardless of other scores. */
@@ -101,26 +110,6 @@ export type BenchmarkCorpus = {
   readonly items: readonly CorpusItem[];
 };
 
-export type CorpusRejectionCode =
-  | "corpus/invalid-identity"
-  | "corpus/unknown-capability-class"
-  | "corpus/rights-unclear"
-  | "corpus/rights-declined"
-  | "corpus/non-repeatable"
-  | "corpus/empty"
-  | "corpus/invalid-artifact"
-  | "corpus/bad-digest"
-  | "corpus/duplicate-artifact";
-
-export type CorpusRejection = {
-  readonly code: CorpusRejectionCode;
-  readonly detail: string;
-};
-
-export type CorpusValidation =
-  | { readonly ok: true; readonly corpusDigest: string }
-  | { readonly ok: false; readonly rejection: CorpusRejection };
-
 export type CorpusRef = {
   readonly corpusId: string;
   readonly corpusVersion: number;
@@ -128,9 +117,12 @@ export type CorpusRef = {
 };
 
 export type BenchmarkQualificationPolicy = {
-  readonly minQualifiedMetrics: number; // minimum count of passing threshold metrics
-  readonly minDifferentialMetrics: number; // minimum differentially-evaluated metrics for reference rungs
-  readonly evidenceRequired: boolean; // every passing metric must carry a measurement evidence digest
+  /** Minimum count of passing threshold metrics. */
+  readonly minQualifiedMetrics: number;
+  /** Minimum differentially-evaluated metrics for reference rungs. */
+  readonly minDifferentialMetrics: number;
+  /** Every passing metric must carry a measurement evidence digest. */
+  readonly evidenceRequired: boolean;
 };
 
 export type BenchmarkDescriptor = {
@@ -145,36 +137,13 @@ export type BenchmarkDescriptor = {
   readonly notes?: string;
 };
 
-export type DescriptorRejectionCode =
-  | "descriptor/invalid-identity"
-  | "descriptor/unknown-capability-class"
-  | "descriptor/corpus-ref-malformed"
-  | "descriptor/no-metrics"
-  | "descriptor/metric-not-selected-for-class"
-  | "descriptor/duplicate-metric"
-  | "descriptor/invalid-weight"
-  | "descriptor/invalid-threshold"
-  | "descriptor/invalid-differential-band"
-  | "descriptor/hard-constraint-unknown-metric"
-  | "descriptor/duplicate-hard-constraint"
-  | "descriptor/invalid-hard-constraint"
-  | "descriptor/invalid-qualification-policy";
-
-export type DescriptorRejection = {
-  readonly code: DescriptorRejectionCode;
-  readonly detail: string;
-};
-
-export type DescriptorValidation =
-  | { readonly ok: true; readonly descriptorDigest: string }
-  | { readonly ok: false; readonly rejection: DescriptorRejection };
-
 /** A declared measurement for one metric; the lab never executes capabilities. */
 export type MetricMeasurement = {
   readonly metricId: MetricId;
   readonly value: number;
   readonly samples: number;
-  readonly evidenceDigest?: string; // measurement-record digest; demanded by evidenceRequired policies
+  /** Measurement-record digest; demanded by evidenceRequired policies. */
+  readonly evidenceDigest?: string;
 };
 
 export type EvidenceRef = {
@@ -190,14 +159,10 @@ export type KnownLimit = {
   readonly scope: string;
   readonly affectedMetrics: readonly MetricId[];
   readonly severity: "minor" | "moderate" | "severe";
-  readonly mitigation: string; // "none" when acknowledged but unmitigated
+  /** "none" when acknowledged but unmitigated. */
+  readonly mitigation: string;
   readonly acknowledgedAtEpoch: number;
   readonly evidenceDigest?: string;
-};
-
-export type KnownLimitRejection = {
-  readonly code: "limit/invalid";
-  readonly detail: string;
 };
 
 export type CapabilityUnderTest = {
@@ -232,7 +197,8 @@ export type MetricOutcome = {
   readonly hardConstraintViolated: boolean;
   readonly thresholdMet: boolean | null;
   readonly differential: DifferentialVerdict | null;
-  readonly improvement: number | null; // direction-aware capability-minus-reference
+  /** Direction-aware capability-minus-reference. */
+  readonly improvement: number | null;
   readonly evidenceDigest: string | null;
   readonly verdict: "pass" | "fail" | "not-evaluated";
 };
@@ -241,10 +207,12 @@ export type QualificationDecision = {
   readonly from: QualificationStatus;
   readonly to: QualificationStatus;
   readonly direction: TransitionDirection;
-  readonly qualifiedForRelease: boolean; // false on any hard-constraint violation or failed metric
+  /** False on any hard-constraint violation or failed metric. */
+  readonly qualifiedForRelease: boolean;
   readonly hardConstraintViolations: readonly MetricId[];
   readonly failedMetricIds: readonly MetricId[];
-  readonly evidenceRefs: readonly string[]; // by digest, sorted and de-duplicated
+  /** By digest, sorted and de-duplicated. */
+  readonly evidenceRefs: readonly string[];
   readonly rationale: readonly string[];
 };
 
@@ -266,108 +234,3 @@ export type BenchmarkResult = {
   readonly knownLimits: readonly KnownLimit[];
   readonly resultDigest: string;
 };
-
-export type HarnessErrorCode =
-  | "harness/descriptor-invalid"
-  | "harness/class-mismatch"
-  | "harness/invalid-capability-declaration"
-  | "harness/invalid-reference-run"
-  | "harness/reference-benchmark-mismatch"
-  | "harness/measurement-metric-not-selected"
-  | "harness/duplicate-measurement"
-  | "harness/invalid-measurement"
-  | "harness/invalid-evidence"
-  | "harness/invalid-known-limit"
-  | "harness/missing-measurement"
-  | "harness/missing-reference-measurement";
-
-export type HarnessError = {
-  readonly code: HarnessErrorCode;
-  readonly detail: string;
-};
-
-export type HarnessOutcome =
-  | { readonly ok: true; readonly result: BenchmarkResult }
-  | { readonly ok: false; readonly error: HarnessError };
-
-export type MetricRegression = {
-  readonly metricId: MetricId;
-  readonly previousValue: number;
-  readonly currentValue: number;
-  readonly improvement: number; // direction-aware; negative = worsening
-  readonly exceededTolerance: boolean;
-};
-
-export type RegressionReport = {
-  readonly kind: "regression-report";
-  readonly regressionDetected: boolean;
-  readonly sameBenchmark: boolean;
-  readonly sameCapabilityDeclaration: boolean;
-  readonly driftDetected: boolean; // same versioned capability digest, different result digest
-  readonly metricRegressions: readonly MetricRegression[];
-  readonly newHardConstraintViolations: readonly MetricId[];
-  readonly statusRegression: boolean;
-  readonly rationale: readonly string[];
-};
-
-export type SupportingResultRef = {
-  readonly resultDigest: string;
-  readonly benchmarkId: string;
-  readonly benchmarkVersion: number;
-  readonly descriptorDigest: string;
-  readonly capturedAtEpoch: number;
-  readonly decision: QualificationDecision;
-};
-
-export type ReleaseCandidate = {
-  readonly kind: "release-candidate";
-  readonly capabilityId: string;
-  readonly capabilityClass: CapabilityClassId;
-  readonly version: string;
-  readonly qualificationStatus: QualificationStatus;
-  readonly supportingResults: readonly SupportingResultRef[];
-  readonly knownLimits: readonly KnownLimit[];
-};
-
-export type ReleasePolicy = {
-  readonly requiredStatus: QualificationStatus;
-  readonly currentEpoch: number; // logical epoch of this evaluation; staleness is measured against it
-  readonly maxEvidenceAgeEpochs: number;
-  readonly requiredBenchmarkIds: readonly string[];
-  readonly maxUnmitigatedSevereLimits: number;
-};
-
-export type ReleaseBlockerCode =
-  | "release/status-below-required"
-  | "release/no-supporting-results"
-  | "release/stale-evidence"
-  | "release/missing-required-benchmark"
-  | "release/unqualified-supporting-result"
-  | "release/unmitigated-severe-limits";
-
-export type ReleaseBlocker = {
-  readonly code: ReleaseBlockerCode;
-  readonly detail: string;
-};
-
-export type ReleaseVerdict = {
-  readonly kind: "release-verdict";
-  readonly released: boolean;
-  readonly statusRequirementMet: boolean;
-  readonly blockers: readonly ReleaseBlocker[];
-  readonly staleEvidenceDigests: readonly string[];
-  readonly rationale: readonly string[];
-};
-
-export type DiscoveryAdapterErrorCode =
-  "adapter/insufficient-declaration" | "adapter/unknown-capability-class";
-
-export type DiscoveryAdapterOutcome =
-  | { readonly ok: true; readonly capability: CapabilityUnderTest }
-  | {
-      readonly ok: false;
-      readonly error: {
-        readonly code: DiscoveryAdapterErrorCode;
-        readonly detail: string;
-      };
-    };
