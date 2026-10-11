@@ -11,4 +11,10 @@ export * from "./foundation";
 export * from "./plans";
 export * from "./surface";
 export * from "./gates";
-export * from "./lifecycle";
+export { applyTransition, openLifecycle } from "./lifecycle";
+export { isTerminalPhase } from "./lifecycle-states";
+export type {
+  LifecycleErrorCode,
+  LifecycleTransition,
+  RollbackInput,
+} from "./lifecycle-states";
