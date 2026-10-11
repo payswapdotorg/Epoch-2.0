@@ -23,24 +23,27 @@
     "W027",
     "W020",
     "W028",
-    "W021"
+    "W021",
+    "W022"
   ],
   "active": [
     "W011",
-    "W012"
+    "W012",
+    "W023"
   ],
   "eligible": [
-    "W022",
-    "W023",
     "W013",
     "W014",
     "W015",
     "W016",
     "W017",
     "W018",
+    "W024",
+    "W025",
     "W029"
   ],
   "blocked": [],
-  "lastMergeSha": "1019cbd",
-  "lastAction": "W021 MERGED (1019cbd + registration e4e1d27): station-verified 52/52 tests, tsc 0, lint 0, arch 0 (registration applied). Worker chat 7da256af (glm-5.3). W022 (critical path) dispatching into freed slot; W029 newly eligible. W011/W012 sandboxes live, queued for model slots."
+  "lastMergeSha": "4aa5fa2",
+  "lastAction": "W021 MERGED (1019cbd + registration e4e1d27): station-verified 52/52 tests, tsc 0, lint 0, arch 0 (registration applied). Worker chat 7da256af (glm-5.3). W022 (critical path) dispatching into freed slot; W029 newly eligible. W011/W012 sandboxes live, queued for model slots.",
+  "lastMergeWorkOrder": "W022"
 }
