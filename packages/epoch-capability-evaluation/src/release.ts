@@ -1,7 +1,11 @@
 // Capability release gate: releases require named-task-qualified+ status with non-stale evidence.
 // The release vocabulary lives here, beside the gate, and is re-exported by src/index.ts.
 
-import type { KnownLimit, QualificationDecision, QualificationStatus } from "./contract.js";
+import type {
+  KnownLimit,
+  QualificationDecision,
+  QualificationStatus,
+} from "./contract.js";
 import { statusSatisfies } from "./qualification.js";
 
 export type SupportingResultRef = {
@@ -54,20 +58,31 @@ export type ReleaseVerdict = {
   readonly rationale: readonly string[];
 };
 
-export function evaluateRelease(candidate: ReleaseCandidate, policy: ReleasePolicy): ReleaseVerdict {
+export function evaluateRelease(
+  candidate: ReleaseCandidate,
+  policy: ReleasePolicy,
+): ReleaseVerdict {
   const blockers: ReleaseBlocker[] = [];
   const rationale: string[] = [];
-  const statusRequirementMet = statusSatisfies(candidate.qualificationStatus, policy.requiredStatus);
+  const statusRequirementMet = statusSatisfies(
+    candidate.qualificationStatus,
+    policy.requiredStatus,
+  );
   if (!statusRequirementMet) {
     blockers.push({
       code: "release/status-below-required",
       detail: `status ${candidate.qualificationStatus} is below required ${policy.requiredStatus}`,
     });
-    rationale.push(`status-below-required:${candidate.qualificationStatus}<${policy.requiredStatus}`);
+    rationale.push(
+      `status-below-required:${candidate.qualificationStatus}<${policy.requiredStatus}`,
+    );
   }
   const staleEvidenceDigests: string[] = [];
   if (candidate.supportingResults.length === 0) {
-    blockers.push({ code: "release/no-supporting-results", detail: "candidate cites no supporting benchmark results" });
+    blockers.push({
+      code: "release/no-supporting-results",
+      detail: "candidate cites no supporting benchmark results",
+    });
     rationale.push("no-supporting-results");
   }
   for (const ref of candidate.supportingResults) {
@@ -90,7 +105,9 @@ export function evaluateRelease(candidate: ReleaseCandidate, policy: ReleasePoli
     rationale.push(`stale-evidence:${staleEvidenceDigests.length}`);
   }
   for (const requiredId of policy.requiredBenchmarkIds) {
-    const present = candidate.supportingResults.some((ref) => ref.benchmarkId === requiredId);
+    const present = candidate.supportingResults.some(
+      (ref) => ref.benchmarkId === requiredId,
+    );
     if (!present) {
       blockers.push({
         code: "release/missing-required-benchmark",

@@ -35,15 +35,19 @@ export const MODULE_MANIFEST = Object.freeze({
     "src/digest.ts": "canonical serialization + sha256",
     "src/qualification.ts": "status vocabulary + transition lattice",
     "src/catalog.ts": "metric descriptors + per-class selections (frozen data)",
-    "src/corpus.ts": "corpus rights/repeatability validation + corpus rejection vocabulary",
-    "src/descriptor.ts": "benchmark descriptor validation + descriptor rejection vocabulary",
+    "src/corpus.ts":
+      "corpus rights/repeatability validation + corpus rejection vocabulary",
+    "src/descriptor.ts":
+      "benchmark descriptor validation + descriptor rejection vocabulary",
     "src/limits.ts": "known-limit validation + limit rejection vocabulary",
-    "src/harness-measure.ts": "harness vocabulary, measurement collection, versioned digests",
+    "src/harness-measure.ts":
+      "harness vocabulary, measurement collection, versioned digests",
     "src/harness-decision.ts": "qualification decision synthesis",
     "src/harness.ts": "differential conformance harness (runBenchmark)",
     "src/regression.ts": "drift + regression detection + report vocabulary",
     "src/release.ts": "capability release gate + release vocabulary",
-    "src/discovery-adapter.ts": "W023 discovery-spine adapter + adapter vocabulary",
+    "src/discovery-adapter.ts":
+      "W023 discovery-spine adapter + adapter vocabulary",
     "src/index.ts": "public entrypoint",
   }),
 });

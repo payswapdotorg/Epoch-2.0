@@ -62,7 +62,11 @@ export function collectMeasurements(
         },
       };
     }
-    if (!Number.isFinite(measurement.value) || !Number.isInteger(measurement.samples) || measurement.samples < 1) {
+    if (
+      !Number.isFinite(measurement.value) ||
+      !Number.isInteger(measurement.samples) ||
+      measurement.samples < 1
+    ) {
       return {
         ok: false,
         error: {
@@ -71,7 +75,10 @@ export function collectMeasurements(
         },
       };
     }
-    if (measurement.evidenceDigest !== undefined && !isSha256Digest(measurement.evidenceDigest)) {
+    if (
+      measurement.evidenceDigest !== undefined &&
+      !isSha256Digest(measurement.evidenceDigest)
+    ) {
       return {
         ok: false,
         error: {

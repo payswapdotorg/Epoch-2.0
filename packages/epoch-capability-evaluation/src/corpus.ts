@@ -39,7 +39,10 @@ export function validateCorpus(corpus: BenchmarkCorpus): CorpusValidation {
     !Number.isInteger(corpus.version) ||
     corpus.version < 1
   ) {
-    return reject("corpus/invalid-identity", "corpus id must be non-empty and version a positive integer");
+    return reject(
+      "corpus/invalid-identity",
+      "corpus id must be non-empty and version a positive integer",
+    );
   }
   if (metricIdsForClass(corpus.capabilityClass) === null) {
     return reject(
@@ -48,38 +51,76 @@ export function validateCorpus(corpus: BenchmarkCorpus): CorpusValidation {
     );
   }
   const rights = corpus.provenance.rights;
-  if (rights.clarity !== "clear" || typeof rights.licenseId !== "string" || rights.licenseId.trim() === "") {
-    return reject("corpus/rights-unclear", "license rights are not clearly declared");
+  if (
+    rights.clarity !== "clear" ||
+    typeof rights.licenseId !== "string" ||
+    rights.licenseId.trim() === ""
+  ) {
+    return reject(
+      "corpus/rights-unclear",
+      "license rights are not clearly declared",
+    );
   }
   if (rights.permitsBenchmarkUse !== true) {
-    return reject("corpus/rights-declined", `license ${rights.licenseId} does not permit benchmark use`);
+    return reject(
+      "corpus/rights-declined",
+      `license ${rights.licenseId} does not permit benchmark use`,
+    );
   }
   const repeatability = corpus.provenance.repeatability;
   if (repeatability.kind === "unverified") {
-    return reject("corpus/non-repeatable", "provenance repeatability is unverified");
+    return reject(
+      "corpus/non-repeatable",
+      "provenance repeatability is unverified",
+    );
   }
   if (
     repeatability.kind === "deterministic-seeded" &&
-    (repeatability.generatorId.trim() === "" || repeatability.generatorVersion.trim() === "" || repeatability.seed.trim() === "")
+    (repeatability.generatorId.trim() === "" ||
+      repeatability.generatorVersion.trim() === "" ||
+      repeatability.seed.trim() === "")
   ) {
-    return reject("corpus/non-repeatable", "seeded provenance lacks a generator id/version or a seed");
+    return reject(
+      "corpus/non-repeatable",
+      "seeded provenance lacks a generator id/version or a seed",
+    );
   }
-  if (repeatability.kind === "recorded-artifacts" && corpus.items.length === 0) {
-    return reject("corpus/empty", "recorded-artifacts provenance requires at least one artifact item");
+  if (
+    repeatability.kind === "recorded-artifacts" &&
+    corpus.items.length === 0
+  ) {
+    return reject(
+      "corpus/empty",
+      "recorded-artifacts provenance requires at least one artifact item",
+    );
   }
   if (corpus.items.length === 0) {
     return reject("corpus/empty", "corpus carries no items");
   }
   const seen = new Set<string>();
   for (const item of corpus.items) {
-    if (typeof item.id !== "string" || item.id.trim() === "" || !Number.isInteger(item.bytes) || item.bytes < 0) {
-      return reject("corpus/invalid-artifact", "item identity/bytes are malformed");
+    if (
+      typeof item.id !== "string" ||
+      item.id.trim() === "" ||
+      !Number.isInteger(item.bytes) ||
+      item.bytes < 0
+    ) {
+      return reject(
+        "corpus/invalid-artifact",
+        "item identity/bytes are malformed",
+      );
     }
     if (!isSha256Digest(item.contentDigest)) {
-      return reject("corpus/bad-digest", `item ${item.id} content digest is not a sha256 hex digest`);
+      return reject(
+        "corpus/bad-digest",
+        `item ${item.id} content digest is not a sha256 hex digest`,
+      );
     }
     if (seen.has(item.id)) {
-      return reject("corpus/duplicate-artifact", `duplicate item id ${item.id}`);
+      return reject(
+        "corpus/duplicate-artifact",
+        `duplicate item id ${item.id}`,
+      );
     }
     seen.add(item.id);
   }

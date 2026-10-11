@@ -5,15 +5,21 @@
 // The adapter vocabulary lives here, beside the adapter, and is re-exported by
 // src/index.ts.
 
-import type { CapabilityEvidence, DiscoveredCapability } from "@zcode/epoch-capability-discovery";
-import type { CapabilityUnderTest, EvidenceRef, QualificationStatus } from "./contract.js";
+import type {
+  CapabilityEvidence,
+  DiscoveredCapability,
+} from "@zcode/epoch-capability-discovery";
+import type {
+  CapabilityUnderTest,
+  EvidenceRef,
+  QualificationStatus,
+} from "./contract.js";
 import { isSha256Digest } from "./digest.js";
 import { metricIdsForClass } from "./catalog.js";
 import { QUALIFICATION_STATUSES } from "./qualification.js";
 
 export type DiscoveryAdapterErrorCode =
-  | "adapter/insufficient-declaration"
-  | "adapter/unknown-capability-class";
+  "adapter/insufficient-declaration" | "adapter/unknown-capability-class";
 
 export type DiscoveryAdapterOutcome =
   | { readonly ok: true; readonly capability: CapabilityUnderTest }
@@ -25,12 +31,16 @@ export type DiscoveryAdapterOutcome =
       };
     };
 
-const QUALIFICATION_STATUS_SET: ReadonlySet<string> = new Set<string>(QUALIFICATION_STATUSES);
+const QUALIFICATION_STATUS_SET: ReadonlySet<string> = new Set<string>(
+  QUALIFICATION_STATUSES,
+);
 
 type UnknownRecord = Record<string, unknown>;
 
 function asRecord(value: unknown): UnknownRecord {
-  return value !== null && typeof value === "object" && !Array.isArray(value) ? (value as UnknownRecord) : {};
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? (value as UnknownRecord)
+    : {};
 }
 
 function nonEmptyString(record: UnknownRecord, key: string): string | null {
@@ -40,7 +50,9 @@ function nonEmptyString(record: UnknownRecord, key: string): string | null {
 
 function readStatus(record: UnknownRecord): QualificationStatus {
   const value = record["qualificationStatus"] ?? record["status"];
-  return typeof value === "string" && QUALIFICATION_STATUS_SET.has(value) ? (value as QualificationStatus) : "prototype";
+  return typeof value === "string" && QUALIFICATION_STATUS_SET.has(value)
+    ? (value as QualificationStatus)
+    : "prototype";
 }
 
 function evidenceDigests(value: unknown): string[] {
@@ -67,14 +79,18 @@ export function fromDiscoveredCapability(
   capturedAtEpoch: number,
 ): DiscoveryAdapterOutcome {
   const record = asRecord(discovered);
-  const capabilityId = nonEmptyString(record, "capabilityId") ?? nonEmptyString(record, "id");
-  const capabilityClass = nonEmptyString(record, "capabilityClass") ?? nonEmptyString(record, "class");
+  const capabilityId =
+    nonEmptyString(record, "capabilityId") ?? nonEmptyString(record, "id");
+  const capabilityClass =
+    nonEmptyString(record, "capabilityClass") ??
+    nonEmptyString(record, "class");
   if (capabilityId === null || capabilityClass === null) {
     return {
       ok: false,
       error: {
         code: "adapter/insufficient-declaration",
-        detail: "discovered capability lacks a usable capabilityId/capabilityClass",
+        detail:
+          "discovered capability lacks a usable capabilityId/capabilityClass",
       },
     };
   }
@@ -88,11 +104,13 @@ export function fromDiscoveredCapability(
     };
   }
   const version = nonEmptyString(record, "version") ?? "0";
-  const evidence: EvidenceRef[] = evidenceDigests(record["evidence"]).map((digest) => ({
-    digest,
-    source: "discovery-evidence",
-    capturedAtEpoch,
-  }));
+  const evidence: EvidenceRef[] = evidenceDigests(record["evidence"]).map(
+    (digest) => ({
+      digest,
+      source: "discovery-evidence",
+      capturedAtEpoch,
+    }),
+  );
   return {
     ok: true,
     capability: {
@@ -115,6 +133,13 @@ export function evidenceRefsFromDiscovered(
 ): EvidenceRef[] {
   return evidences
     .map((entry) => asRecord(entry)["digest"])
-    .filter((digest): digest is string => typeof digest === "string" && isSha256Digest(digest))
-    .map((digest) => ({ digest, source: "discovery-evidence", capturedAtEpoch }));
+    .filter(
+      (digest): digest is string =>
+        typeof digest === "string" && isSha256Digest(digest),
+    )
+    .map((digest) => ({
+      digest,
+      source: "discovery-evidence",
+      capturedAtEpoch,
+    }));
 }

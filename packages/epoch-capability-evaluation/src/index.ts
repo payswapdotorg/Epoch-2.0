@@ -32,13 +32,25 @@ export type {
   TransitionDirection,
 } from "./contract.js";
 
-export type { CorpusRejection, CorpusRejectionCode, CorpusValidation } from "./corpus.js";
+export type {
+  CorpusRejection,
+  CorpusRejectionCode,
+  CorpusValidation,
+} from "./corpus.js";
 
-export type { DescriptorRejection, DescriptorRejectionCode, DescriptorValidation } from "./descriptor.js";
+export type {
+  DescriptorRejection,
+  DescriptorRejectionCode,
+  DescriptorValidation,
+} from "./descriptor.js";
 
 export type { KnownLimitRejection } from "./limits.js";
 
-export type { HarnessError, HarnessErrorCode, HarnessOutcome } from "./harness-measure.js";
+export type {
+  HarnessError,
+  HarnessErrorCode,
+  HarnessOutcome,
+} from "./harness-measure.js";
 
 export type { MetricRegression, RegressionReport } from "./regression.js";
 
@@ -51,11 +63,23 @@ export type {
   SupportingResultRef,
 } from "./release.js";
 
-export type { DiscoveryAdapterErrorCode, DiscoveryAdapterOutcome } from "./discovery-adapter.js";
+export type {
+  DiscoveryAdapterErrorCode,
+  DiscoveryAdapterOutcome,
+} from "./discovery-adapter.js";
 
-export { MODULE_MANIFEST, moduleManifest, type ModuleManifest } from "./module.js";
+export {
+  MODULE_MANIFEST,
+  moduleManifest,
+  type ModuleManifest,
+} from "./module.js";
 
-export { canonicalJson, digestOf, isSha256Digest, sha256Hex } from "./digest.js";
+export {
+  canonicalJson,
+  digestOf,
+  isSha256Digest,
+  sha256Hex,
+} from "./digest.js";
 
 export {
   QUALIFICATION_STATUSES,
@@ -79,11 +103,18 @@ export {
 
 export { corpusDigestOf, validateCorpus } from "./corpus.js";
 
-export { descriptorDigestOf, validateBenchmarkDescriptor } from "./descriptor.js";
+export {
+  descriptorDigestOf,
+  validateBenchmarkDescriptor,
+} from "./descriptor.js";
 
 export { validateKnownLimit, validateKnownLimits } from "./limits.js";
 
-export { capabilityDigestOf, referenceDigestOf, verifyResultDigest } from "./harness-measure.js";
+export {
+  capabilityDigestOf,
+  referenceDigestOf,
+  verifyResultDigest,
+} from "./harness-measure.js";
 
 export { runBenchmark } from "./harness.js";
 
@@ -91,4 +122,7 @@ export { detectRegression } from "./regression.js";
 
 export { evaluateRelease } from "./release.js";
 
-export { evidenceRefsFromDiscovered, fromDiscoveredCapability } from "./discovery-adapter.js";
+export {
+  evidenceRefsFromDiscovered,
+  fromDiscoveredCapability,
+} from "./discovery-adapter.js";
