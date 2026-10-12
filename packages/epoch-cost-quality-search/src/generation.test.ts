@@ -121,6 +121,8 @@ describe("generateAlternatives", () => {
   it("gives generated candidates their own revision identity while naming the baseline revision", () => {
     const result = generateAlternatives(baseline, requirements, registry);
     const added = findCandidate(result.candidates, "sol-search::add:cap-cache");
+    // Digest STRINGS are compared: revision identity is about the digest
+    // value, not object references.
     assert.notEqual(
       added.worldRevision.revisionDigest,
       baseline.worldRevision.revisionDigest,
@@ -132,14 +134,24 @@ describe("generateAlternatives", () => {
     );
     const deltas = [{ kind: "add-capability", capabilityId: "cap-cache" }] as const;
     const refs = ["cap-cache", "cap-index"];
-    assert.equal(
-      deriveProposalRevision(baseline, deltas, refs),
-      deriveProposalRevision(baseline, deltas, refs),
-    );
+    const first = deriveProposalRevision(baseline, deltas, refs);
+    const second = deriveProposalRevision(baseline, deltas, refs);
+    assert.equal(first.revisionDigest, second.revisionDigest);
     assert.notEqual(
-      deriveProposalRevision(baseline, deltas, refs),
-      deriveProposalRevision(baseline, [], refs),
+      deriveProposalRevision(baseline, [], refs).revisionDigest,
+      first.revisionDigest,
     );
+    // Every delta candidate carries a revision digest DISTINCT from the
+    // baseline's — separate revision identity, never a silent replacement.
+    for (const candidate of result.candidates) {
+      if (candidate.deltas.length === 0) {
+        continue;
+      }
+      assert.notEqual(
+        candidate.worldRevision.revisionDigest,
+        baseline.worldRevision.revisionDigest,
+      );
+    }
   });
 
   it("composes add candidates from registered capabilities only", () => {

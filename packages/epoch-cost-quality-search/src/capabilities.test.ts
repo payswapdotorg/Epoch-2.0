@@ -52,8 +52,11 @@ describe("prepareCapabilities", () => {
   });
 
   it("rejects invalid declarations and malformed attributes with typed issues", () => {
+    // Distinct capabilityId: a shared id would surface as
+    // duplicate-capability-id BEFORE attribute validation ever runs.
     const brokenValue: RegisteredCapability = {
       ...capA,
+      capabilityId: "cap-broken",
       qualityAttributes: [
         { metricId: "m1", value: Number.NaN, unit: "u", direction: "minimize" },
       ],
@@ -61,11 +64,16 @@ describe("prepareCapabilities", () => {
     const intake = prepareCapabilities([capA, brokenValue]);
     assert.equal(intake.capabilities.length, 1);
     assert.equal(intake.issues.length, 1);
-    assert.equal(intake.issues[0].kind, "invalid-capability");
-    assert.ok(intake.issues[0].detail.includes("finite"));
+    const [issue] = intake.issues;
+    assert.ok(
+      issue !== undefined &&
+        issue.kind === "invalid-capability" &&
+        issue.detail.includes("finite"),
+    );
 
     const dupAttr: RegisteredCapability = {
       ...capA,
+      capabilityId: "cap-dup",
       qualityAttributes: [
         { metricId: "m1", value: 1, unit: "u", direction: "minimize" },
         { metricId: "m1", value: 2, unit: "u", direction: "minimize" },
@@ -74,15 +82,19 @@ describe("prepareCapabilities", () => {
     const dupIntake = prepareCapabilities([dupAttr]);
     assert.equal(dupIntake.capabilities.length, 0);
     assert.deepEqual(dupIntake.issues, [
-      { kind: "duplicate-attribute", capabilityId: "cap-a", metricId: "m1" },
+      { kind: "duplicate-attribute", capabilityId: "cap-dup", metricId: "m1" },
     ]);
   });
 
   it("rejects malformed registration digests", () => {
     const intake = prepareCapabilities([{ ...capB, registrationDigest: "xyz" }]);
     assert.equal(intake.capabilities.length, 0);
-    assert.equal(intake.issues[0].kind, "invalid-capability");
-    assert.ok(intake.issues[0].detail.includes("SHA-256"));
+    const [issue] = intake.issues;
+    assert.ok(
+      issue !== undefined &&
+        issue.kind === "invalid-capability" &&
+        issue.detail.includes("SHA-256"),
+    );
   });
 });
 

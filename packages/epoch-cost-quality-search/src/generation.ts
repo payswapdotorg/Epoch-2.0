@@ -25,7 +25,11 @@ import { requirementMetricIds, type RequirementSet } from "./requirements.js";
  * Identity law: a baseline and a candidate carry SEPARATE revision
  * identity — both are digest refs to world revisions, and every candidate
  * explicitly names the baseline revision it derives from. A candidate is
- * therefore never a silent replacement of the baseline.
+ * therefore never a silent replacement of the baseline. Generated
+ * candidates also never share the baseline record's revision object by
+ * reference: each candidate gets its own `WorldRevisionRef` (identity
+ * candidates carry the baseline's revision VALUES in a fresh object;
+ * delta candidates carry derived proposal digests).
  *
  * Composition law: alternatives are DATA composed from registered
  * capability declarations only. Generated candidates carry predicted
@@ -313,7 +317,14 @@ function buildCandidate(
       revisionDigest: baseline.worldRevision.revisionDigest,
     },
     worldRevision: proposal.keepBaselineRevision
-      ? baseline.worldRevision
+      ? {
+          // Fresh object carrying the baseline's revision VALUES: the
+          // identity candidate openly carries the baseline revision
+          // (compared, never substituted) while no generated candidate
+          // shares the caller's revision object by reference.
+          worldId: baseline.worldRevision.worldId,
+          revisionDigest: baseline.worldRevision.revisionDigest,
+        }
       : deriveProposalRevision(baseline, proposal.deltas, capabilityRefs),
     deltas: proposal.deltas.map((delta) => ({ ...delta })),
     capabilityRefs,
