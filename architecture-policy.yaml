@@ -326,6 +326,17 @@ modules:
     managed: true
     requires: [epoch-human-escalation, epoch-environment-activity, epoch-capability-learning]
     publicEntrypoints: [packages/epoch-arena-adapter/src/index.ts]
+  # W035 — Engineering automation and abundance evaluation: typed task-family
+  # denominators, completion and verified-quality metrics, baselines and
+  # intervention measures with a quality-gate law, escalation and capability-
+  # reuse rates, safety regressions, predicted-vs-actual variance with a
+  # feasibility gate, provenance-chained end-to-end cases. Read-only
+  # measurement over lifecycle/evidence records; no execution authority.
+  - id: epoch-engineering-objective
+    roots: [packages/epoch-engineering-objective/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-engineering-objective/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
