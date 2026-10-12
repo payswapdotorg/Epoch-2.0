@@ -31,10 +31,7 @@ function normalizeExecutionMode(mode: TaskExecutionModeInput): TaskExecutionMode
     case "automated":
       return {
         mode: "automated",
-        executedBy: kebabId(
-          "taskExecutionRecord.mode.executedBy",
-          mode.executedBy
-        ),
+        executedBy: kebabId("taskExecutionRecord.mode.executedBy", mode.executedBy),
         evidence: normalizeDigestRef(mode.evidence),
       };
     case "human":
@@ -52,7 +49,7 @@ function normalizeExecutionMode(mode: TaskExecutionModeInput): TaskExecutionMode
       // NOTE: `mode` is narrowed to `never` here (all mode literals are
       // covered above), so the message stringifies the value itself.
       throw new TypeError(
-        `taskExecutionRecord.mode: 'automated' | 'human' | 'arena' expected, got: ${JSON.stringify(mode)}`
+        `taskExecutionRecord.mode: 'automated' | 'human' | 'arena' expected, got: ${JSON.stringify(mode)}`,
       );
   }
 }
@@ -69,16 +66,14 @@ export interface TaskExecutionRecordInput {
  * Build one task execution record. Human and arena executions are VISIBLE
  * first-class records; they are never counted as automated successes.
  */
-export function taskExecutionRecord(
-  input: TaskExecutionRecordInput
-): TaskExecutionRecord {
+export function taskExecutionRecord(input: TaskExecutionRecordInput): TaskExecutionRecord {
   if (
     input.outcome !== "succeeded" &&
     input.outcome !== "failed" &&
     input.outcome !== "abandoned"
   ) {
     throw new TypeError(
-      `taskExecutionRecord.outcome: 'succeeded' | 'failed' | 'abandoned' expected, got: ${JSON.stringify(input.outcome)}`
+      `taskExecutionRecord.outcome: 'succeeded' | 'failed' | 'abandoned' expected, got: ${JSON.stringify(input.outcome)}`,
     );
   }
   return {
@@ -102,16 +97,13 @@ export interface CapabilityReuseObservationInput {
 
 /** Build one reuse observation with W031/W032 digest references. */
 export function capabilityReuseObservation(
-  input: CapabilityReuseObservationInput
+  input: CapabilityReuseObservationInput,
 ): CapabilityReuseObservation {
   return {
     kind: "capability-reuse-observation",
     taskId: kebabId("capabilityReuseObservation.taskId", input.taskId),
     familyRef: normalizeFamilyRefInput(input.familyRef),
-    capabilityKey: kebabId(
-      "capabilityReuseObservation.capabilityKey",
-      input.capabilityKey
-    ),
+    capabilityKey: kebabId("capabilityReuseObservation.capabilityKey", input.capabilityKey),
     reused: booleanFlag("capabilityReuseObservation.reused", input.reused),
     reproductionRef: normalizeDigestRef(input.reproductionRef),
     learningRef: normalizeDigestRef(input.learningRef),
@@ -126,11 +118,9 @@ export function capabilityReuseObservation(
 export function computeEscalationRate(
   rateId: string,
   familyRef: TaskFamilyRef,
-  executions: readonly TaskExecutionRecord[]
+  executions: readonly TaskExecutionRecord[],
 ): EscalationRate {
-  const familyExecutions = executions.filter((e) =>
-    sameTaskFamily(e.familyRef, familyRef)
-  );
+  const familyExecutions = executions.filter((e) => sameTaskFamily(e.familyRef, familyRef));
   const automated = familyExecutions.filter((e) => e.mode.mode === "automated");
   const automatedSuccesses = automated.filter((e) => e.outcome === "succeeded");
   const human = familyExecutions.filter((e) => e.mode.mode === "human");
@@ -163,11 +153,9 @@ export function computeCapabilityReuseRate(
   rateId: string,
   familyRef: TaskFamilyRef,
   observations: readonly CapabilityReuseObservation[],
-  executions: readonly TaskExecutionRecord[]
+  executions: readonly TaskExecutionRecord[],
 ): CapabilityReuseRate {
-  const familyObservations = observations.filter((o) =>
-    sameTaskFamily(o.familyRef, familyRef)
-  );
+  const familyObservations = observations.filter((o) => sameTaskFamily(o.familyRef, familyRef));
   const groups = new Map<
     string,
     {
@@ -193,7 +181,7 @@ export function computeCapabilityReuseRate(
       group.learningRef.digest !== observation.learningRef.digest
     ) {
       throw new TypeError(
-        `computeCapabilityReuseRate: inconsistent W031/W032 digest refs for capability '${observation.capabilityKey}'`
+        `computeCapabilityReuseRate: inconsistent W031/W032 digest refs for capability '${observation.capabilityKey}'`,
       );
     }
     group.observedTasks += 1;
@@ -215,9 +203,7 @@ export function computeCapabilityReuseRate(
   const reuseOpportunities = familyObservations.length;
   const reuseEvents = familyObservations.filter((o) => o.reused).length;
   const rate = reuseOpportunities === 0 ? 0 : reuseEvents / reuseOpportunities;
-  const familyExecutions = executions.filter((e) =>
-    sameTaskFamily(e.familyRef, familyRef)
-  );
+  const familyExecutions = executions.filter((e) => sameTaskFamily(e.familyRef, familyRef));
   const visibleNonAutomatedTaskIds: string[] = [];
   const seen = new Set<string>();
   for (const execution of familyExecutions) {

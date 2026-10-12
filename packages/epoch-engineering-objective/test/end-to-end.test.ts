@@ -62,7 +62,7 @@ test("buildEndToEndCase rejects the wrong stage count", () => {
           stageSpec("verification", "d"),
         ],
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -80,7 +80,7 @@ test("buildEndToEndCase rejects the wrong stage order", () => {
           stageSpec("gap-closure", "e"),
         ],
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -98,7 +98,7 @@ test("buildEndToEndCase requires evidence on every stage", () => {
           stageSpec("gap-closure", "e"),
         ],
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -118,7 +118,7 @@ test("a tampered stage summary breaks the chain at that stage", () => {
   const tampered = {
     ...built,
     stages: built.stages.map((stage, index) =>
-      index === 2 ? { ...stage, summary: "tampered" } : stage
+      index === 2 ? { ...stage, summary: "tampered" } : stage,
     ),
   };
   const verification = verifyEndToEndCase(tampered);
@@ -135,7 +135,7 @@ test("a broken chain link is reported with its stage index", () => {
   const broken = {
     ...built,
     stages: built.stages.map((stage, index) =>
-      index === 3 ? { ...stage, prevStageDigest: firstDigest } : stage
+      index === 3 ? { ...stage, prevStageDigest: firstDigest } : stage,
     ),
   };
   const verification = verifyEndToEndCase(broken);
@@ -188,7 +188,7 @@ test("buildLimitationsReport requires honest bottlenecks and canonical stages", 
         },
       ],
       nextConstraint: "hard constraint: no execution authority",
-    }).reportDigest
+    }).reportDigest,
   );
   throws(
     () =>
@@ -199,7 +199,7 @@ test("buildLimitationsReport requires honest bottlenecks and canonical stages", 
         remainingBottlenecks: [],
         nextConstraint: "c",
       }),
-    TypeError
+    TypeError,
   );
   throws(
     () =>
@@ -217,6 +217,6 @@ test("buildLimitationsReport requires honest bottlenecks and canonical stages", 
         ],
         nextConstraint: "c",
       }),
-    TypeError
+    TypeError,
   );
 });

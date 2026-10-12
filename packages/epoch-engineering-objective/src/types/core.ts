@@ -30,7 +30,7 @@ const LIFECYCLE_PHASE_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export function lifecyclePhaseKey(value: string): LifecyclePhaseKey {
   if (typeof value !== "string" || !LIFECYCLE_PHASE_PATTERN.test(value)) {
     throw new TypeError(
-      `lifecyclePhaseKey: kebab-case string expected, got: ${JSON.stringify(value)}`
+      `lifecyclePhaseKey: kebab-case string expected, got: ${JSON.stringify(value)}`,
     );
   }
   return value as LifecyclePhaseKey;
@@ -110,7 +110,7 @@ export function normalizeEvidenceRef(ref: EvidenceRefInput): EvidenceRef {
 export function evidenceRef(
   lifecyclePhase: string,
   evidenceKey: string,
-  digest: string
+  digest: string,
 ): EvidenceRef {
   return normalizeEvidenceRef({ lifecyclePhase, evidenceKey, digest });
 }
@@ -125,16 +125,10 @@ export interface MonetaryCost {
 const CURRENCY_CODE_PATTERN = /^[A-Z]{3}$/;
 
 /** Construct a monetary cost. */
-export function monetaryCost(
-  currencyCode: string,
-  minorUnits: number
-): MonetaryCost {
-  if (
-    typeof currencyCode !== "string" ||
-    !CURRENCY_CODE_PATTERN.test(currencyCode)
-  ) {
+export function monetaryCost(currencyCode: string, minorUnits: number): MonetaryCost {
+  if (typeof currencyCode !== "string" || !CURRENCY_CODE_PATTERN.test(currencyCode)) {
     throw new TypeError(
-      `monetaryCost.currencyCode: three uppercase letters expected, got: ${JSON.stringify(currencyCode)}`
+      `monetaryCost.currencyCode: three uppercase letters expected, got: ${JSON.stringify(currencyCode)}`,
     );
   }
   return {
@@ -164,9 +158,7 @@ export function durationMeasure(minutes: number): DurationMeasure {
 }
 
 /** Revalidate an externally supplied duration measure. */
-export function normalizeDurationMeasure(
-  duration: DurationMeasure
-): DurationMeasure {
+export function normalizeDurationMeasure(duration: DurationMeasure): DurationMeasure {
   return durationMeasure(duration.minutes);
 }
 
@@ -179,15 +171,8 @@ export type QualityScore = number & {
 
 /** Validate and brand a quality score. */
 export function qualityScore(value: number): QualityScore {
-  if (
-    typeof value !== "number" ||
-    !Number.isFinite(value) ||
-    value < 0 ||
-    value > 1
-  ) {
-    throw new TypeError(
-      `qualityScore: finite number in [0, 1] expected, got: ${String(value)}`
-    );
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0 || value > 1) {
+    throw new TypeError(`qualityScore: finite number in [0, 1] expected, got: ${String(value)}`);
   }
   return value as QualityScore;
 }
@@ -200,7 +185,7 @@ export interface QualityAcceptanceThreshold {
 
 /** Construct a quality acceptance threshold. */
 export function qualityAcceptanceThreshold(
-  minimumVerifiedScore: number
+  minimumVerifiedScore: number,
 ): QualityAcceptanceThreshold {
   return {
     kind: "quality-acceptance-threshold",

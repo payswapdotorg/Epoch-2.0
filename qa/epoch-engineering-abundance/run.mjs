@@ -34,7 +34,11 @@ ok(contractAssertion.ok, "public contract assertion failed");
 const familyRef = { familyId: "engineering-automation", version: "1.0.0" };
 const family = taskFamilyRef(familyRef.familyId, familyRef.version);
 const ref = (name) => ({ namespace: "epoch-lifecycle:evidence", digest: sha256Hex(name) });
-const evidence = (phase, key) => ({ lifecyclePhase: phase, evidenceKey: key, digest: sha256Hex(key) });
+const evidence = (phase, key) => ({
+  lifecyclePhase: phase,
+  evidenceKey: key,
+  digest: sha256Hex(key),
+});
 
 function buildInputs() {
   const denominator = automationDenominator({
@@ -49,47 +53,186 @@ function buildInputs() {
     ],
   });
   const completions = [
-    completionRecord({ recordId: "completion-001", familyRef, taskId: "task-001", taskClassId: "code-review", lifecyclePhase: "verification", evidenceRefs: [evidence("verification", "task-001-battery")], outcome: "completed", completedAt: "2025-01-15T10:00:00Z" }),
-    completionRecord({ recordId: "completion-002", familyRef, taskId: "task-002", taskClassId: "manual-ops", lifecyclePhase: "verification", evidenceRefs: [evidence("verification", "task-002-battery")], outcome: "completed", completedAt: "2025-01-15T10:00:00Z" }),
+    completionRecord({
+      recordId: "completion-001",
+      familyRef,
+      taskId: "task-001",
+      taskClassId: "code-review",
+      lifecyclePhase: "verification",
+      evidenceRefs: [evidence("verification", "task-001-battery")],
+      outcome: "completed",
+      completedAt: "2025-01-15T10:00:00Z",
+    }),
+    completionRecord({
+      recordId: "completion-002",
+      familyRef,
+      taskId: "task-002",
+      taskClassId: "manual-ops",
+      lifecyclePhase: "verification",
+      evidenceRefs: [evidence("verification", "task-002-battery")],
+      outcome: "completed",
+      completedAt: "2025-01-15T10:00:00Z",
+    }),
   ];
   const qualityMetrics = [
-    qualityMetric({ metricId: "quality-001", familyRef, taskId: "task-001", measuredAt: "2025-01-15T10:05:00Z", verification: { status: "verified", batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("battery-001") }, qualityScore: 0.92 } }),
+    qualityMetric({
+      metricId: "quality-001",
+      familyRef,
+      taskId: "task-001",
+      measuredAt: "2025-01-15T10:05:00Z",
+      verification: {
+        status: "verified",
+        batteryRecordRef: {
+          namespace: "epoch-verification:battery",
+          digest: sha256Hex("battery-001"),
+        },
+        qualityScore: 0.92,
+      },
+    }),
   ];
   const baselines = [
-    baselineMeasure({ baselineId: "baseline-001", familyRef, scope: { scope: "task", taskId: "task-001" }, interventionCount: 3, monetaryCost: null, duration: null, provenance: [ref("baseline-provenance")] }),
+    baselineMeasure({
+      baselineId: "baseline-001",
+      familyRef,
+      scope: { scope: "task", taskId: "task-001" },
+      interventionCount: 3,
+      monetaryCost: null,
+      duration: null,
+      provenance: [ref("baseline-provenance")],
+    }),
   ];
   const interventions = [
-    interventionMeasure({ interventionId: "intervention-001", familyRef, taskId: "task-001", interventionCount: 1, monetaryCost: null, duration: null, learningRef: { namespace: "epoch-capability-learning:intervention", digest: sha256Hex("learning-001") } }),
+    interventionMeasure({
+      interventionId: "intervention-001",
+      familyRef,
+      taskId: "task-001",
+      interventionCount: 1,
+      monetaryCost: null,
+      duration: null,
+      learningRef: {
+        namespace: "epoch-capability-learning:intervention",
+        digest: sha256Hex("learning-001"),
+      },
+    }),
   ];
   const executions = [
-    taskExecutionRecord({ taskId: "task-001", familyRef, taskClassId: "code-review", mode: { mode: "automated", executedBy: "epoch-agent", evidence: { namespace: "epoch-agent-tools:command", digest: sha256Hex("command-001") } }, outcome: "succeeded" }),
-    taskExecutionRecord({ taskId: "task-002", familyRef, taskClassId: "manual-ops", mode: { mode: "human", reason: "physical presence required" }, outcome: "succeeded" }),
+    taskExecutionRecord({
+      taskId: "task-001",
+      familyRef,
+      taskClassId: "code-review",
+      mode: {
+        mode: "automated",
+        executedBy: "epoch-agent",
+        evidence: { namespace: "epoch-agent-tools:command", digest: sha256Hex("command-001") },
+      },
+      outcome: "succeeded",
+    }),
+    taskExecutionRecord({
+      taskId: "task-002",
+      familyRef,
+      taskClassId: "manual-ops",
+      mode: { mode: "human", reason: "physical presence required" },
+      outcome: "succeeded",
+    }),
   ];
   const reuseObservations = [
-    capabilityReuseObservation({ taskId: "task-001", familyRef, capabilityKey: "review-heuristics", reused: true, reproductionRef: { namespace: "epoch-capability-reproduction:record", digest: sha256Hex("reproduction-001") }, learningRef: { namespace: "epoch-capability-learning:intervention", digest: sha256Hex("learning-001") } }),
+    capabilityReuseObservation({
+      taskId: "task-001",
+      familyRef,
+      capabilityKey: "review-heuristics",
+      reused: true,
+      reproductionRef: {
+        namespace: "epoch-capability-reproduction:record",
+        digest: sha256Hex("reproduction-001"),
+      },
+      learningRef: {
+        namespace: "epoch-capability-learning:intervention",
+        digest: sha256Hex("learning-001"),
+      },
+    }),
   ];
   const safetyMeasures = [
-    safetyRegressionMeasure({ measureId: "safety-001", familyRef, taskId: "task-001", hardConstraintId: "no-execution-authority", status: "no-regression", frontierRef: { namespace: "epoch-cost-quality-search:outcome", digest: sha256Hex("frontier-001") }, evidenceRefs: [ref("safety-evidence-001")] }),
+    safetyRegressionMeasure({
+      measureId: "safety-001",
+      familyRef,
+      taskId: "task-001",
+      hardConstraintId: "no-execution-authority",
+      status: "no-regression",
+      frontierRef: {
+        namespace: "epoch-cost-quality-search:outcome",
+        digest: sha256Hex("frontier-001"),
+      },
+      evidenceRefs: [ref("safety-evidence-001")],
+    }),
   ];
   const variances = [
     predictionVarianceRecord({
       varianceId: "variance-001",
       familyRef,
       taskId: "task-001",
-      predicted: { monetaryCost: monetaryCost("USD", 1000), duration: null, predictedQualityScore: 0.9, frontierRef: { namespace: "epoch-cost-quality-search:outcome", digest: sha256Hex("frontier-001") } },
-      actual: { monetaryCost: monetaryCost("USD", 700), duration: null, verifiedQuality: qualityMetrics[0] ?? null },
-      feasibility: { feasible: true, solutionRef: { namespace: "epoch-capability-reproduction:record", digest: sha256Hex("solution-001") }, note: "solution reproduced and verified" },
+      predicted: {
+        monetaryCost: monetaryCost("USD", 1000),
+        duration: null,
+        predictedQualityScore: 0.9,
+        frontierRef: {
+          namespace: "epoch-cost-quality-search:outcome",
+          digest: sha256Hex("frontier-001"),
+        },
+      },
+      actual: {
+        monetaryCost: monetaryCost("USD", 700),
+        duration: null,
+        verifiedQuality: qualityMetrics[0] ?? null,
+      },
+      feasibility: {
+        feasible: true,
+        solutionRef: {
+          namespace: "epoch-capability-reproduction:record",
+          digest: sha256Hex("solution-001"),
+        },
+        note: "solution reproduced and verified",
+      },
     }),
   ];
   const endToEndCase = buildEndToEndCase({
     caseId: "case-001",
     familyRef,
     stages: [
-      { stage: "reconstruction", summary: "objective reconstructed from W031 reproduction records", inputs: [ref("reconstruction-in")], outputs: [ref("reconstruction-out")], evidence: [evidence("reconstruction", "case-001-reconstruction")] },
-      { stage: "assessment", summary: "capability coverage assessed", inputs: [ref("assessment-in")], outputs: [ref("assessment-out")], evidence: [evidence("assessment", "case-001-assessment")] },
-      { stage: "environment-mini-app", summary: "environment and mini-app prepared", inputs: [ref("env-in")], outputs: [ref("env-out")], evidence: [evidence("environment-mini-app", "case-001-environment")] },
-      { stage: "verification", summary: "W020 battery executed over the outputs", inputs: [ref("verification-in")], outputs: [ref("verification-out")], evidence: [evidence("verification", "case-001-verification")] },
-      { stage: "gap-closure", summary: "remaining capability gaps closed or recorded", inputs: [ref("gap-in")], outputs: [ref("gap-out")], evidence: [evidence("gap-closure", "case-001-gap-closure")] },
+      {
+        stage: "reconstruction",
+        summary: "objective reconstructed from W031 reproduction records",
+        inputs: [ref("reconstruction-in")],
+        outputs: [ref("reconstruction-out")],
+        evidence: [evidence("reconstruction", "case-001-reconstruction")],
+      },
+      {
+        stage: "assessment",
+        summary: "capability coverage assessed",
+        inputs: [ref("assessment-in")],
+        outputs: [ref("assessment-out")],
+        evidence: [evidence("assessment", "case-001-assessment")],
+      },
+      {
+        stage: "environment-mini-app",
+        summary: "environment and mini-app prepared",
+        inputs: [ref("env-in")],
+        outputs: [ref("env-out")],
+        evidence: [evidence("environment-mini-app", "case-001-environment")],
+      },
+      {
+        stage: "verification",
+        summary: "W020 battery executed over the outputs",
+        inputs: [ref("verification-in")],
+        outputs: [ref("verification-out")],
+        evidence: [evidence("verification", "case-001-verification")],
+      },
+      {
+        stage: "gap-closure",
+        summary: "remaining capability gaps closed or recorded",
+        inputs: [ref("gap-in")],
+        outputs: [ref("gap-out")],
+        evidence: [evidence("gap-closure", "case-001-gap-closure")],
+      },
     ],
   });
   const limitations = buildLimitationsReport({
@@ -97,9 +240,15 @@ function buildInputs() {
     caseId: endToEndCase.caseId,
     caseDigest: endToEndCase.caseDigest,
     remainingBottlenecks: [
-      { bottleneckId: "bottleneck-001", description: "spec ambiguity still escalates to a human reviewer", affectedStages: ["assessment"], evidence: [ref("bottleneck-001")] },
+      {
+        bottleneckId: "bottleneck-001",
+        description: "spec ambiguity still escalates to a human reviewer",
+        affectedStages: ["assessment"],
+        evidence: [ref("bottleneck-001")],
+      },
     ],
-    nextConstraint: "hard constraint: this package holds no execution authority — measurement stays read-only",
+    nextConstraint:
+      "hard constraint: this package holds no execution authority — measurement stays read-only",
   });
   return {
     evaluationId: "engineering-automation-evaluation",
@@ -121,7 +270,11 @@ function buildInputs() {
 const first = evaluateAbundance(buildInputs());
 const second = evaluateAbundance(buildInputs());
 
-strictEqual(first.evaluationDigest, second.evaluationDigest, "evaluation digest must be deterministic");
+strictEqual(
+  first.evaluationDigest,
+  second.evaluationDigest,
+  "evaluation digest must be deterministic",
+);
 strictEqual(first.inputDigest, second.inputDigest, "input digest must be deterministic");
 ok(first.endToEndProvenance.ok === true, "end-to-end provenance must verify");
 strictEqual(first.familyRef.familyId, family.familyId);
@@ -129,7 +282,10 @@ strictEqual(first.familyRef.familyId, family.familyId);
 // The typed laws, checked on the fixture.
 strictEqual(first.completion.inDenominator, 1);
 deepStrictEqual(first.visibleNonAutomatedTaskIds, ["task-002"]);
-ok(!first.escalationRate.automatedSuccessTaskIds.includes("task-002"), "human tasks are never automated successes");
+ok(
+  !first.escalationRate.automatedSuccessTaskIds.includes("task-002"),
+  "human tasks are never automated successes",
+);
 strictEqual(first.interventionProgress[0]?.progress.kind, "qualified-progress");
 strictEqual(first.abundanceClaims[0]?.kind, "lower-cost-claim");
 strictEqual(first.claimableCostDeltas[0]?.currencyCode, "USD");
@@ -151,5 +307,5 @@ console.log(
     `  next constraint: ${first.limitations.nextConstraint}`,
     `  evaluation digest: ${first.evaluationDigest}`,
     "QA OK",
-  ].join("\n")
+  ].join("\n"),
 );

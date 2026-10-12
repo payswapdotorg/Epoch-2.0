@@ -35,11 +35,7 @@ export interface ContractEntry {
   readonly summary: string;
 }
 
-type ContractTuple = readonly [
-  name: string,
-  kind: ContractEntryKind,
-  summary: string,
-];
+type ContractTuple = readonly [name: string, kind: ContractEntryKind, summary: string];
 
 const CONTRACT_TUPLES: readonly ContractTuple[] = [
   ["Sha256Digest", "type", "branded lowercase-hex sha256"],
@@ -182,7 +178,7 @@ const CONTRACT_TUPLES: readonly ContractTuple[] = [
 
 /** The public contract, derived from the compact tuple table above. */
 export const PUBLIC_CONTRACT: readonly ContractEntry[] = CONTRACT_TUPLES.map(
-  ([name, kind, summary]) => ({ name, kind, summary })
+  ([name, kind, summary]) => ({ name, kind, summary }),
 );
 
 /** All contract names (types, functions and constants). */
@@ -192,9 +188,7 @@ export function publicContractNames(): readonly string[] {
 
 /** Runtime (value) contract names — the names index.ts must export. */
 export function runtimeContractNames(): readonly string[] {
-  return PUBLIC_CONTRACT.filter((entry) => entry.kind !== "type").map(
-    (entry) => entry.name
-  );
+  return PUBLIC_CONTRACT.filter((entry) => entry.kind !== "type").map((entry) => entry.name);
 }
 
 export type ContractAssertion =
@@ -210,7 +204,7 @@ export type ContractAssertion =
  * nothing missing, nothing extra.
  */
 export function assertPublicContract(
-  moduleExports: Readonly<Record<string, unknown>>
+  moduleExports: Readonly<Record<string, unknown>>,
 ): ContractAssertion {
   const expected = new Set(runtimeContractNames());
   const actual = new Set(Object.keys(moduleExports));

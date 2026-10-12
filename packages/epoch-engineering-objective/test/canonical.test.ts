@@ -9,10 +9,7 @@ import {
 } from "../src/canonical.js";
 
 test("sha256Hex uses node:crypto (known vector)", () => {
-  strictEqual(
-    sha256Hex("abc"),
-    "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
-  );
+  strictEqual(sha256Hex("abc"), "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
 });
 
 test("canonicalJson sorts keys recursively", () => {

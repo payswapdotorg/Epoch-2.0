@@ -29,31 +29,23 @@ export interface SafetyRegressionMeasureInput {
 
 /** Build a hard-constraint regression measure per W033 semantics. */
 export function safetyRegressionMeasure(
-  input: SafetyRegressionMeasureInput
+  input: SafetyRegressionMeasureInput,
 ): SafetyRegressionMeasure {
   if (!SAFETY_STATUSES.includes(input.status)) {
     throw new TypeError(
-      `safetyRegressionMeasure.status: ${SAFETY_STATUSES.map((s) => `'${s}'`).join(" | ")} expected, got: ${JSON.stringify(input.status)}`
+      `safetyRegressionMeasure.status: ${SAFETY_STATUSES.map((s) => `'${s}'`).join(" | ")} expected, got: ${JSON.stringify(input.status)}`,
     );
   }
   const evidenceRefs = input.evidenceRefs.map((ref) => normalizeDigestRef(ref));
   if (evidenceRefs.length === 0) {
-    throw new TypeError(
-      "safetyRegressionMeasure: at least one evidence digest ref is required"
-    );
+    throw new TypeError("safetyRegressionMeasure: at least one evidence digest ref is required");
   }
   const record: Omit<SafetyRegressionMeasure, "measureDigest"> = {
     kind: "safety-regression-measure",
     measureId: kebabId("safetyRegressionMeasure.measureId", input.measureId),
     familyRef: normalizeFamilyRefInput(input.familyRef),
-    taskId:
-      input.taskId === null
-        ? null
-        : kebabId("safetyRegressionMeasure.taskId", input.taskId),
-    hardConstraintId: kebabId(
-      "safetyRegressionMeasure.hardConstraintId",
-      input.hardConstraintId
-    ),
+    taskId: input.taskId === null ? null : kebabId("safetyRegressionMeasure.taskId", input.taskId),
+    hardConstraintId: kebabId("safetyRegressionMeasure.hardConstraintId", input.hardConstraintId),
     status: input.status,
     frontierRef: normalizeDigestRef(input.frontierRef),
     evidenceRefs,
@@ -64,12 +56,10 @@ export function safetyRegressionMeasure(
 /** Aggregate regressions; every regression stays VISIBLE. */
 export function summarizeSafetyRegressions(
   measures: readonly SafetyRegressionMeasure[],
-  familyRef: TaskFamilyRef | null
+  familyRef: TaskFamilyRef | null,
 ): SafetyRegressionSummary {
   const scoped =
-    familyRef === null
-      ? measures
-      : measures.filter((m) => sameTaskFamily(m.familyRef, familyRef));
+    familyRef === null ? measures : measures.filter((m) => sameTaskFamily(m.familyRef, familyRef));
   let regressions = 0;
   let noRegression = 0;
   let unknown = 0;

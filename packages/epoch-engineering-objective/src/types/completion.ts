@@ -71,10 +71,7 @@ export interface UnverifiedOutput extends QualityMetricCommon {
  * "verified" variant can carry a qualityScore; the other variants are
  * structurally incapable of counting as quality.
  */
-export type VerifiedQualityMetric =
-  | VerifiedQuality
-  | FailedVerification
-  | UnverifiedOutput;
+export type VerifiedQualityMetric = VerifiedQuality | FailedVerification | UnverifiedOutput;
 
 /** Aggregated verified-quality counts over a set of metrics. */
 export interface VerifiedQualityShare {

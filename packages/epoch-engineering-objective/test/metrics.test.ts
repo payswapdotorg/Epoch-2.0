@@ -12,7 +12,11 @@ import { sha256Hex } from "../src/canonical.js";
 
 const familyRef = { familyId: "engineering-automation", version: "1.0.0" };
 const evidence = [
-  { lifecyclePhase: "verification", evidenceKey: "battery-run-1", digest: sha256Hex("battery-run-1") },
+  {
+    lifecyclePhase: "verification",
+    evidenceKey: "battery-run-1",
+    digest: sha256Hex("battery-run-1"),
+  },
 ];
 
 function buildCompletion() {
@@ -47,7 +51,7 @@ test("completionRecord requires at least one W022 evidence ref", () => {
         outcome: "completed",
         completedAt: "2025-01-15T10:00:00Z",
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -64,7 +68,7 @@ test("completionRecord validates the lifecycle phase key", () => {
         outcome: "completed",
         completedAt: "2025-01-15T10:00:00Z",
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -160,10 +164,45 @@ test("isVerifiedQualityAcceptable enforces the threshold", () => {
 test("verifiedQualityShare counts every verification status", () => {
   const acceptance = qualityAcceptanceThreshold(0.8);
   const metrics = [
-    qualityMetric({ metricId: "m1", familyRef, taskId: "task-001", measuredAt: "2025-01-15T10:05:00Z", verification: { status: "verified", batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("b") }, qualityScore: 0.9 } }),
-    qualityMetric({ metricId: "m2", familyRef, taskId: "task-002", measuredAt: "2025-01-15T10:05:00Z", verification: { status: "verified", batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("b") }, qualityScore: 0.5 } }),
-    qualityMetric({ metricId: "m3", familyRef, taskId: "task-003", measuredAt: "2025-01-15T10:05:00Z", verification: { status: "failed", batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("b") } } }),
-    qualityMetric({ metricId: "m4", familyRef, taskId: "task-004", measuredAt: "2025-01-15T10:05:00Z", verification: { status: "unverified" } }),
+    qualityMetric({
+      metricId: "m1",
+      familyRef,
+      taskId: "task-001",
+      measuredAt: "2025-01-15T10:05:00Z",
+      verification: {
+        status: "verified",
+        batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("b") },
+        qualityScore: 0.9,
+      },
+    }),
+    qualityMetric({
+      metricId: "m2",
+      familyRef,
+      taskId: "task-002",
+      measuredAt: "2025-01-15T10:05:00Z",
+      verification: {
+        status: "verified",
+        batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("b") },
+        qualityScore: 0.5,
+      },
+    }),
+    qualityMetric({
+      metricId: "m3",
+      familyRef,
+      taskId: "task-003",
+      measuredAt: "2025-01-15T10:05:00Z",
+      verification: {
+        status: "failed",
+        batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("b") },
+      },
+    }),
+    qualityMetric({
+      metricId: "m4",
+      familyRef,
+      taskId: "task-004",
+      measuredAt: "2025-01-15T10:05:00Z",
+      verification: { status: "unverified" },
+    }),
   ];
   deepStrictEqual(verifiedQualityShare(metrics, acceptance), {
     kind: "verified-quality-share",

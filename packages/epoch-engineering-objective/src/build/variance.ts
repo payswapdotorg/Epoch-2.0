@@ -52,11 +52,8 @@ function normalizePrediction(prediction: OutcomePredictionInput): OutcomePredict
   return {
     kind: "outcome-prediction",
     monetaryCost:
-      prediction.monetaryCost === null
-        ? null
-        : normalizeMonetaryCost(prediction.monetaryCost),
-    duration:
-      prediction.duration === null ? null : normalizeDurationMeasure(prediction.duration),
+      prediction.monetaryCost === null ? null : normalizeMonetaryCost(prediction.monetaryCost),
+    duration: prediction.duration === null ? null : normalizeDurationMeasure(prediction.duration),
     predictedQualityScore:
       prediction.predictedQualityScore === null
         ? null
@@ -68,10 +65,8 @@ function normalizePrediction(prediction: OutcomePredictionInput): OutcomePredict
 function normalizeActual(actual: OutcomeActualInput): OutcomeActual {
   return {
     kind: "outcome-actual",
-    monetaryCost:
-      actual.monetaryCost === null ? null : normalizeMonetaryCost(actual.monetaryCost),
-    duration:
-      actual.duration === null ? null : normalizeDurationMeasure(actual.duration),
+    monetaryCost: actual.monetaryCost === null ? null : normalizeMonetaryCost(actual.monetaryCost),
+    duration: actual.duration === null ? null : normalizeDurationMeasure(actual.duration),
     verifiedQuality: actual.verifiedQuality,
   };
 }
@@ -82,9 +77,7 @@ function normalizeFeasibility(feasibility: FeasibilityInput): Feasibility {
     typeof feasibility !== "object" ||
     typeof feasibility.feasible !== "boolean"
   ) {
-    throw new TypeError(
-      "predictionVarianceRecord.feasibility: feasibility object expected"
-    );
+    throw new TypeError("predictionVarianceRecord.feasibility: feasibility object expected");
   }
   if (feasibility.feasible) {
     return {
@@ -107,7 +100,7 @@ export interface PredictionVarianceRecordInput {
 
 /** Build a predicted-vs-actual record per W033 semantics. */
 export function predictionVarianceRecord(
-  input: PredictionVarianceRecordInput
+  input: PredictionVarianceRecordInput,
 ): PredictionVarianceRecord {
   const record: Omit<PredictionVarianceRecord, "recordDigest"> = {
     kind: "prediction-variance-record",
@@ -128,12 +121,9 @@ export function predictionVarianceRecord(
  */
 export function evaluateAbundanceClaim(
   record: PredictionVarianceRecord,
-  acceptance: QualityAcceptanceThreshold
+  acceptance: QualityAcceptanceThreshold,
 ): AbundanceClaim {
-  const noClaim = (
-    reason: AbundanceClaimBlockReason,
-    detail: string
-  ): NoAbundanceClaim => ({
+  const noClaim = (reason: AbundanceClaimBlockReason, detail: string): NoAbundanceClaim => ({
     kind: "no-claim",
     varianceId: record.varianceId,
     taskId: record.taskId,
@@ -143,14 +133,14 @@ export function evaluateAbundanceClaim(
   if (!record.feasibility.feasible) {
     return noClaim(
       "infeasible-solution",
-      `the solution is infeasible: ${record.feasibility.reason}`
+      `the solution is infeasible: ${record.feasibility.reason}`,
     );
   }
   const predictedCost = record.predicted.monetaryCost;
   if (predictedCost === null) {
     return noClaim(
       "no-cost-prediction",
-      "the prediction records no monetary cost to compare against"
+      "the prediction records no monetary cost to compare against",
     );
   }
   const actualCost = record.actual.monetaryCost;
@@ -160,13 +150,13 @@ export function evaluateAbundanceClaim(
   if (predictedCost.currencyCode !== actualCost.currencyCode) {
     return noClaim(
       "currency-mismatch",
-      `predicted currency ${predictedCost.currencyCode} does not match actual currency ${actualCost.currencyCode}`
+      `predicted currency ${predictedCost.currencyCode} does not match actual currency ${actualCost.currencyCode}`,
     );
   }
   if (actualCost.minorUnits >= predictedCost.minorUnits) {
     return noClaim(
       "actual-not-lower",
-      `actual cost ${actualCost.minorUnits} minor units is not lower than the predicted ${predictedCost.minorUnits}`
+      `actual cost ${actualCost.minorUnits} minor units is not lower than the predicted ${predictedCost.minorUnits}`,
     );
   }
   const quality = record.actual.verifiedQuality;
@@ -174,13 +164,13 @@ export function evaluateAbundanceClaim(
   if (score === null) {
     return noClaim(
       "quality-unverified",
-      "the actual outcome carries no verified quality (W020); unverified outputs never count"
+      "the actual outcome carries no verified quality (W020); unverified outputs never count",
     );
   }
   if (score < acceptance.minimumVerifiedScore) {
     return noClaim(
       "quality-below-threshold",
-      `verified quality score ${score} is below the acceptance threshold ${acceptance.minimumVerifiedScore}`
+      `verified quality score ${score} is below the acceptance threshold ${acceptance.minimumVerifiedScore}`,
     );
   }
   const claim: LowerCostClaim = {

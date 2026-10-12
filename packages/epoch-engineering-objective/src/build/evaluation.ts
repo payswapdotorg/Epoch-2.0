@@ -22,27 +22,23 @@ import { verifyEndToEndCase } from "./end-to-end.js";
 function selectBaselineForIntervention(
   intervention: InterventionMeasure,
   baselines: readonly BaselineMeasure[],
-  completions: readonly CompletionRecord[]
+  completions: readonly CompletionRecord[],
 ): BaselineMeasure | null {
   const familyBaselines = baselines.filter((b) =>
-    sameTaskFamily(b.familyRef, intervention.familyRef)
+    sameTaskFamily(b.familyRef, intervention.familyRef),
   );
   const taskBaseline = familyBaselines.find(
-    (b) => b.scope.scope === "task" && b.scope.taskId === intervention.taskId
+    (b) => b.scope.scope === "task" && b.scope.taskId === intervention.taskId,
   );
   if (taskBaseline !== undefined) {
     return taskBaseline;
   }
   const completion = completions.find(
-    (c) =>
-      c.taskId === intervention.taskId &&
-      sameTaskFamily(c.familyRef, intervention.familyRef)
+    (c) => c.taskId === intervention.taskId && sameTaskFamily(c.familyRef, intervention.familyRef),
   );
   if (completion !== undefined) {
     const classBaseline = familyBaselines.find(
-      (b) =>
-        b.scope.scope === "task-class" &&
-        b.scope.taskClassId === completion.taskClassId
+      (b) => b.scope.scope === "task-class" && b.scope.taskClassId === completion.taskClassId,
     );
     if (classBaseline !== undefined) {
       return classBaseline;
@@ -57,15 +53,11 @@ function selectBaselineForIntervention(
  * foreign-family interventions/variances belong to their own family's
  * evaluation. Human/arena tasks stay visible in every output they touch.
  */
-export function evaluateAbundance(
-  input: AbundanceEvaluationInput
-): AbundanceEvaluation {
+export function evaluateAbundance(input: AbundanceEvaluationInput): AbundanceEvaluation {
   const evaluationId = kebabId("evaluateAbundance.evaluationId", input.evaluationId);
   const familyRef = input.denominator.familyRef;
   const includedClasses = new Set(
-    input.denominator.includedTaskClasses.map(
-      (rule: TaskClassRule) => rule.classId
-    )
+    input.denominator.includedTaskClasses.map((rule: TaskClassRule) => rule.classId),
   );
 
   const excludedTaskIds: string[] = [];
@@ -93,20 +85,20 @@ export function evaluateAbundance(
   };
 
   const familyMetrics = input.qualityMetrics.filter((metric) =>
-    sameTaskFamily(metric.familyRef, familyRef)
+    sameTaskFamily(metric.familyRef, familyRef),
   );
   const verifiedQuality = verifiedQualityShare(familyMetrics, input.qualityAcceptance);
 
   const escalationRate = computeEscalationRate(
     `${evaluationId}-escalation-rate`,
     familyRef,
-    input.executions
+    input.executions,
   );
   const capabilityReuseRate = computeCapabilityReuseRate(
     `${evaluationId}-capability-reuse-rate`,
     familyRef,
     input.reuseObservations,
-    input.executions
+    input.executions,
   );
 
   const qualityByTask = new Map<string, VerifiedQualityMetric>();
@@ -123,7 +115,7 @@ export function evaluateAbundance(
     const baseline = selectBaselineForIntervention(
       intervention,
       input.baselines,
-      input.completions
+      input.completions,
     );
     const pairedQuality = qualityByTask.get(intervention.taskId) ?? null;
     interventionProgress.push({
@@ -164,9 +156,10 @@ export function evaluateAbundance(
       existing.claimCount += 1;
     }
   }
-  const claimableCostDeltas: ClaimableCostDelta[] = [...deltas.values()].map(
-    (delta) => ({ kind: "claimable-cost-delta", ...delta })
-  );
+  const claimableCostDeltas: ClaimableCostDelta[] = [...deltas.values()].map((delta) => ({
+    kind: "claimable-cost-delta",
+    ...delta,
+  }));
 
   const endToEndProvenance: ProvenanceVerification =
     input.endToEndCase === null
@@ -176,7 +169,7 @@ export function evaluateAbundance(
   if (input.limitations !== null) {
     if (input.endToEndCase === null) {
       throw new TypeError(
-        "evaluateAbundance: a limitations report requires the end-to-end case it belongs to"
+        "evaluateAbundance: a limitations report requires the end-to-end case it belongs to",
       );
     }
     if (
@@ -184,7 +177,7 @@ export function evaluateAbundance(
       input.limitations.caseRef.caseDigest !== input.endToEndCase.caseDigest
     ) {
       throw new TypeError(
-        "evaluateAbundance: the limitations report does not reference the supplied end-to-end case"
+        "evaluateAbundance: the limitations report does not reference the supplied end-to-end case",
       );
     }
   }

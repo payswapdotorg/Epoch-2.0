@@ -1,10 +1,7 @@
 import type { Sha256Digest } from "../canonical.js";
 import type { DigestRef, TaskFamilyRef } from "./core.js";
 
-export type SafetyRegressionStatus =
-  | "regression"
-  | "no-regression"
-  | "unknown";
+export type SafetyRegressionStatus = "regression" | "no-regression" | "unknown";
 
 /** Hard-constraint regression measure per W033 semantics (W035 item 5). */
 export interface SafetyRegressionMeasure {

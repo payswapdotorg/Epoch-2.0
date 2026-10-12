@@ -23,7 +23,7 @@ export function isSha256Digest(value: string): value is Sha256Digest {
 export function toSha256Digest(value: string): Sha256Digest {
   if (typeof value !== "string" || !SHA256_HEX_PATTERN.test(value)) {
     throw new TypeError(
-      `toSha256Digest: lowercase hex sha256 digest expected, got: ${JSON.stringify(value)}`
+      `toSha256Digest: lowercase hex sha256 digest expected, got: ${JSON.stringify(value)}`,
     );
   }
   return value as Sha256Digest;
@@ -95,7 +95,7 @@ function serialize(normalized: unknown): string {
   }
   if (type === "object") {
     const entries = Object.entries(normalized as Record<string, unknown>).map(
-      ([key, val]) => `${JSON.stringify(key)}:${serialize(val)}`
+      ([key, val]) => `${JSON.stringify(key)}:${serialize(val)}`,
     );
     return `{${entries.join(",")}}`;
   }

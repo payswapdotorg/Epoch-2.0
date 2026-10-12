@@ -1,9 +1,6 @@
 import { test } from "node:test";
 import { deepStrictEqual, ok, strictEqual, throws } from "node:assert";
-import {
-  safetyRegressionMeasure,
-  summarizeSafetyRegressions,
-} from "../src/build/safety.js";
+import { safetyRegressionMeasure, summarizeSafetyRegressions } from "../src/build/safety.js";
 import { taskFamilyRef } from "../src/build/denominators.js";
 import type { SafetyRegressionStatus } from "../src/types/safety.js";
 import { sha256Hex } from "../src/canonical.js";
@@ -15,7 +12,7 @@ function measure(
   status: SafetyRegressionStatus,
   taskId: string | null,
   constraintId: string,
-  refFamily = familyRef
+  refFamily = familyRef,
 ) {
   return safetyRegressionMeasure({
     measureId: `safety-${constraintId}`,
@@ -23,7 +20,10 @@ function measure(
     taskId,
     hardConstraintId: constraintId,
     status,
-    frontierRef: { namespace: "epoch-cost-quality-search:outcome", digest: sha256Hex("frontier-1") },
+    frontierRef: {
+      namespace: "epoch-cost-quality-search:outcome",
+      digest: sha256Hex("frontier-1"),
+    },
     evidenceRefs: [{ namespace: "epoch-lifecycle:evidence", digest: sha256Hex("safety-evidence") }],
   });
 }
@@ -32,7 +32,7 @@ test("safetyRegressionMeasure builds with a stable digest and validates status",
   const built = measure("regression", "task-001", "no-execution-authority");
   strictEqual(
     built.measureDigest,
-    measure("regression", "task-001", "no-execution-authority").measureDigest
+    measure("regression", "task-001", "no-execution-authority").measureDigest,
   );
   throws(() => measure("exploded" as unknown as SafetyRegressionStatus, null, "c"), TypeError);
 });
@@ -49,7 +49,7 @@ test("safetyRegressionMeasure requires evidence", () => {
         frontierRef: { namespace: "epoch-cost-quality-search:outcome", digest: sha256Hex("f") },
         evidenceRefs: [],
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -61,7 +61,7 @@ test("summarizeSafetyRegressions counts statuses and dedupes visible ids", () =>
       measure("no-regression", "task-002", "no-execution-authority"),
       measure("unknown", null, "no-second-authority"),
     ],
-    family
+    family,
   );
   deepStrictEqual(summary, {
     kind: "safety-regression-summary",
@@ -83,7 +83,7 @@ test("summarizeSafetyRegressions scopes by family and keeps regressions visible"
   });
   const scoped = summarizeSafetyRegressions(
     [foreign, measure("no-regression", "task-001", "c")],
-    family
+    family,
   );
   strictEqual(scoped.total, 1);
   strictEqual(scoped.hasRegressions, false);

@@ -8,8 +8,21 @@ import { sha256Hex } from "../src/canonical.js";
 
 const familyRef = { familyId: "engineering-automation", version: "1.0.0" };
 const acceptance = qualityAcceptanceThreshold(0.8);
-const frontierRef = { namespace: "epoch-cost-quality-search:outcome", digest: sha256Hex("frontier-1") };
-const solutionRef = { namespace: "epoch-capability-reproduction:record", digest: sha256Hex("solution-1") };
+const frontierRef = {
+  namespace: "epoch-cost-quality-search:outcome",
+  digest: sha256Hex("frontier-1"),
+};
+const solutionRef = {
+  namespace: "epoch-capability-reproduction:record",
+  digest: sha256Hex("solution-1"),
+};
+
+// Factory defaults: a missing (undefined) cost option falls back to the
+// happy-path fixture (predicted 1000 / actual 700 USD). An EXPLICIT null
+// still maps to "no cost recorded" — only the default mapping changes,
+// never the source law in build/variance.ts.
+const DEFAULT_PREDICTED_MINOR_UNITS = 1000;
+const DEFAULT_ACTUAL_MINOR_UNITS = 700;
 
 const verified = qualityMetric({
   metricId: "quality-001",
@@ -56,18 +69,21 @@ function record(input: RecordOptions = {}) {
     taskId: "task-001",
     predicted: {
       monetaryCost:
-        input.predictedMinorUnits === null || input.predictedMinorUnits === undefined
+        input.predictedMinorUnits === null
           ? null
-          : monetaryCost("USD", input.predictedMinorUnits),
+          : monetaryCost("USD", input.predictedMinorUnits ?? DEFAULT_PREDICTED_MINOR_UNITS),
       duration: null,
       predictedQualityScore: 0.9,
       frontierRef,
     },
     actual: {
       monetaryCost:
-        input.actualMinorUnits === null || input.actualMinorUnits === undefined
+        input.actualMinorUnits === null
           ? null
-          : monetaryCost(input.actualCurrency ?? "USD", input.actualMinorUnits),
+          : monetaryCost(
+              input.actualCurrency ?? "USD",
+              input.actualMinorUnits ?? DEFAULT_ACTUAL_MINOR_UNITS,
+            ),
       duration: null,
       verifiedQuality: input.quality === undefined ? verified : input.quality,
     },
@@ -89,54 +105,62 @@ test("predictionVarianceRecord builds with a stable digest", () => {
 });
 
 test("infeasible solutions never yield claims", () => {
-  strictEqual(blockReason(evaluateAbundanceClaim(record({ feasible: false }), acceptance)), "infeasible-solution");
+  strictEqual(
+    blockReason(evaluateAbundanceClaim(record({ feasible: false }), acceptance)),
+    "infeasible-solution",
+  );
 });
 
 test("a missing cost prediction blocks the claim", () => {
   strictEqual(
     blockReason(evaluateAbundanceClaim(record({ predictedMinorUnits: null }), acceptance)),
-    "no-cost-prediction"
+    "no-cost-prediction",
   );
 });
 
 test("a missing actual cost or a currency mismatch blocks the claim", () => {
   strictEqual(
     blockReason(evaluateAbundanceClaim(record({ actualMinorUnits: null }), acceptance)),
-    "no-cost-actual"
+    "no-cost-actual",
   );
   strictEqual(
     blockReason(
       evaluateAbundanceClaim(
         record({ predictedMinorUnits: 1000, actualMinorUnits: 700, actualCurrency: "EUR" }),
-        acceptance
-      )
+        acceptance,
+      ),
     ),
-    "currency-mismatch"
+    "currency-mismatch",
   );
 });
 
 test("an actual cost that is not lower blocks the claim", () => {
   strictEqual(
-    blockReason(evaluateAbundanceClaim(record({ predictedMinorUnits: 700, actualMinorUnits: 700 }), acceptance)),
-    "actual-not-lower"
+    blockReason(
+      evaluateAbundanceClaim(
+        record({ predictedMinorUnits: 700, actualMinorUnits: 700 }),
+        acceptance,
+      ),
+    ),
+    "actual-not-lower",
   );
 });
 
 test("unverified actual quality blocks the claim", () => {
   strictEqual(
     blockReason(evaluateAbundanceClaim(record({ quality: unverified }), acceptance)),
-    "quality-unverified"
+    "quality-unverified",
   );
   strictEqual(
     blockReason(evaluateAbundanceClaim(record({ quality: null }), acceptance)),
-    "quality-unverified"
+    "quality-unverified",
   );
 });
 
 test("verified quality below the threshold blocks the claim", () => {
   strictEqual(
     blockReason(evaluateAbundanceClaim(record({ quality: lowVerified }), acceptance)),
-    "quality-below-threshold"
+    "quality-below-threshold",
   );
 });
 
@@ -147,10 +171,10 @@ test("feasible + verified + actually cheaper yields a typed lower-cost claim", (
     strictEqual(claim.claimedReductionMinorUnits, 300);
     strictEqual(claim.currencyCode, "USD");
     strictEqual(claim.verifiedQualityScore, 0.9);
-    strictEqual(
-      claim.law,
-      "lower-cost-claimed-only-for-feasible-solutions-with-verified-quality"
-    );
+    strictEqual(claim.law, "lower-cost-claimed-only-for-feasible-solutions-with-verified-quality");
   }
-  throws(() => record({ quality: unverified, predictedMinorUnits: -1 as unknown as number }), TypeError);
+  throws(
+    () => record({ quality: unverified, predictedMinorUnits: -1 as unknown as number }),
+    TypeError,
+  );
 });

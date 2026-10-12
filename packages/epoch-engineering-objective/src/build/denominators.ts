@@ -31,7 +31,7 @@ export function taskFamily(
   familyId: string,
   name: string,
   version: string,
-  description: string
+  description: string,
 ): TaskFamily {
   return {
     kind: "task-family",
@@ -50,7 +50,7 @@ export function taskFamilyRef(familyId: string, version: string): TaskFamilyRef 
 /** Family identity equality (familyId + version). */
 export function sameTaskFamily(
   a: TaskFamilyRef | TaskFamily,
-  b: TaskFamilyRef | TaskFamily
+  b: TaskFamilyRef | TaskFamily,
 ): boolean {
   return a.familyId === b.familyId && a.version === b.version;
 }
@@ -59,7 +59,7 @@ export function sameTaskFamily(
 export function taskClassRule(
   classId: string,
   description: string,
-  rationale: string
+  rationale: string,
 ): TaskClassRule {
   return {
     kind: "task-class-rule",
@@ -90,27 +90,24 @@ function revalidateRule(rule: TaskClassRule, list: string): TaskClassRule {
  * data, never implied.
  */
 export function automationDenominator(spec: DenominatorSpec): AutomationDenominator {
-  const denominatorId = kebabId(
-    "automationDenominator.denominatorId",
-    spec.denominatorId
-  );
+  const denominatorId = kebabId("automationDenominator.denominatorId", spec.denominatorId);
   const familyRef = normalizeFamilyRefInput(spec.familyRef);
   const includedTaskClasses = spec.includedTaskClasses.map((rule) =>
-    revalidateRule(rule, "includedTaskClasses")
+    revalidateRule(rule, "includedTaskClasses"),
   );
   const excludedTaskClasses = spec.excludedTaskClasses.map((rule) =>
-    revalidateRule(rule, "excludedTaskClasses")
+    revalidateRule(rule, "excludedTaskClasses"),
   );
   if (includedTaskClasses.length === 0) {
     throw new TypeError(
-      "automationDenominator: at least one included task class is required — denominators are explicit data, never implied"
+      "automationDenominator: at least one included task class is required — denominators are explicit data, never implied",
     );
   }
   const seen = new Set<string>();
   for (const rule of [...includedTaskClasses, ...excludedTaskClasses]) {
     if (seen.has(rule.classId)) {
       throw new TypeError(
-        `automationDenominator: task class '${rule.classId}' appears more than once`
+        `automationDenominator: task class '${rule.classId}' appears more than once`,
       );
     }
     seen.add(rule.classId);

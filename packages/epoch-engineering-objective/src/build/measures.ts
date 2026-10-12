@@ -5,12 +5,7 @@ import {
   normalizeDurationMeasure,
   normalizeMonetaryCost,
 } from "../types/core.js";
-import type {
-  DigestRefInput,
-  DurationMeasure,
-  MonetaryCost,
-  QualityAcceptanceThreshold,
-} from "../types/core.js";
+import type { DigestRefInput, DurationMeasure, MonetaryCost } from "../types/core.js";
 import type {
   BaselineMeasure,
   BaselineScope,
@@ -20,7 +15,6 @@ import type {
   InterventionProgressInput,
   NonQualifyingInterventionProgress,
 } from "../types/measures.js";
-import type { VerifiedQualityMetric } from "../types/completion.js";
 import { effectiveQualityScore } from "./completion.js";
 import { normalizeFamilyRefInput, sameTaskFamily } from "./denominators.js";
 import type { FamilyRefInput } from "./denominators.js";
@@ -50,9 +44,7 @@ function normalizeBaselineScope(scope: BaselineScopeInput): BaselineScope {
     default:
       // NOTE: `scope` is narrowed to `never` here (all scope literals are
       // covered above), so the message stringifies the value itself.
-      throw new TypeError(
-        `baselineMeasure.scope: unknown scope, got: ${JSON.stringify(scope)}`
-      );
+      throw new TypeError(`baselineMeasure.scope: unknown scope, got: ${JSON.stringify(scope)}`);
   }
 }
 
@@ -70,17 +62,11 @@ export interface BaselineMeasureInput {
 export function baselineMeasure(input: BaselineMeasureInput): BaselineMeasure {
   const provenance = input.provenance.map((ref) => normalizeDigestRef(ref));
   if (provenance.length === 0) {
-    throw new TypeError(
-      "baselineMeasure: at least one provenance digest ref is required"
-    );
+    throw new TypeError("baselineMeasure: at least one provenance digest ref is required");
   }
-  if (
-    input.interventionCount === null &&
-    input.monetaryCost === null &&
-    input.duration === null
-  ) {
+  if (input.interventionCount === null && input.monetaryCost === null && input.duration === null) {
     throw new TypeError(
-      "baselineMeasure: at least one of interventionCount, monetaryCost or duration must be measured"
+      "baselineMeasure: at least one of interventionCount, monetaryCost or duration must be measured",
     );
   }
   const record: Omit<BaselineMeasure, "baselineDigest"> = {
@@ -91,12 +77,8 @@ export function baselineMeasure(input: BaselineMeasureInput): BaselineMeasure {
     interventionCount:
       input.interventionCount === null
         ? null
-        : nonNegativeInteger(
-            "baselineMeasure.interventionCount",
-            input.interventionCount
-          ),
-    monetaryCost:
-      input.monetaryCost === null ? null : normalizeMonetaryCost(input.monetaryCost),
+        : nonNegativeInteger("baselineMeasure.interventionCount", input.interventionCount),
+    monetaryCost: input.monetaryCost === null ? null : normalizeMonetaryCost(input.monetaryCost),
     duration: input.duration === null ? null : normalizeDurationMeasure(input.duration),
     provenance,
   };
@@ -114,23 +96,17 @@ export interface InterventionMeasureInput {
 }
 
 /** Build an intervention measure (counts AND costs, W032 digest ref). */
-export function interventionMeasure(
-  input: InterventionMeasureInput
-): InterventionMeasure {
+export function interventionMeasure(input: InterventionMeasureInput): InterventionMeasure {
   const record: Omit<InterventionMeasure, "measureDigest"> = {
     kind: "intervention-measure",
-    interventionId: kebabId(
-      "interventionMeasure.interventionId",
-      input.interventionId
-    ),
+    interventionId: kebabId("interventionMeasure.interventionId", input.interventionId),
     familyRef: normalizeFamilyRefInput(input.familyRef),
     taskId: kebabId("interventionMeasure.taskId", input.taskId),
     interventionCount: nonNegativeInteger(
       "interventionMeasure.interventionCount",
-      input.interventionCount
+      input.interventionCount,
     ),
-    monetaryCost:
-      input.monetaryCost === null ? null : normalizeMonetaryCost(input.monetaryCost),
+    monetaryCost: input.monetaryCost === null ? null : normalizeMonetaryCost(input.monetaryCost),
     duration: input.duration === null ? null : normalizeDurationMeasure(input.duration),
     learningRef: normalizeDigestRef(input.learningRef),
   };
@@ -143,13 +119,12 @@ export function interventionMeasure(
  * safety regression applies. Every block reason is typed, never implied.
  */
 export function evaluateInterventionProgress(
-  input: InterventionProgressInput
+  input: InterventionProgressInput,
 ): InterventionProgress {
-  const { intervention, baseline, pairedQuality, acceptance, safetyRegressions } =
-    input;
+  const { intervention, baseline, pairedQuality, acceptance, safetyRegressions } = input;
   const notQualifying = (
     reason: InterventionNonQualificationReason,
-    detail: string
+    detail: string,
   ): NonQualifyingInterventionProgress => ({
     kind: "not-qualifying",
     interventionId: intervention.interventionId,
@@ -159,33 +134,30 @@ export function evaluateInterventionProgress(
   });
 
   if (baseline === null) {
-    return notQualifying(
-      "no-baseline",
-      "no baseline measure was supplied for this intervention"
-    );
+    return notQualifying("no-baseline", "no baseline measure was supplied for this intervention");
   }
   if (!sameTaskFamily(baseline.familyRef, intervention.familyRef)) {
     return notQualifying(
       "baseline-family-mismatch",
-      `baseline family ${baseline.familyRef.familyId}@${baseline.familyRef.version} does not match intervention family ${intervention.familyRef.familyId}@${intervention.familyRef.version}`
+      `baseline family ${baseline.familyRef.familyId}@${baseline.familyRef.version} does not match intervention family ${intervention.familyRef.familyId}@${intervention.familyRef.version}`,
     );
   }
   if (baseline.interventionCount === null) {
     return notQualifying(
       "baseline-lacks-intervention-count",
-      "the baseline records no intervention count to compare against"
+      "the baseline records no intervention count to compare against",
     );
   }
   if (intervention.interventionCount >= baseline.interventionCount) {
     return notQualifying(
       "not-fewer-interventions",
-      `intervention count ${intervention.interventionCount} is not lower than the baseline count ${baseline.interventionCount}`
+      `intervention count ${intervention.interventionCount} is not lower than the baseline count ${baseline.interventionCount}`,
     );
   }
   if (pairedQuality === null) {
     return notQualifying(
       "quality-unverified",
-      "no paired quality metric exists for this task; unverified outputs never count as quality"
+      "no paired quality metric exists for this task; unverified outputs never count as quality",
     );
   }
   if (
@@ -194,34 +166,34 @@ export function evaluateInterventionProgress(
   ) {
     return notQualifying(
       "paired-quality-mismatch",
-      `paired quality metric '${pairedQuality.metricId}' (task ${pairedQuality.taskId}) does not pair with intervention task '${intervention.taskId}'`
+      `paired quality metric '${pairedQuality.metricId}' (task ${pairedQuality.taskId}) does not pair with intervention task '${intervention.taskId}'`,
     );
   }
   const score = effectiveQualityScore(pairedQuality);
   if (score === null) {
     return notQualifying(
       "quality-unverified",
-      `paired quality metric '${pairedQuality.metricId}' is not verified (W020); unverified outputs never count as quality`
+      `paired quality metric '${pairedQuality.metricId}' is not verified (W020); unverified outputs never count as quality`,
     );
   }
   if (score < acceptance.minimumVerifiedScore) {
     return notQualifying(
       "quality-below-threshold",
-      `verified quality score ${score} is below the acceptance threshold ${acceptance.minimumVerifiedScore}`
+      `verified quality score ${score} is below the acceptance threshold ${acceptance.minimumVerifiedScore}`,
     );
   }
   const regressions = safetyRegressions.filter(
     (measure) =>
       measure.status === "regression" &&
       sameTaskFamily(measure.familyRef, intervention.familyRef) &&
-      (measure.taskId === null || measure.taskId === intervention.taskId)
+      (measure.taskId === null || measure.taskId === intervention.taskId),
   );
   if (regressions.length > 0) {
     return notQualifying(
       "safety-regression-present",
       `${regressions.length} hard-constraint regression measure(s) apply to this task (constraints: ${regressions
         .map((m) => m.hardConstraintId)
-        .join(", ")})`
+        .join(", ")})`,
     );
   }
   return {

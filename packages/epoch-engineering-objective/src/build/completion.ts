@@ -39,12 +39,12 @@ export function completionRecord(input: CompletionRecordInput): CompletionRecord
   const evidenceRefs = input.evidenceRefs.map((ref) => normalizeEvidenceRef(ref));
   if (evidenceRefs.length === 0) {
     throw new TypeError(
-      "completionRecord: at least one W022 evidence ref is required (records are lifecycle-phase-keyed)"
+      "completionRecord: at least one W022 evidence ref is required (records are lifecycle-phase-keyed)",
     );
   }
   if (input.outcome !== "completed" && input.outcome !== "incomplete") {
     throw new TypeError(
-      `completionRecord.outcome: 'completed' | 'incomplete' expected, got: ${JSON.stringify(input.outcome)}`
+      `completionRecord.outcome: 'completed' | 'incomplete' expected, got: ${JSON.stringify(input.outcome)}`,
     );
   }
   const record: Omit<CompletionRecord, "recordDigest"> = {
@@ -122,7 +122,7 @@ export function qualityMetric(input: QualityMetricInput): VerifiedQualityMetric 
       // NOTE: `v` is narrowed to `never` here (all union statuses are
       // covered above), so the message reads the un-narrowed input instead.
       throw new TypeError(
-        `qualityMetric.verification.status: 'verified' | 'failed' | 'unverified' expected, got: ${JSON.stringify(input.verification)}`
+        `qualityMetric.verification.status: 'verified' | 'failed' | 'unverified' expected, got: ${JSON.stringify(input.verification)}`,
       );
   }
 }
@@ -131,16 +131,14 @@ export function qualityMetric(input: QualityMetricInput): VerifiedQualityMetric 
  * The typed quality law: a score exists ONLY for verified outputs.
  * Unverified and failed outputs never count as quality.
  */
-export function effectiveQualityScore(
-  metric: VerifiedQualityMetric
-): QualityScore | null {
+export function effectiveQualityScore(metric: VerifiedQualityMetric): QualityScore | null {
   return metric.verification.status === "verified" ? metric.qualityScore : null;
 }
 
 /** Verified AND at or above the acceptance threshold. */
 export function isVerifiedQualityAcceptable(
   metric: VerifiedQualityMetric,
-  acceptance: QualityAcceptanceThreshold
+  acceptance: QualityAcceptanceThreshold,
 ): boolean {
   const score = effectiveQualityScore(metric);
   return score !== null && score >= acceptance.minimumVerifiedScore;
@@ -149,7 +147,7 @@ export function isVerifiedQualityAcceptable(
 /** Aggregate verified-quality counts over a set of metrics. */
 export function verifiedQualityShare(
   metrics: readonly VerifiedQualityMetric[],
-  acceptance: QualityAcceptanceThreshold
+  acceptance: QualityAcceptanceThreshold,
 ): VerifiedQualityShare {
   let verified = 0;
   let acceptable = 0;
@@ -171,7 +169,7 @@ export function verifiedQualityShare(
       unverified += 1;
     } else {
       throw new TypeError(
-        `verifiedQualityShare: unknown verification status, got: ${JSON.stringify(verification)}`
+        `verifiedQualityShare: unknown verification status, got: ${JSON.stringify(verification)}`,
       );
     }
   }

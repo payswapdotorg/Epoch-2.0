@@ -42,8 +42,7 @@ export interface TaskClassRule {
  */
 export const AUTOMATION_DENOMINATOR_DEFAULT_POLICY = "exclude-unlisted" as const;
 
-export type AutomationDenominatorDefaultPolicy =
-  typeof AUTOMATION_DENOMINATOR_DEFAULT_POLICY;
+export type AutomationDenominatorDefaultPolicy = typeof AUTOMATION_DENOMINATOR_DEFAULT_POLICY;
 
 /** Explicit definition of which task classes count as the denominator. */
 export interface AutomationDenominator {

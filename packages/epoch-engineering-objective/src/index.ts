@@ -22,11 +22,7 @@ export {
   publicContractNames,
   runtimeContractNames,
 } from "./contract.js";
-export type {
-  ContractAssertion,
-  ContractEntry,
-  ContractEntryKind,
-} from "./contract.js";
+export type { ContractAssertion, ContractEntry, ContractEntryKind } from "./contract.js";
 
 export {
   KNOWN_NAMESPACES,

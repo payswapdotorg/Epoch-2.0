@@ -46,7 +46,7 @@ function stageDigestOf(stage: SealedEndToEndStage): Sha256Digest {
 function caseDigestOf(
   caseId: string,
   familyRef: TaskFamilyRef,
-  stageDigests: readonly string[]
+  stageDigests: readonly string[],
 ): Sha256Digest {
   return digestCanonical({
     kind: "end-to-end-case",
@@ -67,7 +67,7 @@ export function buildEndToEndCase(input: EndToEndCaseInput): EndToEndCase {
   const familyRef = normalizeFamilyRefInput(input.familyRef);
   if (input.stages.length !== END_TO_END_STAGES.length) {
     throw new TypeError(
-      `buildEndToEndCase: exactly ${END_TO_END_STAGES.length} stages required (${END_TO_END_STAGES.join(", ")}), got ${input.stages.length}`
+      `buildEndToEndCase: exactly ${END_TO_END_STAGES.length} stages required (${END_TO_END_STAGES.join(", ")}), got ${input.stages.length}`,
     );
   }
   const stages: SealedEndToEndStage[] = [];
@@ -76,38 +76,33 @@ export function buildEndToEndCase(input: EndToEndCaseInput): EndToEndCase {
     const expectedStage = END_TO_END_STAGES[index];
     const spec = input.stages[index];
     if (expectedStage === undefined || spec === undefined) {
-      throw new TypeError(
-        "buildEndToEndCase: stage list does not cover the canonical stage order"
-      );
+      throw new TypeError("buildEndToEndCase: stage list does not cover the canonical stage order");
     }
     if (spec.stage !== expectedStage) {
       throw new TypeError(
-        `buildEndToEndCase: stage ${index} must be '${expectedStage}', got '${String(spec.stage)}'`
+        `buildEndToEndCase: stage ${index} must be '${expectedStage}', got '${String(spec.stage)}'`,
       );
     }
     if (spec.evidence.length === 0) {
       throw new TypeError(
-        `buildEndToEndCase: stage '${expectedStage}' requires at least one W022 evidence ref (provenance is preserved across all stages)`
+        `buildEndToEndCase: stage '${expectedStage}' requires at least one W022 evidence ref (provenance is preserved across all stages)`,
       );
     }
     if (index === 0 && spec.inputs.length === 0) {
       throw new TypeError(
-        "buildEndToEndCase: the reconstruction stage requires at least one input digest ref"
+        "buildEndToEndCase: the reconstruction stage requires at least one input digest ref",
       );
     }
     if (index === END_TO_END_STAGES.length - 1 && spec.outputs.length === 0) {
       throw new TypeError(
-        "buildEndToEndCase: the gap-closure stage requires at least one output digest ref"
+        "buildEndToEndCase: the gap-closure stage requires at least one output digest ref",
       );
     }
     const sealed: Omit<SealedEndToEndStage, "stageDigest"> = {
       kind: "sealed-end-to-end-stage",
       stageIndex: index,
       stage: expectedStage,
-      summary: nonEmptyString(
-        `buildEndToEndCase.stages[${index}].summary`,
-        spec.summary
-      ),
+      summary: nonEmptyString(`buildEndToEndCase.stages[${index}].summary`, spec.summary),
       inputs: spec.inputs.map((ref) => normalizeDigestRef(ref)),
       outputs: spec.outputs.map((ref) => normalizeDigestRef(ref)),
       evidence: spec.evidence.map((ref) => normalizeEvidenceRef(ref)),
@@ -120,7 +115,7 @@ export function buildEndToEndCase(input: EndToEndCaseInput): EndToEndCase {
   const caseDigest = caseDigestOf(
     caseId,
     familyRef,
-    stages.map((s) => s.stageDigest)
+    stages.map((s) => s.stageDigest),
   );
   return { kind: "end-to-end-case", caseId, familyRef, stages, caseDigest };
 }
@@ -178,7 +173,7 @@ export function verifyEndToEndCase(record: EndToEndCase): ProvenanceVerification
   const expectedCaseDigest = caseDigestOf(
     record.caseId,
     record.familyRef,
-    record.stages.map((s) => s.stageDigest)
+    record.stages.map((s) => s.stageDigest),
   );
   if (record.caseDigest !== expectedCaseDigest) {
     return { ok: false, reason: "case digest mismatch", stageIndex: null };
@@ -207,41 +202,37 @@ export interface LimitationsReportInput {
 }
 
 /** Honest limitations: at least one bottleneck and an explicit next constraint. */
-export function buildLimitationsReport(
-  input: LimitationsReportInput
-): LimitationsReport {
+export function buildLimitationsReport(input: LimitationsReportInput): LimitationsReport {
   if (input.remainingBottlenecks.length === 0) {
     throw new TypeError(
-      "buildLimitationsReport: an honest report lists at least one remaining bottleneck"
+      "buildLimitationsReport: an honest report lists at least one remaining bottleneck",
     );
   }
-  const bottlenecks: Bottleneck[] = input.remainingBottlenecks.map(
-    (bottleneck, index) => {
-      if (bottleneck.affectedStages.length === 0) {
-        throw new TypeError(
-          `buildLimitationsReport.remainingBottlenecks[${index}]: at least one affected stage is required`
-        );
-      }
-      for (const stage of bottleneck.affectedStages) {
-        if (!END_TO_END_STAGES.includes(stage as EndToEndStageKey)) {
-          throw new TypeError(
-            `buildLimitationsReport: unknown stage '${stage}' (canonical stages: ${END_TO_END_STAGES.join(", ")})`
-          );
-        }
-      }
-      if (bottleneck.evidence.length === 0) {
-        throw new TypeError(
-          `buildLimitationsReport.remainingBottlenecks[${index}]: at least one evidence digest ref is required`
-        );
-      }
-      return {
-        bottleneckId: kebabId("limitations.bottleneckId", bottleneck.bottleneckId),
-        description: nonEmptyString("limitations.description", bottleneck.description),
-        affectedStages: [...bottleneck.affectedStages] as EndToEndStageKey[],
-        evidence: bottleneck.evidence.map((ref) => normalizeDigestRef(ref)),
-      };
+  const bottlenecks: Bottleneck[] = input.remainingBottlenecks.map((bottleneck, index) => {
+    if (bottleneck.affectedStages.length === 0) {
+      throw new TypeError(
+        `buildLimitationsReport.remainingBottlenecks[${index}]: at least one affected stage is required`,
+      );
     }
-  );
+    for (const stage of bottleneck.affectedStages) {
+      if (!END_TO_END_STAGES.includes(stage as EndToEndStageKey)) {
+        throw new TypeError(
+          `buildLimitationsReport: unknown stage '${stage}' (canonical stages: ${END_TO_END_STAGES.join(", ")})`,
+        );
+      }
+    }
+    if (bottleneck.evidence.length === 0) {
+      throw new TypeError(
+        `buildLimitationsReport.remainingBottlenecks[${index}]: at least one evidence digest ref is required`,
+      );
+    }
+    return {
+      bottleneckId: kebabId("limitations.bottleneckId", bottleneck.bottleneckId),
+      description: nonEmptyString("limitations.description", bottleneck.description),
+      affectedStages: [...bottleneck.affectedStages] as EndToEndStageKey[],
+      evidence: bottleneck.evidence.map((ref) => normalizeDigestRef(ref)),
+    };
+  });
   const report: Omit<LimitationsReport, "reportDigest"> = {
     kind: "limitations-report",
     reportId: kebabId("buildLimitationsReport.reportId", input.reportId),

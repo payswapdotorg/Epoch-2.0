@@ -12,12 +12,12 @@ import { AUTOMATION_DENOMINATOR_DEFAULT_POLICY } from "../src/types/task-family.
 const reviewClass = taskClassRule(
   "code-review",
   "automated code review",
-  "counts: deterministic diff evaluation with W020-verifiable output"
+  "counts: deterministic diff evaluation with W020-verifiable output",
 );
 const excludedClass = taskClassRule(
   "manual-ops",
   "manual operations",
-  "excluded: requires physical presence; automation is not claimable"
+  "excluded: requires physical presence; automation is not claimable",
 );
 
 function buildDenominator() {
@@ -34,7 +34,7 @@ test("taskFamily builds and validates", () => {
     "engineering-automation",
     "Engineering automation",
     "1.0.0",
-    "the W035 target family"
+    "the W035 target family",
   );
   strictEqual(family.familyId, "engineering-automation");
   throws(() => taskFamily("Not_Kebab", "x", "1.0.0", "d"), TypeError);
@@ -67,7 +67,7 @@ test("automationDenominator requires at least one included class", () => {
         includedTaskClasses: [],
         excludedTaskClasses: [],
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -80,7 +80,7 @@ test("automationDenominator rejects duplicate classes and emits 64-hex digests",
         includedTaskClasses: [reviewClass, reviewClass],
         excludedTaskClasses: [],
       }),
-    TypeError
+    TypeError,
   );
   ok(/^[0-9a-f]{64}$/.test(buildDenominator().definitionDigest));
 });

@@ -12,7 +12,9 @@ import { sha256Hex } from "../src/canonical.js";
 
 const familyRef = { familyId: "engineering-automation", version: "1.0.0" };
 const acceptance = qualityAcceptanceThreshold(0.8);
-const provenance = [{ namespace: "epoch-lifecycle:evidence", digest: sha256Hex("baseline-provenance") }];
+const provenance = [
+  { namespace: "epoch-lifecycle:evidence", digest: sha256Hex("baseline-provenance") },
+];
 
 function baseline(overrides: { familyId?: string; interventionCount?: number | null } = {}) {
   return baselineMeasure({
@@ -34,7 +36,10 @@ function intervention(count: number) {
     interventionCount: count,
     monetaryCost: null,
     duration: null,
-    learningRef: { namespace: "epoch-capability-learning:intervention", digest: sha256Hex("learning-001") },
+    learningRef: {
+      namespace: "epoch-capability-learning:intervention",
+      digest: sha256Hex("learning-001"),
+    },
   });
 }
 
@@ -46,7 +51,10 @@ function metric(score: number, taskId = "task-001") {
     measuredAt: "2025-01-15T10:05:00Z",
     verification: {
       status: "verified",
-      batteryRecordRef: { namespace: "epoch-verification:battery", digest: sha256Hex("battery-001") },
+      batteryRecordRef: {
+        namespace: "epoch-verification:battery",
+        digest: sha256Hex("battery-001"),
+      },
       qualityScore: score,
     },
   });
@@ -59,7 +67,10 @@ function regression(taskId: string | null) {
     taskId,
     hardConstraintId: "no-execution-authority",
     status: "regression",
-    frontierRef: { namespace: "epoch-cost-quality-search:outcome", digest: sha256Hex("frontier-001") },
+    frontierRef: {
+      namespace: "epoch-cost-quality-search:outcome",
+      digest: sha256Hex("frontier-001"),
+    },
     evidenceRefs: [{ namespace: "epoch-lifecycle:evidence", digest: sha256Hex("safety-evidence") }],
   });
 }
@@ -70,7 +81,7 @@ function gate(
     quality?: ReturnType<typeof metric> | null;
     count?: number;
     regressions?: ReturnType<typeof regression>[];
-  } = {}
+  } = {},
 ) {
   return evaluateInterventionProgress({
     intervention: intervention(options.count ?? 1),
@@ -98,7 +109,7 @@ test("baselineMeasure requires provenance", () => {
         duration: null,
         provenance: [],
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -114,7 +125,7 @@ test("baselineMeasure requires at least one measured quantity", () => {
         duration: null,
         provenance,
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -129,9 +140,12 @@ test("interventionMeasure builds with a stable digest and validates the learning
         interventionCount: 1,
         monetaryCost: null,
         duration: null,
-        learningRef: { namespace: "epoch-capability-learning:intervention", digest: "not-a-digest" },
+        learningRef: {
+          namespace: "epoch-capability-learning:intervention",
+          digest: "not-a-digest",
+        },
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -142,7 +156,7 @@ test("gate: no baseline blocks", () => {
 test("gate: baseline family mismatch blocks", () => {
   strictEqual(
     notQualifyingReason(gate({ baseline: baseline({ familyId: "other-family" }) })),
-    "baseline-family-mismatch"
+    "baseline-family-mismatch",
   );
 });
 
@@ -158,7 +172,7 @@ test("gate: baseline without intervention count blocks", () => {
   });
   strictEqual(
     notQualifyingReason(gate({ baseline: noCountBaseline })),
-    "baseline-lacks-intervention-count"
+    "baseline-lacks-intervention-count",
   );
 });
 
@@ -173,7 +187,7 @@ test("gate: missing paired quality blocks as quality-unverified", () => {
 test("gate: paired quality for another task blocks as mismatch", () => {
   strictEqual(
     notQualifyingReason(gate({ quality: metric(0.9, "task-002") })),
-    "paired-quality-mismatch"
+    "paired-quality-mismatch",
   );
 });
 
@@ -184,7 +198,7 @@ test("gate: verified quality below threshold blocks", () => {
 test("gate: hard-constraint safety regression blocks", () => {
   strictEqual(
     notQualifyingReason(gate({ regressions: [regression(null)] })),
-    "safety-regression-present"
+    "safety-regression-present",
   );
 });
 

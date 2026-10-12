@@ -7,11 +7,7 @@ import type {
   VerifiedQualityMetric,
   VerifiedQualityShare,
 } from "./completion.js";
-import type {
-  BaselineMeasure,
-  InterventionMeasure,
-  InterventionProgress,
-} from "./measures.js";
+import type { BaselineMeasure, InterventionMeasure, InterventionProgress } from "./measures.js";
 import type { SafetyRegressionMeasure, SafetyRegressionSummary } from "./safety.js";
 import type {
   CapabilityReuseObservation,
@@ -20,11 +16,7 @@ import type {
   TaskExecutionRecord,
 } from "./rates.js";
 import type { AbundanceClaim, PredictionVarianceRecord } from "./variance.js";
-import type {
-  EndToEndCase,
-  LimitationsReport,
-  ProvenanceVerification,
-} from "./end-to-end.js";
+import type { EndToEndCase, LimitationsReport, ProvenanceVerification } from "./end-to-end.js";
 
 /** Completion counts scoped by the explicit denominator. */
 export interface CompletionShare {

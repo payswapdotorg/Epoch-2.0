@@ -45,11 +45,28 @@ const arena = (taskId: string) =>
     outcome: "abandoned",
   });
 
-const executions = [auto("task-001", "succeeded"), auto("task-002", "failed"), human("task-003"), arena("task-004")];
-const r1 = { namespace: "epoch-capability-reproduction:record", digest: sha256Hex("reproduction-001") };
-const l1 = { namespace: "epoch-capability-learning:intervention", digest: sha256Hex("learning-001") };
-const r2 = { namespace: "epoch-capability-reproduction:record", digest: sha256Hex("reproduction-002") };
-const l2 = { namespace: "epoch-capability-learning:intervention", digest: sha256Hex("learning-002") };
+const executions = [
+  auto("task-001", "succeeded"),
+  auto("task-002", "failed"),
+  human("task-003"),
+  arena("task-004"),
+];
+const r1 = {
+  namespace: "epoch-capability-reproduction:record",
+  digest: sha256Hex("reproduction-001"),
+};
+const l1 = {
+  namespace: "epoch-capability-learning:intervention",
+  digest: sha256Hex("learning-001"),
+};
+const r2 = {
+  namespace: "epoch-capability-reproduction:record",
+  digest: sha256Hex("reproduction-002"),
+};
+const l2 = {
+  namespace: "epoch-capability-learning:intervention",
+  digest: sha256Hex("learning-002"),
+};
 
 test("taskExecutionRecord builds every mode and validates the outcome", () => {
   strictEqual(executions.length, 4);
@@ -65,7 +82,7 @@ test("taskExecutionRecord builds every mode and validates the outcome", () => {
         mode: { mode: "human", reason: "r" },
         outcome: "exploded" as unknown as "succeeded",
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -83,7 +100,7 @@ test("automated mode requires a valid executor and evidence ref", () => {
         },
         outcome: "succeeded",
       }),
-    TypeError
+    TypeError,
   );
   throws(
     () =>
@@ -98,7 +115,7 @@ test("automated mode requires a valid executor and evidence ref", () => {
         },
         outcome: "succeeded",
       }),
-    TypeError
+    TypeError,
   );
 });
 
@@ -133,15 +150,36 @@ test("escalation rate filters foreign families and is deterministic", () => {
   strictEqual(scoped.totalTasks, 4);
   strictEqual(
     scoped.computedFromDigest,
-    computeEscalationRate("rate-002", family, withForeign).computedFromDigest
+    computeEscalationRate("rate-002", family, withForeign).computedFromDigest,
   );
 });
 
 test("computeCapabilityReuseRate groups capabilities and keeps non-automated tasks visible", () => {
   const observations = [
-    capabilityReuseObservation({ taskId: "task-001", familyRef, capabilityKey: "review-heuristics", reused: true, reproductionRef: r1, learningRef: l1 }),
-    capabilityReuseObservation({ taskId: "task-002", familyRef, capabilityKey: "review-heuristics", reused: true, reproductionRef: r1, learningRef: l1 }),
-    capabilityReuseObservation({ taskId: "task-004", familyRef, capabilityKey: "test-generation", reused: false, reproductionRef: r2, learningRef: l2 }),
+    capabilityReuseObservation({
+      taskId: "task-001",
+      familyRef,
+      capabilityKey: "review-heuristics",
+      reused: true,
+      reproductionRef: r1,
+      learningRef: l1,
+    }),
+    capabilityReuseObservation({
+      taskId: "task-002",
+      familyRef,
+      capabilityKey: "review-heuristics",
+      reused: true,
+      reproductionRef: r1,
+      learningRef: l1,
+    }),
+    capabilityReuseObservation({
+      taskId: "task-004",
+      familyRef,
+      capabilityKey: "test-generation",
+      reused: false,
+      reproductionRef: r2,
+      learningRef: l2,
+    }),
   ];
   const reuse = computeCapabilityReuseRate("reuse-001", family, observations, executions);
   strictEqual(reuse.reuseOpportunities, 3);
@@ -160,11 +198,25 @@ test("computeCapabilityReuseRate rejects inconsistent W031/W032 refs per capabil
         "reuse-002",
         family,
         [
-          capabilityReuseObservation({ taskId: "task-001", familyRef, capabilityKey: "review-heuristics", reused: true, reproductionRef: r1, learningRef: l1 }),
-          capabilityReuseObservation({ taskId: "task-002", familyRef, capabilityKey: "review-heuristics", reused: false, reproductionRef: r2, learningRef: l1 }),
+          capabilityReuseObservation({
+            taskId: "task-001",
+            familyRef,
+            capabilityKey: "review-heuristics",
+            reused: true,
+            reproductionRef: r1,
+            learningRef: l1,
+          }),
+          capabilityReuseObservation({
+            taskId: "task-002",
+            familyRef,
+            capabilityKey: "review-heuristics",
+            reused: false,
+            reproductionRef: r2,
+            learningRef: l1,
+          }),
         ],
-        executions
+        executions,
       ),
-    TypeError
+    TypeError,
   );
 });
