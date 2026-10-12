@@ -1,0 +1,26 @@
+{
+  "name": "@zcode/epoch-asset-import",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "tsc -b && node --test dist/test/canonical.test.js dist/test/contract.test.js dist/test/formats.test.js dist/test/fidelity.test.js dist/test/manifest.test.js dist/test/normalization.test.js dist/test/limitations.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}
