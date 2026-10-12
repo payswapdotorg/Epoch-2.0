@@ -1,83 +1,35 @@
 import { compareStrings } from "./internal/compare.js";
+import { isNonEmptyString, isObject } from "./internal/guards.js";
 import {
-  isFiniteNumber,
-  isNonEmptyString,
-  isObject,
-} from "./internal/guards.js";
+  CURRENCY_PATTERN,
+  conversionProblem,
+  entryIdOf,
+  entryProblem,
+  type CostCategory,
+  type CostEntry,
+  type CostIssue,
+  type CurrencyConversion,
+  type LifecycleCost,
+} from "./cost-entries.js";
+
+export type {
+  CostCategory,
+  CostUncertainty,
+  CostEntry,
+  LifecycleCost,
+  CurrencyConversion,
+  CostIssue,
+} from "./cost-entries.js";
 
 /**
- * Lifecycle cost model (W033): entries carry source, date, currency and an
- * explicit uncertainty declaration; human, operating and maintenance costs
- * are all first-class categories. Aggregation is deterministic and NEVER
- * rounds: bounds and point estimates propagate as exact IEEE-754 doubles
- * and are reported as computed. A range entry's point estimate is
- * (low + high) / 2. Entries accumulate in entryId order so float addition
- * order is fully determined.
+ * Lifecycle cost aggregation (W033), part 2 of the cost module. Entries
+ * carry source, date, currency and an explicit uncertainty declaration;
+ * human, operating and maintenance costs are all first-class categories.
+ * Aggregation is deterministic and NEVER rounds: bounds and point
+ * estimates propagate as exact IEEE-754 doubles and are reported as
+ * computed. A range entry's point estimate is (low + high) / 2. Entries
+ * accumulate in entryId order so float addition order is fully determined.
  */
-
-export type CostCategory = "human" | "operating" | "maintenance" | "other";
-
-export type CostUncertainty =
-  | { readonly kind: "point" }
-  | { readonly kind: "range"; readonly low: number; readonly high: number };
-
-export interface CostEntry {
-  readonly entryId: string;
-  readonly subjectId: string;
-  readonly category: CostCategory;
-  readonly description: string;
-  /** Provenance: who or what asserted this cost. */
-  readonly source: string;
-  /** ISO calendar date (YYYY-MM-DD) the cost was asserted or observed. */
-  readonly asOfDate: string;
-  /** ISO-4217-style currency code (three uppercase letters). */
-  readonly currency: string;
-  /** Declared amount in `currency` units (>= 0). */
-  readonly amount: number;
-  readonly uncertainty: CostUncertainty;
-}
-
-export interface LifecycleCost {
-  readonly subjectId: string;
-  readonly entries: readonly CostEntry[];
-}
-
-export interface CurrencyConversion {
-  readonly from: string;
-  readonly to: string;
-  /** Finite positive multiplier — declared data, never fetched. */
-  readonly rate: number;
-}
-
-export type CostIssue =
-  | { readonly kind: "duplicate-entry-id"; readonly entryId: string }
-  | {
-      readonly kind: "invalid-entry";
-      readonly entryId: string;
-      readonly detail: string;
-    }
-  | {
-      readonly kind: "subject-mismatch";
-      readonly entryId: string;
-      readonly ledgerSubjectId: string;
-      readonly entrySubjectId: string;
-    }
-  | {
-      readonly kind: "invalid-conversion";
-      readonly from: string;
-      readonly to: string;
-      readonly detail: string;
-    }
-  | {
-      readonly kind: "duplicate-conversion";
-      readonly from: string;
-      readonly to: string;
-    }
-  | {
-      readonly kind: "invalid-reporting-currency";
-      readonly currency: string;
-      readonly detail: string;
-    };
 
 export interface CategoryTotal {
   readonly category: CostCategory;
@@ -102,15 +54,6 @@ export interface CostAggregation {
   readonly aggregate: CostAggregate;
   readonly issues: readonly CostIssue[];
 }
-
-const COST_CATEGORIES: readonly string[] = [
-  "human",
-  "operating",
-  "maintenance",
-  "other",
-];
-const CURRENCY_PATTERN = /^[A-Z]{3}$/;
-const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
 /**
  * Aggregate one subject's ledger into the reporting currency.
@@ -150,8 +93,7 @@ export function aggregateLifecycleCosts(
       compareStrings(String(a.to), String(b.to)),
   );
   for (const conversion of sortedConversions) {
-    const from =
-      typeof conversion.from === "string" ? conversion.from : "<invalid>";
+    const from = typeof conversion.from === "string" ? conversion.from : "<invalid>";
     const to = typeof conversion.to === "string" ? conversion.to : "<invalid>";
     const problem = conversionProblem(conversion);
     if (problem !== null) {
@@ -305,93 +247,6 @@ function entryBounds(entry: CostEntry): {
     low: entry.uncertainty.low,
     high: entry.uncertainty.high,
   };
-}
-
-function entryProblem(entry: CostEntry): string | null {
-  if (!isNonEmptyString(entry.entryId)) {
-    return "entryId must be a non-empty string";
-  }
-  if (!isNonEmptyString(entry.subjectId)) {
-    return "subjectId must be a non-empty string";
-  }
-  if (
-    typeof entry.category !== "string" ||
-    !COST_CATEGORIES.includes(entry.category)
-  ) {
-    return `unknown category "${String(entry.category)}"`;
-  }
-  if (!isNonEmptyString(entry.description)) {
-    return "description must be a non-empty string";
-  }
-  if (!isNonEmptyString(entry.source)) {
-    return "source must be a non-empty string (cost provenance)";
-  }
-  if (!isNonEmptyString(entry.asOfDate) || !isValidIsoDate(entry.asOfDate)) {
-    return "asOfDate must be an ISO calendar date (YYYY-MM-DD)";
-  }
-  if (
-    typeof entry.currency !== "string" ||
-    !CURRENCY_PATTERN.test(entry.currency)
-  ) {
-    return "currency must be three uppercase letters";
-  }
-  if (!isFiniteNumber(entry.amount) || entry.amount < 0) {
-    return "amount must be a finite number >= 0";
-  }
-  if (!isObject(entry.uncertainty)) {
-    return "uncertainty must be declared (point or range)";
-  }
-  const uncertainty = entry.uncertainty as unknown as CostUncertainty;
-  if (uncertainty.kind === "point") {
-    return null;
-  }
-  if (uncertainty.kind === "range") {
-    if (!isFiniteNumber(uncertainty.low) || !isFiniteNumber(uncertainty.high)) {
-      return "range bounds must be finite numbers";
-    }
-    if (uncertainty.low < 0 || uncertainty.low > uncertainty.high) {
-      return "range bounds must satisfy 0 <= low <= high";
-    }
-    return null;
-  }
-  return 'uncertainty kind must be "point" or "range"';
-}
-
-function conversionProblem(conversion: CurrencyConversion): string | null {
-  if (
-    !isNonEmptyString(conversion.from) ||
-    !CURRENCY_PATTERN.test(conversion.from)
-  ) {
-    return "from must be a three-letter uppercase currency code";
-  }
-  if (
-    !isNonEmptyString(conversion.to) ||
-    !CURRENCY_PATTERN.test(conversion.to)
-  ) {
-    return "to must be a three-letter uppercase currency code";
-  }
-  if (conversion.from === conversion.to) {
-    return "from and to must differ";
-  }
-  if (!isFiniteNumber(conversion.rate) || conversion.rate <= 0) {
-    return "rate must be a finite number > 0";
-  }
-  return null;
-}
-
-function entryIdOf(entry: CostEntry): string {
-  return isNonEmptyString(entry.entryId) ? entry.entryId : "<missing>";
-}
-
-/** Format-level check only: month 01-12, day 01-31 (no calendar validation). */
-function isValidIsoDate(value: string): boolean {
-  const match = DATE_PATTERN.exec(value);
-  if (match === null) {
-    return false;
-  }
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-  return month >= 1 && month <= 12 && day >= 1 && day <= 31;
 }
 
 function compareCostIssues(a: CostIssue, b: CostIssue): number {
