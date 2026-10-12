@@ -348,6 +348,17 @@ modules:
     managed: true
     requires: []
     publicEntrypoints: [packages/epoch-foundation-blender/src/index.ts]
+  # W014 — Cesium site context: optional geospatial site context as a world
+  # PROJECTION — typed site models (EPSG/WGS84 anchor/extents, terrain and
+  # imagery refs by digest, site-only entities), deterministic
+  # local-to-ENU-to-ECEF placement law for world-model entities referenced
+  # by digest, recomputed read-model projection records, validation
+  # machines. No Cesium runtime, no network, no second semantic authority.
+  - id: epoch-site-cesium
+    roots: [packages/epoch-site-cesium/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-site-cesium/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).

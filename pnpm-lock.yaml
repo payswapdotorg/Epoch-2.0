@@ -1161,6 +1161,15 @@ importers:
         specifier: ^3.2.4
         version: 3.2.7(@types/debug@4.1.13)(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(msw@2.13.3(@types/node@25.6.0)(typescript@5.9.3))(tsx@4.21.0)(yaml@2.9.0)
 
+  packages/epoch-site-cesium:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+
   packages/epoch-solution-contract:
     dependencies:
       '@zcode/epoch-reconstruction-contract':
