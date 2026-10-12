@@ -1,0 +1,27 @@
+{
+  "name": "@zcode/epoch-capability-reproduction",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "W031 governed capability reproduction factory: intake verdicts, alternatives analysis, rights/provenance gate, reference behavior capture, foundation selection, evidence-keyed lifecycle with release impossibility laws, and W028 workbench surface binding. Plans and records only; never builds or deploys.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@zcode/epoch-application-environment": "workspace:*",
+    "@zcode/epoch-capability-evaluation": "workspace:*",
+    "@zcode/epoch-environment-activity": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}

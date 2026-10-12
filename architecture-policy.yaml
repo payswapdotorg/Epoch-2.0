@@ -299,6 +299,15 @@ modules:
     managed: true
     requires: [epoch-environment-activity, epoch-capability-evaluation, epoch-capability-discovery]
     publicEntrypoints: [packages/epoch-capability-learning/src/index.ts]
+  # W031 — Capability reproduction factory: governed pipeline turning
+  # missing capabilities into Epoch mini-apps under rights/quality/security
+  # gates; release impossible when any gate fails; opens through the
+  # generic workbench surface.
+  - id: epoch-capability-reproduction
+    roots: [packages/epoch-capability-reproduction/src]
+    managed: true
+    requires: [epoch-application-environment, epoch-environment-activity, epoch-capability-evaluation]
+    publicEntrypoints: [packages/epoch-capability-reproduction/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
