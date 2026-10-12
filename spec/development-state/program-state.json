@@ -35,10 +35,10 @@
     "W030",
     "W026",
     "W031",
-    "W032"
+    "W032",
+    "W033"
   ],
   "active": [
-    "W033",
     "W034"
   ],
   "eligible": [
@@ -50,7 +50,7 @@
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "5442d3d",
-  "lastAction": "W031 MERGED (5442d3d, 52/52) + W032 MERGED (d980d43, 81/81). 33/36 complete. W033 (cost/quality frontier) in fix round 2. W034 (arena expert loop) dispatching into freed lane. On W033+W034: W035 (final work order) unlocks. Leaf pool W013-W017/W019 remain eligible for the third lane.",
-  "lastMergeWorkOrder": "W031"
+  "lastMergeSha": "eddd33a",
+  "lastAction": "W033 MERGED (eddd33a, 40/40). 34/36 complete — ONLY W034 (in flight, arena expert loop) and W035 (final, engineering abundance evaluation) remain. W035 unlocks on W034 merge; prompt pre-authoring. Leaf pool W013-W017/W019 remains eligible but non-blocking (spec optional expansion).",
+  "lastMergeWorkOrder": "W033"
 }

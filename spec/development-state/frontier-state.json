@@ -1,13 +1,11 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "ACR_EXPANSION_W033_W034_IN_FLIGHT",
+  "status": "FINAL_STRETCH_W034_IN_FLIGHT_W035_PENDING",
   "frontier": [
-    "W033",
     "W034"
   ],
   "eligible": 9,
   "inFlight": [
-    "W033",
     "W034"
   ],
   "blocked": [],
@@ -24,14 +22,14 @@
     "applicationEnvironmentFabric": "PARTIAL (W028 fabric + W029 environment activity merged — typed events, consent laws, demonstrations; ACR integration continues via W030+)",
     "capabilityReproductionFactory": "COMPLETE (W031 merged 5442d3d — governed pipeline with rights gates, release impossibility laws)",
     "capabilityGapLearning": "COMPLETE (W032 merged d980d43 — held-out replay law, human-approval promotion, cost-aware regression watch)",
-    "arenaExpertLoop": "FUTURE",
+    "arenaExpertLoop": "IN FLIGHT (W034 streaming)",
     "engineeringAbundanceEvaluation": "FUTURE",
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W031+W032 merged (33/36). W033 fix2 in flight; W034 dispatching now. On W033+W034 merge: W035 (engineering abundance evaluation — FINAL work order) unlocks. Third lane free: leaf pool W013-W017/W019 or W035 prep.",
+  "nextAction": "W033 merged (34/36). W034 in flight; W035 (FINAL work order) authors now and dispatches on W034 merge. Roadmap completion imminent.",
   "lastMerge": {
-    "workOrder": "W031",
-    "mergeSha": "5442d3d"
+    "workOrder": "W033",
+    "mergeSha": "eddd33a"
   }
 }
