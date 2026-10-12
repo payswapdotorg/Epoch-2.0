@@ -40,7 +40,10 @@ test("a fully compliant return verifies", () => {
   if (v.kind === "verified") {
     assert.equal(v.acceptanceFraction, 1);
     assert.equal(v.outcomes.length, 4);
-    assert.equal(v.outcomes.every((o) => o.status === "met"), true);
+    assert.equal(
+      v.outcomes.every((o) => o.status === "met"),
+      true,
+    );
     assert.equal(v.returnDigest, ret.digest);
   }
 });
@@ -63,7 +66,8 @@ test("must-have unmet rejects with a typed reason", () => {
   if (v.kind === "rejected") {
     assert.equal(
       v.reasons.some(
-        (r) => r.type === "must-have-unmet" && r.criterionId === "must-analysis",
+        (r) =>
+          r.type === "must-have-unmet" && r.criterionId === "must-analysis",
       ),
       true,
     );
@@ -85,7 +89,12 @@ test("must-haves can never be partially met", () => {
       },
     ],
   };
-  const v = verifyReturn(ret, spec, standardCriterionVerifier, CLOCK.verifiedAt);
+  const v = verifyReturn(
+    ret,
+    spec,
+    standardCriterionVerifier,
+    CLOCK.verifiedAt,
+  );
   assert.equal(v.kind, "rejected");
   if (v.kind === "rejected") {
     assert.equal(
@@ -142,7 +151,12 @@ test("below-floor partial is not acceptable", () => {
       },
     ],
   };
-  const v = verifyReturn(ret, spec, standardCriterionVerifier, CLOCK.verifiedAt);
+  const v = verifyReturn(
+    ret,
+    spec,
+    standardCriterionVerifier,
+    CLOCK.verifiedAt,
+  );
   assert.equal(v.kind, "partial");
   if (v.kind === "partial") {
     assert.equal(v.acceptable, false);
@@ -169,11 +183,19 @@ test("unmet should-have yields a non-acceptable partial, not a rejection", () =>
       },
     ],
   };
-  const v = verifyReturn(ret, spec, standardCriterionVerifier, CLOCK.verifiedAt);
+  const v = verifyReturn(
+    ret,
+    spec,
+    standardCriterionVerifier,
+    CLOCK.verifiedAt,
+  );
   assert.equal(v.kind, "partial");
   if (v.kind === "partial") {
     assert.equal(v.acceptable, false);
-    assert.equal(v.reasons.some((r) => r.type === "should-have-unmet"), true);
+    assert.equal(
+      v.reasons.some((r) => r.type === "should-have-unmet"),
+      true,
+    );
   }
 });
 
@@ -208,7 +230,10 @@ test("structural tampering rejects before criteria are evaluated", () => {
   );
   assert.equal(v.kind, "rejected");
   if (v.kind === "rejected") {
-    assert.equal(v.reasons.some((r) => r.type === "digest-mismatch"), true);
+    assert.equal(
+      v.reasons.some((r) => r.type === "digest-mismatch"),
+      true,
+    );
   }
 });
 
@@ -217,7 +242,12 @@ test("wrong task provenance rejects", () => {
   const taskB = makeTaskPackage("2026-02-02T09:00:00Z");
   const ret = seal(goodDraft(taskA), taskA);
   const spec = acceptanceFromQualification(taskB.qualification, taskB.digest);
-  const v = verifyReturn(ret, spec, standardCriterionVerifier, CLOCK.verifiedAt);
+  const v = verifyReturn(
+    ret,
+    spec,
+    standardCriterionVerifier,
+    CLOCK.verifiedAt,
+  );
   assert.equal(v.kind, "rejected");
   if (v.kind === "rejected") {
     assert.equal(
@@ -235,7 +265,12 @@ test("empty criteria verify trivially", () => {
     deadlineAt: "2026-03-01T00:00:00Z",
     criteria: [],
   };
-  const v = verifyReturn(ret, spec, standardCriterionVerifier, CLOCK.verifiedAt);
+  const v = verifyReturn(
+    ret,
+    spec,
+    standardCriterionVerifier,
+    CLOCK.verifiedAt,
+  );
   assert.equal(v.kind, "verified");
 });
 

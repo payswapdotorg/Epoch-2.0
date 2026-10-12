@@ -36,7 +36,9 @@ test("granted scopes intersected with policy yield reuse-permitted when fully co
   ]);
   assert.equal(decision.basis.type, "expert-grant");
   assert.match(decision.decisionId, /^rrd_[0-9a-f]{16}$/);
-  assert.ok(decision.conditions.includes("attribute the pseudonymous expert id"));
+  assert.ok(
+    decision.conditions.includes("attribute the pseudonymous expert id"),
+  );
   assert.ok(decision.conditions.includes("retain provenance digests"));
 });
 

@@ -109,7 +109,9 @@ export function verifyReturn(
       actual: ret.digest,
     });
   }
-  if (ret.provenance.taskPackageDigest !== acceptance.expectedTaskPackageDigest) {
+  if (
+    ret.provenance.taskPackageDigest !== acceptance.expectedTaskPackageDigest
+  ) {
     reasons.push({
       type: "task-package-mismatch",
       expected: acceptance.expectedTaskPackageDigest,

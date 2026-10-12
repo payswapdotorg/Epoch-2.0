@@ -35,10 +35,7 @@ export type EvidenceKind =
 
 /** Kinds of expert deliverable. */
 export type DeliverableKind =
-  | "analysis"
-  | "patch-proposal"
-  | "artifact"
-  | "report";
+  "analysis" | "patch-proposal" | "artifact" | "report";
 
 /** Typed evidence payload (never raw bytes, never opaque blobs). */
 export type EvidencePayload =

@@ -46,9 +46,7 @@ export interface DemonstrationPipelineLink {
 }
 
 export type ReuseDecisionKind =
-  | "reuse-permitted"
-  | "reuse-restricted"
-  | "reuse-denied";
+  "reuse-permitted" | "reuse-restricted" | "reuse-denied";
 
 /** The independent reuse-rights decision. */
 export interface ReuseRightsDecision {

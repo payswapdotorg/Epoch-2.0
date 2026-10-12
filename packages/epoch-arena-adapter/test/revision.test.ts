@@ -53,7 +53,10 @@ test("an accepted return yields a digest-sealed world-revision proposal", () => 
     assert.equal(gapLinks.length, 1);
     assert.equal(gapLinks[0].gapDigest, task.gapRefs[0].capabilityGapDigest);
     assert.equal(gapLinks[0].gapId, "gap-001");
-    assert.equal(p.changes.some((c) => c.changeKind === "append-knowledge"), true);
+    assert.equal(
+      p.changes.some((c) => c.changeKind === "append-knowledge"),
+      true,
+    );
   }
 });
 

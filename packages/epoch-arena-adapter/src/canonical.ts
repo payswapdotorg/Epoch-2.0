@@ -11,8 +11,7 @@
  */
 import { createHash } from "node:crypto";
 
-const ISO_8601_UTC_RE =
-  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z$/;
+const ISO_8601_UTC_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z$/;
 
 /** Deterministic canonical JSON: sorted keys, no whitespace. */
 export function canonicalJson(value: unknown): string {

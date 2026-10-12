@@ -79,10 +79,7 @@ test("full round trip: acceptable partial", () => {
   assert.equal(transcript.proposal.ok, true);
   if (transcript.proposal.ok) {
     assert.equal(transcript.proposal.proposal.basedOn.outcome, "partial");
-    assert.equal(
-      transcript.proposal.proposal.basedOn.acceptanceFraction,
-      0.75,
-    );
+    assert.equal(transcript.proposal.proposal.basedOn.acceptanceFraction, 0.75);
   }
 });
 

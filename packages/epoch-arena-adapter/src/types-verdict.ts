@@ -100,9 +100,7 @@ export interface RejectedResult {
 }
 
 export type ReturnVerification =
-  | VerifiedResult
-  | PartialResult
-  | RejectedResult;
+  VerifiedResult | PartialResult | RejectedResult;
 
 /** A canonical world change — data only, executed by NOBODY here. */
 export type WorldChange =

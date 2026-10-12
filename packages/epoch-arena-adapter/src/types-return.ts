@@ -33,8 +33,7 @@ export interface ExpertDeclaration {
   readonly expertId: NonEmptyString;
   readonly expertiseAreas: readonly NonEmptyString[];
   readonly conflictOfInterest:
-    | "none-declared"
-    | { readonly description: NonEmptyString };
+    "none-declared" | { readonly description: NonEmptyString };
   /** 0..1 inclusive. */
   readonly confidence: number;
   readonly limitations: readonly NonEmptyString[];
