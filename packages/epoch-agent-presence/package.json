@@ -1,0 +1,27 @@
+{
+  "name": "@zcode/epoch-agent-presence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agent world presence: derived visual projections of semantic agents (typed data + deterministic machines, no execution authority).",
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "tsc -b && node --test dist/test/canonical.test.js dist/test/contract.test.js dist/test/module.test.js dist/test/presence.test.js dist/test/summary.test.js dist/test/transition.test.js dist/test/validate.test.js dist/test/values.test.js dist/test/view.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}
