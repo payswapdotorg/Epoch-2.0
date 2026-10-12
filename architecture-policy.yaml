@@ -337,6 +337,17 @@ modules:
     managed: true
     requires: []
     publicEntrypoints: [packages/epoch-engineering-objective/src/index.ts]
+  # W013 — Blender/CAD capability: isolated native-process adapters (Blender
+  # bpy-headless, FreeCAD console) as typed data — versioned tool descriptors,
+  # invocation contracts (argv/stdin/exit codes as data), GPL/LGPL license and
+  # provenance records, geometry exchange schemas with fidelity gates,
+  # deterministic validation machines. No execution authority; process
+  # contracts stay out of shared UI.
+  - id: epoch-foundation-blender
+    roots: [packages/epoch-foundation-blender/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-foundation-blender/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).

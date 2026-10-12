@@ -103,11 +103,23 @@ export const PUBLIC_CONTRACT: readonly PublicContractEntry[] = [
   entry("formatCatalogEntry", "function", "Catalog lookup, null when unknown."),
   entry("BLENDER_TOOL_ID", "constant", "Tool id: blender-bpy-headless."),
   entry("FREECAD_TOOL_ID", "constant", "Tool id: freecad-console."),
-  entry("buildBlenderToolDescriptor", "function", "Blender (bpy headless) descriptor pinned to a version."),
-  entry("buildFreecadToolDescriptor", "function", "FreeCAD (console mode) descriptor pinned to a version."),
+  entry(
+    "buildBlenderToolDescriptor",
+    "function",
+    "Blender (bpy headless) descriptor pinned to a version.",
+  ),
+  entry(
+    "buildFreecadToolDescriptor",
+    "function",
+    "FreeCAD (console mode) descriptor pinned to a version.",
+  ),
   entry("descriptorDigest", "function", "Digest over a tool descriptor."),
   entry("INVOCATION_PURPOSES", "constant", "Closed list of invocation purposes."),
-  entry("buildBlenderInvocationContract", "function", "Blender argv/stdin/capture/timeout/sandbox contract."),
+  entry(
+    "buildBlenderInvocationContract",
+    "function",
+    "Blender argv/stdin/capture/timeout/sandbox contract.",
+  ),
   entry("buildFreecadInvocationContract", "function", "FreeCAD console invocation contract."),
   entry("invocationContractDigest", "function", "Digest over an invocation contract."),
   entry("buildInvocationPlan", "function", "Validate and brand a host-authored plan."),
@@ -154,4 +166,70 @@ export const PUBLIC_CONTRACT: readonly PublicContractEntry[] = [
   entry("NativeToolDescriptor", "type", "Versioned capability descriptor per adapter."),
   entry("ArgvToken", "type", "Literal or placeholder argv template token."),
   entry("ArgvBinding", "type", "Placeholder name plus supplied values."),
-  entry("Stdin
+  entry("StdinProtocol", "type", "Stdin protocol kind and records."),
+  entry("StdinRecord", "type", "One stdin protocol record shape."),
+  entry("CaptureTruncation", "type", "Oversize capture truncation policy."),
+  entry("CaptureShape", "type", "stdout/stderr capture shape."),
+  entry("TimeoutPolicy", "type", "Min/default/max timeout and kill policy."),
+  entry("SandboxConstraints", "type", "Declarative sandbox constraints for the host."),
+  entry("GpuAccessPolicy", "type", "allowed / denied / unspecified gpu access."),
+  entry("InvocationPurpose", "type", "Why a tool is invoked."),
+  entry("InvocationContract", "type", "Typed argv/stdin/capture/timeout/sandbox contract."),
+  entry("InvocationPlan", "type", "Host-authored request against a contract."),
+  entry("InvocationPlanInput", "type", "Raw input for the plan builder."),
+  entry("CopyleftKind", "type", "Strong / weak / permissive copyleft."),
+  entry("LicenseRecord", "type", "Per-version license summary, not legal advice."),
+  entry("ProvenanceArtifactRole", "type", "Role of a provenance-tracked artifact."),
+  entry("ProvenanceArtifact", "type", "Artifact role, digest, and label."),
+  entry("ProvenanceRecord", "type", "Tool+version bound to artifacts by digest."),
+  entry("ProvenanceInput", "type", "Raw input for the provenance builder."),
+  entry("ExchangeDirection", "type", "import / export."),
+  entry("FormatFidelityFlags", "type", "Advisory per-aspect fidelity claims."),
+  entry("SemanticAuthorityKind", "type", "Kind of referenced semantic authority."),
+  entry("SemanticAuthorityRef", "type", "Opaque digest reference to a sibling authority."),
+  entry("GeometryExchangeRecord", "type", "What may cross the process boundary."),
+  entry("GeometryExchangeInput", "type", "Raw input for the exchange builder."),
+  entry("LimitationArea", "type", "Area a limitation belongs to."),
+  entry("Limitation", "type", "One honest limitation and mitigation."),
+  entry("LimitationsReport", "type", "Honest limitations catalog report type."),
+  entry("ToolMatrixEntry", "type", "Per-tool capability summary entry."),
+  entry("FormatCoverage", "type", "Per-format tool coverage."),
+  entry("CapabilityMatrixSummary", "type", "Deterministic capability summary with digest."),
+  entry("CapabilityRegistry", "type", "Typed data the validators run against."),
+  entry("InvocationPlanRejection", "type", "Discriminated rejection reasons for plans."),
+  entry("AcceptedInvocationPlan", "type", "Accepted plan with resolved argv."),
+  entry("RejectedInvocationPlan", "type", "Rejected plan with typed reason."),
+  entry("InvocationPlanValidation", "type", "Accept/reject result union for plans."),
+  entry("ExchangeRejection", "type", "Discriminated rejection reasons for exchanges."),
+  entry("ValidExchangeRecord", "type", "Valid exchange with record digest."),
+  entry("RejectedExchangeRecord", "type", "Rejected exchange with typed reason."),
+  entry("ExchangeValidation", "type", "Accept/reject result union for exchanges."),
+  entry("PublicContractKind", "type", "constant / function / type."),
+  entry("PublicContractEntry", "type", "One public surface entry."),
+  entry("ContractLawId", "type", "Identifier of a typed law."),
+  entry("ContractLaw", "type", "One typed law statement."),
+  entry("ModuleArtifactRole", "type", "Role of a src artifact in the manifest."),
+  entry("ModuleArtifact", "type", "One manifest entry: path, role, summary."),
+];
+
+export function publicContractNames(): readonly string[] {
+  return PUBLIC_CONTRACT.map((contractEntry) => contractEntry.name);
+}
+
+export function runtimeContractNames(): readonly string[] {
+  return PUBLIC_CONTRACT.filter((contractEntry) => contractEntry.kind !== "type").map(
+    (contractEntry) => contractEntry.name,
+  );
+}
+
+export function assertPublicContract(actualRuntimeNames: readonly string[]): void {
+  const expected = [...runtimeContractNames()].sort();
+  const actual = [...actualRuntimeNames].sort();
+  const missing = expected.filter((name) => !actual.includes(name));
+  const extra = actual.filter((name) => !expected.includes(name));
+  if (missing.length > 0 || extra.length > 0) {
+    throw new Error(
+      `public contract mismatch — missing: [${missing.join(", ")}], unexpected: [${extra.join(", ")}]`,
+    );
+  }
+}

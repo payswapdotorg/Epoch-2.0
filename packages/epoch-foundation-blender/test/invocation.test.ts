@@ -11,6 +11,7 @@ import {
   invocationPlanDigest,
   resolveArgv,
 } from "../src/index.js";
+import { toKebabId } from "../src/validate.js";
 import type { InvocationPlanInput } from "../src/index.js";
 
 const blender = buildBlenderToolDescriptor({ toolVersion: "4.2.0" });
@@ -85,8 +86,8 @@ test("freecad contract denies gpu and network and orders timeouts", () => {
 
 test("resolveArgv expands literals, placeholders, and repeatable tokens", () => {
   const argv = resolveArgv(blenderContract.argvTemplate, [
-    { name: "script-path", values: ["s.py"] },
-    { name: "script-args", values: ["--in", "a.blend", "--out", "b.obj"] },
+    { name: toKebabId("script-path"), values: ["s.py"] },
+    { name: toKebabId("script-args"), values: ["--in", "a.blend", "--out", "b.obj"] },
   ]);
   assert.deepEqual(argv, [
     "--background",
@@ -105,7 +106,7 @@ test("resolveArgv expands literals, placeholders, and repeatable tokens", () => 
 
 test("resolveArgv omits absent optional placeholders and throws on missing required ones", () => {
   const argv = resolveArgv(blenderContract.argvTemplate, [
-    { name: "script-path", values: ["s.py"] },
+    { name: toKebabId("script-path"), values: ["s.py"] },
   ]);
   assert.deepEqual(argv, [
     "--background",

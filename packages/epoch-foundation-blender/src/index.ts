@@ -139,12 +139,8 @@ export {
   presetBlenderObjExport,
   presetFreecadStepExport,
 } from "./build/exchange.js";
-export {
-  formatExchangeRejection,
-  formatInvocationRejection,
-  validateExchangeRecord,
-  validateInvocationPlan,
-} from "./build/validation.js";
+export { formatInvocationRejection, validateInvocationPlan } from "./build/plan-validation.js";
+export { formatExchangeRejection, validateExchangeRecord } from "./build/exchange-validation.js";
 export { buildLimitationsReport, limitationsReportDigest } from "./build/limitations.js";
 export { summarizeCapabilityMatrix } from "./build/matrix.js";
 export { MODULE_ARTIFACTS, MODULE_MANIFEST_DIGEST, MODULE_NAME } from "./module.js";

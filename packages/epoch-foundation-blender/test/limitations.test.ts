@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import { strict as assert } from "node:assert";
 import { buildLimitationsReport, limitationsReportDigest } from "../src/index.js";
+import { toKebabId } from "../src/validate.js";
 
 const AREAS = ["execution", "environment", "fidelity", "licensing", "semantics", "provenance"];
 
@@ -18,11 +19,11 @@ test("limitations report is sorted, populated, and honest", () => {
 test("key honest limitations are present by id and timestamps are inputs", () => {
   const report = buildLimitationsReport("2025-06-01T00:00:00Z");
   const ids = new Set(report.limitations.map((l) => l.limitationId));
-  assert.ok(ids.has("no-network-no-fs"));
-  assert.ok(ids.has("no-license-advice"));
-  assert.ok(ids.has("not-a-geometry-authority"));
-  assert.ok(ids.has("binary-availability"));
-  assert.ok(ids.has("cannot-verify-execution"));
+  assert.ok(ids.has(toKebabId("no-network-no-fs")));
+  assert.ok(ids.has(toKebabId("no-license-advice")));
+  assert.ok(ids.has(toKebabId("not-a-geometry-authority")));
+  assert.ok(ids.has(toKebabId("binary-availability")));
+  assert.ok(ids.has(toKebabId("cannot-verify-execution")));
   assert.equal(report.notLegalAdvice, true);
   assert.equal(report.recordedAtUtc, "2025-06-01T00:00:00Z");
   assert.equal(report.packageName, "@zcode/epoch-foundation-blender");

@@ -69,9 +69,14 @@ export const MODULE_ARTIFACTS: readonly ModuleArtifact[] = [
     summary: "exchange record builders and presets.",
   },
   {
-    path: "src/build/validation.ts",
+    path: "src/build/exchange-validation.ts",
     role: "machine",
-    summary: "typed validation machines for plans and exchanges.",
+    summary: "typed validation machine for exchange records.",
+  },
+  {
+    path: "src/build/plan-validation.ts",
+    role: "machine",
+    summary: "typed validation machine for invocation plans.",
   },
   {
     path: "src/build/limitations.ts",

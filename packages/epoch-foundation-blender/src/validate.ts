@@ -10,6 +10,7 @@ import type {
 } from "./types/brands.js";
 
 const KEBAB_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const LICENSE_ID_PATTERN = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
 const SEMVER_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const DIGEST_PATTERN = /^[0-9a-f]{64}$/;
 const ISO8601_UTC_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z$/;
@@ -131,8 +132,10 @@ export function toFormatId(value: string): FormatId {
 }
 
 export function toLicenseId(value: string): LicenseId {
-  if (!KEBAB_ID_PATTERN.test(value)) {
-    throw new Error(`expected a kebab-case license id, got: ${JSON.stringify(value)}`);
+  if (!LICENSE_ID_PATTERN.test(value)) {
+    throw new Error(
+      `expected a lowercase SPDX-style license id (letters, digits, "-" and "."), got: ${JSON.stringify(value)}`,
+    );
   }
   return value as LicenseId;
 }

@@ -1,9 +1,8 @@
 import type { Digest, LicenseId, ToolId } from "./brands.js";
 import type { FormatClass } from "./formats.js";
 import type { NativeToolDescriptor } from "./descriptor.js";
-import type { InvocationContract, InvocationPlan, InvocationPurpose } from "./invocation.js";
+import type { InvocationContract, InvocationPurpose } from "./invocation.js";
 import type { LicenseRecord } from "./license.js";
-import type { GeometryExchangeRecord } from "./exchange.js";
 
 /**
  * Typed data assembled by the host. Validation machines expect at most one

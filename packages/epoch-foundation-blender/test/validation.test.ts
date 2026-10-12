@@ -4,7 +4,6 @@ import {
   BLENDER_LICENSE_ID,
   BLENDER_TOOL_ID,
   FREECAD_LICENSE_ID,
-  FREECAD_TOOL_ID,
   buildBlenderInvocationContract,
   buildBlenderLicenseRecord,
   buildBlenderToolDescriptor,
@@ -208,7 +207,7 @@ test("accepted FreeCAD plans carry the exit-code honesty warning", () => {
 
 test("rejects unknown tools", () => {
   const reason = rejectedPlan(
-    validateInvocationPlan(blenderPlan({ toolId: "meshlab", toolVersion: "2023.12" }), registry()),
+    validateInvocationPlan(blenderPlan({ toolId: "meshlab", toolVersion: "1.0.0" }), registry()),
   );
   if (reason.kind !== "unknown-tool") {
     assert.fail(`expected unknown-tool, got ${reason.kind}`);
@@ -527,7 +526,7 @@ test("rejects brep fidelity without a geometry-kernel authority", () => {
 
 test("rejects unknown tools and version mismatches in exchange records", () => {
   const unknown = buildGeometryExchangeRecord(
-    exchangeInput({ toolId: "meshlab", toolVersion: "2023.12" }),
+    exchangeInput({ toolId: "meshlab", toolVersion: "1.0.0" }),
   );
   const unknownReason = rejectedExchange(validateExchangeRecord(unknown, registry()));
   if (unknownReason.kind !== "unknown-tool") {

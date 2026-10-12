@@ -9,6 +9,7 @@ import {
   buildFreecadToolDescriptor,
   descriptorDigest,
 } from "../src/index.js";
+import { toFormatId } from "../src/validate.js";
 
 const blender = buildBlenderToolDescriptor({ toolVersion: "4.2.0" });
 const freecad = buildFreecadToolDescriptor({ toolVersion: "1.0.0" });
@@ -32,9 +33,9 @@ test("blender descriptor pins identity, version, process kind, and license", () 
 test("blender format support is sorted and mesh-honest", () => {
   const ids = blender.formats.map((support) => support.formatId);
   assert.deepEqual([...ids].sort(), [...ids]);
-  assert.ok(ids.includes("obj"));
-  assert.ok(ids.includes("stl"));
-  assert.ok(ids.includes("gltf"));
+  assert.ok(ids.includes(toFormatId("obj")));
+  assert.ok(ids.includes(toFormatId("stl")));
+  assert.ok(ids.includes(toFormatId("gltf")));
   const stl = blender.formats.find((support) => support.formatId === "stl");
   assert.ok(stl !== undefined && stl.direction === "both");
   const addonOnly = blender.formats
@@ -54,10 +55,10 @@ test("freecad descriptor covers BRep formats with a console argv shape", () => {
   assert.equal(freecad.argv.requiresPythonExitCodeFlag, false);
   const ids = freecad.formats.map((support) => support.formatId);
   assert.deepEqual([...ids].sort(), [...ids]);
-  assert.ok(ids.includes("step"));
-  assert.ok(ids.includes("brep"));
-  assert.ok(ids.includes("iges"));
-  assert.ok(!ids.includes("blend"));
+  assert.ok(ids.includes(toFormatId("step")));
+  assert.ok(ids.includes(toFormatId("brep")));
+  assert.ok(ids.includes(toFormatId("iges")));
+  assert.ok(!ids.includes(toFormatId("blend")));
 });
 
 test("exit-code contracts state honesty notes", () => {
