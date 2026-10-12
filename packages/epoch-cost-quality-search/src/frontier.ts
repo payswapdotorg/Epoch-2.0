@@ -490,9 +490,14 @@ function scorePreferences(
 }
 
 function finalize(entry: WorkingEvaluation): CandidateEvaluation {
+  // classifyDominance replaces every "pending" status with "frontier" or
+  // "dominated" before finalize runs; the defensive fallback keeps that
+  // invariant honest without a cast.
+  const status: CandidateEvaluation["status"] =
+    entry.status === "pending" ? "frontier" : entry.status;
   return {
     candidateId: entry.candidate.candidateId,
-    status: entry.status,
+    status,
     constraintChecks: entry.constraintChecks,
     cost: entry.cost,
     objectives: entry.objectives,

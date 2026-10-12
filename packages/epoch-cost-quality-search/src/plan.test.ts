@@ -121,7 +121,7 @@ describe("planDigest", () => {
     assert.ok(reordered !== null);
     assert.equal(planDigest(first), planDigest(reordered));
 
-    const mutated = {
+    const mutated: ImplementationPlan = {
       ...first,
       steps: [
         {
@@ -137,7 +137,7 @@ describe("planDigest", () => {
     };
     assert.notEqual(planDigest(mutated), planDigest(first));
 
-    const mutatedThreshold = {
+    const mutatedThreshold: ImplementationPlan = {
       ...first,
       steps: [
         {

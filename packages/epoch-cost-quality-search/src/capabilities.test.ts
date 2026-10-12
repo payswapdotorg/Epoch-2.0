@@ -52,7 +52,7 @@ describe("prepareCapabilities", () => {
   });
 
   it("rejects invalid declarations and malformed attributes with typed issues", () => {
-    const brokenValue = {
+    const brokenValue: RegisteredCapability = {
       ...capA,
       qualityAttributes: [
         { metricId: "m1", value: Number.NaN, unit: "u", direction: "minimize" },
@@ -64,7 +64,7 @@ describe("prepareCapabilities", () => {
     assert.equal(intake.issues[0].kind, "invalid-capability");
     assert.ok(intake.issues[0].detail.includes("finite"));
 
-    const dupAttr = {
+    const dupAttr: RegisteredCapability = {
       ...capA,
       qualityAttributes: [
         { metricId: "m1", value: 1, unit: "u", direction: "minimize" },
@@ -88,7 +88,7 @@ describe("prepareCapabilities", () => {
 
 describe("registryDigest", () => {
   it("computes registry digests insensitive to key order", () => {
-    const first = {
+    const first: RegisteredCapability = {
       capabilityId: "c1",
       name: "C1",
       description: "d",
@@ -98,7 +98,7 @@ describe("registryDigest", () => {
         { metricId: "m1", value: 1, unit: "u", direction: "minimize" },
       ],
     };
-    const second = {
+    const second: RegisteredCapability = {
       qualityAttributes: [
         { direction: "minimize", unit: "u", value: 1, metricId: "m1" },
       ],
