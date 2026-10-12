@@ -383,6 +383,18 @@ modules:
     managed: true
     requires: []
     publicEntrypoints: [packages/epoch-asset-import/src/index.ts]
+  # W017 — Agent world presence: semantic agents projected into the world as
+  # DERIVED visual state — per-agent presence records (identity by digest to
+  # agent-tools records, position, work descriptor, entity binding, follow
+  # state), typed presence transitions (move/bind/follow/idle with typed
+  # rejections), deterministic fleet summaries, provider-neutral presence
+  # views. Derived state only — task/activity semantics stay in agent-tools
+  # and environment-activity; no animation/locomotion physics.
+  - id: epoch-agent-presence
+    roots: [packages/epoch-agent-presence/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-agent-presence/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
