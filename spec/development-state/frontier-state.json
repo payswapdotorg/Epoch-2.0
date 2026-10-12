@@ -2,10 +2,9 @@
   "program": "Epoch 2.0 architecture reset",
   "status": "CORE_COMPLETE_LEAF_POOL_OPEN",
   "frontier": [
-    "W017",
     "W019"
   ],
-  "eligible": 2,
+  "eligible": 1,
   "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -26,9 +25,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W016 MERGED (fa3e8a9, 68/68). 34/36. Leaf pool remaining: W017 (agent presence), W019 (inspector BOQ) — sequential dispatch on fresh lanes. No early returns until all 36 merged.",
+  "nextAction": "W017 MERGED (8e3a1d3, 65/65). 35/36. W019 (inspector/BOQ) is the FINAL work order — dispatch on fresh lane. No early returns until 36/36.",
   "lastMerge": {
-    "workOrder": "W016",
-    "mergeSha": "fa3e8a9"
+    "workOrder": "W017",
+    "mergeSha": "8e3a1d3"
   }
 }

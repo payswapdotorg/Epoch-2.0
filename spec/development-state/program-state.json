@@ -42,15 +42,15 @@
     "W013",
     "W014",
     "W015",
-    "W016"
+    "W016",
+    "W017"
   ],
   "active": [],
   "eligible": [
-    "W017",
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "fa3e8a9",
-  "lastAction": "W016 MERGED (fa3e8a9, 68/68 tests + contract-law fix rounds). 34/36 — leaf pool remaining: W017/W019. Resident watch continues: dispatching W017 next.",
-  "lastMergeWorkOrder": "W016"
+  "lastMergeSha": "8e3a1d3",
+  "lastAction": "W017 MERGED (8e3a1d3, 65/65 tests). 35/36 — W019 (inspector/BOQ) is the FINAL work order. Resident watch continues: dispatching W019.",
+  "lastMergeWorkOrder": "W017"
 }
