@@ -372,6 +372,17 @@ modules:
     managed: true
     requires: []
     publicEntrypoints: [packages/epoch-results-paraview/src/index.ts]
+  # W016 — Generic asset import: Assimp-backed import normalization as
+  # typed data — format capability matrix as data, import manifests with
+  # source-identity provenance chains by digest, lossy-conversion
+  # fidelity gates with typed rejections (rejection is the DEFAULT for
+  # undeclared fidelity), deterministic normalization machines, no orphan
+  # records. No Assimp binary here; the host runs it.
+  - id: epoch-asset-import
+    roots: [packages/epoch-asset-import/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-asset-import/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
