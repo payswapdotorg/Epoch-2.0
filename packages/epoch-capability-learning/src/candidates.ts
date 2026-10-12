@@ -25,7 +25,9 @@ import type {
  * dependency graph stays acyclic.
  */
 
-export function candidateIdentity(candidate: LearningCandidate): CandidateIdentity {
+export function candidateIdentity(
+  candidate: LearningCandidate,
+): CandidateIdentity {
   return {
     candidateId: candidate.candidateId,
     lineageId: candidate.lineageId,
@@ -57,10 +59,16 @@ export type LearningExtractionRejection =
   | "duplicate-step-ids"
   | "missing-author";
 
-export function extractLearningCandidate(input: CandidateExtractionInput): LearningExtraction {
+export function extractLearningCandidate(
+  input: CandidateExtractionInput,
+): LearningExtraction {
   const sourceIssue = validateSourceRef(input.source);
   if (sourceIssue !== null) {
-    return { kind: "rejected", reason: "invalid-source-reference", detail: sourceIssue };
+    return {
+      kind: "rejected",
+      reason: "invalid-source-reference",
+      detail: sourceIssue,
+    };
   }
   if (input.source.verification !== "verified") {
     return {
@@ -71,7 +79,11 @@ export function extractLearningCandidate(input: CandidateExtractionInput): Learn
   }
   const behaviorIssue = validateBehavior(input.behavior);
   if (behaviorIssue !== null) {
-    return { kind: "rejected", reason: behaviorIssue.reason, detail: behaviorIssue.detail };
+    return {
+      kind: "rejected",
+      reason: behaviorIssue.reason,
+      detail: behaviorIssue.detail,
+    };
   }
   if (input.authoredBy.trim() === "") {
     return {
@@ -104,7 +116,9 @@ export function extractLearningCandidate(input: CandidateExtractionInput): Learn
 }
 
 /** Content digest of a candidate core (used to derive `candidateId`). */
-export function computeCandidateId(core: Omit<LearningCandidate, "candidateId">): string {
+export function computeCandidateId(
+  core: Omit<LearningCandidate, "candidateId">,
+): string {
   return digestRecord("learning-candidate", core);
 }
 
@@ -131,12 +145,15 @@ export type CandidateRevisionRejection =
   | "empty-revision-note"
   | "missing-author";
 
-export function reviseCandidate(input: CandidateRevisionInput): CandidateRevision {
+export function reviseCandidate(
+  input: CandidateRevisionInput,
+): CandidateRevision {
   if (!input.prior.reuse.rights.includes("derive-revisions")) {
     return {
       kind: "rejected",
       reason: "reuse-permission-denied",
-      detail: 'prior candidate reuse policy does not declare the "derive-revisions" right',
+      detail:
+        'prior candidate reuse policy does not declare the "derive-revisions" right',
     };
   }
   if (input.revisionNote.trim() === "") {
@@ -155,14 +172,19 @@ export function reviseCandidate(input: CandidateRevisionInput): CandidateRevisio
   }
   const behaviorIssue = validateBehavior(input.behavior);
   if (behaviorIssue !== null) {
-    return { kind: "rejected", reason: "invalid-behavior", detail: behaviorIssue.detail };
+    return {
+      kind: "rejected",
+      reason: "invalid-behavior",
+      detail: behaviorIssue.detail,
+    };
   }
   const behavior = sealBehavior(input.behavior);
   if (behavior.behaviorDigest === input.prior.behavior.behaviorDigest) {
     return {
       kind: "rejected",
       reason: "behavior-unchanged",
-      detail: "revision must change the behavior; keep the prior candidate otherwise",
+      detail:
+        "revision must change the behavior; keep the prior candidate otherwise",
     };
   }
   const core: Omit<LearningCandidate, "candidateId"> = {
@@ -199,14 +221,18 @@ function validateBehavior(behavior: BehaviorDraft): BehaviorIssue | null {
   ) {
     return {
       reason: "invalid-capability-reference",
-      detail: "behavior must reference a W023 capability by id and 64-hex digest",
+      detail:
+        "behavior must reference a W023 capability by id and 64-hex digest",
     };
   }
   if (behavior.intent.trim() === "") {
     return { reason: "empty-intent", detail: "behavior intent must be stated" };
   }
   if (behavior.steps.length === 0) {
-    return { reason: "empty-behavior-steps", detail: "behavior must declare at least one step" };
+    return {
+      reason: "empty-behavior-steps",
+      detail: "behavior must declare at least one step",
+    };
   }
   const seen = new Set<string>();
   for (const step of behavior.steps) {

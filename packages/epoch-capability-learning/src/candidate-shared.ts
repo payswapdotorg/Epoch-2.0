@@ -30,7 +30,8 @@ export interface CandidateSourceRef {
   readonly outcome: OutcomeClassification;
 }
 
-export type BehaviorConditionKind = "state" | "evidence" | "capability" | "environment";
+export type BehaviorConditionKind =
+  "state" | "evidence" | "capability" | "environment";
 
 export interface BehaviorCondition {
   readonly kind: BehaviorConditionKind;
@@ -145,9 +146,7 @@ export type CandidateRight =
   | "redistribute";
 
 export type ReuseBasisKind =
-  | "demonstration-provenance"
-  | "owner-declaration"
-  | "governance-default";
+  "demonstration-provenance" | "owner-declaration" | "governance-default";
 
 export interface ReuseBasis {
   readonly kind: ReuseBasisKind;

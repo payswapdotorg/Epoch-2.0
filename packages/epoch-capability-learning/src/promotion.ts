@@ -23,7 +23,10 @@ import type { RollbackPlan, RollbackMetadata } from "./rollback.js";
  * promotion and is advisory only.
  */
 
-export type PermittedReuseDecision = Extract<ReuseDecision, { kind: "permitted" }>;
+export type PermittedReuseDecision = Extract<
+  ReuseDecision,
+  { kind: "permitted" }
+>;
 
 export interface PromotionProposalInput {
   readonly candidate: LearningCandidate;
@@ -70,7 +73,9 @@ export interface PromotionProposal {
  * Refusal precedence: unknown level → proposer validity → candidate gates →
  * reuse enforcement → ladder (one rung at a time) → rollback plan → basis.
  */
-export function proposePromotion(input: PromotionProposalInput): PromotionProposalResult {
+export function proposePromotion(
+  input: PromotionProposalInput,
+): PromotionProposalResult {
   const descriptor = ladderDescriptor(input.proposedLevel);
   if (descriptor === undefined) {
     return {
@@ -83,7 +88,8 @@ export function proposePromotion(input: PromotionProposalInput): PromotionPropos
     return {
       kind: "refused",
       reason: "missing-proposer-intervention",
-      detail: "proposals require a typed human intervention (actor, role, digest)",
+      detail:
+        "proposals require a typed human intervention (actor, role, digest)",
     };
   }
   const generalization = input.candidate.generalization.kind;
@@ -106,7 +112,11 @@ export function proposePromotion(input: PromotionProposalInput): PromotionPropos
     context: input.reuseContext,
   });
   if (reuseDecision.kind === "denied") {
-    return { kind: "refused", reason: "reuse-permission-denied", detail: reuseDecision.detail };
+    return {
+      kind: "refused",
+      reason: "reuse-permission-denied",
+      detail: reuseDecision.detail,
+    };
   }
   const currentRung = rungOf(input.currentLevel);
   if (currentRung === null) {
@@ -205,14 +215,16 @@ export function approvePromotion(
     return {
       kind: "refused",
       reason: "invalid-approver",
-      detail: "approvals require a typed human intervention (actor, role, digest)",
+      detail:
+        "approvals require a typed human intervention (actor, role, digest)",
     };
   }
   if (approval.approver.actorId === proposal.proposedBy.actorId) {
     return {
       kind: "refused",
       reason: "approver-is-proposer",
-      detail: "separation of duties: the proposer cannot approve their own proposal",
+      detail:
+        "separation of duties: the proposer cannot approve their own proposal",
     };
   }
   const descriptor = ladderDescriptor(proposal.proposedLevel);
@@ -225,7 +237,11 @@ export function approvePromotion(
   }
   const basisIssue = validateBasis(approval.basis, descriptor.requiredBasis);
   if (basisIssue !== null) {
-    return { kind: "refused", reason: "approval-basis-insufficient", detail: basisIssue };
+    return {
+      kind: "refused",
+      reason: "approval-basis-insufficient",
+      detail: basisIssue,
+    };
   }
   if (approval.replaces !== null && !isValidDigest(approval.replaces)) {
     return {
@@ -259,7 +275,9 @@ export function approvePromotion(
   };
 }
 
-function ladderDescriptor(level: AutonomyLevel): AutonomyLevelDescriptor | undefined {
+function ladderDescriptor(
+  level: AutonomyLevel,
+): AutonomyLevelDescriptor | undefined {
   return AUTONOMY_LADDER.find((descriptor) => descriptor.level === level);
 }
 
@@ -271,7 +289,10 @@ function rungOf(level: AutonomyLevel | null): number | null {
   return descriptor === undefined ? null : descriptor.rung;
 }
 
-function validateBasis(basis: PromotionBasis, requiredKind: ApprovalBasisKind): string | null {
+function validateBasis(
+  basis: PromotionBasis,
+  requiredKind: ApprovalBasisKind,
+): string | null {
   if (basis.basisKind !== requiredKind) {
     return `this autonomy level requires an approval basis of kind "${requiredKind}"`;
   }
