@@ -58,7 +58,8 @@ function propose(overrides: ProposeOverrides = {}) {
     currentLevel: overrides.currentLevel ?? null,
     proposedBy: overrides.proposedBy ?? alice,
     basis: overrides.basis ?? proposerBasis,
-    rollbackPlan: overrides.rollback ?? rollbackPlan(alice),
+    rollbackPlan:
+      overrides.rollback === undefined ? rollbackPlan(alice) : overrides.rollback,
     reuseContext: overrides.context ?? projectContext,
   });
 }
