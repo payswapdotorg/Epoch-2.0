@@ -33,22 +33,24 @@
     "W024",
     "W025",
     "W030",
-    "W026"
+    "W026",
+    "W031",
+    "W032"
   ],
-  "active": [],
+  "active": [
+    "W033",
+    "W034"
+  ],
   "eligible": [
     "W013",
     "W014",
     "W015",
     "W016",
     "W017",
-    "W019",
-    "W031",
-    "W032",
-    "W033"
+    "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "e6c901d",
-  "lastAction": "W026 MERGED (e6c901d) + W030 MERGED (b665f3a): ALL CORE-LANE WORK ORDERS W000-W026 COMPLETE. fullEngineeringArchitecture milestone CLOSED. ACR expansion chain fully unlocked: W031/W032/W033 all eligible, dispatching into the three free lanes. Remaining: W031-W035 (ACR) + leaf pool W013-W017, W019 (13 work orders total).",
-  "lastMergeWorkOrder": "W026"
+  "lastMergeSha": "5442d3d",
+  "lastAction": "W031 MERGED (5442d3d, 52/52) + W032 MERGED (d980d43, 81/81). 33/36 complete. W033 (cost/quality frontier) in fix round 2. W034 (arena expert loop) dispatching into freed lane. On W033+W034: W035 (final work order) unlocks. Leaf pool W013-W017/W019 remain eligible for the third lane.",
+  "lastMergeWorkOrder": "W031"
 }
