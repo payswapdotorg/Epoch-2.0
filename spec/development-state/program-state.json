@@ -36,10 +36,11 @@
     "W026",
     "W031",
     "W032",
-    "W033"
+    "W033",
+    "W034"
   ],
   "active": [
-    "W034"
+    "W035"
   ],
   "eligible": [
     "W013",
@@ -50,7 +51,7 @@
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "eddd33a",
-  "lastAction": "W033 MERGED (eddd33a, 40/40). 34/36 complete — ONLY W034 (in flight, arena expert loop) and W035 (final, engineering abundance evaluation) remain. W035 unlocks on W034 merge; prompt pre-authoring. Leaf pool W013-W017/W019 remains eligible but non-blocking (spec optional expansion).",
-  "lastMergeWorkOrder": "W033"
+  "lastMergeSha": "79bc350",
+  "lastAction": "W034 MERGED (79bc350, 60/60). 35/36 — W035 (engineering abundance evaluation, FINAL work order) dispatching now. All dependencies met (W020+W022+W024+W031+W032+W033+W034 all merged).",
+  "lastMergeWorkOrder": "W034"
 }

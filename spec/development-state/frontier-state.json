@@ -1,12 +1,12 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "FINAL_STRETCH_W034_IN_FLIGHT_W035_PENDING",
+  "status": "FINAL_WORK_ORDER_W035_DISPATCHED",
   "frontier": [
-    "W034"
+    "W035"
   ],
   "eligible": 9,
   "inFlight": [
-    "W034"
+    "W035"
   ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -22,14 +22,14 @@
     "applicationEnvironmentFabric": "PARTIAL (W028 fabric + W029 environment activity merged — typed events, consent laws, demonstrations; ACR integration continues via W030+)",
     "capabilityReproductionFactory": "COMPLETE (W031 merged 5442d3d — governed pipeline with rights gates, release impossibility laws)",
     "capabilityGapLearning": "COMPLETE (W032 merged d980d43 — held-out replay law, human-approval promotion, cost-aware regression watch)",
-    "arenaExpertLoop": "IN FLIGHT (W034 streaming)",
-    "engineeringAbundanceEvaluation": "FUTURE",
+    "arenaExpertLoop": "COMPLETE (W034 merged 79bc350 — simulated full round trip, typed returns, independent reuse rights)",
+    "engineeringAbundanceEvaluation": "IN FLIGHT (W035 — the FINAL work order — dispatched)",
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W033 merged (34/36). W034 in flight; W035 (FINAL work order) authors now and dispatches on W034 merge. Roadmap completion imminent.",
+  "nextAction": "W034 merged (35/36). W035 (FINAL) dispatched. On its merge: the W000-W035 roadmap is COMPLETE. Leaf pool W013-W017/W019 remains optional non-blocking expansion.",
   "lastMerge": {
-    "workOrder": "W033",
-    "mergeSha": "eddd33a"
+    "workOrder": "W034",
+    "mergeSha": "79bc350"
   }
 }
