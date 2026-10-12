@@ -395,6 +395,17 @@ modules:
     managed: true
     requires: []
     publicEntrypoints: [packages/epoch-agent-presence/src/index.ts]
+  # W019 — Inspector/BOQ/constraints/findings: bidirectional semantic-entity
+  # link graph — inspector read-models derived from world-model digests,
+  # explicit quantity takeoff methods, deterministic BOQ compilation with
+  # exact single-currency rollups, typed constraints with verdicts,
+  # findings with data-declared status lifecycles, all cross-linked by
+  # canonical digest — no duplicate ledger anywhere.
+  - id: epoch-engineering-projections
+    roots: [packages/epoch-engineering-projections/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-engineering-projections/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
