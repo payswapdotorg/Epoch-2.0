@@ -39,18 +39,18 @@
     "W033",
     "W034",
     "W035",
-    "W013"
+    "W013",
+    "W014"
   ],
   "active": [],
   "eligible": [
-    "W014",
     "W015",
     "W016",
     "W017",
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "d020d21",
-  "lastAction": "W013 MERGED (d020d21, 78/78 tests, tsc 0 TS5.9.3+TS6, lint 0/0, fmt clean, arch 0 with registration). 31/36 — leaf pool remaining: W014/W015/W016/W017/W019. Resident watch continues: dispatching W014 next (fresh lane).",
-  "lastMergeWorkOrder": "W013"
+  "lastMergeSha": "bc0cc87",
+  "lastAction": "W014 MERGED (bc0cc87, 66/66 tests). 32/36 — leaf pool remaining: W015/W016/W017/W019. Resident watch continues: dispatching W015 next.",
+  "lastMergeWorkOrder": "W014"
 }
