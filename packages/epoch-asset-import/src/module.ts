@@ -27,7 +27,13 @@ export const MODULE_ARTIFACTS: readonly ModuleArtifact[] = [
   {
     path: "src/contract.ts",
     role: "contract",
-    summary: "Contract name, revision, typed laws, public entries and contract assertion.",
+    summary:
+      "Contract name, revision, typed laws, contract assertion; re-exports the public entries.",
+  },
+  {
+    path: "src/contract-entries.ts",
+    role: "manifest",
+    summary: "Public contract entry manifest (PUBLIC_CONTRACT), split out of contract.ts.",
   },
   {
     path: "src/validate.ts",
