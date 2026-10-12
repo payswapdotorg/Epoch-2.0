@@ -1,0 +1,26 @@
+{
+  "name": "@zcode/epoch-foundation-blender",
+  "version": "0.1.0",
+  "private": true,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "tsc -b && node --test dist/test/canonical.test.js dist/test/contract.test.js dist/test/descriptor.test.js dist/test/exchange.test.js dist/test/invocation.test.js dist/test/license.test.js dist/test/limitations.test.js dist/test/matrix.test.js dist/test/validate.test.js dist/test/validation.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}
