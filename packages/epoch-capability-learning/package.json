@@ -1,10 +1,13 @@
 {
   "name": "@zcode/epoch-capability-learning",
   "version": "0.1.0",
-  "description": "W032 — governed capability-gap learning and promotion: typed gap records with deterministic routing, versioned learning candidates with held-out replay validation, typed reuse permissions, human-approved promotion with rollback metadata, and regression watching. Typed data + deterministic machines only — no execution authority.",
-  "type": "module",
   "private": true,
+  "description": "W032 — governed capability-gap learning and promotion: typed gap records with deterministic routing, versioned learning candidates with held-out replay validation, typed reuse permissions, human-approved promotion with rollback metadata, and regression watching. Typed data + deterministic machines only — no execution authority.",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -13,12 +16,9 @@
       "default": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsc -b",
-    "test": "tsc -b ../../qa/epoch-capability-learning && node --test ../../qa/epoch-capability-learning/dist"
+    "test": "tsc -b ../../qa/epoch-capability-learning && node --test \"../../qa/epoch-capability-learning/dist/*.test.js\""
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
