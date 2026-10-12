@@ -51,6 +51,6 @@
   ],
   "blocked": [],
   "lastMergeSha": "3c4c9af",
-  "lastAction": "W035 MERGED (3c4c9af, 76/76 tests). 36/36 \u2014 W000-W035 ROADMAP COMPLETE. All 30 core+expansion work orders merged; leaf pool W013-W017/W019 remains optional non-blocking expansion.",
+  "lastAction": "W035 MERGED (3c4c9af, 76/76 tests). 30/36 \u2014 all core-lane and ACR-expansion work orders complete. CORRECTION: leaf pool W013-W017/W019 (6 work orders, full specs in spec/work-orders/) remain open \u2014 they are roadmap members, not optional. Resident watch continues: dispatching leaf waves.",
   "lastMergeWorkOrder": "W035"
 }

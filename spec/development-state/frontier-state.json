@@ -1,8 +1,15 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "ROADMAP_COMPLETE",
-  "frontier": [],
-  "eligible": 9,
+  "status": "CORE_COMPLETE_LEAF_POOL_OPEN",
+  "frontier": [
+    "W013",
+    "W014",
+    "W015",
+    "W016",
+    "W017",
+    "W019"
+  ],
+  "eligible": 6,
   "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -23,7 +30,7 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W000-W035 ROADMAP COMPLETE (36/36 merged). Optional: leaf pool W013-W017/W019 expansion work orders remain eligible, non-blocking.",
+  "nextAction": "Core lane + ACR expansion complete (30/36). Leaf pool W013 (Blender/CAD), W014 (Cesium), W015 (ParaView), W016 (asset import), W017 (agent presence), W019 (inspector BOQ) \u2014 dispatch in 2 waves of 3. No early returns until all 36 merged.",
   "lastMerge": {
     "workOrder": "W035",
     "mergeSha": "3c4c9af"
