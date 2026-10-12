@@ -4,11 +4,8 @@
  */
 import { buildArenaTaskPackage } from "../src/task.js";
 import type { SimulationClock } from "../src/simulate.js";
-import type {
-  EvidenceSource,
-  RedactionRule,
-  ReusePolicy,
-} from "../src/types-core.js";
+import type { EvidenceSource, RedactionRule } from "../src/types-core.js";
+import type { ReusePolicy } from "../src/types-reuse.js";
 import type {
   ArenaReturnDraft,
   ArenaReturnPackage,

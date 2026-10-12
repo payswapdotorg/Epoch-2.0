@@ -15,7 +15,7 @@ export const MODULE_DESCRIPTION =
   "return packages validated on receipt, deterministic verification " +
   "against acceptance criteria, canonical world-revision proposals, " +
   "partial/rejected handling, independent reuse-rights decisions, and " +
-  "a pure simulated Arena endpoint." as const;
+  "a pure simulated Arena endpoint.";
 
 export interface ModuleManifest {
   readonly name: string;

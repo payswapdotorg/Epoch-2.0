@@ -58,6 +58,7 @@ import type { SealReturnInput } from "./return.js";
 import type { ProposeRevisionInput } from "./revision.js";
 import type { DecideReuseInput } from "./reuse.js";
 import type {
+  SimulatedArenaEndpoint,
   SimulatedEndpointConfig,
   SimulatedRoundTripInput,
   SimulationTranscript,

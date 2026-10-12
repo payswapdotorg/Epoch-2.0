@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { sealReturnPackage } from "../src/return.js";
 import { decideReuseRights } from "../src/reuse.js";
+import type { ArenaReturnDraft } from "../src/types-return.js";
 import {
   CLOCK,
   emptyDraft,
@@ -42,10 +43,10 @@ test("granted scopes intersected with policy yield reuse-permitted when fully co
 test("grants beyond policy are restricted, not permitted", () => {
   const task = makeTaskPackage();
   const draft = goodDraft(task);
-  const wide = {
+  const wide: ArenaReturnDraft = {
     ...draft,
     reusePermissionRequested: {
-      kind: "granted" as const,
+      kind: "granted",
       scopes: ["capability-promotion", "internal-analysis"],
       conditions: [],
     },
@@ -66,10 +67,10 @@ test("grants beyond policy are restricted, not permitted", () => {
 test("expert denial is honored", () => {
   const task = makeTaskPackage();
   const draft = goodDraft(task);
-  const denied = {
+  const denied: ArenaReturnDraft = {
     ...draft,
     reusePermissionRequested: {
-      kind: "denied" as const,
+      kind: "denied",
       reason: "confidential client methodology",
     },
   };
