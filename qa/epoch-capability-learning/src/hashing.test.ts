@@ -34,8 +34,14 @@ test("sha256Hex matches published SHA-256 test vectors", () => {
 });
 
 test("digestRecord is domain-separated and deterministic", () => {
-  strictEqual(digestRecord("gap-facts", { a: 1 }), digestRecord("gap-facts", { a: 1 }));
-  ok(digestRecord("gap-facts", { a: 1 }) !== digestRecord("gap-classification", { a: 1 }));
+  strictEqual(
+    digestRecord("gap-facts", { a: 1 }),
+    digestRecord("gap-facts", { a: 1 }),
+  );
+  ok(
+    digestRecord("gap-facts", { a: 1 }) !==
+      digestRecord("gap-classification", { a: 1 }),
+  );
   ok(isValidDigest(digestRecord("gap-facts", { a: 1 })));
 });
 

@@ -20,8 +20,14 @@ export type CandidateRight =
   | "redistribute";
 
 /** Rights declared by each reuse level (data). A policy may declare only a subset of its level's envelope. */
-export const REUSE_LEVEL_RIGHTS: Readonly<Record<ReuseLevel, readonly CandidateRight[]>> = {
-  "project-local": ["reuse-in-replays", "derive-revisions", "promote-to-capability"],
+export const REUSE_LEVEL_RIGHTS: Readonly<
+  Record<ReuseLevel, readonly CandidateRight[]>
+> = {
+  "project-local": [
+    "reuse-in-replays",
+    "derive-revisions",
+    "promote-to-capability",
+  ],
   "organization-shared": [
     "reuse-in-replays",
     "reuse-in-evaluations",
@@ -37,12 +43,11 @@ export const REUSE_LEVEL_RIGHTS: Readonly<Record<ReuseLevel, readonly CandidateR
   ],
 };
 
-export const ALL_CANDIDATE_RIGHTS: readonly CandidateRight[] = REUSE_LEVEL_RIGHTS.public;
+export const ALL_CANDIDATE_RIGHTS: readonly CandidateRight[] =
+  REUSE_LEVEL_RIGHTS.public;
 
 export type ReuseBasisKind =
-  | "demonstration-provenance"
-  | "owner-declaration"
-  | "governance-default";
+  "demonstration-provenance" | "owner-declaration" | "governance-default";
 
 export interface ReuseBasis {
   readonly kind: ReuseBasisKind;
@@ -83,7 +88,9 @@ export type ReusePolicyDefinition =
       readonly detail: string;
     };
 
-export function defineReusePolicy(draft: ReusePolicyDraft): ReusePolicyDefinition {
+export function defineReusePolicy(
+  draft: ReusePolicyDraft,
+): ReusePolicyDefinition {
   const envelope = REUSE_LEVEL_RIGHTS[draft.level];
   for (const right of draft.rights) {
     if (!envelope.includes(right)) {
@@ -105,7 +112,10 @@ export function defineReusePolicy(draft: ReusePolicyDraft): ReusePolicyDefinitio
     }
     seen.add(right);
   }
-  if (draft.declaringProjectId.trim() === "" || draft.declaringOrganizationId.trim() === "") {
+  if (
+    draft.declaringProjectId.trim() === "" ||
+    draft.declaringOrganizationId.trim() === ""
+  ) {
     return {
       kind: "rejected",
       reason: "missing-identifiers",
@@ -186,7 +196,10 @@ export function authorizeReuse(
     policyDigest: policy.policyDigest,
   });
   if (!policy.rights.includes(request.right)) {
-    return deny("right-not-declared", `reuse policy does not declare the "${request.right}" right`);
+    return deny(
+      "right-not-declared",
+      `reuse policy does not declare the "${request.right}" right`,
+    );
   }
   if (!contextContained(policy, request.context)) {
     return deny(
@@ -201,7 +214,10 @@ export function authorizeReuse(
       "a rejected candidate may only be reused to derive revisions",
     );
   }
-  if (request.right === "promote-to-capability" && generalization === "pending") {
+  if (
+    request.right === "promote-to-capability" &&
+    generalization === "pending"
+  ) {
     return deny(
       "candidate-generalization-pending",
       "promotion requires a generalization validation (generalized or explicitly scoped)",

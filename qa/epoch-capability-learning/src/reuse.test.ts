@@ -23,15 +23,18 @@ interface DraftOverrides {
 function draft(overrides: DraftOverrides): ReusePolicyDraft {
   return {
     level: overrides.level ?? "project-local",
-    rights: overrides.rights ?? ["reuse-in-replays", "derive-revisions", "promote-to-capability"],
+    rights: overrides.rights ?? [
+      "reuse-in-replays",
+      "derive-revisions",
+      "promote-to-capability",
+    ],
     declaringProjectId: overrides.declaringProjectId ?? "proj/epoch",
     declaringOrganizationId: "org/zcode",
     declaredBy: overrides.declaredBy ?? "human/alice",
-    basis:
-      overrides.basis ?? {
-        kind: "demonstration-provenance",
-        detail: "learned from a verified W029 demonstration",
-      },
+    basis: overrides.basis ?? {
+      kind: "demonstration-provenance",
+      detail: "learned from a verified W029 demonstration",
+    },
   };
 }
 
@@ -67,7 +70,10 @@ test("rejects incomplete policy declarations", () => {
   const cases: Array<[ReusePolicyDraft, string]> = [
     [draft({ declaringProjectId: "" }), "missing-identifiers"],
     [draft({ declaredBy: "" }), "missing-declarer"],
-    [draft({ basis: { kind: "owner-declaration", detail: " " } }), "missing-basis"],
+    [
+      draft({ basis: { kind: "owner-declaration", detail: " " } }),
+      "missing-basis",
+    ],
   ];
   for (const [badDraft, reason] of cases) {
     const definition = defineReusePolicy(badDraft);
@@ -97,7 +103,11 @@ test("denies an undeclared right", () => {
 test("denies project-local reuse outside the declaring project", () => {
   const decision = authorizeReuse(makeCandidate(), {
     right: "reuse-in-replays",
-    context: { kind: "project", projectId: "proj/other", organizationId: "org/zcode" },
+    context: {
+      kind: "project",
+      projectId: "proj/other",
+      organizationId: "org/zcode",
+    },
   });
   ok(decision.kind === "denied");
   strictEqual(decision.reason, "context-outside-policy-level");
@@ -105,13 +115,20 @@ test("denies project-local reuse outside the declaring project", () => {
 
 test("denies organization-shared reuse outside the organization", () => {
   const definition = defineReusePolicy(
-    draft({ level: "organization-shared", rights: ["reuse-in-replays", "reuse-in-evaluations"] }),
+    draft({
+      level: "organization-shared",
+      rights: ["reuse-in-replays", "reuse-in-evaluations"],
+    }),
   );
   ok(definition.kind === "defined");
   const candidate = { ...makeCandidate(), reuse: definition.policy };
   const decision = authorizeReuse(candidate, {
     right: "reuse-in-replays",
-    context: { kind: "organization", projectId: "proj/any", organizationId: "org/other" },
+    context: {
+      kind: "organization",
+      projectId: "proj/any",
+      organizationId: "org/other",
+    },
   });
   ok(decision.kind === "denied");
   strictEqual(decision.reason, "context-outside-policy-level");
@@ -125,7 +142,11 @@ test("a public policy permits reuse in any context", () => {
   const candidate = { ...makeCandidate(), reuse: definition.policy };
   const decision = authorizeReuse(candidate, {
     right: "redistribute",
-    context: { kind: "public", projectId: "proj/anywhere", organizationId: "org/anywhere" },
+    context: {
+      kind: "public",
+      projectId: "proj/anywhere",
+      organizationId: "org/anywhere",
+    },
   });
   ok(decision.kind === "permitted");
 });

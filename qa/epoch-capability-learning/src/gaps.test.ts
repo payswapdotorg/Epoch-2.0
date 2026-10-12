@@ -51,7 +51,10 @@ test("routes missing evidence to evidence-request", () => {
   strictEqual(classification.route, "evidence-request");
   const reason = classification.reason;
   ok(reason.kind === "evidence-request");
-  deepStrictEqual(reason.missingEvidenceKinds, ["episode-outcome", "capability-evidence"]);
+  deepStrictEqual(reason.missingEvidenceKinds, [
+    "episode-outcome",
+    "capability-evidence",
+  ]);
 });
 
 test("routes a covering capability to existing-capability", () => {
@@ -67,7 +70,10 @@ test("routes a covering capability to existing-capability", () => {
 test("routes a verified demonstration to demonstration", () => {
   const facts = {
     ...baseFacts(),
-    verifiedDemonstration: { demonstrationDigest: hex("demo-009"), episodeId: "ep-001" },
+    verifiedDemonstration: {
+      demonstrationDigest: hex("demo-009"),
+      episodeId: "ep-001",
+    },
   };
   const classification = classifyGap(facts);
   strictEqual(classification.route, "demonstration");
@@ -125,7 +131,10 @@ test("existing-capability outranks demonstration", () => {
   const facts = {
     ...baseFacts(),
     coveringCapability: capabilityBeta,
-    verifiedDemonstration: { demonstrationDigest: hex("demo-009"), episodeId: "ep-001" },
+    verifiedDemonstration: {
+      demonstrationDigest: hex("demo-009"),
+      episodeId: "ep-001",
+    },
   };
   const classification = classifyGap(facts);
   strictEqual(classification.route, "existing-capability");
@@ -152,7 +161,10 @@ test("classification and gap records are deterministic", () => {
 test("recordGap rejects malformed digests", () => {
   const facts = {
     ...baseFacts(),
-    targetCapability: { capabilityId: "cap/alpha", capabilityDigest: "not-a-digest" },
+    targetCapability: {
+      capabilityId: "cap/alpha",
+      capabilityDigest: "not-a-digest",
+    },
   };
   throws(() => recordGap(facts), InvalidRecordError);
 });

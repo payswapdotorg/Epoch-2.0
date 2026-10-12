@@ -8,10 +8,24 @@
  * execution authority).
  */
 
-export { canonicalJson, digestRecord, isValidDigest, sha256Hex } from "./hashing.js";
-export { CanonicalizationError, GapRoutingError, InvalidRecordError } from "./errors.js";
+export {
+  canonicalJson,
+  digestRecord,
+  isValidDigest,
+  sha256Hex,
+} from "./hashing.js";
+export {
+  CanonicalizationError,
+  GapRoutingError,
+  InvalidRecordError,
+} from "./errors.js";
 
-export { classifyGap, GAP_ROUTES, GAP_ROUTING_RULES, recordGap } from "./gaps.js";
+export {
+  classifyGap,
+  GAP_ROUTES,
+  GAP_ROUTING_RULES,
+  recordGap,
+} from "./gaps.js";
 export type {
   CapabilityGap,
   EnvironmentDefect,
@@ -58,7 +72,11 @@ export type {
   OutcomeClassification,
 } from "./candidates.js";
 
-export { applyGeneralization, declareScope, validateGeneralization } from "./generalization.js";
+export {
+  applyGeneralization,
+  declareScope,
+  validateGeneralization,
+} from "./generalization.js";
 export type {
   GeneralizationApplication,
   GeneralizationRejection,
@@ -162,4 +180,8 @@ export type {
 } from "./regression.js";
 
 export { MODULE_ID, MODULE_VERSION, moduleManifest } from "./module.js";
-export type { ModuleDependencyRef, ModuleLaw, ModuleManifest } from "./module.js";
+export type {
+  ModuleDependencyRef,
+  ModuleLaw,
+  ModuleManifest,
+} from "./module.js";

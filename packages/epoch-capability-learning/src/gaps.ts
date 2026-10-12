@@ -1,6 +1,10 @@
 import { digestRecord, isValidDigest } from "./hashing.js";
 import { GapRoutingError, InvalidRecordError } from "./errors.js";
-import type { CapabilityRef, DemonstrationRef, InterventionRef } from "./refs.js";
+import type {
+  CapabilityRef,
+  DemonstrationRef,
+  InterventionRef,
+} from "./refs.js";
 
 /**
  * Gap records + deterministic gap classification (W032 §1).
@@ -176,7 +180,10 @@ export function classifyGap(facts: GapFacts): GapClassification {
   throw new GapRoutingError("routing table exhausted without a fallback match");
 }
 
-function conditionMatches(condition: GapRouteCondition, facts: GapFacts): boolean {
+function conditionMatches(
+  condition: GapRouteCondition,
+  facts: GapFacts,
+): boolean {
   switch (condition.kind) {
     case "environment-defects-present":
       return facts.environmentDefects.length >= condition.minimumDefects;
@@ -202,7 +209,9 @@ function buildReason(
     case "environment-repair":
       return {
         kind: "environment-repair",
-        defectKinds: facts.environmentDefects.map((defect) => defect.defectKind),
+        defectKinds: facts.environmentDefects.map(
+          (defect) => defect.defectKind,
+        ),
         defectCount: facts.environmentDefects.length,
       };
     case "evidence-request":
@@ -213,7 +222,9 @@ function buildReason(
     case "existing-capability": {
       const covering = facts.coveringCapability;
       if (covering === null) {
-        throw new GapRoutingError("existing-capability route without a covering capability");
+        throw new GapRoutingError(
+          "existing-capability route without a covering capability",
+        );
       }
       return {
         kind: "existing-capability",
@@ -224,7 +235,9 @@ function buildReason(
     case "demonstration": {
       const demonstration = facts.verifiedDemonstration;
       if (demonstration === null) {
-        throw new GapRoutingError("demonstration route without a verified demonstration");
+        throw new GapRoutingError(
+          "demonstration route without a verified demonstration",
+        );
       }
       return {
         kind: "demonstration",
@@ -235,7 +248,9 @@ function buildReason(
     case "reproduction": {
       const reproduction = facts.reproduction;
       if (reproduction === null) {
-        throw new GapRoutingError("reproduction route without a reproduction fact");
+        throw new GapRoutingError(
+          "reproduction route without a reproduction fact",
+        );
       }
       return {
         kind: "reproduction",
@@ -262,7 +277,10 @@ export interface CapabilityGap {
   readonly notes: readonly string[];
 }
 
-export function recordGap(facts: GapFacts, notes: readonly string[] = []): CapabilityGap {
+export function recordGap(
+  facts: GapFacts,
+  notes: readonly string[] = [],
+): CapabilityGap {
   validateGapFacts(facts);
   const classification = classifyGap(facts);
   const factsDigest = digestRecord("gap-facts", facts);
@@ -301,15 +319,23 @@ function validateGapFacts(facts: GapFacts): void {
   }
   for (const defect of facts.environmentDefects) {
     if (!isValidDigest(defect.evidenceDigest)) {
-      throw new InvalidRecordError("environment defect evidence digest must be 64-hex");
+      throw new InvalidRecordError(
+        "environment defect evidence digest must be 64-hex",
+      );
     }
   }
   const demonstration = facts.verifiedDemonstration;
-  if (demonstration !== null && !isValidDigest(demonstration.demonstrationDigest)) {
+  if (
+    demonstration !== null &&
+    !isValidDigest(demonstration.demonstrationDigest)
+  ) {
     throw new InvalidRecordError("demonstration digest must be 64-hex");
   }
   const reproduction = facts.reproduction;
-  if (reproduction !== null && !isValidDigest(reproduction.reproductionDigest)) {
+  if (
+    reproduction !== null &&
+    !isValidDigest(reproduction.reproductionDigest)
+  ) {
     throw new InvalidRecordError("reproduction digest must be 64-hex");
   }
 }

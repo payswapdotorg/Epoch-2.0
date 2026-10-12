@@ -21,9 +21,18 @@ test("generalizes when the original and all held-out cases pass", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
-      heldOutCase("case/held-canary", false, dims("canary"), pass("obs-held-canary")),
+      heldOutCase(
+        "case/held-canary",
+        false,
+        dims("canary"),
+        pass("obs-held-canary"),
+      ),
     ],
     null,
   );
@@ -55,8 +64,16 @@ test("rejects duplicate original cases", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original-2")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original-2"),
+      ),
     ],
     null,
   );
@@ -86,7 +103,11 @@ test("rejects a missing representative held-out case", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", false, dims("ci"), pass("obs-held-ci")),
     ],
     null,
@@ -100,7 +121,11 @@ test("rejects incomplete observations", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), null),
     ],
     null,
@@ -114,7 +139,11 @@ test("rejects an original-case failure", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), fail("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        fail("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
     ],
     null,
@@ -146,7 +175,11 @@ test("rejects held-out failure without a scope proposal (no silent narrowing)", 
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-prod", true, dims("prod"), fail("obs-held-prod")),
     ],
     null,
@@ -161,7 +194,11 @@ test("scopes the candidate when failures sit outside the declared scope", () => 
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
       heldOutCase("case/held-prod", true, dims("prod"), fail("obs-held-prod")),
     ],
@@ -179,7 +216,11 @@ test("rejects a scope that excludes the original case", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
       heldOutCase("case/held-prod", true, dims("prod"), fail("obs-held-prod")),
     ],
@@ -194,7 +235,11 @@ test("rejects a failing case inside the proposed scope", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), fail("obs-held-ci")),
     ],
     declareScope(dims("ci"), "human/alice"),
@@ -208,8 +253,17 @@ test("rejects a scope without a passing representative held-out case inside it",
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
-      heldOutCase("case/held-staging", true, dims("staging"), pass("obs-held-staging")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
+      heldOutCase(
+        "case/held-staging",
+        true,
+        dims("staging"),
+        pass("obs-held-staging"),
+      ),
       heldOutCase("case/held-prod", true, dims("prod"), fail("obs-held-prod")),
     ],
     declareScope(dims("ci"), "human/alice"),
@@ -223,7 +277,11 @@ test("applyGeneralization refuses a foreign validation", () => {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
     ],
     null,
@@ -239,7 +297,11 @@ test("applyGeneralization stamps the status and re-identifies the candidate", ()
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
     ],
     null,
@@ -251,5 +313,8 @@ test("applyGeneralization stamps the status and re-identifies the candidate", ()
   ok(stamped.kind === "generalized");
   deepStrictEqual(stamped.validatedOn, validation.validatedOn);
   ok(application.candidate.candidateId !== candidate.candidateId);
-  strictEqual(application.candidate.candidateVersion, candidate.candidateVersion);
+  strictEqual(
+    application.candidate.candidateVersion,
+    candidate.candidateVersion,
+  );
 });

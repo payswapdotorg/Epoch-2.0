@@ -6,7 +6,8 @@
  * that level (the watch itself is established after approval, W032 §6).
  */
 
-export type AutonomyLevel = "proposal-only" | "supervised" | "observed" | "autonomous";
+export type AutonomyLevel =
+  "proposal-only" | "supervised" | "observed" | "autonomous";
 
 export type ApprovalBasisKind =
   | "proposer-declaration"
@@ -38,7 +39,8 @@ export const AUTONOMY_LADDER: readonly AutonomyLevelDescriptor[] = [
     requiredBasis: "proposer-declaration",
     requiresRegressionWatch: false,
     requiresRollbackPlan: true,
-    description: "Capability output may be proposed as guidance only; every use needs an explicit human invitation.",
+    description:
+      "Capability output may be proposed as guidance only; every use needs an explicit human invitation.",
   },
   {
     level: "supervised",
@@ -54,7 +56,8 @@ export const AUTONOMY_LADDER: readonly AutonomyLevelDescriptor[] = [
     requiredBasis: "measured-evidence",
     requiresRegressionWatch: true,
     requiresRollbackPlan: true,
-    description: "Capability may act unsupervised while a regression watch measures its episodes.",
+    description:
+      "Capability may act unsupervised while a regression watch measures its episodes.",
   },
   {
     level: "autonomous",
@@ -62,6 +65,7 @@ export const AUTONOMY_LADDER: readonly AutonomyLevelDescriptor[] = [
     requiredBasis: "measured-evidence-and-regression-history",
     requiresRegressionWatch: true,
     requiresRollbackPlan: true,
-    description: "Capability may act without a live watch; continued operation rests on recorded regression history.",
+    description:
+      "Capability may act without a live watch; continued operation rests on recorded regression history.",
   },
 ];

@@ -28,11 +28,15 @@ test("the manifest declares no execution authority and digest-only dependencies"
 
 test("the autonomy ladder climbs one rung at a time", () => {
   deepStrictEqual(
-    epoch.AUTONOMY_LADDER.map((descriptor: AutonomyLevelDescriptor) => descriptor.rung),
+    epoch.AUTONOMY_LADDER.map(
+      (descriptor: AutonomyLevelDescriptor) => descriptor.rung,
+    ),
     [0, 1, 2, 3],
   );
   deepStrictEqual(
-    epoch.AUTONOMY_LADDER.map((descriptor: AutonomyLevelDescriptor) => descriptor.level),
+    epoch.AUTONOMY_LADDER.map(
+      (descriptor: AutonomyLevelDescriptor) => descriptor.level,
+    ),
     ["proposal-only", "supervised", "observed", "autonomous"],
   );
   for (const descriptor of epoch.AUTONOMY_LADDER) {

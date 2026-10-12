@@ -93,5 +93,8 @@ export const moduleManifest: ModuleManifest = {
     },
   ],
   entrypoints: ["src/index.ts"],
-  ownership: ["packages/epoch-capability-learning/**", "qa/epoch-capability-learning/**"],
+  ownership: [
+    "packages/epoch-capability-learning/**",
+    "qa/epoch-capability-learning/**",
+  ],
 };

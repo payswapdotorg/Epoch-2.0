@@ -35,7 +35,9 @@ function makeWatch(triggers: readonly RollbackTrigger[] = []) {
 }
 
 test("establishes a digest-versioned watch", () => {
-  const watch = makeWatch([{ metric: "quality", comparator: "drops-below", threshold: 0.5 }]);
+  const watch = makeWatch([
+    { metric: "quality", comparator: "drops-below", threshold: 0.5 },
+  ]);
   ok(/^[0-9a-f]{64}$/.test(watch.watchId));
   strictEqual(watch.promotion.promotionId, promotionRef.promotionId);
   strictEqual(watch.before.snapshotDigest, makeSnapshot({}).snapshotDigest);
@@ -84,7 +86,10 @@ test("weights expert escalations above routine interventions", () => {
 });
 
 test("detects a quality regression beyond tolerance", () => {
-  const reading = evaluateRegression(makeWatch(), makeSnapshot({ qualityScore: 0.4 }));
+  const reading = evaluateRegression(
+    makeWatch(),
+    makeSnapshot({ qualityScore: 0.4 }),
+  );
   strictEqual(reading.verdict, "regressed");
   const quality = reading.comparison.findings.find(
     (finding: RegressionFinding) => finding.metric === "quality",
@@ -112,7 +117,10 @@ test("detects a safety regression and incident increase", () => {
 });
 
 test("detects an intervention-cost regression", () => {
-  const reading = evaluateRegression(makeWatch(), makeSnapshot({ routine: 10, expert: 4 }));
+  const reading = evaluateRegression(
+    makeWatch(),
+    makeSnapshot({ routine: 10, expert: 4 }),
+  );
   strictEqual(reading.verdict, "regressed");
   strictEqual(reading.comparison.interventionCostDelta, 23);
   const cost = reading.comparison.findings.find(
@@ -134,7 +142,10 @@ test("reports stable within tolerances", () => {
 });
 
 test("reports improvement when quality rises beyond tolerance", () => {
-  const reading = evaluateRegression(makeWatch(), makeSnapshot({ qualityScore: 0.95 }));
+  const reading = evaluateRegression(
+    makeWatch(),
+    makeSnapshot({ qualityScore: 0.95 }),
+  );
   strictEqual(reading.verdict, "improved");
   strictEqual(reading.rollbackSignal.rollbackAdvised, false);
 });
@@ -150,8 +161,13 @@ test("degraded qualification regresses the verdict even within tolerances", () =
 });
 
 test("an explicit trigger advises rollback independently of the verdict", () => {
-  const watch = makeWatch([{ metric: "quality", comparator: "drops-below", threshold: 0.85 }]);
-  const reading = evaluateRegression(watch, makeSnapshot({ qualityScore: 0.81 }));
+  const watch = makeWatch([
+    { metric: "quality", comparator: "drops-below", threshold: 0.85 },
+  ]);
+  const reading = evaluateRegression(
+    watch,
+    makeSnapshot({ qualityScore: 0.81 }),
+  );
   strictEqual(reading.verdict, "stable");
   strictEqual(reading.rollbackSignal.rollbackAdvised, true);
   strictEqual(reading.rollbackSignal.triggeredTriggers.length, 1);
@@ -160,10 +176,21 @@ test("an explicit trigger advises rollback independently of the verdict", () => 
 test("defineMeasurementSnapshot rejects malformed readings", () => {
   const base = {
     epochRef: "epoch-e03",
-    evaluation: { decisionDigest: hex("w030-decision-002"), outcome: "qualified" as const },
+    evaluation: {
+      decisionDigest: hex("w030-decision-002"),
+      outcome: "qualified" as const,
+    },
     quality: { score: 0.8, benchmarkRef: "bench/quality-v1", sampleCount: 12 },
-    safety: { score: 0.99, incidents: 0, evidenceDigest: hex("safety-evidence-002") },
-    interventionCost: { routineInterventions: 1, expertEscalations: 0, meanStepsPerEpisode: 3 },
+    safety: {
+      score: 0.99,
+      incidents: 0,
+      evidenceDigest: hex("safety-evidence-002"),
+    },
+    interventionCost: {
+      routineInterventions: 1,
+      expertEscalations: 0,
+      meanStepsPerEpisode: 3,
+    },
     measurementBasis: "observation window",
   };
   const invalidDigest = defineMeasurementSnapshot({
@@ -180,7 +207,11 @@ test("defineMeasurementSnapshot rejects malformed readings", () => {
   strictEqual(outOfRange.reason, "score-out-of-range");
   const negative = defineMeasurementSnapshot({
     ...base,
-    safety: { score: 0.99, incidents: -1, evidenceDigest: hex("safety-evidence-002") },
+    safety: {
+      score: 0.99,
+      incidents: -1,
+      evidenceDigest: hex("safety-evidence-002"),
+    },
   });
   ok(negative.kind === "rejected");
   strictEqual(negative.reason, "negative-count");

@@ -59,7 +59,9 @@ function propose(overrides: ProposeOverrides = {}) {
     proposedBy: overrides.proposedBy ?? alice,
     basis: overrides.basis ?? proposerBasis,
     rollbackPlan:
-      overrides.rollback === undefined ? rollbackPlan(alice) : overrides.rollback,
+      overrides.rollback === undefined
+        ? rollbackPlan(alice)
+        : overrides.rollback,
     reuseContext: overrides.context ?? projectContext,
   });
 }
@@ -85,7 +87,11 @@ test("refuses an unknown autonomy level", () => {
 
 test("refuses a proposal without a typed human intervention", () => {
   const result = propose({
-    proposedBy: { actorId: "", role: "operator", interventionDigest: hex("blank-actor") },
+    proposedBy: {
+      actorId: "",
+      role: "operator",
+      interventionDigest: hex("blank-actor"),
+    },
   });
   ok(result.kind === "refused");
   strictEqual(result.reason, "missing-proposer-intervention");
@@ -105,7 +111,11 @@ test("refuses a candidate whose generalization is pending", () => {
 
 test("refuses promotion when reuse is denied", () => {
   const result = propose({
-    context: { kind: "project", projectId: "proj/other", organizationId: "org/zcode" },
+    context: {
+      kind: "project",
+      projectId: "proj/other",
+      organizationId: "org/zcode",
+    },
   });
   ok(result.kind === "refused");
   strictEqual(result.reason, "reuse-permission-denied");
@@ -192,7 +202,11 @@ test("refuses an approval with an insufficient measured-evidence basis", () => {
   const approved = approvePromotion(result.proposal, {
     proposalId: result.proposal.proposalId,
     approver: bob,
-    basis: { basisKind: "measured-evidence", evidenceRefs: [], statement: "no evidence attached" },
+    basis: {
+      basisKind: "measured-evidence",
+      evidenceRefs: [],
+      statement: "no evidence attached",
+    },
     replaces: null,
     epochRef: "epoch-e04",
   });

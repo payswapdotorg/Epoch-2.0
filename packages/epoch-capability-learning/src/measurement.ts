@@ -39,7 +39,9 @@ export interface InterventionCostReading {
 export const INTERVENTION_COST_WEIGHTS = { routine: 1, expert: 5 } as const;
 
 /** Weighted intervention cost in cost units — never a bare count. */
-export function interventionCostUnits(reading: InterventionCostReading): number {
+export function interventionCostUnits(
+  reading: InterventionCostReading,
+): number {
   return (
     reading.routineInterventions * INTERVENTION_COST_WEIGHTS.routine +
     reading.expertEscalations * INTERVENTION_COST_WEIGHTS.expert
@@ -82,7 +84,9 @@ export type MeasurementDefinition =
     };
 
 /** Scores are normalized to [0, 1]; counts and step measurements are non-negative. */
-export function defineMeasurementSnapshot(draft: MeasurementDraft): MeasurementDefinition {
+export function defineMeasurementSnapshot(
+  draft: MeasurementDraft,
+): MeasurementDefinition {
   if (!isValidDigest(draft.evaluation.decisionDigest)) {
     return {
       kind: "rejected",
@@ -139,6 +143,9 @@ export function defineMeasurementSnapshot(draft: MeasurementDraft): MeasurementD
   };
   return {
     kind: "defined",
-    snapshot: { ...core, snapshotDigest: digestRecord("measurement-snapshot", core) },
+    snapshot: {
+      ...core,
+      snapshotDigest: digestRecord("measurement-snapshot", core),
+    },
   };
 }

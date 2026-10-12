@@ -82,7 +82,9 @@ export function draftBehavior(): BehaviorDraft {
   return {
     capability: capabilityAlpha,
     intent: "request the missing evidence before acting on an episode",
-    preconditions: [{ kind: "evidence", description: "the episode record is loaded" }],
+    preconditions: [
+      { kind: "evidence", description: "the episode record is loaded" },
+    ],
     steps: [
       {
         stepId: "step/observe",
@@ -103,7 +105,9 @@ export function draftBehavior(): BehaviorDraft {
         usesCapabilityId: null,
       },
     ],
-    postconditions: [{ kind: "evidence", description: "the missing evidence is recorded" }],
+    postconditions: [
+      { kind: "evidence", description: "the missing evidence is recorded" },
+    ],
   };
 }
 
@@ -138,7 +142,10 @@ export function variantCandidate(): LearningCandidate {
       verification: "verified",
       outcome: "success",
     },
-    behavior: { ...behavior, intent: "verify evidence provenance before reuse" },
+    behavior: {
+      ...behavior,
+      intent: "verify evidence provenance before reuse",
+    },
     reuse: projectPolicy(),
     authoredBy: "human/carol",
   });
@@ -216,13 +223,18 @@ export function generalizingCandidate(): LearningCandidate {
   const validation = validateGeneralization(
     candidate,
     [
-      originalCase(candidate.source.demonstrationDigest, dims("ci"), pass("obs-original")),
+      originalCase(
+        candidate.source.demonstrationDigest,
+        dims("ci"),
+        pass("obs-original"),
+      ),
       heldOutCase("case/held-ci", true, dims("ci"), pass("obs-held-ci")),
     ],
     null,
   );
   if (validation.kind !== "generalized") {
-    const detail = validation.kind === "rejected" ? validation.reason : validation.kind;
+    const detail =
+      validation.kind === "rejected" ? validation.reason : validation.kind;
     throw new Error(`fixture generalization failed: ${detail}`);
   }
   return appliedCandidate(candidate, validation);
@@ -247,7 +259,9 @@ export interface SnapshotOptions {
   readonly qualified?: boolean;
 }
 
-export function makeSnapshot(options: SnapshotOptions = {}): MeasurementSnapshot {
+export function makeSnapshot(
+  options: SnapshotOptions = {},
+): MeasurementSnapshot {
   const definition = defineMeasurementSnapshot({
     epochRef: options.epochRef ?? "epoch-e03",
     evaluation: {

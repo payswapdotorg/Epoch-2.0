@@ -1,6 +1,9 @@
 import { digestRecord, isValidDigest } from "./hashing.js";
 import { interventionCostUnits } from "./measurement.js";
-import type { MeasurementSnapshot, QualificationOutcome } from "./measurement.js";
+import type {
+  MeasurementSnapshot,
+  QualificationOutcome,
+} from "./measurement.js";
 import type { AutonomyLevel } from "./autonomy.js";
 import type { GuardedMetric, RollbackTrigger } from "./rollback.js";
 
@@ -67,12 +70,15 @@ export interface RegressionWatchInput {
 }
 
 export type WatchRejection =
-  | "invalid-promotion-reference"
-  | "missing-evaluation-semantics-reference";
+  "invalid-promotion-reference" | "missing-evaluation-semantics-reference";
 
 export type RegressionWatchResult =
   | { readonly kind: "established"; readonly watch: RegressionWatch }
-  | { readonly kind: "rejected"; readonly reason: WatchRejection; readonly detail: string };
+  | {
+      readonly kind: "rejected";
+      readonly reason: WatchRejection;
+      readonly detail: string;
+    };
 
 /** A digest-versioned regression watch over one promotion. */
 export interface RegressionWatch {
@@ -83,19 +89,26 @@ export interface RegressionWatch {
   readonly evaluationSemanticsRef: string;
 }
 
-export function establishRegressionWatch(input: RegressionWatchInput): RegressionWatchResult {
-  if (!isValidDigest(input.promotion.promotionId) || !isValidDigest(input.promotion.candidateId)) {
+export function establishRegressionWatch(
+  input: RegressionWatchInput,
+): RegressionWatchResult {
+  if (
+    !isValidDigest(input.promotion.promotionId) ||
+    !isValidDigest(input.promotion.candidateId)
+  ) {
     return {
       kind: "rejected",
       reason: "invalid-promotion-reference",
-      detail: "watch must reference the promotion and candidate by 64-hex digests",
+      detail:
+        "watch must reference the promotion and candidate by 64-hex digests",
     };
   }
   if (!isValidDigest(input.evaluationSemanticsRef)) {
     return {
       kind: "rejected",
       reason: "missing-evaluation-semantics-reference",
-      detail: "watch must record the digest of the W030 regression semantics it aligns to",
+      detail:
+        "watch must record the digest of the W030 regression semantics it aligns to",
     };
   }
   const core = {
@@ -134,10 +147,21 @@ export function evaluateRegression(
   const interventionCostDelta =
     interventionCostUnits(after.interventionCost) -
     interventionCostUnits(watch.before.interventionCost);
-  const safetyIncidentsIncreased = after.safety.incidents > watch.before.safety.incidents;
+  const safetyIncidentsIncreased =
+    after.safety.incidents > watch.before.safety.incidents;
   const findings: RegressionFinding[] = [
-    metricFinding("quality", qualityDelta, REGRESSION_TOLERANCES.quality, "higher-is-better"),
-    metricFinding("safety", safetyDelta, REGRESSION_TOLERANCES.safety, "higher-is-better"),
+    metricFinding(
+      "quality",
+      qualityDelta,
+      REGRESSION_TOLERANCES.quality,
+      "higher-is-better",
+    ),
+    metricFinding(
+      "safety",
+      safetyDelta,
+      REGRESSION_TOLERANCES.safety,
+      "higher-is-better",
+    ),
     metricFinding(
       "intervention-cost",
       interventionCostDelta,
@@ -151,7 +175,8 @@ export function evaluateRegression(
     qualification === "degraded";
   const hasImprovement =
     !hasRegression &&
-    (qualification === "improved" || findings.some((finding) => finding.severity === "improvement"));
+    (qualification === "improved" ||
+      findings.some((finding) => finding.severity === "improvement"));
   let verdict: RegressionVerdict;
   if (hasRegression) {
     verdict = "regressed";
@@ -160,7 +185,9 @@ export function evaluateRegression(
   } else {
     verdict = "stable";
   }
-  const triggeredTriggers = watch.triggers.filter((trigger) => triggerTripped(trigger, after));
+  const triggeredTriggers = watch.triggers.filter((trigger) =>
+    triggerTripped(trigger, after),
+  );
   const rollbackSignal: RollbackSignal = {
     advisoryOnly: true,
     requiresHumanDecision: true,
@@ -223,12 +250,20 @@ function metricFinding(
   return { metric, delta, tolerance, direction, severity };
 }
 
-function triggerTripped(trigger: RollbackTrigger, after: MeasurementSnapshot): boolean {
+function triggerTripped(
+  trigger: RollbackTrigger,
+  after: MeasurementSnapshot,
+): boolean {
   const value = metricValue(trigger.metric, after);
-  return trigger.comparator === "drops-below" ? value < trigger.threshold : value > trigger.threshold;
+  return trigger.comparator === "drops-below"
+    ? value < trigger.threshold
+    : value > trigger.threshold;
 }
 
-function metricValue(metric: GuardedMetric, snapshot: MeasurementSnapshot): number {
+function metricValue(
+  metric: GuardedMetric,
+  snapshot: MeasurementSnapshot,
+): number {
   switch (metric) {
     case "quality":
       return snapshot.quality.score;

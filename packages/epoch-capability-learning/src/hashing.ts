@@ -57,7 +57,9 @@ function canonicalize(value: unknown): string {
       return `{${body}}`;
     }
     default:
-      throw new CanonicalizationError(`unsupported value type: ${typeof value}`);
+      throw new CanonicalizationError(
+        `unsupported value type: ${typeof value}`,
+      );
   }
 }
 
