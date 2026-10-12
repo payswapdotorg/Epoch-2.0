@@ -1,0 +1,47 @@
+{
+  "name": "@zcode/epoch-arena-adapter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Arena expert loop and learnback: typed task packages with privacy-preserving (minimized/redacted) evidence exports, qualification metadata (scope/budget/deadline/acceptance), typed return packages validated on receipt, deterministic verification against acceptance criteria, canonical world-revision proposals, partial/rejected handling with typed reasons, independent reuse-rights decisions, and a pure simulated Arena endpoint. No execution authority.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
+    },
+    "./module": {
+      "types": "./dist/src/module.d.ts",
+      "import": "./dist/src/module.js"
+    },
+    "./contract": {
+      "types": "./dist/src/contract.d.ts",
+      "import": "./dist/src/contract.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "tsc -b && node --test dist/test/fixtures.test.js dist/test/canonical.test.js dist/test/task.test.js dist/test/return.test.js dist/test/verify.test.js dist/test/revision.test.js dist/test/reuse.test.js dist/test/simulate.test.js dist/test/manifest.test.js"
+  },
+  "keywords": [
+    "epoch",
+    "arena",
+    "expert-loop",
+    "learnback",
+    "verification",
+    "typed-data"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}
