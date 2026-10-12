@@ -1,0 +1,29 @@
+{
+  "name": "@zcode/epoch-cost-quality-search",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "W033 — cost/quality frontier and alternative search: solution baselines and candidates with separate revision identity, hard constraints vs weighted preferences, lifecycle costs with explicit uncertainty propagation, data-composed alternatives, Pareto frontier classification with typed rejection reasons, verification planning with commands as data, and digest-versioned actual-vs-predicted tracking. Typed data and deterministic machines only — no execution authority.",
+  "license": "UNLICENSED",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.5.0"
+  }
+}
