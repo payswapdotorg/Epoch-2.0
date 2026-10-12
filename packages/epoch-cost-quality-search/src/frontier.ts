@@ -58,9 +58,7 @@ export function evaluateFrontier(
   options: FrontierOptions = {},
 ): FrontierResult {
   const reportingCurrency =
-    options.reportingCurrency === undefined
-      ? "USD"
-      : options.reportingCurrency;
+    options.reportingCurrency === undefined ? "USD" : options.reportingCurrency;
   const sortedConstraints = [...constraints].sort((a, b) =>
     compareStrings(a.constraintId, b.constraintId),
   );
@@ -194,7 +192,10 @@ function evaluateConstraintsAndCost(
       conversions,
     );
     const declaredEntries = merged.entries.length;
-    if (aggregation.aggregate.convertedEntryCount === 0 && declaredEntries > 0) {
+    if (
+      aggregation.aggregate.convertedEntryCount === 0 &&
+      declaredEntries > 0
+    ) {
       if (aggregation.aggregate.unconvertedCurrencies.length > 0) {
         rejectionReasons.push({
           kind: "cost-unconvertible",

@@ -137,7 +137,9 @@ export function entryProblem(entry: CostEntry): string | null {
   return 'uncertainty kind must be "point" or "range"';
 }
 
-export function conversionProblem(conversion: CurrencyConversion): string | null {
+export function conversionProblem(
+  conversion: CurrencyConversion,
+): string | null {
   if (
     !isNonEmptyString(conversion.from) ||
     !CURRENCY_PATTERN.test(conversion.from)

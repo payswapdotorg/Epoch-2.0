@@ -107,7 +107,9 @@ export function classifyDominance(
 
 function dominates(a: WorkingEvaluation, b: WorkingEvaluation): boolean {
   const bValues = new Map(
-    b.objectives.map((objective) => [objective.objectiveId, objective] as const),
+    b.objectives.map(
+      (objective) => [objective.objectiveId, objective] as const,
+    ),
   );
   let strictlyBetter = false;
   for (const objective of a.objectives) {

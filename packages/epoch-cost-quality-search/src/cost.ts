@@ -93,7 +93,8 @@ export function aggregateLifecycleCosts(
       compareStrings(String(a.to), String(b.to)),
   );
   for (const conversion of sortedConversions) {
-    const from = typeof conversion.from === "string" ? conversion.from : "<invalid>";
+    const from =
+      typeof conversion.from === "string" ? conversion.from : "<invalid>";
     const to = typeof conversion.to === "string" ? conversion.to : "<invalid>";
     const problem = conversionProblem(conversion);
     if (problem !== null) {
