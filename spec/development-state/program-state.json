@@ -41,16 +41,16 @@
     "W035",
     "W013",
     "W014",
-    "W015"
+    "W015",
+    "W016"
   ],
   "active": [],
   "eligible": [
-    "W016",
     "W017",
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "d0c9e31",
-  "lastAction": "W015 MERGED (d0c9e31, 74/74 tests). 33/36 — leaf pool remaining: W016/W017/W019. Resident watch continues: dispatching W016 next.",
-  "lastMergeWorkOrder": "W015"
+  "lastMergeSha": "fa3e8a9",
+  "lastAction": "W016 MERGED (fa3e8a9, 68/68 tests + contract-law fix rounds). 34/36 — leaf pool remaining: W017/W019. Resident watch continues: dispatching W017 next.",
+  "lastMergeWorkOrder": "W016"
 }
