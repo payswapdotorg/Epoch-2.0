@@ -1,0 +1,30 @@
+{
+  "name": "@zcode/epoch-engineering-objective",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "W035 - engineering automation and abundance evaluation: typed task-family denominators, completion and verified-quality metrics, baselines and intervention measures, escalation and capability-reuse rates, safety regressions, predicted-vs-actual variance with a feasibility gate, and provenance-chained end-to-end cases. Read-only measurement over lifecycle/evidence records; no execution authority.",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "tsc -b && node --test dist/test/"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}
