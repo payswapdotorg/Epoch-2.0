@@ -1145,6 +1145,15 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
+  packages/epoch-results-paraview:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+
   packages/epoch-scene-usd:
     dependencies:
       '@zcode/epoch-reconstruction-contract':

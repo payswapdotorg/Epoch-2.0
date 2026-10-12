@@ -359,6 +359,19 @@ modules:
     managed: true
     requires: []
     publicEntrypoints: [packages/epoch-site-cesium/src/index.ts]
+  # W015 — ParaView result projection: scientific/engineering result
+  # visualization as PROJECTION read-models — typed scalar/vector/tensor
+  # fields over mesh/topology referenced by digest, provider-neutral
+  # ParaView state descriptors (color maps, slices, clips, glyphs,
+  # streamlines as data), result projection records with declared
+  # derivations, deterministic validation machines and coverage summaries.
+  # No ParaView runtime, no VTK parsing; results never replace baseline
+  # world state.
+  - id: epoch-results-paraview
+    roots: [packages/epoch-results-paraview/src]
+    managed: true
+    requires: []
+    publicEntrypoints: [packages/epoch-results-paraview/src/index.ts]
   # W010 qa conformance harness lives at qa/epoch-gltf (node --test), unmanaged like sibling qa dirs.
   # W020 — Verification and evidence battery (both-host journey harness,
   # renderer equivalence, environment matrix, evidence convention).
