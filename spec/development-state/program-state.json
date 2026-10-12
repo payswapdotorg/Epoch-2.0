@@ -38,11 +38,11 @@
     "W032",
     "W033",
     "W034",
-    "W035"
+    "W035",
+    "W013"
   ],
   "active": [],
   "eligible": [
-    "W013",
     "W014",
     "W015",
     "W016",
@@ -50,7 +50,7 @@
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "3c4c9af",
-  "lastAction": "W035 MERGED (3c4c9af, 76/76 tests). 30/36 \u2014 all core-lane and ACR-expansion work orders complete. CORRECTION: leaf pool W013-W017/W019 (6 work orders, full specs in spec/work-orders/) remain open \u2014 they are roadmap members, not optional. Resident watch continues: dispatching leaf waves.",
-  "lastMergeWorkOrder": "W035"
+  "lastMergeSha": "d020d21",
+  "lastAction": "W013 MERGED (d020d21, 78/78 tests, tsc 0 TS5.9.3+TS6, lint 0/0, fmt clean, arch 0 with registration). 31/36 — leaf pool remaining: W014/W015/W016/W017/W019. Resident watch continues: dispatching W014 next (fresh lane).",
+  "lastMergeWorkOrder": "W013"
 }
