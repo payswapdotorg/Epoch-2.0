@@ -35,12 +35,11 @@
     "W014",
     "W015",
     "W016",
-    "W017"
-  ],
-  "active": [],
-  "eligible": [
+    "W017",
     "W019"
   ],
+  "active": [],
+  "eligible": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "dependencies": {

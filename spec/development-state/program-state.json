@@ -43,14 +43,13 @@
     "W014",
     "W015",
     "W016",
-    "W017"
-  ],
-  "active": [],
-  "eligible": [
+    "W017",
     "W019"
   ],
+  "active": [],
+  "eligible": [],
   "blocked": [],
-  "lastMergeSha": "8e3a1d3",
-  "lastAction": "W017 MERGED (8e3a1d3, 65/65 tests). 35/36 — W019 (inspector/BOQ) is the FINAL work order. Resident watch continues: dispatching W019.",
-  "lastMergeWorkOrder": "W017"
+  "lastMergeSha": "70e9b75",
+  "lastAction": "W019 MERGED (70e9b75, 79/79 tests). 36/36 — W000-W035 ROADMAP COMPLETE. All work orders merged: core lane (contracts, fixture, surface, renderers, hosts, visual closure, IFC, glTF, geometry OCCT, scene USD, timeline, persistence, lifecycle, discovery, agent tools, escalation, productization), ACR expansion (reproduction factory, capability learning, cost/quality frontier, arena loop, abundance evaluation), and leaf pool (blender/cad, cesium site, paraview results, asset import, agent presence, inspector/boq). Program CLOSED.",
+  "lastMergeWorkOrder": "W019"
 }

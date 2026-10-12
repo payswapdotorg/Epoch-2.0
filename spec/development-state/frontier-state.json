@@ -1,10 +1,8 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "CORE_COMPLETE_LEAF_POOL_OPEN",
-  "frontier": [
-    "W019"
-  ],
-  "eligible": 1,
+  "status": "ROADMAP_COMPLETE",
+  "frontier": [],
+  "eligible": 0,
   "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -25,9 +23,9 @@
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W017 MERGED (8e3a1d3, 65/65). 35/36. W019 (inspector/BOQ) is the FINAL work order — dispatch on fresh lane. No early returns until 36/36.",
+  "nextAction": "NONE — W000-W035 all merged (36/36). Roadmap complete. Final merge: W019 (70e9b75). Resident watch closed.",
   "lastMerge": {
-    "workOrder": "W017",
-    "mergeSha": "8e3a1d3"
+    "workOrder": "W019",
+    "mergeSha": "70e9b75"
   }
 }
