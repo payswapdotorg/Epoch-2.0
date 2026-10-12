@@ -37,11 +37,10 @@
     "W031",
     "W032",
     "W033",
-    "W034"
-  ],
-  "active": [
+    "W034",
     "W035"
   ],
+  "active": [],
   "eligible": [
     "W013",
     "W014",
@@ -51,7 +50,7 @@
     "W019"
   ],
   "blocked": [],
-  "lastMergeSha": "79bc350",
-  "lastAction": "W034 MERGED (79bc350, 60/60). 35/36 — W035 (engineering abundance evaluation, FINAL work order) dispatching now. All dependencies met (W020+W022+W024+W031+W032+W033+W034 all merged).",
-  "lastMergeWorkOrder": "W034"
+  "lastMergeSha": "3c4c9af",
+  "lastAction": "W035 MERGED (3c4c9af, 76/76 tests). 36/36 \u2014 W000-W035 ROADMAP COMPLETE. All 30 core+expansion work orders merged; leaf pool W013-W017/W019 remains optional non-blocking expansion.",
+  "lastMergeWorkOrder": "W035"
 }
