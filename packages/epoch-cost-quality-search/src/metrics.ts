@@ -11,9 +11,7 @@ export type MetricDirection = "minimize" | "maximize";
 
 /** Provenance of a metric value. */
 export type MetricBasis =
-  | "capability-declaration"
-  | "measured"
-  | "declared-estimate";
+  "capability-declaration" | "measured" | "declared-estimate";
 
 /** A single predicted or measured metric value for a subject. */
 export interface MetricReading {
@@ -86,7 +84,10 @@ export function composePredictedMetrics(
         byMetric.set(metricId, accumulator);
         continue;
       }
-      const contributors = [...accumulator.contributors, contribution.capabilityId];
+      const contributors = [
+        ...accumulator.contributors,
+        contribution.capabilityId,
+      ];
       if (
         accumulator.direction !== attribute.direction &&
         !accumulator.directionConflict

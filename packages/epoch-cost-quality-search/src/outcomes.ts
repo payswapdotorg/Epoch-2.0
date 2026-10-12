@@ -76,7 +76,9 @@ export function computePredictionsDigest(
 export function verifyPredictionsDigest(
   record: ActualVersusPredicted,
 ): boolean {
-  return record.predictionsDigest === computePredictionsDigest(record.predictions);
+  return (
+    record.predictionsDigest === computePredictionsDigest(record.predictions)
+  );
 }
 
 /**
@@ -140,9 +142,7 @@ export function computeVariances(
 }
 
 /** Content digest of an outcome record (canonical view, metrics sorted). */
-export function outcomeRecordDigest(
-  record: ActualVersusPredicted,
-): string {
+export function outcomeRecordDigest(record: ActualVersusPredicted): string {
   return canonicalDigest({
     kind: "actual-versus-predicted",
     recordId: record.recordId,

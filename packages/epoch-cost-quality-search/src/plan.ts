@@ -17,12 +17,7 @@ import type { ComparisonOp } from "./requirements.js";
  */
 
 export type VerificationRole =
-  | "typecheck"
-  | "lint"
-  | "format-check"
-  | "test"
-  | "benchmark"
-  | "custom";
+  "typecheck" | "lint" | "format-check" | "test" | "benchmark" | "custom";
 
 export type ExpectedOutcome = "success" | "threshold";
 
@@ -101,9 +96,7 @@ const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
  * A step with any invalid or duplicated command is dropped whole
  * (all-or-nothing per step); plan-level invalidity yields a null plan.
  */
-export function buildImplementationPlan(
-  plan: ImplementationPlan,
-): PlanIntake {
+export function buildImplementationPlan(plan: ImplementationPlan): PlanIntake {
   if (!isObject(plan)) {
     return {
       plan: null,
@@ -112,7 +105,10 @@ export function buildImplementationPlan(
   }
   const planDetail = planProblem(plan);
   if (planDetail !== null) {
-    return { plan: null, issues: [{ kind: "invalid-plan", detail: planDetail }] };
+    return {
+      plan: null,
+      issues: [{ kind: "invalid-plan", detail: planDetail }],
+    };
   }
 
   const issues: PlanIssue[] = [];
@@ -242,7 +238,8 @@ export function planDigest(plan: ImplementationPlan): string {
             role: command.role,
             argv: [...command.argv],
             expectedOutcome: command.expectedOutcome,
-            threshold: command.threshold === undefined ? null : command.threshold,
+            threshold:
+              command.threshold === undefined ? null : command.threshold,
             description: command.description,
           })),
       })),
@@ -311,10 +308,7 @@ function commandProblem(command: VerificationCommand): string | null {
     if (!isNonEmptyString(view.metric)) {
       return "threshold metric must be a non-empty string";
     }
-    if (
-      typeof view.op !== "string" ||
-      !COMPARISON_OPS.includes(view.op)
-    ) {
+    if (typeof view.op !== "string" || !COMPARISON_OPS.includes(view.op)) {
       return "threshold op must be <=, >= or ==";
     }
     if (!isFiniteNumber(view.bound)) {

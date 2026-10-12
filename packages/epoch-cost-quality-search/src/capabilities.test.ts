@@ -35,10 +35,10 @@ const capB: RegisteredCapability = {
 describe("prepareCapabilities", () => {
   it("accepts valid declarations and sorts them by capabilityId", () => {
     const intake = prepareCapabilities([capB, capA]);
-    assert.deepEqual(intake.capabilities.map((c) => c.capabilityId), [
-      "cap-a",
-      "cap-b",
-    ]);
+    assert.deepEqual(
+      intake.capabilities.map((c) => c.capabilityId),
+      ["cap-a", "cap-b"],
+    );
     assert.deepEqual(intake.issues, []);
   });
 
@@ -87,7 +87,9 @@ describe("prepareCapabilities", () => {
   });
 
   it("rejects malformed registration digests", () => {
-    const intake = prepareCapabilities([{ ...capB, registrationDigest: "xyz" }]);
+    const intake = prepareCapabilities([
+      { ...capB, registrationDigest: "xyz" },
+    ]);
     assert.equal(intake.capabilities.length, 0);
     const [issue] = intake.issues;
     assert.ok(

@@ -1,5 +1,9 @@
 import { compareStrings } from "./internal/compare.js";
-import { isFiniteNumber, isNonEmptyString, isObject } from "./internal/guards.js";
+import {
+  isFiniteNumber,
+  isNonEmptyString,
+  isObject,
+} from "./internal/guards.js";
 
 /**
  * Lifecycle cost model (W033): entries carry source, date, currency and an
@@ -121,7 +125,10 @@ export function aggregateLifecycleCosts(
   reportingCurrency: string,
   conversions: readonly CurrencyConversion[] = [],
 ): CostAggregation {
-  if (typeof reportingCurrency !== "string" || !CURRENCY_PATTERN.test(reportingCurrency)) {
+  if (
+    typeof reportingCurrency !== "string" ||
+    !CURRENCY_PATTERN.test(reportingCurrency)
+  ) {
     return {
       aggregate: emptyAggregate(ledger.subjectId, reportingCurrency),
       issues: [
@@ -143,7 +150,8 @@ export function aggregateLifecycleCosts(
       compareStrings(String(a.to), String(b.to)),
   );
   for (const conversion of sortedConversions) {
-    const from = typeof conversion.from === "string" ? conversion.from : "<invalid>";
+    const from =
+      typeof conversion.from === "string" ? conversion.from : "<invalid>";
     const to = typeof conversion.to === "string" ? conversion.to : "<invalid>";
     const problem = conversionProblem(conversion);
     if (problem !== null) {
@@ -356,7 +364,10 @@ function conversionProblem(conversion: CurrencyConversion): string | null {
   ) {
     return "from must be a three-letter uppercase currency code";
   }
-  if (!isNonEmptyString(conversion.to) || !CURRENCY_PATTERN.test(conversion.to)) {
+  if (
+    !isNonEmptyString(conversion.to) ||
+    !CURRENCY_PATTERN.test(conversion.to)
+  ) {
     return "to must be a three-letter uppercase currency code";
   }
   if (conversion.from === conversion.to) {

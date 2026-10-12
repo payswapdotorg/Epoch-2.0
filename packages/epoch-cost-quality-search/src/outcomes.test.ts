@@ -11,10 +11,34 @@ import {
 } from "./index.js";
 
 const predictions: readonly MetricReading[] = [
-  { metricId: "m2", value: 100, unit: "ms", direction: "minimize", basis: "capability-declaration" },
-  { metricId: "m1", value: 0.1, unit: "ms", direction: "minimize", basis: "capability-declaration" },
-  { metricId: "m3", value: 5, unit: "ms", direction: "minimize", basis: "capability-declaration" },
-  { metricId: "m4", value: 7, unit: "ms", direction: "minimize", basis: "capability-declaration" },
+  {
+    metricId: "m2",
+    value: 100,
+    unit: "ms",
+    direction: "minimize",
+    basis: "capability-declaration",
+  },
+  {
+    metricId: "m1",
+    value: 0.1,
+    unit: "ms",
+    direction: "minimize",
+    basis: "capability-declaration",
+  },
+  {
+    metricId: "m3",
+    value: 5,
+    unit: "ms",
+    direction: "minimize",
+    basis: "capability-declaration",
+  },
+  {
+    metricId: "m4",
+    value: 7,
+    unit: "ms",
+    direction: "minimize",
+    basis: "capability-declaration",
+  },
 ];
 
 const record: ActualVersusPredicted = {
@@ -24,10 +48,34 @@ const record: ActualVersusPredicted = {
   predictions,
   predictionsDigest: computePredictionsDigest(predictions),
   actuals: [
-    { metricId: "m1", actualValue: 0.3, unit: "ms", measuredDate: "2026-03-01", source: "prod telemetry" },
-    { metricId: "m2", actualValue: 100, unit: "ms", measuredDate: "2026-03-01", source: "prod telemetry" },
-    { metricId: "m4", actualValue: 9, unit: "s", measuredDate: "2026-03-01", source: "prod telemetry" },
-    { metricId: "m9", actualValue: 1, unit: "ms", measuredDate: "2026-03-01", source: "prod telemetry" },
+    {
+      metricId: "m1",
+      actualValue: 0.3,
+      unit: "ms",
+      measuredDate: "2026-03-01",
+      source: "prod telemetry",
+    },
+    {
+      metricId: "m2",
+      actualValue: 100,
+      unit: "ms",
+      measuredDate: "2026-03-01",
+      source: "prod telemetry",
+    },
+    {
+      metricId: "m4",
+      actualValue: 9,
+      unit: "s",
+      measuredDate: "2026-03-01",
+      source: "prod telemetry",
+    },
+    {
+      metricId: "m9",
+      actualValue: 1,
+      unit: "ms",
+      measuredDate: "2026-03-01",
+      source: "prod telemetry",
+    },
   ],
   recordedDate: "2026-03-02",
 };
@@ -62,10 +110,22 @@ describe("computeVariances", () => {
     const zeroRecord: ActualVersusPredicted = {
       ...record,
       predictions: [
-        { metricId: "m0", value: 0, unit: "ms", direction: "minimize", basis: "capability-declaration" },
+        {
+          metricId: "m0",
+          value: 0,
+          unit: "ms",
+          direction: "minimize",
+          basis: "capability-declaration",
+        },
       ],
       actuals: [
-        { metricId: "m0", actualValue: 5, unit: "ms", measuredDate: "2026-03-01", source: "prod telemetry" },
+        {
+          metricId: "m0",
+          actualValue: 5,
+          unit: "ms",
+          measuredDate: "2026-03-01",
+          source: "prod telemetry",
+        },
       ],
     };
     const result = computeVariances(zeroRecord);

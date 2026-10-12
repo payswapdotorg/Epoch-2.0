@@ -50,7 +50,10 @@ describe("buildImplementationPlan", () => {
     assert.ok(intake.plan !== null);
     assert.equal(intake.plan.steps[0].stepId, "step-1");
     assert.equal(intake.plan.steps[0].verification[0].commandId, "cmd-bench");
-    assert.deepEqual(intake.plan.steps[0].verification[0].argv, ["pnpm", "bench"]);
+    assert.deepEqual(intake.plan.steps[0].verification[0].argv, [
+      "pnpm",
+      "bench",
+    ]);
     assert.deepEqual(intake.plan.steps[0].verification[0].threshold, {
       metric: "p99-ms",
       op: "<=",

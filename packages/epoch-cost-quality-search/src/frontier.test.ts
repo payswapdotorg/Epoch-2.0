@@ -125,9 +125,7 @@ const scenarioCandidates: readonly SolutionCandidate[] = [
     { metricId: "hit-ratio", value: 60, unit: "ratio", direction: "maximize" },
   ]),
   mkCandidate("cand-nopref", [{ metricId: "p99-ms", value: 5 }]),
-  mkCandidate("cand-unit", [
-    { metricId: "p99-ms", value: 0.005, unit: "s" },
-  ]),
+  mkCandidate("cand-unit", [{ metricId: "p99-ms", value: 0.005, unit: "s" }]),
 ];
 
 const scenarioCosts: readonly LifecycleCost[] = [
@@ -235,7 +233,9 @@ describe("evaluateFrontier", () => {
   it("rejects candidates with missing or unconvertible cost records", () => {
     const nocost = byId("cand-nocost");
     assert.equal(nocost.status, "rejected");
-    assert.deepEqual(nocost.rejectionReasons, [{ kind: "cost-record-missing" }]);
+    assert.deepEqual(nocost.rejectionReasons, [
+      { kind: "cost-record-missing" },
+    ]);
     const gbp = byId("cand-gbp");
     assert.equal(gbp.status, "rejected");
     assert.deepEqual(gbp.rejectionReasons, [
@@ -262,12 +262,9 @@ describe("evaluateFrontier", () => {
 
   it("rejects duplicate candidate ids after the first occurrence", () => {
     const candA = scenarioCandidates[0];
-    const result = evaluateFrontier(
-      [candA, candA],
-      constraints,
-      preferences,
-      [ledger("cand-a", 100)],
-    );
+    const result = evaluateFrontier([candA, candA], constraints, preferences, [
+      ledger("cand-a", 100),
+    ]);
     assert.equal(result.evaluated.length, 2);
     assert.equal(result.evaluated[0].status, "frontier");
     assert.equal(result.evaluated[1].status, "rejected");

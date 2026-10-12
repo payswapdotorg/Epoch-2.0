@@ -135,7 +135,9 @@ export function findCapability(
 export function capabilityMetricIds(
   capability: RegisteredCapability,
 ): readonly string[] {
-  const ids = capability.qualityAttributes.map((attribute) => attribute.metricId);
+  const ids = capability.qualityAttributes.map(
+    (attribute) => attribute.metricId,
+  );
   return [...new Set(ids)].sort(compareStrings);
 }
 

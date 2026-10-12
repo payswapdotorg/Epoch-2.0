@@ -145,9 +145,7 @@ export function evaluateFrontier(
   options: FrontierOptions = {},
 ): FrontierResult {
   const reportingCurrency =
-    options.reportingCurrency === undefined
-      ? "USD"
-      : options.reportingCurrency;
+    options.reportingCurrency === undefined ? "USD" : options.reportingCurrency;
   const sortedConstraints = [...constraints].sort((a, b) =>
     compareStrings(a.constraintId, b.constraintId),
   );
@@ -281,7 +279,10 @@ function evaluateConstraintsAndCost(
       conversions,
     );
     const declaredEntries = merged.entries.length;
-    if (aggregation.aggregate.convertedEntryCount === 0 && declaredEntries > 0) {
+    if (
+      aggregation.aggregate.convertedEntryCount === 0 &&
+      declaredEntries > 0
+    ) {
       if (aggregation.aggregate.unconvertedCurrencies.length > 0) {
         rejectionReasons.push({
           kind: "cost-unconvertible",
@@ -392,7 +393,9 @@ function classifyDominance(feasible: readonly WorkingEvaluation[]): void {
 
 function dominates(a: WorkingEvaluation, b: WorkingEvaluation): boolean {
   const bValues = new Map(
-    b.objectives.map((objective) => [objective.objectiveId, objective] as const),
+    b.objectives.map(
+      (objective) => [objective.objectiveId, objective] as const,
+    ),
   );
   let strictlyBetter = false;
   for (const objective of a.objectives) {

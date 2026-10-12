@@ -147,7 +147,10 @@ describe("aggregateLifecycleCosts", () => {
   });
 
   it("rejects invalid reporting currencies and conversion tables", () => {
-    const badCurrency = aggregateLifecycleCosts(ledger([usdEntry("e1")]), "usd");
+    const badCurrency = aggregateLifecycleCosts(
+      ledger([usdEntry("e1")]),
+      "usd",
+    );
     assert.deepEqual(
       badCurrency.issues.map((issue) => issue.kind),
       ["invalid-reporting-currency"],

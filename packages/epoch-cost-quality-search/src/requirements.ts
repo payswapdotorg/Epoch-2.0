@@ -266,7 +266,10 @@ function constraintProblem(constraint: HardConstraint): string | null {
   if (!isNonEmptyString(constraint.constraintId)) {
     return "constraintId must be a non-empty string";
   }
-  if (typeof constraint.kind !== "string" || !HARD_CONSTRAINT_KINDS.includes(constraint.kind)) {
+  if (
+    typeof constraint.kind !== "string" ||
+    !HARD_CONSTRAINT_KINDS.includes(constraint.kind)
+  ) {
     return `unknown kind "${String(constraint.kind)}"`;
   }
   if (!isNonEmptyString(constraint.description)) {
@@ -278,7 +281,10 @@ function constraintProblem(constraint: HardConstraint): string | null {
   if (!isNonEmptyString(constraint.metricId)) {
     return "metricId must be a non-empty string";
   }
-  if (typeof constraint.op !== "string" || !COMPARISON_OPS.includes(constraint.op)) {
+  if (
+    typeof constraint.op !== "string" ||
+    !COMPARISON_OPS.includes(constraint.op)
+  ) {
     return `unknown op "${String(constraint.op)}"`;
   }
   if (!isFiniteNumber(constraint.bound)) {
@@ -306,10 +312,7 @@ function preferenceProblem(preference: WeightedPreference): string | null {
   ) {
     return `unknown direction "${String(preference.direction)}"`;
   }
-  if (
-    !isFiniteNumber(preference.weight) ||
-    preference.weight <= 0
-  ) {
+  if (!isFiniteNumber(preference.weight) || preference.weight <= 0) {
     return "weight must be a finite number > 0";
   }
   return null;

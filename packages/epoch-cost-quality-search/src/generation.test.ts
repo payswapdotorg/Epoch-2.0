@@ -132,7 +132,9 @@ describe("generateAlternatives", () => {
       added.baselineRef.revisionDigest,
       baseline.worldRevision.revisionDigest,
     );
-    const deltas = [{ kind: "add-capability", capabilityId: "cap-cache" }] as const;
+    const deltas = [
+      { kind: "add-capability", capabilityId: "cap-cache" },
+    ] as const;
     const refs = ["cap-cache", "cap-index"];
     const first = deriveProposalRevision(baseline, deltas, refs);
     const second = deriveProposalRevision(baseline, deltas, refs);
@@ -232,23 +234,38 @@ describe("generateAlternatives", () => {
 describe("resolveCapabilityRefs", () => {
   it("applies add, remove and replace deltas in order", () => {
     assert.deepEqual(
-      resolveCapabilityRefs(["a", "b"], [
-        { kind: "add-capability", capabilityId: "c" },
-        { kind: "remove-capability", capabilityId: "a" },
-        { kind: "replace-capability", fromCapabilityId: "b", toCapabilityId: "d" },
-      ]),
+      resolveCapabilityRefs(
+        ["a", "b"],
+        [
+          { kind: "add-capability", capabilityId: "c" },
+          { kind: "remove-capability", capabilityId: "a" },
+          {
+            kind: "replace-capability",
+            fromCapabilityId: "b",
+            toCapabilityId: "d",
+          },
+        ],
+      ),
       ["c", "d"],
     );
     assert.deepEqual(
-      resolveCapabilityRefs(["a"], [
-        { kind: "replace-capability", fromCapabilityId: "x", toCapabilityId: "y" },
-      ]),
+      resolveCapabilityRefs(
+        ["a"],
+        [
+          {
+            kind: "replace-capability",
+            fromCapabilityId: "x",
+            toCapabilityId: "y",
+          },
+        ],
+      ),
       ["a", "y"],
     );
     assert.deepEqual(
-      resolveCapabilityRefs(["a"], [
-        { kind: "remove-capability", capabilityId: "missing" },
-      ]),
+      resolveCapabilityRefs(
+        ["a"],
+        [{ kind: "remove-capability", capabilityId: "missing" }],
+      ),
       ["a"],
     );
   });
