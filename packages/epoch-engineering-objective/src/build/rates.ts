@@ -49,8 +49,10 @@ function normalizeExecutionMode(mode: TaskExecutionModeInput): TaskExecutionMode
         reason: nonEmptyString("taskExecutionRecord.mode.reason", mode.reason),
       };
     default:
+      // NOTE: `mode` is narrowed to `never` here (all mode literals are
+      // covered above), so the message stringifies the value itself.
       throw new TypeError(
-        `taskExecutionRecord.mode: 'automated' | 'human' | 'arena' expected, got: ${JSON.stringify(mode.mode)}`
+        `taskExecutionRecord.mode: 'automated' | 'human' | 'arena' expected, got: ${JSON.stringify(mode)}`
       );
   }
 }

@@ -119,8 +119,10 @@ export function qualityMetric(input: QualityMetricInput): VerifiedQualityMetric 
         qualityScore: null,
       };
     default:
+      // NOTE: `v` is narrowed to `never` here (all union statuses are
+      // covered above), so the message reads the un-narrowed input instead.
       throw new TypeError(
-        `qualityMetric.verification.status: 'verified' | 'failed' | 'unverified' expected, got: ${JSON.stringify(v.status)}`
+        `qualityMetric.verification.status: 'verified' | 'failed' | 'unverified' expected, got: ${JSON.stringify(input.verification)}`
       );
   }
 }
@@ -154,19 +156,23 @@ export function verifiedQualityShare(
   let failed = 0;
   let unverified = 0;
   for (const metric of metrics) {
-    switch (metric.verification.status) {
-      case "verified":
-        verified += 1;
-        if (metric.qualityScore >= acceptance.minimumVerifiedScore) {
-          acceptable += 1;
-        }
-        break;
-      case "failed":
-        failed += 1;
-        break;
-      case "unverified":
-        unverified += 1;
-        break;
+    // Read the verification union through a local so counting relies only on
+    // direct (one-level) discriminant checks, never on narrowing `metric`.
+    const verification = metric.verification;
+    if (verification.status === "verified") {
+      verified += 1;
+      const score = metric.qualityScore;
+      if (score !== null && score >= acceptance.minimumVerifiedScore) {
+        acceptable += 1;
+      }
+    } else if (verification.status === "failed") {
+      failed += 1;
+    } else if (verification.status === "unverified") {
+      unverified += 1;
+    } else {
+      throw new TypeError(
+        `verifiedQualityShare: unknown verification status, got: ${JSON.stringify(verification)}`
+      );
     }
   }
   return {

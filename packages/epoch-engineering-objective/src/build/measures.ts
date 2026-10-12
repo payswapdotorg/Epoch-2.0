@@ -48,8 +48,10 @@ function normalizeBaselineScope(scope: BaselineScopeInput): BaselineScope {
         taskId: kebabId("baselineMeasure.scope.taskId", scope.taskId),
       };
     default:
+      // NOTE: `scope` is narrowed to `never` here (all scope literals are
+      // covered above), so the message stringifies the value itself.
       throw new TypeError(
-        `baselineMeasure.scope: unknown scope, got: ${JSON.stringify(scope.scope)}`
+        `baselineMeasure.scope: unknown scope, got: ${JSON.stringify(scope)}`
       );
   }
 }

@@ -9,6 +9,7 @@ import type {
 } from "../types/evaluation.js";
 import type { CompletionRecord, VerifiedQualityMetric } from "../types/completion.js";
 import type { BaselineMeasure, InterventionMeasure } from "../types/measures.js";
+import type { TaskClassRule } from "../types/task-family.js";
 import type { ProvenanceVerification } from "../types/end-to-end.js";
 import { sameTaskFamily } from "./denominators.js";
 import { verifiedQualityShare } from "./completion.js";
@@ -62,7 +63,9 @@ export function evaluateAbundance(
   const evaluationId = kebabId("evaluateAbundance.evaluationId", input.evaluationId);
   const familyRef = input.denominator.familyRef;
   const includedClasses = new Set(
-    input.denominator.includedTaskClasses.map((rule) => rule.classId)
+    input.denominator.includedTaskClasses.map(
+      (rule: TaskClassRule) => rule.classId
+    )
   );
 
   const excludedTaskIds: string[] = [];

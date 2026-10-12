@@ -207,3 +207,12 @@ export function qualityAcceptanceThreshold(
     minimumVerifiedScore: qualityScore(minimumVerifiedScore),
   };
 }
+
+/**
+ * TaskFamilyRef is defined in ./task-family.ts (family identity belongs with
+ * the denominator types) and re-exported here because the sibling record
+ * types (completion, measures, safety, rates, variance, end-to-end) import
+ * their shared primitives from this module. Type-only and acyclic:
+ * ./task-family.ts depends only on ../canonical.js.
+ */
+export type { TaskFamilyRef } from "./task-family.js";
