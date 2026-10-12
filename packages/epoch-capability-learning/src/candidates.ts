@@ -1,7 +1,14 @@
 import { digestRecord, isValidDigest } from "./hashing.js";
-import type { CapabilityRef } from "./refs.js";
-import type { GeneralizationStatus } from "./generalization.js";
-import type { ReusePolicy } from "./reuse.js";
+import { CANDIDATE_SCHEMA_VERSION } from "./candidate-shared.js";
+import type {
+  BehaviorDraft,
+  CandidateIdentity,
+  CandidateSourceRef,
+  DemonstrationVerification,
+  LearnedBehavior,
+  LearningCandidate,
+  ReusePolicy,
+} from "./candidate-shared.js";
 
 /**
  * Learning-candidate extraction + versioning (W032 §2).
@@ -11,92 +18,14 @@ import type { ReusePolicy } from "./reuse.js";
  * re-embedded or re-interpreted here (W029 stays the semantic authority).
  * Candidates are content-addressed and versioned per lineage; every revision
  * resets generalization to `pending` and must be re-validated.
+ *
+ * The candidate-model vocabulary (LearningCandidate, GeneralizationStatus,
+ * ReusePolicy, behavior drafts, …) lives in `./candidate-shared.ts`, so this
+ * module imports nothing from `generalization.ts` or `reuse.ts` — the
+ * dependency graph stays acyclic.
  */
 
-export const CANDIDATE_SCHEMA_VERSION: 1 = 1;
-
-/** Verification status of the source demonstration, as recorded by W029. */
-export type DemonstrationVerification = "verified" | "unverified" | "rejected";
-
-/** Outcome classification of the source demonstration, as recorded by W029. */
-export type OutcomeClassification = "success" | "partial" | "failure";
-
-/** Digest-only references to the W029 records a candidate was learned from. */
-export interface CandidateSourceRef {
-  readonly exportDigest: string;
-  readonly demonstrationDigest: string;
-  readonly outcomeDigest: string;
-  readonly episodeId: string;
-  readonly verification: DemonstrationVerification;
-  readonly outcome: OutcomeClassification;
-}
-
-export type BehaviorConditionKind =
-  "state" | "evidence" | "capability" | "environment";
-
-export interface BehaviorCondition {
-  readonly kind: BehaviorConditionKind;
-  readonly description: string;
-}
-
-export type BehaviorStepKind =
-  | "observe"
-  | "request-evidence"
-  | "invoke-capability"
-  | "act-on-environment"
-  | "verify-outcome";
-
-/** A declarative behavior step — data only, never executable. */
-export interface BehaviorStep {
-  readonly stepId: string;
-  readonly kind: BehaviorStepKind;
-  readonly description: string;
-  readonly usesCapabilityId: string | null;
-}
-
-/** Caller-supplied draft of the learned behavior. */
-export interface BehaviorDraft {
-  readonly capability: CapabilityRef;
-  readonly intent: string;
-  readonly preconditions: readonly BehaviorCondition[];
-  readonly steps: readonly BehaviorStep[];
-  readonly postconditions: readonly BehaviorCondition[];
-}
-
-/** Digest-stamped learned behavior (data only, no execution authority). */
-export interface LearnedBehavior {
-  readonly behaviorDigest: string;
-  readonly capability: CapabilityRef;
-  readonly intent: string;
-  readonly preconditions: readonly BehaviorCondition[];
-  readonly steps: readonly BehaviorStep[];
-  readonly postconditions: readonly BehaviorCondition[];
-}
-
-/** Identity of a learning candidate (content-addressed). */
-export interface CandidateIdentity {
-  readonly candidateId: string;
-  readonly lineageId: string;
-  readonly candidateVersion: number;
-}
-
-/** A versioned learning candidate. */
-export interface LearningCandidate {
-  readonly candidateId: string;
-  readonly schemaVersion: typeof CANDIDATE_SCHEMA_VERSION;
-  readonly lineageId: string;
-  readonly candidateVersion: number;
-  readonly source: CandidateSourceRef;
-  readonly behavior: LearnedBehavior;
-  readonly generalization: GeneralizationStatus;
-  readonly reuse: ReusePolicy;
-  readonly authoredBy: string;
-  readonly revisedFrom: string | null;
-}
-
-export function candidateIdentity(
-  candidate: LearningCandidate,
-): CandidateIdentity {
+export function candidateIdentity(candidate: LearningCandidate): CandidateIdentity {
   return {
     candidateId: candidate.candidateId,
     lineageId: candidate.lineageId,
@@ -128,16 +57,10 @@ export type LearningExtractionRejection =
   | "duplicate-step-ids"
   | "missing-author";
 
-export function extractLearningCandidate(
-  input: CandidateExtractionInput,
-): LearningExtraction {
+export function extractLearningCandidate(input: CandidateExtractionInput): LearningExtraction {
   const sourceIssue = validateSourceRef(input.source);
   if (sourceIssue !== null) {
-    return {
-      kind: "rejected",
-      reason: "invalid-source-reference",
-      detail: sourceIssue,
-    };
+    return { kind: "rejected", reason: "invalid-source-reference", detail: sourceIssue };
   }
   if (input.source.verification !== "verified") {
     return {
@@ -148,11 +71,7 @@ export function extractLearningCandidate(
   }
   const behaviorIssue = validateBehavior(input.behavior);
   if (behaviorIssue !== null) {
-    return {
-      kind: "rejected",
-      reason: behaviorIssue.reason,
-      detail: behaviorIssue.detail,
-    };
+    return { kind: "rejected", reason: behaviorIssue.reason, detail: behaviorIssue.detail };
   }
   if (input.authoredBy.trim() === "") {
     return {
@@ -185,9 +104,7 @@ export function extractLearningCandidate(
 }
 
 /** Content digest of a candidate core (used to derive `candidateId`). */
-export function computeCandidateId(
-  core: Omit<LearningCandidate, "candidateId">,
-): string {
+export function computeCandidateId(core: Omit<LearningCandidate, "candidateId">): string {
   return digestRecord("learning-candidate", core);
 }
 
@@ -214,15 +131,12 @@ export type CandidateRevisionRejection =
   | "empty-revision-note"
   | "missing-author";
 
-export function reviseCandidate(
-  input: CandidateRevisionInput,
-): CandidateRevision {
+export function reviseCandidate(input: CandidateRevisionInput): CandidateRevision {
   if (!input.prior.reuse.rights.includes("derive-revisions")) {
     return {
       kind: "rejected",
       reason: "reuse-permission-denied",
-      detail:
-        'prior candidate reuse policy does not declare the "derive-revisions" right',
+      detail: 'prior candidate reuse policy does not declare the "derive-revisions" right',
     };
   }
   if (input.revisionNote.trim() === "") {
@@ -241,19 +155,14 @@ export function reviseCandidate(
   }
   const behaviorIssue = validateBehavior(input.behavior);
   if (behaviorIssue !== null) {
-    return {
-      kind: "rejected",
-      reason: "invalid-behavior",
-      detail: behaviorIssue.detail,
-    };
+    return { kind: "rejected", reason: "invalid-behavior", detail: behaviorIssue.detail };
   }
   const behavior = sealBehavior(input.behavior);
   if (behavior.behaviorDigest === input.prior.behavior.behaviorDigest) {
     return {
       kind: "rejected",
       reason: "behavior-unchanged",
-      detail:
-        "revision must change the behavior; keep the prior candidate otherwise",
+      detail: "revision must change the behavior; keep the prior candidate otherwise",
     };
   }
   const core: Omit<LearningCandidate, "candidateId"> = {
@@ -290,18 +199,14 @@ function validateBehavior(behavior: BehaviorDraft): BehaviorIssue | null {
   ) {
     return {
       reason: "invalid-capability-reference",
-      detail:
-        "behavior must reference a W023 capability by id and 64-hex digest",
+      detail: "behavior must reference a W023 capability by id and 64-hex digest",
     };
   }
   if (behavior.intent.trim() === "") {
     return { reason: "empty-intent", detail: "behavior intent must be stated" };
   }
   if (behavior.steps.length === 0) {
-    return {
-      reason: "empty-behavior-steps",
-      detail: "behavior must declare at least one step",
-    };
+    return { reason: "empty-behavior-steps", detail: "behavior must declare at least one step" };
   }
   const seen = new Set<string>();
   for (const step of behavior.steps) {

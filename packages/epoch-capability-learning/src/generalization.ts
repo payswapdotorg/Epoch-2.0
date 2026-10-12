@@ -1,6 +1,12 @@
 import { digestRecord } from "./hashing.js";
 import { computeCandidateId } from "./candidates.js";
-import type { LearningCandidate } from "./candidates.js";
+import type {
+  GeneralizationRejection,
+  GeneralizationStatus,
+  LearningCandidate,
+  ScopeDeclaration,
+  ScopeDimension,
+} from "./candidate-shared.js";
 
 /**
  * Held-out replay law (W032 §3).
@@ -10,28 +16,18 @@ import type { LearningCandidate } from "./candidates.js";
  * either an EXPLICIT scope declaration (never a silent narrowing) or a
  * rejection. Replay observations are supplied by the caller — this package
  * has no execution authority and never runs replays itself.
+ *
+ * Shared candidate-model types come from `./candidate-shared.ts`; the only
+ * import from `./candidates.ts` is the `computeCandidateId` helper, keeping
+ * the module graph acyclic (generalization -> candidates -> shared).
  */
-
-export interface ScopeDimension {
-  readonly dimension: string;
-  readonly value: string;
-}
-
-export interface ScopeDeclaration {
-  readonly dimensions: readonly ScopeDimension[];
-  readonly declaredBy: string;
-  readonly declarationDigest: string;
-}
 
 export function declareScope(
   dimensions: readonly ScopeDimension[],
   declaredBy: string,
 ): ScopeDeclaration {
   const core = { dimensions: [...dimensions], declaredBy };
-  return {
-    ...core,
-    declarationDigest: digestRecord("scope-declaration", core),
-  };
+  return { ...core, declarationDigest: digestRecord("scope-declaration", core) };
 }
 
 export type ReplayObservation =
@@ -68,19 +64,6 @@ export interface HeldOutReplayCase {
 }
 
 export type ReplayCase = OriginalReplayCase | HeldOutReplayCase;
-
-export type GeneralizationRejection =
-  | "missing-original-case"
-  | "duplicate-original-cases"
-  | "original-case-mismatch"
-  | "missing-held-out-representative-case"
-  | "incomplete-observations"
-  | "original-case-failed"
-  | "original-case-inconclusive"
-  | "held-out-failed-without-scope-proposal"
-  | "scope-excludes-original-case"
-  | "failing-case-inside-proposed-scope"
-  | "scope-not-validated-on-held-out";
 
 export type GeneralizationValidation =
   | {
@@ -146,10 +129,7 @@ export function validateGeneralization(
       "the original case must be replayed; a candidate may never be validated on held-out cases alone",
     );
   }
-  if (
-    originalCase.linkedDemonstrationDigest !==
-    candidate.source.demonstrationDigest
-  ) {
+  if (originalCase.linkedDemonstrationDigest !== candidate.source.demonstrationDigest) {
     return reject(
       candidateId,
       "original-case-mismatch",
@@ -189,22 +169,18 @@ export function validateGeneralization(
     );
   }
   const failing = heldOut.filter(
-    (replayCase) =>
-      replayCase.observed !== null && replayCase.observed.kind !== "pass",
+    (replayCase) => replayCase.observed !== null && replayCase.observed.kind !== "pass",
   );
   if (failing.length === 0) {
     const passed = heldOut.filter(
-      (replayCase) =>
-        replayCase.observed !== null && replayCase.observed.kind === "pass",
+      (replayCase) => replayCase.observed !== null && replayCase.observed.kind === "pass",
     );
     const core = {
       candidateId,
       validatedOn: cases.map((replayCase) => replayCase.caseId),
       heldOutTotal: heldOut.length,
       heldOutPassed: passed.length,
-      representativeHeldOutPassed: passed.some(
-        (replayCase) => replayCase.representative,
-      ),
+      representativeHeldOutPassed: passed.some((replayCase) => replayCase.representative),
     };
     return {
       kind: "generalized",
@@ -260,9 +236,7 @@ export function validateGeneralization(
     candidateId,
     scope,
     failingOutsideScope: failing.map((replayCase) => replayCase.caseId),
-    validatedInsideScope: validatedInsideScope.map(
-      (replayCase) => replayCase.caseId,
-    ),
+    validatedInsideScope: validatedInsideScope.map((replayCase) => replayCase.caseId),
   };
   return {
     kind: "scoped",
@@ -290,10 +264,7 @@ function reject(
   };
 }
 
-function caseInsideScope(
-  dimensions: readonly ScopeDimension[],
-  scope: ScopeDeclaration,
-): boolean {
+function caseInsideScope(dimensions: readonly ScopeDimension[], scope: ScopeDeclaration): boolean {
   return scope.dimensions.every((scopeDimension) =>
     dimensions.some(
       (caseDimension) =>
@@ -302,25 +273,6 @@ function caseInsideScope(
     ),
   );
 }
-
-/** Generalization status carried by a learning candidate. */
-export type GeneralizationStatus =
-  | { readonly kind: "pending" }
-  | {
-      readonly kind: "generalized";
-      readonly validatedOn: readonly string[];
-      readonly validationDigest: string;
-    }
-  | {
-      readonly kind: "scoped";
-      readonly scope: ScopeDeclaration;
-      readonly validationDigest: string;
-    }
-  | {
-      readonly kind: "rejected";
-      readonly reason: GeneralizationRejection;
-      readonly validationDigest: string;
-    };
 
 export type GeneralizationApplication =
   | { readonly kind: "applied"; readonly candidate: LearningCandidate }
@@ -359,9 +311,7 @@ export function applyGeneralization(
   };
 }
 
-function statusFromValidation(
-  validation: GeneralizationValidation,
-): GeneralizationStatus {
+function statusFromValidation(validation: GeneralizationValidation): GeneralizationStatus {
   switch (validation.kind) {
     case "generalized":
       return {

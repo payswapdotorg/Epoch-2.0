@@ -8,24 +8,10 @@
  * execution authority).
  */
 
-export {
-  canonicalJson,
-  digestRecord,
-  isValidDigest,
-  sha256Hex,
-} from "./hashing.js";
-export {
-  CanonicalizationError,
-  GapRoutingError,
-  InvalidRecordError,
-} from "./errors.js";
+export { canonicalJson, digestRecord, isValidDigest, sha256Hex } from "./hashing.js";
+export { CanonicalizationError, GapRoutingError, InvalidRecordError } from "./errors.js";
 
-export {
-  classifyGap,
-  GAP_ROUTES,
-  GAP_ROUTING_RULES,
-  recordGap,
-} from "./gaps.js";
+export { classifyGap, GAP_ROUTES, GAP_ROUTING_RULES, recordGap } from "./gaps.js";
 export type {
   CapabilityGap,
   EnvironmentDefect,
@@ -45,49 +31,57 @@ export type {
   InterventionRef,
 } from "./refs.js";
 
-export {
-  CANDIDATE_SCHEMA_VERSION,
-  candidateIdentity,
-  computeCandidateId,
-  extractLearningCandidate,
-  reviseCandidate,
-} from "./candidates.js";
+export { CANDIDATE_SCHEMA_VERSION } from "./candidate-shared.js";
 export type {
   BehaviorCondition,
   BehaviorConditionKind,
   BehaviorDraft,
   BehaviorStep,
   BehaviorStepKind,
-  CandidateExtractionInput,
   CandidateIdentity,
-  CandidateRevision,
-  CandidateRevisionInput,
-  CandidateRevisionRejection,
   CandidateSourceRef,
   DemonstrationVerification,
   LearnedBehavior,
   LearningCandidate,
-  LearningExtraction,
-  LearningExtractionRejection,
   OutcomeClassification,
-} from "./candidates.js";
-
-export {
-  applyGeneralization,
-  declareScope,
-  validateGeneralization,
-} from "./generalization.js";
+} from "./candidate-shared.js";
 export type {
-  GeneralizationApplication,
   GeneralizationRejection,
   GeneralizationStatus,
+  ScopeDeclaration,
+  ScopeDimension,
+} from "./candidate-shared.js";
+export type {
+  CandidateRight,
+  ReuseBasis,
+  ReuseBasisKind,
+  ReuseLevel,
+  ReusePolicy,
+} from "./candidate-shared.js";
+
+export {
+  candidateIdentity,
+  computeCandidateId,
+  extractLearningCandidate,
+  reviseCandidate,
+} from "./candidates.js";
+export type {
+  CandidateExtractionInput,
+  CandidateRevision,
+  CandidateRevisionInput,
+  CandidateRevisionRejection,
+  LearningExtraction,
+  LearningExtractionRejection,
+} from "./candidates.js";
+
+export { applyGeneralization, declareScope, validateGeneralization } from "./generalization.js";
+export type {
+  GeneralizationApplication,
   GeneralizationValidation,
   HeldOutReplayCase,
   OriginalReplayCase,
   ReplayCase,
   ReplayObservation,
-  ScopeDeclaration,
-  ScopeDimension,
 } from "./generalization.js";
 
 export {
@@ -97,15 +91,10 @@ export {
   REUSE_LEVEL_RIGHTS,
 } from "./reuse.js";
 export type {
-  CandidateRight,
-  ReuseBasis,
-  ReuseBasisKind,
   ReuseContext,
   ReuseContextKind,
   ReuseDecision,
   ReuseDenial,
-  ReuseLevel,
-  ReusePolicy,
   ReusePolicyDefinition,
   ReusePolicyDraft,
   ReusePolicyRejection,
@@ -180,8 +169,4 @@ export type {
 } from "./regression.js";
 
 export { MODULE_ID, MODULE_VERSION, moduleManifest } from "./module.js";
-export type {
-  ModuleDependencyRef,
-  ModuleLaw,
-  ModuleManifest,
-} from "./module.js";
+export type { ModuleDependencyRef, ModuleLaw, ModuleManifest } from "./module.js";
