@@ -39,7 +39,7 @@ const PREVIEW_IDENTITY = Object.freeze({
 /**
  * Epoch 产品身份（W036）。appId 采用独立反向域名，保证与上游 ZCode 安装可并存、
  * 升级通道互不污染；Linux 可执行名与包名固定为小写 `epoch`（desktop entry 的
- * Icon=epoch 与 /usr/share/icons/hicolor/*/apps/epoch.png 命中规则见
+ * Icon=epoch 与 /usr/share/icons/hicolor 各尺寸下 apps/epoch.png 的命中规则见
  * electron-builder.config.js 的既有注释）。cuaHelperInstallVariant 沿用正式包
  * 的 null——Epoch 包不与 ZCode 的 helper 安装变体交叉。
  */
