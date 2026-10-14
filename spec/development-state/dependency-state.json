@@ -38,7 +38,9 @@
     "W017",
     "W019"
   ],
-  "active": [],
+  "active": [
+    "W036"
+  ],
   "eligible": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
@@ -188,6 +190,13 @@
       "W032",
       "W033",
       "W034"
+    ],
+    "W036": [
+      "W005",
+      "W006",
+      "W007",
+      "W020",
+      "W026"
     ]
   },
   "waves": [
@@ -263,5 +272,11 @@
       "W035"
     ]
   ],
-  "expansionTrackNote": "ACR-002 is dependency-driven and does not alter the current W002/W003/W004 frontier. Extension work can be interleaved with core work only when direct dependencies are complete, at most three workers are active and ownership is pairwise-disjoint. W027/W028 need not wait for W026 when W007 is complete."
+  "expansionTrackNote": "ACR-002 is dependency-driven and does not alter the current W002/W003/W004 frontier. Extension work can be interleaved with core work only when direct dependencies are complete, at most three workers are active and ownership is pairwise-disjoint. W027/W028 need not wait for W026 when W007 is complete.",
+  "releaseWaves": [
+    [
+      "W036"
+    ]
+  ],
+  "releaseTrackNote": "W036 is the post-roadmap Ubuntu release/certification track. W005/W006/W007/W020/W026 are complete. At most three workers may run on pairwise-disjoint surfaces; TL exclusively owns product identity, release workflow, shared state, integration and publication. No public release until the real Ubuntu artifact journey and Epoch-native UI acceptance pass."
 }
