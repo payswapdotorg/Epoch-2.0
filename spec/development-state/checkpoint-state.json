@@ -1,5 +1,5 @@
 {
-  "status": "RESET_COMPLETE",
+  "status": "RELEASE_TRACK_IN_PROGRESS",
   "architecture": "E2.0",
   "experience": "X3.0",
   "workOrderVersion": "WO3.0",
@@ -7,23 +7,29 @@
   "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
   "resetMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
   "currentFrontier": [
-    "W002"
+    "W036"
   ],
   "visualizationFirst": true,
   "maxConcurrentWorkers": 3,
   "verification": {
     "repoSetup": "COMPLETE",
-    "contracts": "FROZEN_W001",
-    "concurrency": "DOCUMENTED",
-    "workerOwnership": "DOCUMENTED",
-    "acceptance": "DOCUMENTED",
-    "localBuild": "NOT_RUN_BY_RESET",
-    "productJourney": "NOT_RUN_BY_RESET"
+    "coreRoadmap": "COMPLETE — W000-W035 recorded complete",
+    "freshClone": "PASS per TL verification record dated 2026-10-12: package tests 0 failures, root typecheck 0 errors, lint 0 errors (99 advisory warnings), architecture 0 violations",
+    "ubuntuProductIdentity": "NOT_YET_VERIFIED — desktop identity currently contains upstream ZCode product identity and must be converted safely to Epoch",
+    "ubuntuPackages": "NOT_YET_PUBLISHED — repository currently has no public GitHub Release artifacts",
+    "realUbuntuJourney": "NOT_YET_VERIFIED — W020 latest consolidated desktop replay was skipped because Electron binary was unavailable"
   },
-  "next": "W002 closes wave 1: station v2 verification -> merge -> dispatch W005+W006 concurrently; W007 after W005+W006.",
+  "next": "W036: dispatch three disjoint workers; ensure default desktop opens Epoch's construction Solution Surface; build/install/test Ubuntu x86_64 .deb and AppImage; create manual candidate-build + tag-based publication workflow; publish only after all acceptance gates pass.",
   "lastMerge": {
     "workOrder": "W003 + W004",
     "sha": "ddb9d11ad3485a2b1cd2f5ed6d7a04a39d9aa0c7",
     "date": "2026-10-09"
+  },
+  "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
+  "currentTrack": {
+    "workOrder": "W036",
+    "workOrderPath": "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
+    "acceptancePath": "spec/acceptance/ubuntu-epoch-desktop-release.md",
+    "releasePublished": false
   }
 }

@@ -99,5 +99,32 @@
       "qa/epoch-engineering-abundance/**"
     ]
   },
-  "expansionRule": "Reserved future ownership; never dispatch before dependency eligibility. Shared architecture-policy entries are integrated by the TL only, using worker-provided proposals. Cross-wave ownership is allowed only after previous owners merge and no concurrent worker edits those paths."
+  "expansionRule": "Reserved future ownership; never dispatch before dependency eligibility. Shared architecture-policy entries are integrated by the TL only, using worker-provided proposals. Cross-wave ownership is allowed only after previous owners merge and no concurrent worker edits those paths.",
+  "releaseTrack": {
+    "W036": {
+      "worker1": [
+        "packages/ui/src/**",
+        "packages/desktop/src/**",
+        "packages/desktop/build/**"
+      ],
+      "worker2": [
+        "packages/desktop/electron-builder.config.js",
+        "packages/desktop/package.json",
+        "packages/desktop/scripts/linux-release/**"
+      ],
+      "worker3": [
+        "qa/epoch-ubuntu-release/**",
+        "spec/acceptance/ubuntu-epoch-desktop-release.md"
+      ],
+      "tlIntegration": [
+        "packages/desktop/scripts/desktop-product-identity.mjs",
+        "packages/desktop/dev-app-update.yml",
+        ".github/workflows/epoch-ubuntu-release.yml",
+        "spec/work-orders.md",
+        "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
+        "spec/development-state/**"
+      ]
+    },
+    "rule": "W036 maximum three concurrent workers; all worker path sets are pairwise-disjoint. TL owns product identity, update feed/release workflow, shared acceptance integration, state files, publication and merge. Workers do not merge. Worker 1 builds Epoch-native UI and the launch path; Worker 2 handles Linux packaging; Worker 3 handles Ubuntu acceptance evidence. Do not rebrand by global string replacement or disturb internal compatibility."
+  }
 }

@@ -1,9 +1,13 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "ROADMAP_COMPLETE",
-  "frontier": [],
+  "status": "RELEASE_TRACK_IN_PROGRESS",
+  "frontier": [
+    "W036"
+  ],
   "eligible": 0,
-  "inFlight": [],
+  "inFlight": [
+    "W036"
+  ],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -14,18 +18,20 @@
     "rendererPortability": "COMPLETE (W008 merged; W020 equivalence battery merged 9132a82 — both-renderer portable-state equivalence green)",
     "ifcReconstruction": "COMPLETE (W009 IFC engine bb1ac04 + geometry chain W011 ef77f9c + W012 d2146f1 — scene composition live, 78 tests)",
     "fullEngineeringArchitecture": "COMPLETE (W026 merged e6c901d — all core work orders W000-W026 live: contracts, fixture, surface, renderers, hosts, visual closure, IFC, glTF, geometry chain, timeline, persistence, lifecycle, discovery, agent tools, escalation, productization)",
-    "taskConditionedReconstruction": "PARTIAL (W027 policy core merged a6972eb — profiles/fitness/VOI/sufficiency; ACR integration pending W030+)",
-    "applicationEnvironmentFabric": "PARTIAL (W028 fabric + W029 environment activity merged — typed events, consent laws, demonstrations; ACR integration continues via W030+)",
+    "taskConditionedReconstruction": "COMPLETE (W027 policy core and W030 quality-lab integration, with W031-W035 expansion dependencies merged)",
+    "applicationEnvironmentFabric": "COMPLETE (W028 fabric, W029 activity/demonstrations and downstream W031/W032 integration merged)",
     "capabilityReproductionFactory": "COMPLETE (W031 merged 5442d3d — governed pipeline with rights gates, release impossibility laws)",
     "capabilityGapLearning": "COMPLETE (W032 merged d980d43 — held-out replay law, human-approval promotion, cost-aware regression watch)",
     "arenaExpertLoop": "COMPLETE (W034 merged 79bc350 — simulated full round trip, typed returns, independent reuse rights)",
     "engineeringAbundanceEvaluation": "COMPLETE (W035 merged 3c4c9af — task-family denominators, verified-quality metrics, intervention quality-gate law, escalation/reuse rates, safety regressions, predicted-vs-actual feasibility gate, end-to-end provenance; 76 tests)",
-    "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)"
+    "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)",
+    "ubuntuEpochDesktopRelease": "IN_PROGRESS (W036: Epoch-native desktop startup/branding, Ubuntu x86_64 .deb + AppImage, real installed-app journey, versioned public GitHub Release)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "NONE — W000-W035 all merged (36/36). Roadmap complete. Final merge: W019 (70e9b75). Resident watch closed.",
+  "nextAction": "W036: TL dispatches three disjoint workers; release remains unready until the candidate artifact passes the real Ubuntu Electron journey and a public GitHub Release contains verified .deb, AppImage and checksums.",
   "lastMerge": {
     "workOrder": "W019",
     "mergeSha": "70e9b75"
-  }
+  },
+  "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0"
 }

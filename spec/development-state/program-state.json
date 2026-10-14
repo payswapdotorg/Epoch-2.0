@@ -46,11 +46,13 @@
     "W017",
     "W019"
   ],
-  "active": [],
+  "active": [
+    "W036"
+  ],
   "eligible": [],
   "blocked": [],
   "lastMergeSha": "70e9b75",
-  "lastAction": "W019 MERGED (70e9b75, 79/79 tests). 36/36 — W000-W035 ROADMAP COMPLETE. All work orders merged: core lane (contracts, fixture, surface, renderers, hosts, visual closure, IFC, glTF, geometry OCCT, scene USD, timeline, persistence, lifecycle, discovery, agent tools, escalation, productization), ACR expansion (reproduction factory, capability learning, cost/quality frontier, arena loop, abundance evaluation), and leaf pool (blender/cad, cesium site, paraview results, asset import, agent presence, inspector/boq). Program CLOSED.",
+  "lastAction": "W036 OPENED: Ubuntu desktop release with Epoch-native UX. Three disjoint worker surfaces planned; TL retains product identity, release workflow, state integration and publication. Do not call the app ready until real Ubuntu artifact journey and public release assets pass W036.",
   "lastMergeWorkOrder": "W019",
   "closureVerification": {
     "verifiedAt": "2026-10-12",
@@ -66,5 +68,15 @@
       "epoch-timeline, epoch-human-escalation, epoch-environment-activity, epoch-capability-learning, epoch-productization test scripts: node --test directory arguments replaced with quoted glob form (Node 24 test runner no longer scans directory positional args; green packages already used explicit file lists/globs)"
     ],
     "notes": "Verification exposed fresh-clone gaps the per-merge station battery could not see (warm build artifacts + Node version drift). All hotfixes are zero-behavior-change build/script repairs; no epoch source logic touched."
-  }
+  },
+  "currentTrack": {
+    "workOrder": "W036",
+    "status": "IN_PROGRESS",
+    "goal": "Publish a verified Ubuntu .deb and AppImage whose installed/default UI is Epoch’s construction engineering workbench, not ZCode.",
+    "workOrderPath": "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
+    "acceptancePath": "spec/acceptance/ubuntu-epoch-desktop-release.md",
+    "releasePublished": false
+  },
+  "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
+  "nextAction": "TL dispatches up to three disjoint W036 workers; integrate Epoch-native startup/branding, build x86_64 .deb + AppImage, run real Ubuntu/Electron acceptance, then publish a versioned GitHub Release only when every gate passes."
 }

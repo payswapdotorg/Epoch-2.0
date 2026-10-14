@@ -96,3 +96,8 @@ The original W000–W026 program remains intact. ACR-002 adds a follow-on track 
 - Quality claims require reproducible task-specific evidence; hard engineering constraints are non-tradeable.
 - Human activity and demonstrations do not automatically become training data, global reuse or autonomy.
 - Arena deliverables are validated inputs, not automatic accepted truth.
+
+
+## Post-roadmap Ubuntu release track
+
+- W036 — Ubuntu desktop release with Epoch-native UI: package and publish a usable Epoch-branded Ubuntu desktop build; dependencies W005, W006, W007, W020 and W026 are complete. See [W036 work order](work-orders/W036-ubuntu-epoch-desktop-release.md) and [release acceptance](acceptance/ubuntu-epoch-desktop-release.md). The user-facing app must be Epoch’s world-first construction engineering workbench, not ZCode’s UI with a renamed installer.
