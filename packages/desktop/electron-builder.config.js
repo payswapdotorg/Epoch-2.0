@@ -167,6 +167,107 @@ const PACMAN_RUNTIME_DEPENDENCIES = [
   "xdg-utils",
 ];
 
+// W036（Epoch Ubuntu 桌面发布）：Linux 桌面元数据按 flavor 区分。
+// maintainer 必须真实且可追溯：Epoch 桌面发布由 payswapdotorg/Epoch-2.0 仓库出包，
+// 采用 GitHub noreply 地址（无真实收件箱、不指向任何个人邮箱）；非 Epoch flavor 走
+// 默认分支，上游 ZCode 包的元数据不随 W036 漂移（保持上游可对齐）。
+const LINUX_DESKTOP_METADATA_BY_FLAVOR = {
+  epoch: {
+    maintainer: "Epoch Desktop <epoch@users.noreply.github.com>",
+    // freedesktop desktop entry 的 Categories 必须以「注册主类别」开头，Engineering
+    // 只是附加类别，单独使用会被部分桌面环境归入未分类。这里以注册主类别 Science
+    // 搭配附加类别 Engineering，对应 Epoch 施工工程工作台的产品定位。
+    category: "Science;Engineering",
+  },
+};
+const DEFAULT_LINUX_DESKTOP_METADATA = {
+  maintainer: "ZCode <dev@zcode.z.ai>",
+  category: "Development",
+};
+const linuxDesktopMetadata =
+  LINUX_DESKTOP_METADATA_BY_FLAVOR[desktopProductIdentity.flavor] ??
+  DEFAULT_LINUX_DESKTOP_METADATA;
+
+// W036：deb 运行时依赖。app-builder-lib 26.8.1 的 deb 默认 Depends 是
+// libgtk-3-0/libnotify4/libnss3/libxss1/libxtst6/xdg-utils/libatspi2.0-0/libuuid1/libsecret-1-0，
+// 不含 Electron ELF 实际 DT_NEEDED 的 libgbm1 与 libasound2——与 rpm 侧 mesa-libgbm/alsa-lib
+// 缺失（见下方 rpm.fpm 注释）是同一类问题：最小化 Ubuntu 上安装成功、启动才报
+// libgbm.so.1 缺失。deb.depends 会整组替换默认集合，所以沿用 rpm 的做法用 fpm -d 追加。
+// Ubuntu 24.04 的 t64 重命名由过渡包（libgtk-3-0 → libgtk-3-0t64 等）保持旧依赖名可解析。
+const DEB_RUNTIME_FPM_DEPENDS = ["-d", "libgbm1", "-d", "libasound2"];
+
+// W036：Linux target 子集选择。默认集合保持现状（AppImage/deb/rpm/pacman 全量）；
+// 发布驱动/CI 可用 ZCODE_LINUX_TARGETS="deb,AppImage" 收窄为子集——发布 runner
+// 常无 rpmbuild，rpm target 会直接失败，而 Epoch 发布只需要 deb + AppImage。
+// 未知 target 在构建期 fail-fast，避免静默回落全量。
+const DEFAULT_LINUX_TARGETS = ["AppImage", "deb", "rpm", "pacman"];
+const KNOWN_LINUX_TARGETS = new Set([
+  "AppImage",
+  "deb",
+  "rpm",
+  "pacman",
+  "snap",
+  "flatpak",
+  "apk",
+  "freebsd",
+  "zip",
+  "7z",
+  "tar.xz",
+  "tar.lz",
+  "tar.gz",
+  "tar.bz2",
+  "dir",
+]);
+
+function resolveConfiguredLinuxTargets(env = process.env) {
+  const rawValue = env.ZCODE_LINUX_TARGETS?.trim();
+  if (!rawValue) {
+    return DEFAULT_LINUX_TARGETS;
+  }
+
+  const targets = rawValue
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => {
+      if (!KNOWN_LINUX_TARGETS.has(entry)) {
+        throw new Error(
+          `[electron-builder.config] ZCODE_LINUX_TARGETS contains unknown linux target "${entry}"; known targets: ${[
+            ...KNOWN_LINUX_TARGETS,
+          ]
+            .sort()
+            .join(", ")}`,
+        );
+      }
+      return entry;
+    });
+
+  if (targets.length === 0) {
+    throw new Error(
+      "[electron-builder.config] ZCODE_LINUX_TARGETS is set but contains no targets",
+    );
+  }
+
+  return targets;
+}
+const configuredLinuxTargets = resolveConfiguredLinuxTargets();
+
+// W036：fpm（deb/rpm/pacman）把 homepage 写入包元数据（dpkg 的 Homepage 字段），
+// author.email 是 linux.maintainer 缺省时的回退来源（见下方 extraMetadata 注释）。
+// Epoch 发布的 homepage 指向真实出包仓库；非 Epoch flavor 维持上游 ZCode 值。
+const PACKAGE_METADATA_BY_FLAVOR = {
+  epoch: {
+    homepage: "https://github.com/payswapdotorg/Epoch-2.0",
+    author: { name: "Epoch Desktop", email: "epoch@users.noreply.github.com" },
+  },
+};
+const DEFAULT_PACKAGE_METADATA = {
+  homepage: "https://zcode.z.ai",
+  author: { name: "ZCode", email: "dev@zcode.z.ai" },
+};
+const desktopPackageMetadata =
+  PACKAGE_METADATA_BY_FLAVOR[desktopProductIdentity.flavor] ?? DEFAULT_PACKAGE_METADATA;
+
 const WINDOWS_INSTALL_MANIFEST_NAME = ".zcode-install-manifest";
 
 async function writeWindowsInstallManifest(context) {
@@ -456,14 +557,17 @@ export default {
   appId: desktopProductIdentity.appId,
   // Linux deb 打包（fpm）会校验 package metadata 中的 homepage、author.email、maintainer。
   // CI 环境下若这些字段缺失会在产物阶段直接失败。这里统一在构建配置补齐，避免依赖外部注入。
+  // W036：homepage/author 按 flavor 取值（见顶部 PACKAGE_METADATA_BY_FLAVOR 注释）——
+  // Epoch 包指向真实出包仓库，上游 ZCode flavor 保持原值。
   extraMetadata: {
     version: buildMetadata.appVersion,
     zcodeProductFlavor: desktopProductIdentity.flavor,
-    homepage: "https://zcode.z.ai",
-    author: {
-      name: "ZCode",
-      email: "dev@zcode.z.ai",
-    },
+    homepage: desktopPackageMetadata.homepage,
+    author: desktopPackageMetadata.author,
+    // W036 TL：把 productName 一并写入 app.asar 根 package.json——app-builder-lib
+    // 默认不注入该字段，asar 内会残留 desktop package.json 的旧值；brand audit 与
+    // 运行期 app.getName() 都以它为准（Epoch 包必须读到 "Epoch"）。
+    productName: desktopProductIdentity.productName,
   },
   // macOS 签名阶段会对 Electron Framework 下每个语言包逐个 codesign。
   // 默认全量语言会产生大量 locale.pak 签名调用，显著拉长打包时长。
@@ -695,19 +799,30 @@ export default {
     artifactName: buildDesktopArtifactName("win"),
   },
   linux: {
-    target: ["AppImage", "deb", "rpm", "pacman"],
+    // W036：默认仍为全量 target；发布驱动/CI 用 ZCODE_LINUX_TARGETS="deb,AppImage"
+    // 收窄（例如无 rpmbuild 的发布 runner 只需要 deb + AppImage）。见顶部注释。
+    target: configuredLinuxTargets,
     artifactName: buildDesktopArtifactName("linux"),
     // desktop 包名是 scoped package（@zcode/desktop），electron-builder 默认会把
     // Linux executable/Icon 推成 @zcodedesktop。部分桌面环境无法按这个 icon name 命中
-    // hicolor 图标，最终回退成系统齿轮。这里固定成稳定的小写名称，让 Icon=zcode
-    // 与 /usr/share/icons/hicolor/*/apps/zcode.png 保持一致。
+    // hicolor 图标，最终回退成系统齿轮。这里固定成稳定的小写名称，让 Icon=epoch
+    // 与 /usr/share/icons/hicolor/*/apps/epoch.png 保持一致。
+    // desktop entry 的其余可见字段由 app-builder-lib LinuxTargetHelper 派生：
+    //   Name=productName（Epoch）、Icon=executableName（epoch）、
+    //   Exec=/opt/<productName>/<executableName> %U、StartupWMClass=productName、
+    //   Comment=package.json description、Categories=linux.category + ";"。
     executableName: desktopProductIdentity.linuxExecutableName,
-    category: "Development",
-    maintainer: "ZCode <dev@zcode.z.ai>",
+    // W036：Epoch flavor 用注册主类别 Science + 附加类别 Engineering；
+    // 上游 ZCode flavor 保持 Development。见顶部 LINUX_DESKTOP_METADATA_BY_FLAVOR 注释。
+    category: linuxDesktopMetadata.category,
+    maintainer: linuxDesktopMetadata.maintainer,
   },
   deb: {
     // 生产版与 Preview 必须是两个 dpkg package；只改可执行名仍会让安装器把另一版本当成升级替换。
     packageName: desktopProductIdentity.linuxPackageName,
+    // W036：在默认 Depends 之后追加 libgbm1/libasound2（deb.depends 会整组替换
+    // 默认集合，故沿用 rpm 的 fpm -d 方案）。见顶部 DEB_RUNTIME_FPM_DEPENDS 注释。
+    fpm: DEB_RUNTIME_FPM_DEPENDS,
   },
   pacman: {
     // 与 deb/rpm 保持相同的 flavor 隔离，避免 Preview/Production 被 pacman 当作同一包覆盖。
