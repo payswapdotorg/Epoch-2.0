@@ -179,17 +179,19 @@ jobs:
           if [ -n "${NOTES:-}" ]; then
             printf '\n## Release notes\n\n%s\n' "$NOTES" >> "$RUNNER_TEMP/notes.md"
           fi
-          # 幂等发布：release 已存在（例如 TL 手工发布过同 tag 的本地验收产物）时
-          # 转为上传/覆盖资产而不是失败——两条发布路径（CI 构建 / 本地构建+同一验收门）
-          # 产物同源同校验，允许互相补齐。
+          # 幂等发布：release 已存在（例如 TL 已手工发布同 tag 的本地验收产物）时
+          # 只补齐缺失资产，绝不覆盖——已发布并经 URL+sha256 复核的资产是不可变的，
+          # CI 重建的二进制（时间戳不同）不允许替换已验证字节。
           if ! gh release create "$TAG" \
             --title "Epoch ${TAG}" \
             --notes-file "$RUNNER_TEMP/notes.md" \
             --verify-tag \
             "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT"; then
-            echo "release ${TAG} already exists — uploading assets idempotently"
-            gh release upload "$TAG" \
-              "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT" --clobber
+            echo "release ${TAG} already exists — filling missing assets only (no replace)"
+            for ASSET in "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT"; do
+              gh release upload "$TAG" "$ASSET" 2>/dev/null \
+                || echo "asset $(basename "$ASSET") already present — kept as published"
+            done
           fi
 
       - name: Verify every public asset URL + checksum after publication
