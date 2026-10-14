@@ -130,7 +130,7 @@ import {
 } from "./desktopApplicationMenu.js";
 import { applyAppIcon } from "./desktopWindowChrome.js";
 import { resolveWindowsAppUserModelIdForFlavor } from "../../scripts/desktop-product-identity.mjs";
-import { desktopRuntimeProductFlavor } from "./desktopProductRuntimeIdentity.js";
+import { desktopRuntimeProductFlavor, isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
 import type { DesktopWindowSize } from "./desktopWindowSize.js";
 import { maybeWarnArchitectureMismatch } from "./desktopArchitectureGuard.js";
 import { maybeBlockStartupForForceUpdate } from "./forceUpdateGuard.js";
@@ -1336,7 +1336,15 @@ function confirmAppQuit(originWindow?: BrowserWindow | null) {
     defaultId: 1,
     cancelId: 1,
     title: isZh ? "退出确认" : "Confirm Quit",
-    message: isZh ? "确认退出 Z Code?" : "Quit Z Code?",
+    // W036：退出确认按运行时产品身份命名（三身份共享代码基的既定三元修复模式，
+    // 见 desktopProductRuntimeIdentity.ts；非 Epoch 分支保持上游文案不变）。
+    message: isEpochDesktopRuntime
+      ? isZh
+        ? "确认退出 Epoch?"
+        : "Quit Epoch?"
+      : isZh
+        ? "确认退出 Z Code?"
+        : "Quit Z Code?",
     detail: detailLines.join("\n"),
     icon: nativeImage.createFromPath(iconPath),
   };

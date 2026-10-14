@@ -220,10 +220,14 @@ function prepareMode(mode) {
     const squashRoot = join(runDir, "squashfs-root");
     const appRun = join(squashRoot, "AppRun");
     const directBinary = join(squashRoot, "epoch");
-    const executablePath = existsSync(appRun)
-      ? appRun
-      : existsSync(directBinary)
-        ? directBinary
+    // TL 修正（2026-10-14 实测）：AppRun 是 shell 包装（exec 内嵌 electron），会破坏
+    // playwright _electron 的启动协议握手（waitForLine 收不到就绪行 → "Process failed
+    // to launch!"）。deb 模式直接启动 <prefix>/opt/Epoch/epoch 已验证可行，这里同样
+    // 优先直接启动真实二进制；AppRun 仅作为缺失时的回退。
+    const executablePath = existsSync(directBinary)
+      ? directBinary
+      : existsSync(appRun)
+        ? appRun
         : null;
     if (!executablePath) {
       throw new Error("squashfs-root 内找不到 AppRun / epoch 可执行");

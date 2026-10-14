@@ -227,7 +227,16 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       // 生产包若直接暴露 sourceMappingURL，攻击者可在客户端侧还原业务源码。
       // 生产使用 hidden sourcemap：本地/发布流程保留 .map，不在产物里暴露映射入口。
-      sourcemap: mode === "production" ? "hidden" : true,
+      // W036：ZCODE_DESKTOP_RENDERER_SOURCEMAP=0 允许低内存构建盒（4GB cgroup）关掉
+      // sourcemap 生成——10929 模块的映射表在 chunk 渲染阶段是主要内存峰值来源，
+      // 实测并行/串行都被 OOM(137) 杀。发布包不携带 .map（packaged-sourcemap-cleanup
+      // 会清理），仅损失该次构建的本地 .map 调试能力，产物语义不变。
+      sourcemap:
+        mode === "production"
+          ? process.env.ZCODE_DESKTOP_RENDERER_SOURCEMAP === "0"
+            ? false
+            : "hidden"
+          : true,
       rollupOptions: {
         // 多入口：主窗口 + 进程监控 + CUA 权限拖拽浮窗
         input: {

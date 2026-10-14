@@ -178,6 +178,10 @@ const LINUX_DESKTOP_METADATA_BY_FLAVOR = {
     // 只是附加类别，单独使用会被部分桌面环境归入未分类。这里以注册主类别 Science
     // 搭配附加类别 Engineering，对应 Epoch 施工工程工作台的产品定位。
     category: "Science;Engineering",
+    // W036 TL：deb 的 Description 由 app-builder-lib 拼接为 `${linux.synopsis || ""}\n ${description}`
+    // （FpmTarget.js）——不配 synopsis 时首行为空，Ubuntu 软件中心的一行简介就是空白。
+    // synopsis 填同一句产品定位，与 desktop entry Comment 一致。
+    synopsis: "Epoch — Construction Engineering Workbench",
   },
 };
 const DEFAULT_LINUX_DESKTOP_METADATA = {
@@ -816,6 +820,8 @@ export default {
     // 上游 ZCode flavor 保持 Development。见顶部 LINUX_DESKTOP_METADATA_BY_FLAVOR 注释。
     category: linuxDesktopMetadata.category,
     maintainer: linuxDesktopMetadata.maintainer,
+    // W036 TL：deb Description 首行（synopsis），见顶部注释；上游 flavor 不设（维持原行为）。
+    ...(linuxDesktopMetadata.synopsis ? { synopsis: linuxDesktopMetadata.synopsis } : {}),
   },
   deb: {
     // 生产版与 Preview 必须是两个 dpkg package；只改可执行名仍会让安装器把另一版本当成升级替换。

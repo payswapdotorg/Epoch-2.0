@@ -62,9 +62,18 @@ export const VALID_DESKTOP_CATEGORIES = new Set([
  * ${productName}-${version}-${platformName}-${arch}${suffix}.${extension}
  * x86_64 为强制首发目标（acceptance gate B），arm64 允许；_TEST 后缀标记测试后端
  * 产物（允许出现但记 warning——发布产物应为生产后端构建）。
+ * TL 修正（2026-10-14 实测）：electron-builder 的 arch 渲染是平台惯用名——
+ * deb 用 Debian 架构名 amd64，AppImage 用 uname 风格 x86_64（实测产物
+ * Epoch-3.14.3-linux-amd64.deb / Epoch-3.14.3-linux-x86_64.AppImage）。
+ * 四种拼写都接受，跨模式归一为 x64/arm64 语义。
  */
 export const ARTIFACT_NAME_PATTERN =
-  /^Epoch-(\d+(?:\.\d+){2}(?:[+._-][\w]+)*)-linux-(x64|arm64)(_TEST)?\.(deb|AppImage)$/;
+  /^Epoch-(\d+(?:\.\d+){2}(?:[+._-][\w]+)*)-linux-(x64|amd64|x86_64|arm64|aarch64)(_TEST)?\.(deb|AppImage)$/;
+export function normalizeArtifactArch(arch) {
+  if (arch === "amd64" || arch === "x86_64") return "x64";
+  if (arch === "aarch64") return "arm64";
+  return arch;
+}
 
 /**
  * 判失败的显著 ZCode chrome 模式（只作用于 Epoch 自有代码范围：
@@ -81,48 +90,66 @@ export const PROMINENT_CHROME_PATTERNS = Object.freeze([
     id: "chrome-zcode-desktop",
     pattern: /\bZCode Desktop\b/g,
     reason: "用户可见的 ZCode Desktop 产品名（描述/标题/发布物料）",
+    // W036 TL：三身份共享代码基的既定修复模式是 `isEpochDesktopRuntime ? "Epoch…" : "ZCode…"`
+    // （产品法 #5 禁止为品牌 fork）——门控后的非 Epoch 分支字面量会继续随包分发。
+    // epochCounterpart：同一表达式的 Epoch 分支字面量；命中点邻近（±160 字符）
+    // 存在对应分支字面量时，视为合法 flavor 分支而非未门控 chrome（见 classifyTextContent）。
+    epochCounterpart: /\bEpoch Desktop\b/g,
   },
   {
     id: "chrome-update-dialog",
     pattern: /\bUpdate ZCode\b/g,
     reason: "用户可见的更新对话框 ZCode 标题（需按 isEpochDesktopRuntime 门控为 Epoch）",
+    epochCounterpart: /\bUpdate Epoch\b/g,
   },
   {
     id: "chrome-quit-dialog",
     pattern: /Quit Z Code\?/g,
     reason: "用户可见的退出确认对话框 ZCode 文案（需 Epoch 门控）",
+    epochCounterpart: /Quit Epoch\?/g,
   },
   {
     id: "chrome-endpoint-dialog",
     pattern: /\bZCode Endpoint\b/g,
     reason: "用户可见的 ZCode Endpoint 对话框标题（需 Epoch 门控）",
+    epochCounterpart: /\bEpoch Endpoint\b/g,
   },
   {
     id: "chrome-external-link",
     pattern: /Open external ZCode link\?/g,
     reason: "用户可见的外部链接确认 ZCode 文案（需 Epoch 门控）",
+    epochCounterpart: /Open external Epoch link\?/g,
   },
   {
     id: "chrome-zh-update-dialog",
     pattern: /需要升级 ZCode/g,
     reason: "用户可见的中文更新对话框 ZCode 标题（需 Epoch 门控）",
+    epochCounterpart: /需要升级 Epoch/g,
   },
   {
     id: "chrome-zh-external-link",
     pattern: /打开外部 ZCode 链接/g,
     reason: "用户可见的中文外部链接确认 ZCode 文案（需 Epoch 门控）",
+    epochCounterpart: /打开外部 Epoch 链接/g,
   },
   {
     id: "chrome-welcome",
     pattern: /Welcome to ZCode\b/g,
     reason: "用户可见的 ZCode 欢迎语（需 Epoch 门控）",
+    epochCounterpart: /Welcome to Epoch\b/g,
   },
   {
     id: "chrome-sign-in",
     pattern: /\bSign in to ZCode\b/g,
     reason: "用户可见的 ZCode 登录入口文案（需 Epoch 门控）",
+    epochCounterpart: /\bSign in to Epoch\b/g,
   },
 ]);
+
+/** flavor 分支判定的邻近窗口：三元表达式内两个分支字面量的最大间距（实测
+ *  `…isEpochDesktopRuntime ? "Epoch Endpoint" : "ZCode Endpoint"` 间隔 ~30 字符；
+ * 压缩后略宽，取 160 覆盖中文文案与多行三元）。 */
+const FLAVOR_BRANCH_ADJACENCY_CHARS = 160;
 
 /**
  * 优先 review 模式：命中不判失败，但以 priority 标记进入 reviewItems 供 TL 裁量。
@@ -149,6 +176,17 @@ export const ALLOWED_EXCEPTIONS = Object.freeze([
     id: "zcode-package-scope",
     pattern: /@zcode\/[\w./-]+/g,
     reason: "内部 @zcode/* 包命名空间（W036 产品法 #5：不做全局重命名）",
+  },
+  {
+    // W036 TL（2026-10-14 实测裁定）：shared/src/desktopMenu.ts 的 i18n 数据表行
+    // `"titleBar.menu.help.zcodeEndpoint": "ZCode Endpoint"` —— 这是数据记录而非
+    // 渲染点；该菜单仅 ZCODE_ENV=test 出现，且桌面消费端（desktopApplicationMenu
+    // 的 getLabel）已按 isEpochDesktopRuntime 覆写为 Epoch Endpoint。shared 的表
+    // 不能按桌面运行时身份静态分叉（三身份共享）。仅放行带 message-id 键前缀的
+    // 表行形式；裸的 "ZCode Endpoint"（对话框标题/窗口标题）仍判失败。
+    id: "zcode-endpoint-i18n-table-row",
+    pattern: /["'`]titleBar\.menu\.help\.zcodeEndpoint["'`]\s*:\s*["'`]ZCode Endpoint["'`]/g,
+    reason: "endpoint 切换器 i18n 表行（数据记录；桌面消费端已按运行时身份覆写）",
   },
   {
     id: "zcode-env-vars",
@@ -277,8 +315,26 @@ export function classifyTextContent(text) {
 
   const violationRangesByPattern = new Map();
   for (const rule of PROMINENT_CHROME_PATTERNS) {
-    const ranges = collectRanges(rule.pattern, text).filter(
-      (hit) => !exceptionRanges.some((range) => hit.start < range.end && range.start < hit.end),
+    // W036 TL：先收集同表达式的 Epoch 分支字面量区间；命中点在邻近窗口内存在
+    // 对应分支字面量 → 判为合法 flavor 分支（计入 exceptionCounts，不进 violations）。
+    // 裸的未门控字面量（邻近无 Epoch 分支）仍然判失败——规则的牙齿保留。
+    const counterpartRanges = rule.epochCounterpart ? collectRanges(rule.epochCounterpart, text) : [];
+    const isFlavorBranch = (hit) =>
+      counterpartRanges.some(
+        (range) =>
+          hit.start - FLAVOR_BRANCH_ADJACENCY_CHARS < range.end &&
+          range.start < hit.end + FLAVOR_BRANCH_ADJACENCY_CHARS,
+      );
+    const allRanges = collectRanges(rule.pattern, text);
+    const branchedRanges = allRanges.filter(isFlavorBranch);
+    if (branchedRanges.length > 0) {
+      exceptionCounts[`flavor-branch:${rule.id}`] =
+        (exceptionCounts[`flavor-branch:${rule.id}`] ?? 0) + branchedRanges.length;
+    }
+    const ranges = allRanges.filter(
+      (hit) =>
+        !exceptionRanges.some((range) => hit.start < range.end && range.start < hit.end) &&
+        !isFlavorBranch(hit),
     );
     if (ranges.length > 0) violationRangesByPattern.set(rule.id, ranges);
     for (const hit of ranges) {

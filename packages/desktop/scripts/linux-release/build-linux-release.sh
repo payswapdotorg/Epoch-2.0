@@ -28,7 +28,7 @@
 # electron-builder 的 directories.output 一致：相对路径基于 packages/desktop 解析）。
 set -euo pipefail
 
-REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 DESKTOP_ROOT="${REPO_ROOT}/packages/desktop"
 LINUX_RELEASE_DIR="${DESKTOP_ROOT}/scripts/linux-release"
 LOG_PREFIX="[linux-release]"
@@ -54,10 +54,15 @@ command -v sha256sum >/dev/null 2>&1 || fail "缺少 sha256sum（coreutils）"
 
 # 依赖就位检查：electron-builder 的 bin 与 pnpm 虚拟store 都必须存在，
 # 避免跑到一半才发现 pnpm install 没做（本脚本不代跑 install，保持发布路径单一）。
-[ -d "${DESKTOP_ROOT}/node_modules/.pnpm" ] ||
-  fail "packages/desktop/node_modules/.pnpm 不存在：请先在仓库根目录运行 pnpm install"
-[ -x "${DESKTOP_ROOT}/node_modules/.bin/electron-builder" ] ||
-  fail "packages/desktop/node_modules/.bin/electron-builder 不存在：请先运行 pnpm install"
+# TL 修正（2026-10-14 实测）：本仓库 .npmrc 是 node-linker=hoisted——依赖整体装在
+# 仓库根 node_modules（含 .pnpm 虚拟 store 与 .bin），packages/desktop/node_modules
+# 只剩 workspace 软链（@zcode/*、vite 等）。两级都探测，hoisted 与 isolated 布局通吃。
+if [ ! -d "${REPO_ROOT}/node_modules/.pnpm" ] && [ ! -d "${DESKTOP_ROOT}/node_modules/.pnpm" ]; then
+  fail "node_modules/.pnpm 不存在（根与 packages/desktop 都没有）：请先在仓库根目录运行 pnpm install"
+fi
+if [ ! -x "${REPO_ROOT}/node_modules/.bin/electron-builder" ] && [ ! -x "${DESKTOP_ROOT}/node_modules/.bin/electron-builder" ]; then
+  fail "electron-builder 可执行不存在（根与 packages/desktop 的 .bin 都没有）：请先运行 pnpm install"
+fi
 
 GIT_COMMIT="$(git -C "${REPO_ROOT}" rev-parse HEAD)" ||
   fail "git rev-parse HEAD 失败：需要在 git 工作区内构建"
@@ -86,8 +91,8 @@ console.log(version);
 ' "${DESKTOP_ROOT}/out/metadata/build-meta.json" "${REPO_ROOT}/package.json")" ||
   fail "无法确定 app 版本（build-meta.json 与根 package.json 均缺失/无效）"
 
-DEB_ARTIFACT="Epoch-${APP_VERSION}-linux-x64.deb"
-APPIMAGE_ARTIFACT="Epoch-${APP_VERSION}-linux-x64.AppImage"
+DEB_ARTIFACT="Epoch-${APP_VERSION}-linux-amd64.deb" # electron-builder deb 用 Debian 架构名 amd64
+APPIMAGE_ARTIFACT="Epoch-${APP_VERSION}-linux-x86_64.AppImage" # AppImage 用 uname 风格 x86_64
 
 log "repo=${REPO_ROOT}"
 log "dist=${DIST_DIR}"
@@ -96,8 +101,29 @@ log "identity=EPOCH_DESKTOP_IDENTITY=${EPOCH_DESKTOP_IDENTITY} backend=ZCODE_ENV
 log "targets=${ZCODE_LINUX_TARGETS} arch=${ZCODE_TARGET_ARCH}"
 
 # ---------- 1/4 仓库真实构建路径（根 pnpm build：所有包） ----------
-log "step 1/4: pnpm build（仓库根目录，所有包）"
-( cd "${REPO_ROOT}" && pnpm build )
+# W036_SKIP_ROOT_BUILD=1：可恢复重跑开关——大仓库在低内存 CI/本地盒上可能被 OOM 或
+# 会话回收打断，重跑时若根构建已单独完成（pnpm build 已 green），跳过第 1 步直接
+# 进入打包。发布语义不变：调用方自行保证「跳过 = 根构建已在同一 commit 上通过」。
+if [ "${W036_SKIP_ROOT_BUILD:-0}" = "1" ]; then
+  log "step 1/4: W036_SKIP_ROOT_BUILD=1 —— 跳过根构建（调用方保证已单独完成）"
+else
+  log "step 1/4: 桌面发布所需构建（packages/* 除 desktop + desktop 全量含 runtime assets）"
+  # TL 修正（2026-10-14 实测）：根 `pnpm build` 会把 apps/zcode-cli 全量 turbo 与
+  # @zcode/web 的 vite 一并构建——4GB CI/本地盒上被 OOM(137) 杀死。桌面包的真实
+  # 依赖集是 packages/*（@zcode/* workspace 依赖，产物进 asar）+ desktop 自身
+  # （prepare:runtime-assets 内部按需构建 agent CLI 的 desktop-agent 目标与
+  # native-search，不跑 cli 全量 turbo，也不碰 web）。该过滤集与根 pnpm build 在
+  # 这些包上执行的是完全相同的命令，只是去掉了发布不需要的两个 app 目标。
+  # TURBO_CONCURRENCY=1：agent bundle 的 turbo 在低内存盒上并行 vite 会 OOM。
+  # ZCODE_DESKTOP_SERIAL_BUILD=1：tsup 与 vite 串行（并行峰值 RSS 在 4GB 盒上被 OOM 杀）。
+  export TURBO_CONCURRENCY="${TURBO_CONCURRENCY:-1}"
+  export ZCODE_DESKTOP_SERIAL_BUILD="${ZCODE_DESKTOP_SERIAL_BUILD:-1}"
+  # !@zcode/web：web 是独立 Web 应用（浏览器端），不在 desktop 的依赖闭包里
+  # （desktop package.json 无此依赖；runtime-dependency-closure 也不含它），
+  # 而它的 vite 全量构建在 4GB 盒上稳定 OOM（10931 modules 后被杀）。发布不需要它。
+  ( cd "${REPO_ROOT}" && pnpm -r --filter "./packages/*" --filter "!@zcode/web" --filter "!@zcode/desktop" build )
+  ( cd "${REPO_ROOT}" && pnpm --filter @zcode/desktop build )
+fi
 
 # ---------- 2/4 electron-builder 打包 ----------
 log "step 2/4: pnpm bundle（linux x64，--skip-prepare --skip-build 避免重复构建）"

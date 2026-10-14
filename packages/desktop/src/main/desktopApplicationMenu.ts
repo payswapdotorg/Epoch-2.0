@@ -93,8 +93,15 @@ function buildApplicationMenuTemplate(options: {
   /** 快捷键设置页录制态：true 时摘掉全部可配置 accelerator */
   disableShortcutAccelerators?: boolean;
 }): Electron.MenuItemConstructorOptions[] {
-  const getLabel = (id: (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds]) =>
-    getDesktopMenuLabel(options.currentApplicationLocale, id);
+  const getLabel = (id: (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds]) => {
+    const label = getDesktopMenuLabel(options.currentApplicationLocale, id);
+    // W036：Endpoint 切换器菜单（仅 ZCODE_ENV=test 出现）在 Epoch 包里也按运行时
+    // 身份命名——三身份共享代码基的既定三元修复模式；非 Epoch 分支返回原值。
+    if (isEpochDesktopRuntime && label === "ZCode Endpoint") {
+      return "Epoch Endpoint";
+    }
+    return label;
+  };
   const getAppLabel = (id: (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds]) =>
     getLabel(id).replaceAll("{appName}", app.name);
   // W036：shared 的 desktopMenu 文案把 About 写死为 "ZCode"；shared 不在本工单所有权内，

@@ -136,7 +136,7 @@ function auditArtifactBasics(path) {
     nameMatch ? "pass" : "fail",
     nameMatch
       ? `文件名符合 Epoch-<version>-linux-<arch> 规则（version=${nameMatch[1]}，arch=${nameMatch[2]}）`
-      : `文件名不符合规则（期望 ^Epoch-<version>-linux-(x64|arm64)(_TEST)?\\.(deb|AppImage)$）：${name}`,
+      : `文件名不符合规则（期望 ^Epoch-<version>-linux-(x64|amd64|x86_64|arm64|aarch64)(_TEST)?\\.(deb|AppImage)$）：${name}`,
   );
   if (!nameMatch) pushFinding(blockingFindings, "artifact-name-pattern", name);
   if (nameMatch?.groups === undefined && nameMatch?.[3] === "_TEST") {

@@ -23,7 +23,7 @@
 #   bash packages/desktop/scripts/linux-release/install-launch-check.sh --seconds 40
 set -euo pipefail
 
-REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 DESKTOP_ROOT="${REPO_ROOT}/packages/desktop"
 LOG_PREFIX="[install-launch-check]"
 
@@ -45,8 +45,8 @@ usage() {
 选项:
   --dist <dir>        产物目录（默认 packages/desktop/dist）
   --results <path>    结果 JSON 输出路径（默认 <dist>/install-launch-results.json）
-  --deb <path>        显式指定 .deb 产物（默认自动选取 dist 内最新的 Epoch-*-linux-x64.deb）
-  --appimage <path>   显式指定 .AppImage 产物（默认自动选取最新的 Epoch-*-linux-x64.AppImage）
+  --deb <path>        显式指定 .deb 产物（默认自动选取 dist 内最新的 Epoch-*-linux-amd64.deb）
+  --appimage <path>   显式指定 .AppImage 产物（默认自动选取最新的 Epoch-*-linux-x86_64.AppImage）
   --seconds <n>       启动观察窗口秒数（默认 25；GUI 存活到窗口结束即算启动成功）
   -h, --help          显示帮助
 
@@ -96,10 +96,10 @@ find_latest() {
   [ -n "$candidate" ] && echo "$candidate" || true
 }
 
-DEB_FILE="${DEB_OVERRIDE:-$(find_latest "${DIST_DIR}/Epoch-*-linux-x64.deb")}"
-APPIMAGE_FILE="${APPIMAGE_OVERRIDE:-$(find_latest "${DIST_DIR}/Epoch-*-linux-x64.AppImage")}"
-[ -n "$DEB_FILE" ] && [ -s "$DEB_FILE" ] || fail "未找到 .deb 产物（${DIST_DIR}/Epoch-*-linux-x64.deb）"
-[ -n "$APPIMAGE_FILE" ] && [ -s "$APPIMAGE_FILE" ] || fail "未找到 .AppImage 产物（${DIST_DIR}/Epoch-*-linux-x64.AppImage）"
+DEB_FILE="${DEB_OVERRIDE:-$(find_latest "${DIST_DIR}/Epoch-*-linux-amd64.deb")}"
+APPIMAGE_FILE="${APPIMAGE_OVERRIDE:-$(find_latest "${DIST_DIR}/Epoch-*-linux-x86_64.AppImage")}"
+[ -n "$DEB_FILE" ] && [ -s "$DEB_FILE" ] || fail "未找到 .deb 产物（${DIST_DIR}/Epoch-*-linux-amd64.deb）"
+[ -n "$APPIMAGE_FILE" ] && [ -s "$APPIMAGE_FILE" ] || fail "未找到 .AppImage 产物（${DIST_DIR}/Epoch-*-linux-x86_64.AppImage）"
 
 # ---------- 环境探测 ----------
 WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/epoch-install-launch.XXXXXX")"

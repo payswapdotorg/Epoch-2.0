@@ -88,10 +88,20 @@ function runCommandAsync(step) {
 
 export async function runDesktopProductionBuild({ cwd = resolveDesktopBuildCwd() } = {}) {
   await cleanDesktopProductionOutput({ cwd });
+  // W036：低内存构建盒（4GB）上 tsup 与 vite 并行会把峰值 RSS 推过内核 OOM 线
+  // （vite renderer 在 chunk 渲染阶段单独就需要 ~3GB；实测 2026-10-14 被 SIGKILL）。
+  // ZCODE_DESKTOP_SERIAL_BUILD=1 改为串行执行——同一组命令、同一产物，只是时长换稳定。
+  const serialBuild = process.env.ZCODE_DESKTOP_SERIAL_BUILD === "1";
   for (const step of createDesktopProductionBuildPlan({ cwd })) {
     if (step.parallel) {
       // 之前串行跑 tsup 和 vite，但两者分别写 main/preload/host 与 renderer 目录。
       // 这里并行执行平台无关构建，缩短 CI 关键路径，同时保持各自 cwd/env 一致以兼容 macOS/Windows/Linux runner。
+      if (serialBuild) {
+        for (const subStep of step.parallel) {
+          await runCommandAsync(subStep);
+        }
+        continue;
+      }
       await Promise.all(step.parallel.map(runCommandAsync));
       continue;
     }

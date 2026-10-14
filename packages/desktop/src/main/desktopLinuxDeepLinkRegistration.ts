@@ -1,6 +1,8 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { installLinuxAppImageDesktopIconBestEffort } from "./desktopLinuxAppImageIcon.js";
+// W036：deep-link 条目按运行时产品身份写入归属标记与类别。
+import { isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
 import {
   runXdgCommand,
   XDG_COMMAND_TIMEOUT_MS,
@@ -11,7 +13,15 @@ import {
 const LINUX_DEEP_LINK_DESKTOP_FILE = "zcode.desktop";
 const LINUX_DEEP_LINK_MIME_TYPE = "x-scheme-handler/zcode";
 // 归属标记：用于识别用户级 zcode.desktop 是否由本应用写入（历史所有版本都带这行 Comment）。
+// W036：Epoch 包写入/匹配自己的标记（首版发布，无历史 Epoch 安装需要兼容）；
+// 匹配同时接受历史 ZCode 标记——两个身份共享同一个 zcode:// 协议文件，
+// 后安装者接管协议默认值是既定语义（上游行为不变，非 Epoch 分支继续写历史标记）。
 const LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER = "Comment=ZCode Desktop App";
+const LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER_EPOCH = "Comment=Epoch Desktop App";
+const LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKERS = [
+  LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER,
+  LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER_EPOCH,
+];
 
 type LinuxDesktopEnv = {
   APPIMAGE?: string;
@@ -118,12 +128,16 @@ function createLinuxDeepLinkDesktopEntry(params: {
   return [
     "[Desktop Entry]",
     `Name=${productName}`,
-    LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER,
+    // W036：按运行时身份写入归属标记（Epoch 包不再向用户目录写 ZCode 品牌文案）。
+    isEpochDesktopRuntime
+      ? LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER_EPOCH
+      : LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER,
     `Exec=${formatDesktopExec(command)}`,
     "Terminal=false",
     "Type=Application",
     `Icon=${iconName}`,
-    "Categories=Development;",
+    // W036：Epoch 包的 deep-link 条目跟随发布包的类别（Science;Engineering）。
+    isEpochDesktopRuntime ? "Categories=Science;Engineering;" : "Categories=Development;",
     `MimeType=${LINUX_DEEP_LINK_MIME_TYPE};`,
     `StartupWMClass=${productName}`,
     "",
@@ -172,9 +186,12 @@ function isOwnedDesktopEntry(path: string): boolean {
     const content = readFileSync(path, "utf8");
     // 去掉 \r 与行首尾空白，兼容 CRLF 行尾或手工编辑器引入的额外空白，
     // 避免可清理的遗留条目被误判为用户自定义条目而永久残留。
-    return content
-      .split("\n")
-      .some((line) => line.replaceAll("\r", "").trim() === LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKER);
+    // W036：任一身份的归属标记都算「本应用家族写入」——共享 zcode:// 协议文件，
+    // 后安装者接管并清理旧条目是既定语义。
+    const lines = content.split("\n").map((line) => line.replaceAll("\r", "").trim());
+    return LINUX_DESKTOP_ENTRY_OWNERSHIP_MARKERS.some((marker) =>
+      lines.some((line) => line === marker),
+    );
   } catch {
     return false;
   }

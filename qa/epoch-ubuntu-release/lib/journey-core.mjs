@@ -102,13 +102,20 @@ async function readRightPanelText(page) {
 
 function parseEntityId(panelText) {
   if (!panelText) return null;
-  const match = panelText.match(/entityId:\s*([A-Za-z0-9._:-]+)/);
-  return match ? match[1] : null;
+  // TL 修正（2026-10-14 实测）：右栏 textContent 把各展示行无分隔地拼接成
+  // "entityId: site-plottype: Sitedimensions: …"——原贪婪字符类（含 ':'）会把
+  // 下一行的行名一起吞进 ID（实测解析出 "site-plottype:"）。W006 inspector 的
+  // 行序是固定的（entityId → type → layer → …），用非贪婪匹配到下一个行名
+  // "type:" 为止即可拿到纯 ID。
+  const match = panelText.match(/entityId:\s*(.+?)\s*type:/);
+  return match ? match[1].trim() : null;
 }
 
 function parseLayerId(panelText) {
   if (!panelText) return null;
-  const match = panelText.match(/layer:\s*([^\n]+)/);
+  // 同上：layer 行后紧跟 dimensions 行，无分隔拼接。匹配到 "dimensions:" 为止，
+  // 再把展示名（Site/…）映射回层 ID（SITE/…）。
+  const match = panelText.match(/layer:\s*(.+?)\s*dimensions:/);
   if (!match) return null;
   const label = match[1].trim();
   return LAYER_LABEL_TO_ID[label] ?? label;

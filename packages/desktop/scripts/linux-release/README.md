@@ -27,8 +27,8 @@ node packages/desktop/scripts/linux-release/validate-artifacts.mjs \
 
 产物目录 `packages/desktop/dist`：
 
-- `Epoch-<version>-linux-x64.deb`
-- `Epoch-<version>-linux-x64.AppImage`
+- `Epoch-<version>-linux-amd64.deb`
+- `Epoch-<version>-linux-x86_64.AppImage`
 - `SHA256SUMS`（`sha256sum -c` 兼容格式）
 - `release-manifest.json`（版本/commit/构建机/产物哈希骨架，发布前由 TL 补 tag/URL/验收证据）
 - `validation-report.json`、`install-launch-results.json`（机器可读检查结果）
@@ -119,7 +119,7 @@ Electron 41 主二进制只引用到 2.25）。Ubuntu 20.04（glibc 2.31）是�
 
 1. **仅 x86_64**：W036 首发只构建 linux x64；arm64 依赖工具链与 native 预编译验证，未在本发布中提供。
 2. **AppImage 与 FUSE**：直接双击/执行 AppImage 需要 FUSE（`/dev/fuse`）；
-   无 FUSE 环境用官方回退 `./Epoch-<version>-linux-x64.AppImage --appimage-extract-and-run`
+   无 FUSE 环境用官方回退 `./Epoch-<version>-linux-x86_64.AppImage --appimage-extract-and-run`
    （`install-launch-check.sh` 即采用该方式）。
 3. **无头环境**：启动演练需要 X（脚本自动复用 `DISPLAY`、常驻 Xvfb `:99` 或 `xvfb-run`）；
    演练附加 `--disable-gpu` 以适配无 GLX 的 Xvfb。真实桌面不需要该参数。

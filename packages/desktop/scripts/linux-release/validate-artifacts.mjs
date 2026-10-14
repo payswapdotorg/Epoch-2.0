@@ -4,7 +4,7 @@
  * W036：Epoch Linux 发布产物机械校验器（Node 标准库实现，无第三方依赖）。
  *
  * 输入：dist 目录 + 期望版本/架构（默认 x64）。产物文件名由 electron-builder.config.js
- * 的 artifactName 模板决定：Epoch-<version>-linux-x64.deb / Epoch-<version>-linux-x64.AppImage。
+ * 的 artifactName 模板决定：Epoch-<version>-linux-amd64.deb（Debian 架构名）/ Epoch-<version>-linux-x86_64.AppImage（uname 风格）。
  *
  * .deb 检查（dpkg-deb --info / -x）：
  *   - 包名 epoch、Version 精确匹配、Architecture amd64；
@@ -869,8 +869,8 @@ async function main() {
     process.exit(2);
   }
 
-  const debPath = join(distDir, `Epoch-${expectedVersion}-linux-x64.deb`);
-  const appImagePath = join(distDir, `Epoch-${expectedVersion}-linux-x64.AppImage`);
+  const debPath = join(distDir, `Epoch-${expectedVersion}-linux-amd64.deb`);
+  const appImagePath = join(distDir, `Epoch-${expectedVersion}-linux-x86_64.AppImage`);
   const missingFiles = [
     existsSync(debPath) ? null : debPath,
     existsSync(appImagePath) ? null : appImagePath,
