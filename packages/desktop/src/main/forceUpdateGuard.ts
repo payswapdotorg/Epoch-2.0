@@ -9,6 +9,7 @@ import {
 } from "@zcode/shared";
 import { requestForceAutoUpdate, type ForceAutoUpdateState } from "./autoUpdater.js";
 import { showForceUpdatePrompt } from "./forceUpdatePrompt.js";
+import { desktopRuntimeProductName } from "./desktopProductRuntimeIdentity.js";
 
 const ZCODE_CLIENT_CONFIG_API_PATH = "/api/v1/client/configs";
 const FORCE_UPDATE_CONFIG_REQUEST_TIMEOUT_MS = 10_000;
@@ -193,9 +194,11 @@ function formatForceUpdateDialogText(
   requirement: ForceUpdateRequirement,
   locale: Locale,
 ): ForceUpdateDialogText {
+  // W036：强升弹窗以运行时产品名示人（Epoch 包 → "升级 Epoch"）。
+  const productName = desktopRuntimeProductName;
   if (locale === "zh-CN") {
     return {
-      title: "需要升级 ZCode",
+      title: `需要升级 ${productName}`,
       message: "当前版本无法继续使用",
       detail: `当前版本：v${requirement.currentVersion}\n最低可用版本：v${requirement.minimalVersion}`,
       autoUpdateButton: "自动升级",
@@ -205,7 +208,7 @@ function formatForceUpdateDialogText(
   }
 
   return {
-    title: "Update ZCode",
+    title: `Update ${productName}`,
     message: "The current version can no longer be used",
     detail: `Current version: v${requirement.currentVersion}\nMinimum supported version: v${requirement.minimalVersion}`,
     autoUpdateButton: "Auto update",

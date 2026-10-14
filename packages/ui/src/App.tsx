@@ -47,7 +47,9 @@ import {
 } from "@/lib/settingsNavigation.js";
 import { runWorkspaceVisibleCommand } from "@/lib/workspaceVisibleCommand.js";
 import { ZCODE_PRODUCT_DOCS_URL } from "@/lib/productDocs.js";
-import appLogoUrl from "@/assets/provider-icons/logo-zai.svg";
+// W036：桌面标题栏/侧栏产品 logo 换用 Epoch 瓦片（与安装包图标同一母题）；
+// logo-zai.svg 保留给 oauthProviderIcon（Z.ai 登录渠道的品牌图标，与产品身份无关）。
+import appLogoUrl from "@/assets/epoch-logo.svg";
 import { resolveTheme } from "@/useTheme.js";
 import { WorkspaceShellLayout } from "@/app-shell/WorkspaceShellLayout.js";
 import { useAppChromeState } from "@/app-shell/useAppChromeState.js";

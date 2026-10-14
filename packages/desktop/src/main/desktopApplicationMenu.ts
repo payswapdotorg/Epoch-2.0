@@ -11,6 +11,7 @@ import {
 } from "@zcode/shared";
 import { readZCodeStdioTapDevState } from "@zcode/services/node";
 import { CHECK_FOR_UPDATE_MENU_ID, setAutoUpdaterMenuLocale } from "./autoUpdater.js";
+import { isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
 import {
   DESKTOP_ZOOM_MAX_LEVEL,
   DESKTOP_ZOOM_MIN_LEVEL,
@@ -96,6 +97,12 @@ function buildApplicationMenuTemplate(options: {
     getDesktopMenuLabel(options.currentApplicationLocale, id);
   const getAppLabel = (id: (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds]) =>
     getLabel(id).replaceAll("{appName}", app.name);
+  // W036：shared 的 desktopMenu 文案把 About 写死为 "ZCode"；shared 不在本工单所有权内，
+  // Epoch 包在消费端按产品名替换（同时打开的 About 弹窗来自 about.ts，已是 Epoch 文案）。
+  const getAboutMenuLabel = () => {
+    const label = getLabel(desktopMenuMessageIds.helpAbout);
+    return isEpochDesktopRuntime ? label.replaceAll("ZCode", "Epoch") : label;
+  };
   const stdioTapState = readZCodeStdioTapDevState();
   const isLocalDevelopmentRuntime = !app.isPackaged;
   const currentZoomLevel = clampDesktopZoomLevel(options.currentZoomLevel ?? 0);
@@ -114,7 +121,7 @@ function buildApplicationMenuTemplate(options: {
             label: app.name,
             submenu: [
               {
-                label: getLabel(desktopMenuMessageIds.helpAbout),
+                label: getAboutMenuLabel(),
                 click: () => void options.executeDesktopCommand(DesktopCommandIds.ShowAbout),
               },
               // 更新入口跟随产品身份：Preview 禁用更新器，生产后端的 Preview 也不例外。
@@ -256,7 +263,7 @@ function buildApplicationMenuTemplate(options: {
         ...(process.platform !== "darwin"
           ? [
               {
-                label: getLabel(desktopMenuMessageIds.helpAbout),
+                label: getAboutMenuLabel(),
                 click: () => void options.executeDesktopCommand(DesktopCommandIds.ShowAbout),
               },
               ...(ZCODE_PRODUCT_FLAVOR === "production"

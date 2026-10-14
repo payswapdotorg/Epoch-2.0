@@ -18,6 +18,7 @@ import {
   isShareImportUrl,
 } from "./desktopDeepLinkUrl.js";
 import { registerLinuxDeepLinkProtocol } from "./desktopLinuxDeepLinkRegistration.js";
+import { desktopRuntimeProductName } from "./desktopProductRuntimeIdentity.js";
 
 interface DeepLinkWorkspaceGateOptions {
   canOpenWorkspace?: (workspacePath: string) => boolean;
@@ -141,19 +142,21 @@ export function resolveExternalWorkspaceOpenDialogCopy(
 ): ExternalWorkspaceOpenDialogCopy {
   // TODO(i18n): 新增 Locale 时把这里收敛成完整 Record<Locale, ...>，
   // 避免未覆盖语言静默回退英文。
+  // W036：弹窗文案以运行时产品名示人（Epoch 包 → “在 Epoch 中打开”）。
+  const productName = desktopRuntimeProductName;
   if (locale === "zh-CN") {
     return {
       buttons: ["打开文件夹", "取消"],
-      title: "打开外部 ZCode 链接？",
-      message: "是否在 ZCode 中打开此文件夹？",
+      title: `打开外部 ${productName} 链接？`,
+      message: `是否在 ${productName} 中打开此文件夹？`,
       detail: (path) => `${path}\n\n只打开你信任来源的文件夹。项目设置可能影响 agent runtime。`,
     };
   }
 
   return {
     buttons: ["Open folder", "Cancel"],
-    title: "Open external ZCode link?",
-    message: "Open this folder in ZCode?",
+    title: `Open external ${productName} link?`,
+    message: `Open this folder in ${productName}?`,
     detail: (path) =>
       `${path}\n\nOnly open folders from sources you trust. Project settings may affect the agent runtime.`,
   };

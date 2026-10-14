@@ -1,5 +1,6 @@
 import { PanelLeftOpen } from "lucide-react";
-import appLogoUrl from "@/assets/provider-icons/logo-zai.svg";
+// W036：产品 logo 换用 Epoch 瓦片；logo-zai.svg 保留给 Z.ai 登录渠道图标。
+import appLogoUrl from "@/assets/epoch-logo.svg";
 import { Button } from "@/components/ui/button.js";
 import { ControlHintTooltip } from "@/ControlHintTooltip.js";
 import { useZCodeIntl } from "@/i18n/IntlProvider.js";
@@ -34,7 +35,7 @@ export function WorkspaceSidebarCollapsedRail({
             >
               <img
                 src={appLogoUrl}
-                alt="ZCode"
+                alt="Epoch"
                 className="size-5 transition-opacity group-hover:opacity-0"
                 draggable={false}
               />

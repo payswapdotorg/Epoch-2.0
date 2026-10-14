@@ -12,6 +12,7 @@ import type { WorldInteractionLayer } from "@zcode/epoch-world-interaction";
 import type { WorldPresentation } from "@zcode/epoch-world-presentation";
 import {
   buttonStyle,
+  epochPalette,
   inspectorRowStyle,
   linkButtonStyle,
   panelTitleStyle,
@@ -93,7 +94,8 @@ export function DesktopSolutionW007Panel({
 
   return (
     <div data-testid="epoch-w007-panel" style={{ marginTop: 12 }}>
-      <div style={panelTitleStyle}>W007 Tools</div>
+      {/* W036：面板标题不再携带内部工单编号（W007），以工程工作台的语言面向用户。 */}
+      <div style={panelTitleStyle}>Engineering Tools</div>
 
       <div style={inspectorRowStyle}>
         <strong>Layer isolate</strong>
@@ -172,7 +174,9 @@ export function DesktopSolutionW007Panel({
           width: "100%",
           padding: "3px 6px",
           fontSize: 11,
-          border: "1px solid rgba(0,0,0,0.2)",
+          color: epochPalette.ink,
+          background: "rgba(255,255,255,0.9)",
+          border: `1px solid ${epochPalette.paperEdge}`,
           borderRadius: 4,
           marginBottom: 4,
         }}

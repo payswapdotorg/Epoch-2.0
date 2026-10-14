@@ -1,26 +1,27 @@
 import { cn } from "@/components/lib/utils.js";
 
+/**
+ * 产品 logo（W036 起为 Epoch 标记）：I 字钢截面构成的 "E"，腹板与上下翼缘用
+ * currentColor，中肢翼缘固定为陶土色 #C75D3F（图形强调元素，非正文文本）。
+ * 组件导出名沿用 ZCode 前缀：内部标识符（import/useZCodeIntl 等）按 W036 产品法保留，
+ * 不做全局内部重命名；渲染内容才是产品身份。
+ */
 export function ZCodeAboutLogo({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="118"
+      width="100"
       height="100"
+      viewBox="0 0 1024 1024"
       fill="none"
-      viewBox="0 0 256 218"
       className={cn("shrink-0 text-current", className)}
       aria-hidden="true"
       focusable="false"
     >
-      <path
-        fill="currentColor"
-        d="M134.4 0.130152L116.48 25.6022C113.665 29.5699 109.054 32.0019 104.064 32.0019H6.3999V0C6.3999 0.130149 134.4 0.130152 134.4 0.130152Z"
-      />
-      <path fill="currentColor" d="M256 0.130127L102.401 217.732H0L153.599 0.130127H256Z" />
-      <path
-        fill="currentColor"
-        d="M121.601 217.732L139.65 192.134C142.465 188.166 147.076 185.734 152.067 185.734H249.604V217.736H121.601V217.732Z"
-      />
+      <rect x="282" y="202" width="140" height="620" fill="currentColor" />
+      <rect x="282" y="202" width="460" height="140" fill="currentColor" />
+      <rect x="282" y="442" width="408" height="140" fill="#C75D3F" />
+      <rect x="282" y="682" width="460" height="140" fill="currentColor" />
     </svg>
   );
 }

@@ -11,6 +11,7 @@ import {
   ZCODE_VERSION,
 } from "@zcode/shared";
 import { createCustomAboutDialogHtml } from "./aboutWindow.js";
+import { isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
 
 interface DesktopBuildMetadata {
   appVersion?: string;
@@ -52,7 +53,13 @@ interface AboutSnapshotOptions {
   };
 }
 
-const ABOUT_APPLICATION_NAME = "ZCode Desktop App";
+/**
+ * W036：About 以运行时产品身份示人——Epoch 包显示 "About Epoch" / "Epoch Desktop App"，
+ * 上游 ZCode 正式/Preview 包保持原文案。法定第三方署名不在此处（THIRD-PARTY-NOTICES
+ * 随仓库/安装包保留），About 只承载产品名与版权行，避免品牌与署名混排。
+ */
+const ABOUT_PRODUCT_NAME = isEpochDesktopRuntime ? "Epoch" : "ZCode";
+const ABOUT_APPLICATION_NAME = `${ABOUT_PRODUCT_NAME} Desktop App`;
 // 自定义 About 内容本体是 256x280；原生窗口如果同尺寸会让内容贴满透明窗口边界。
 // 这里给 BrowserWindow 额外留出背景呼吸空间，避免正式 About 看起来比 demo 更局促。
 const ABOUT_WINDOW_WIDTH = 256;
@@ -68,18 +75,18 @@ const ABOUT_MESSAGES: Record<
   }
 > = {
   "zh-CN": {
-    aboutTitle: "关于 ZCode",
+    aboutTitle: `关于 ${ABOUT_PRODUCT_NAME}`,
     versionLabel: "版本",
     okButtonLabel: "确定",
     optimizedForAppleSilicon: "已针对 Apple Silicon 优化。",
-    copyright: (year) => `版权所有 © ${year} ZCode。`,
+    copyright: (year) => `版权所有 © ${year} ${ABOUT_PRODUCT_NAME}。`,
   },
   "en-US": {
-    aboutTitle: "About ZCode",
+    aboutTitle: `About ${ABOUT_PRODUCT_NAME}`,
     versionLabel: "version",
     okButtonLabel: "OK",
     optimizedForAppleSilicon: "Optimized for Apple Silicon.",
-    copyright: (year) => `Copyright © ${year} ZCode.`,
+    copyright: (year) => `Copyright © ${year} ${ABOUT_PRODUCT_NAME}.`,
   },
 };
 

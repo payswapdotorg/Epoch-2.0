@@ -130,6 +130,7 @@ import {
 } from "./desktopApplicationMenu.js";
 import { applyAppIcon } from "./desktopWindowChrome.js";
 import { resolveWindowsAppUserModelIdForFlavor } from "../../scripts/desktop-product-identity.mjs";
+import { desktopRuntimeProductFlavor } from "./desktopProductRuntimeIdentity.js";
 import type { DesktopWindowSize } from "./desktopWindowSize.js";
 import { maybeWarnArchitectureMismatch } from "./desktopArchitectureGuard.js";
 import { maybeBlockStartupForForceUpdate } from "./forceUpdateGuard.js";
@@ -1977,8 +1978,12 @@ app.whenReady().then(async () => {
   if (process.platform === "win32") {
     // 打包态必须与 NSIS 快捷方式使用同一 AUMID，否则 Shell 把它们当成不同应用。
     // 使用构建期产品身份，不依赖用户机器环境；开发态继续保持独立身份。
+    // W036：这里传 epoch 感知的原始 flavor——shared 的 ZCODE_PRODUCT_FLAVOR 会把 "epoch"
+    // 归一化成 production，Epoch 包会因此错拿 dev.zcode.app（应为 org.epoch.desktop）。
     app.setAppUserModelId(
-      resolveWindowsAppUserModelIdForFlavor(ZCODE_PRODUCT_FLAVOR, { isPackaged: app.isPackaged }),
+      resolveWindowsAppUserModelIdForFlavor(desktopRuntimeProductFlavor, {
+        isPackaged: app.isPackaged,
+      }),
     );
   }
 

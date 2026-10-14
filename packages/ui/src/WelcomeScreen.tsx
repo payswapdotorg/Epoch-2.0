@@ -475,9 +475,10 @@ function LoginPanelHeader({
 function LoginPanelLogo() {
   return (
     // 登录 logo 壳是固定深色底，边框不能跟随浅色主题 token，否则浅色主题下边框过重。
+    // W036：壳随 Epoch 品牌方向改为蓝图海军蓝（与启动壳/应用图标同向），产品名为 Epoch。
     <div
-      className="relative mb-1 flex size-16 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#000000_0%,#151718_100%)] text-[#ffffff] shadow-lg/20 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:border before:border-[rgba(255,255,255,0.1)]"
-      aria-label="ZCode"
+      className="relative mb-1 flex size-16 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#24466E_0%,#1F3A5F_100%)] text-[#F5F1EA] shadow-lg/20 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:border before:border-[rgba(255,255,255,0.1)]"
+      aria-label="Epoch"
       role="img"
     >
       <ZCodeAboutLogo className="h-auto w-10" />

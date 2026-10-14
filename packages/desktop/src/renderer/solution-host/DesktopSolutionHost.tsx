@@ -28,6 +28,7 @@ import type { EntityInspectorData } from "./DesktopSolutionHostTypes.js";
 import {
   buttonStyle,
   canvasStyle,
+  epochPalette,
   errorBoxStyle,
   hiddenStyle,
   hintStyle,
@@ -276,8 +277,11 @@ export function DesktopSolutionHost() {
           data-testid="epoch-world-canvas"
         />
         <div style={hudTopBarStyle}>
+          {/* W036：HUD 顶栏以 Epoch 产品身份示人（措辞遵循工程工作台定位），
+              引擎与 solutionId 保留为次要工程上下文，不新增第二套品牌。 */}
           <div style={titleStyle}>
-            <strong>Epoch Solution</strong>
+            <strong>Epoch</strong>
+            <span style={{ marginLeft: 6 }}>— Construction Engineering Workbench</span>
             <span style={{ opacity: 0.7, marginLeft: 8 }}>
               {runtime ? `${runtime.engineName} · ${runtime.tab.solutionId}` : "opening…"}
             </span>
@@ -353,7 +357,8 @@ export function DesktopSolutionHost() {
                     type="checkbox"
                     checked={layerVisible[layerId] ?? true}
                     onChange={(event) => toggleLayer(layerId, event.target.checked)}
-                    style={{ marginRight: 8 }}
+                    // W036：图层开关用陶土 accent——非文本控件元素，对比度要求 3:1 即可。
+                    style={{ marginRight: 8, accentColor: epochPalette.terracotta }}
                   />
                   {LAYER_LABELS[layerId] ?? layerId}
                 </label>

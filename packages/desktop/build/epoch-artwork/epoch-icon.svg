@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!--
+    Epoch 应用图标 — 工程制图母题（W036）。
+    方向：蓝图海军蓝 + 陶土在暖制图纸上。母题是一张制图"图纸"：
+    暖纸圆角图板 + 细线图框，中央是 I 字钢截面构成的 "E"（腹板 + 三块翼缘），
+    中肢翼缘用陶土色作为测量/强调臂。小尺寸（16px）下图框自然消失，
+    粗壮的深蓝 E 保证可读性。
+    与 packages/desktop/src/renderer/index.html 的启动标记为同一母题（蓝底反白版）。
+    尺寸输出由同目录 generate-epoch-icons.mjs 光栅化。
+  -->
+  <defs>
+    <linearGradient id="epochPaper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBF8F1" />
+      <stop offset="1" stop-color="#EFE9DE" />
+    </linearGradient>
+  </defs>
+  <!-- 暖制图纸图板（圆角 ~22%，四角透明） -->
+  <rect x="0" y="0" width="1024" height="1024" rx="224" fill="url(#epochPaper)" />
+  <!-- 制图图框：大尺寸下的图纸细节 -->
+  <rect
+    x="88"
+    y="88"
+    width="848"
+    height="848"
+    fill="none"
+    stroke="#1F3A5F"
+    stroke-opacity="0.3"
+    stroke-width="10"
+  />
+  <!-- I 字钢截面 "E"：腹板 -->
+  <rect x="282" y="202" width="140" height="620" fill="#1F3A5F" />
+  <!-- 上翼缘 -->
+  <rect x="282" y="202" width="460" height="140" fill="#1F3A5F" />
+  <!-- 中肢翼缘：陶土色测量臂 -->
+  <rect x="282" y="442" width="408" height="140" fill="#C75D3F" />
+  <!-- 下翼缘 -->
+  <rect x="282" y="682" width="460" height="140" fill="#1F3A5F" />
+</svg>

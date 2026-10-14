@@ -1,5 +1,6 @@
 import { cn } from "@/components/lib/utils.js";
-import zaiLogoUrl from "@/assets/provider-icons/logo-zai.svg";
+// W036：产品 logo 换用 Epoch 瓦片；logo-zai.svg 保留给 Z.ai 登录渠道图标。
+import epochLogoUrl from "@/assets/epoch-logo.svg";
 
 export function WindowsTopLeftLogo({
   className,
@@ -20,8 +21,8 @@ export function WindowsTopLeftLogo({
       )}
     >
       <img
-        src={zaiLogoUrl}
-        alt="ZCode"
+        src={epochLogoUrl}
+        alt="Epoch"
         className={cn("pointer-events-none size-5 select-none", imageClassName)}
         draggable={false}
       />

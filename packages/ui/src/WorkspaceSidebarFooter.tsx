@@ -65,7 +65,8 @@ function getSidebarProfileName(user?: UserInfo | null): string {
     return username;
   }
 
-  return "ZCode";
+  // W036：未登录且无用户名时的展示名回退为产品名 Epoch。
+  return "Epoch";
 }
 
 function getSidebarProfileBadge(
