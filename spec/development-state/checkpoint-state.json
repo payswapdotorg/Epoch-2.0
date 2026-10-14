@@ -21,9 +21,9 @@
   },
   "next": "W036: dispatch three disjoint workers; ensure default desktop opens Epoch's construction Solution Surface; build/install/test Ubuntu x86_64 .deb and AppImage; create manual candidate-build + tag-based publication workflow; publish only after all acceptance gates pass.",
   "lastMerge": {
-    "workOrder": "W003 + W004",
-    "sha": "ddb9d11ad3485a2b1cd2f5ed6d7a04a39d9aa0c7",
-    "date": "2026-10-09"
+    "workOrder": "W019",
+    "sha": "70e9b75",
+    "date": "2026-10-12"
   },
   "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
   "currentTrack": {
@@ -31,5 +31,10 @@
     "workOrderPath": "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
     "acceptancePath": "spec/acceptance/ubuntu-epoch-desktop-release.md",
     "releasePublished": false
+  },
+  "lastStateUpdate": {
+    "commit": "a6ef1f2854db65065935918d55ca6baaf5477684",
+    "date": "2026-10-14",
+    "note": "W036 Ubuntu release track opened; current frontier is W036. Historical lastMerge references W019, the final W000-W035 work-order merge."
   }
 }
