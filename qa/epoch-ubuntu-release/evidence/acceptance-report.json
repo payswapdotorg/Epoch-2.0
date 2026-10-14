@@ -1,0 +1,95 @@
+{
+  "workOrder": "W036 — Ubuntu Epoch Desktop Release",
+  "generatedAt": "2026-10-14T18:43:25.470Z",
+  "verdict": "pass",
+  "releaseReady": true,
+  "kinds": {
+    "brandAuditPassed": [
+      "deb",
+      "appimage"
+    ],
+    "journeyPassed": [
+      "appimage",
+      "deb"
+    ]
+  },
+  "counts": {
+    "pass": 5,
+    "fail": 0,
+    "skipped": 0
+  },
+  "checks": [
+    {
+      "id": "brand-audit:deb:Epoch-3.14.3-linux-amd64.deb",
+      "kind": "brand-audit",
+      "artifactKind": "deb",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+      "status": "pass",
+      "summary": "品牌审计通过（sha256=36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f）",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/brand-audit.json",
+      "sha256": "36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f",
+      "bytes": 147130648
+    },
+    {
+      "id": "brand-audit:appimage:Epoch-3.14.3-linux-x86_64.AppImage",
+      "kind": "brand-audit",
+      "artifactKind": "appimage",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+      "status": "pass",
+      "summary": "品牌审计通过（sha256=1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721）",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/brand-audit.json",
+      "sha256": "1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721",
+      "bytes": 198118483
+    },
+    {
+      "id": "journey:appimage",
+      "kind": "journey",
+      "mode": "appimage",
+      "status": "pass",
+      "summary": "真实 Electron 窗口旅程通过（10 步；标题=Epoch；electron=41.0.3；sha256=1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721）",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/appimage/manifest.json",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+      "environment": {
+        "node": "v24.21.0",
+        "platform": "linux",
+        "osRelease": "5.10.134-013.15.kangaroo.al8.x86_64",
+        "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+        "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+        "arch": "x86_64",
+        "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+        "display": ":99",
+        "gitCommit": "9b8e66e968047d6236e99fff569bbd6ce600c937"
+      }
+    },
+    {
+      "id": "journey:deb",
+      "kind": "journey",
+      "mode": "deb",
+      "status": "pass",
+      "summary": "真实 Electron 窗口旅程通过（10 步；标题=Epoch；electron=41.0.3；sha256=36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f）",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/deb/manifest.json",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+      "environment": {
+        "node": "v24.21.0",
+        "platform": "linux",
+        "osRelease": "5.10.134-013.15.kangaroo.al8.x86_64",
+        "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+        "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+        "arch": "x86_64",
+        "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+        "display": ":99",
+        "gitCommit": "9b8e66e968047d6236e99fff569bbd6ce600c937"
+      }
+    },
+    {
+      "id": "install-launch-check",
+      "kind": "install-launch",
+      "status": "pass",
+      "summary": "install-launch-check: pass（install-launch-check.sh exit 0）；明细见 install-launch-results.json",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/install-launch-status.json",
+      "log": "install-launch-check.log",
+      "results": "install-launch-results.json"
+    }
+  ],
+  "law": "No skipped critical desktop journey may be recorded as a passing release (spec/acceptance/ubuntu-epoch-desktop-release.md)."
+}

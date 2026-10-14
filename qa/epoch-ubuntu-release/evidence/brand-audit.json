@@ -1,0 +1,2250 @@
+{
+  "tool": "qa/epoch-ubuntu-release/brand-audit.mjs (W036-W3)",
+  "workOrder": "W036 — Ubuntu Epoch Desktop Release",
+  "generatedAt": "2026-10-14T18:41:36.349Z",
+  "skippedAsarScan": false,
+  "artifacts": [
+    {
+      "kind": "deb",
+      "path": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+      "fileName": "Epoch-3.14.3-linux-amd64.deb",
+      "bytes": 147130648,
+      "sha256": "36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f",
+      "dpkg": {
+        "package": "epoch",
+        "version": "3.14.3",
+        "architecture": "amd64",
+        "maintainer": "Epoch Desktop <epoch@users.noreply.github.com>",
+        "description": "Epoch — Construction Engineering Workbench\nEpoch — Construction Engineering Workbench",
+        "homepage": "https://github.com/payswapdotorg/Epoch-2.0"
+      },
+      "desktopEntry": {
+        "fileName": "epoch.desktop",
+        "fields": {
+          "Name": "Epoch",
+          "Exec": "/opt/Epoch/epoch %U",
+          "Terminal": "false",
+          "Type": "Application",
+          "Icon": "epoch",
+          "StartupWMClass": "Epoch",
+          "Comment": "Epoch — Construction Engineering Workbench",
+          "MimeType": "x-scheme-handler/zcode;",
+          "Categories": "Science;Engineering;"
+        }
+      },
+      "icons": {
+        "hicolorMatches": [
+          "usr/share/icons/hicolor/16x16/apps/epoch.png",
+          "usr/share/icons/hicolor/24x24/apps/epoch.png",
+          "usr/share/icons/hicolor/64x64/apps/epoch.png",
+          "usr/share/icons/hicolor/48x48/apps/epoch.png",
+          "usr/share/icons/hicolor/512x512/apps/epoch.png",
+          "usr/share/icons/hicolor/32x32/apps/epoch.png",
+          "usr/share/icons/hicolor/1024x1024/apps/epoch.png",
+          "usr/share/icons/hicolor/256x256/apps/epoch.png",
+          "usr/share/icons/hicolor/128x128/apps/epoch.png"
+        ]
+      },
+      "executable": {
+        "path": "opt/Epoch/epoch",
+        "executableBit": true
+      },
+      "asar": {
+        "present": true,
+        "path": "/tmp/epoch-brand-deb-YR0kgT/opt/Epoch/resources/app.asar",
+        "scanMode": "asar-header-ranges",
+        "skipNote": null,
+        "rootPackage": {
+          "name": "@zcode/desktop",
+          "productName": "Epoch",
+          "version": "3.14.3",
+          "description": "Epoch — Construction Engineering Workbench"
+        },
+        "rendererTitle": "Epoch",
+        "violations": [],
+        "exceptionCounts": {
+          "zcode-env-vars": 350,
+          "zcode-storage-ipc-keys": 196,
+          "zcode-domains": 25,
+          "zcode-paths": 720,
+          "zcode-package-scope": 25,
+          "zcode-endpoint-i18n-table-row": 2,
+          "copyright-notices": 119,
+          "preview-identity": 2,
+          "dev-identity": 3,
+          "compat-app-ids": 4,
+          "flavor-branch:chrome-zcode-desktop": 1,
+          "flavor-branch:chrome-quit-dialog": 1,
+          "flavor-branch:chrome-endpoint-dialog": 4,
+          "notice-file-names": 33
+        },
+        "reviewItems": [
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "ion ut(e){let n=e.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let o=new URL(n);if("
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "\"https:\"&&o.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "number().int().nonnegative()}).strict();var IA=\"ZCode Protocol\",CA=1;var qK=t.object({independentPlan"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "dNonEmptyString\");d();d();var eN={\"User-Agent\":\"ZCode/unknown\",\"HTTP-Referer\":ko,\"X-Title\":\"Z Code@el"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "on\";return{...eN,\"HTTP-Referer\":c,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "c,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}:{},\"X-Title\":`Z Code@${m}`,...u"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "igFileName:\"config.json\",missingBinaryMessage:\"[ZCode Agent] glm binary \\u672A\\u627E\\u5230\\uFF0C\\u8BF"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "r gN=\"none\";var fN=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],$X=[{value:gN,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/host/chunk-GME5UFKI.js",
+            "snippet": "or\")}code=On;constructor(){super(\"The connected ZCode Agent does not support MCP status-only refresh\""
+          },
+          {
+            "file": "out/host/chunk-GMUXKXRI.js",
+            "snippet": "wget\\uFF0C\\u65E0\\u6CD5\\u76F4\\u63A5\\u4E0B\\u8F7D ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/host/chunk-GMUXKXRI.js",
+            "snippet": "8\\u7F3A\\u5C11 tar\\uFF0C\\u65E0\\u6CD5\\u89E3\\u538B ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/host/chunk-GMUXKXRI.js",
+            "snippet": "um \\u6216 openssl\\uFF0C\\u65E0\\u6CD5\\u6821\\u9A8C ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "PDATA\"),d=[r.appInstallDir,ie(e,As),t?te.join(t,\"ZCode\"):null,s?te.join(s,\"ZCode\"):null,n?te.join(n,\"ZC",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": ",ie(e,As),t?te.join(t,\"ZCode\"):null,s?te.join(s,\"ZCode\"):null,n?te.join(n,\"ZCode\"):null,o?te.join(o,\"Pr",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "de\"):null,s?te.join(s,\"ZCode\"):null,n?te.join(n,\"ZCode\"):null,o?te.join(o,\"Programs\",\"ZCode\"):null],a=n",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "?te.join(n,\"ZCode\"):null,o?te.join(o,\"Programs\",\"ZCode\"):null],a=new Set,c=[];for(let u of d){let _=typ",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "t=class extends Error{constructor(t,s,n){super(`ZCode Protocol request timed out: ${t}`);this.method="
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "on?`: ${s.reason}`:\"\";this.rejectAll(new Error(`ZCode agent transport closed${n}`)),this.closeEmitter"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "tch(o){n.reject(o instanceof Error?o:new Error(`ZCode Protocol response parse failed: ${n.method}`))}"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "sposeLocalResources(){this.rejectAll(new Error(\"ZCode Protocol client disposed\"));for(let e of this.d"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "NotDisposed(){if(this.disposed)throw new Error(\"ZCode Protocol client is disposed\")}};f();import{Stri"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ed||!this.child.stdin.writable)throw new Error(\"ZCode agent stdio transport is closed\");let t=`${JSON"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "d,env:{...r.env,ELECTRON_RUN_AS_NODE:\"1\"}}:(ps(\"ZCode stdio tap proxy enabled but script not found\"),"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "essLifecycleReporter;if(t)try{e(t)}catch(s){Xe(\"ZCode agent process lifecycle reporter failed\",s)}}cl"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "Count>0||t.client.storageStartup.isWaiting||(G(\"ZCode agent process idle timeout; reclaiming\",{worksp"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "1,o=e.client.disposeAndWait().then(()=>{n=!0,G(\"ZCode agent process cleanup completed\",{workspaceKey:"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "upPromise=o,s.reportError!==!1&&o.catch(d=>{$e(\"ZCode agent process cleanup failed\",{workspaceKey:e.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "cess(e,t,{reportError:!1})}catch(o){let d=o;Xe(`ZCode agent process cleanup retrying during ${n}`,{wo"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "rocess(e,s,{reportError:!1})}catch(a){throw $e(\"ZCode agent process cleanup failed\",{workspaceKey:e.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "getClient(e){if(this.disposed)throw new Error(\"ZCode agent process manager is disposed.\");let t=N(e)"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ByWorkspaceKey.get(t);if(n){let u=Date.now();G(\"ZCode agent process start already in progress\",{works"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ress\",{workspaceKey:t});let _=await n;return G(\"ZCode agent process start wait completed\",{workspaceK"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ceKey:t}),c=Date.now()-d;if(!a)throw new Error(\"ZCode agent server command is not configured. Set ZCO"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "tion.\");if(n.aborted)throw n.reason??new Error(\"ZCode agent process start was cancelled.\");let u=Zo(a"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "process start was cancelled.\");let u=Zo(a,t);G(\"ZCode agent command resolved\",{workspaceKey:t,command"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ceKey:t})??{};if(this.disposed)throw new Error(\"ZCode agent process manager is disposed.\");if((this.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "nByWorkspaceKey.get(t)??0)!==s)throw new Error(\"ZCode agent process start was cancelled.\");let l=awai"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "Key:t,signal:n}),this.disposed)throw new Error(\"ZCode agent process manager is disposed.\");if((this.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "nByWorkspaceKey.get(t)??0)!==s)throw new Error(\"ZCode agent process start was cancelled.\");let g=jt(p"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "start was cancelled.\");let g=jt(process.env);G(\"ZCode agent spawn preflight\",{workspaceKey:t,spawnPre"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "meInstanceId:I})),this.reportRuntimeReady(p),G(\"ZCode agent process started\",{workspaceKey:t,command:"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ationMs:Date.now()-o})}),m.once(\"error\",E=>{$e(`ZCode agent process error${this.processLifecycleRepor"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "ode Network CA\"},{name:\"organizationName\",value:\"ZCode\"}];return t.setSubject(s),t.setIssuer(s),t.setEx",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "Current\"),a={id:r,generation:o,type:\"iab\",name:\"ZCode In-app Browser\",capabilities:{browser:[{id:\"vis"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "w Error(`Timed out after ${n}ms waiting for the ZCode file lock: ${t}`);return o.code=XR,o.path=e,o.s"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "owner-${s}.json`)throw Object.assign(new Error(\"ZCode file lock ownership changed during acquire\"),{c"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E\"})}),kx=T.object({"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E: ${t}`);if(!d&&!c)"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "viderConfigRules);if(n.has(Wx))throw new Error(`ZCode Built-in Release \\u5305\\u542B\\u5DF2\\u9000\\u51FA"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "t.bundledFilePath.trim();if(!n)throw new Error(\"ZCode Built-in bundledFilePath \\u4E0D\\u80FD\\u4E3A\\u7A"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "s(t)===Ms(r))return\"unchanged\";throw new Error(`ZCode Built-in \\u76F8\\u540C revision ${t.revision} \\u"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "r].filter(r=>r!==void 0),\"Bundled \\u4E0E Active ZCode Built-in Release \\u5747\\u4E0D\\u53EF\\u7528\");ret"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "0]?.code})`:\"invalid response\";throw new Error(`ZCode Built-in ${s}: ${d}`)}finally{clearTimeout(r)}a"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "this.#o)return\"disposed\";if(!r)throw new Error(\"ZCode Built-in \\u8FDC\\u7AEF Endpoint \\u4E0D\\u80FD\\u4E"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "ion rm(e){let t=e.trim();if(!t)throw new Error(\"ZCode Built-in Endpoint Origin \\u4E0D\\u80FD\\u4E3A\\u7A"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "\"http:\"&&n.protocol!==\"https:\")throw new Error(\"ZCode Built-in Endpoint Origin \\u53EA\\u652F\\u6301 HTT"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": ".\"||n===\"..\"||/[\\\\/]/u.test(n))throw new Error(`ZCode Built-in ${t} \\u4E0D\\u662F\\u5408\\u6CD5\\u8DEF\\u5"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "\"eggs/\",\"pip-wheel-metadata/\",\"wheels/\"],CO=[\"# ZCode \\u5DE5\\u4F5C\\u533A\\u6587\\u4EF6\\u641C\\u7D22\\u5FF"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": ".gitignore \\u4E00\\u81F4\\uFF0C\\u53EA\\u5F71\\u54CD ZCode \\u7684 @ \\u6587\\u4EF6\\u5019\\u9009 / Command Cen"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "F09=====\",dm=\"# ----- \\u2191 \\u4EE5\\u4E0A\\u4E3A ZCode \\u9ED8\\u8BA4\\u6392\\u9664\\u89C4\\u5219\\uFF08\\u81E"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "$D(e){return{GIT_INDEX_FILE:e,GIT_AUTHOR_NAME:\"ZCode Checkpoint\",GIT_AUTHOR_EMAIL:\"checkpoint@zcode."
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "IL:\"checkpoint@zcode.local\",GIT_COMMITTER_NAME:\"ZCode Checkpoint\",GIT_COMMITTER_EMAIL:\"checkpoint@zco"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "NOENT\")return{};throw new Error(`Unable to read ZCode credentials: ${e}`,{cause:n})}try{let n=JSON.pa"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "e\",{backupPath:r,credentialsFile:e}),new Error(`ZCode credentials are corrupt: ${e}`,{cause:n})}}i(GS"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "n N8(e){return e instanceof Error&&e.message===\"ZCode agent stdio transport is closed\"}i(N8,\"isClosed"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "M?e.method===t:e instanceof Error&&e.message===`ZCode Protocol request timed out: ${t}`}i(XF,\"isProto"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "SelectionView\");function uk(e){let t=new Error(\"ZCode Agent runtime is not running.\");return t.code=C"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "adersApplied:!0,requestAuth:M}),be.info(void 0,\"ZCode provider runtime headers \\u5DF2\\u5E94\\u7528\",{m"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "e.get(m.key)!==m.pending)return;be.warn(void 0,\"ZCode provider runtime headers \\u5E94\\u7528\\u5931\\u8D"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "ccount provider config \\u5DF2\\u4EA4\\u4ED8\\u5230 ZCode agent\",{providerCount:j.providerCount,reason:m."
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "u540E\\u5DF2\\u542F\\u52A8\\u7B49\\u5F85\\u4E2D\\u7684 ZCode agent\",{providerCount:m.snapshot.providerCount,"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "e:Z}):be.debug(void 0,\"\\u4E22\\u5F03\\u65E0\\u6548 ZCode CLI \\u8D44\\u6E90\\u6837\\u672C\",{issues:q.error.i"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "E\\u793A\\u5F53\\u524D\\u7A97\\u53E3\",\"tray.tooltip\":\"ZCode\",\"tray.menu.openZCode\":\"\\u6253\\u5F00 ZCode\",\"tra",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "entWindow\":\"Show current window\",\"tray.tooltip\":\"ZCode\",\"tray.menu.openZCode\":\"Open ZCode\",\"tray.menu.q",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ame\");function nX(t){let n=t?.trim();if(!n||n===\"ZCode\")return at(\"renderer\",\"main\");if(n===\"Resource M",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ion Qe(t){let n=t.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let o=new URL(n);if("
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "\"https:\"&&o.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "Name}\",\"titleBar.menu.help.about\":\"\\u5173\\u4E8E ZCode\",\"titleBar.menu.help.whatsNew\":\"\\u66F4\\u65B0\\u6"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ip\":\"ZCode\",\"tray.menu.openZCode\":\"\\u6253\\u5F00 ZCode\",\"tray.menu.quit\":\"\\u9000\\u51FA\"},\"en-US\":{\"tit"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "it {appName}\",\"titleBar.menu.help.about\":\"About ZCode\",\"titleBar.menu.help.whatsNew\":\"What's new\",\"ti"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ay.tooltip\":\"ZCode\",\"tray.menu.openZCode\":\"Open ZCode\",\"tray.menu.quit\":\"Quit\"}};function Q_(t,n){ret"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "number().int().nonnegative()}).strict();var AE=\"ZCode Protocol\",OE=1;var UG=e.object({independentPlan"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "didates\");u();u();u();u();var sD={\"User-Agent\":\"ZCode/unknown\",\"HTTP-Referer\":Yt,\"X-Title\":\"Z Code@el"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "on\";return{...sD,\"HTTP-Referer\":s,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "s,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}:{},\"X-Title\":`Z Code@${m}`,...d"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "igFileName:\"config.json\",missingBinaryMessage:\"[ZCode Agent] glm binary \\u672A\\u627E\\u5230\\uFF0C\\u8BF"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "r yD=\"none\";var bD=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],uY=[{value:yD,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "return at(\"renderer\",\"resource-manager\");let o=\"ZCode - \";return n.startsWith(o)?at(\"renderer\",\"remot"
+          },
+          {
+            "file": "out/main/chunk-ELBKQA55.js",
+            "snippet": "wget\\uFF0C\\u65E0\\u6CD5\\u76F4\\u63A5\\u4E0B\\u8F7D ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/chunk-ELBKQA55.js",
+            "snippet": "8\\u7F3A\\u5C11 tar\\uFF0C\\u65E0\\u6CD5\\u89E3\\u538B ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/chunk-ELBKQA55.js",
+            "snippet": "um \\u6216 openssl\\uFF0C\\u65E0\\u6CD5\\u6821\\u9A8C ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/chunk-NYUAABO3.js",
+            "snippet": "rom\"path\";function E(){return new DOMException(\"ZCode data size scan aborted\",\"AbortError\")}n(E,\"crea"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "PDATA\"),c=[e.appInstallDir,st(t,ni),n?We.join(n,\"ZCode\"):null,r?We.join(r,\"ZCode\"):null,i?We.join(i,\"ZC",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": ",st(t,ni),n?We.join(n,\"ZCode\"):null,r?We.join(r,\"ZCode\"):null,i?We.join(i,\"ZCode\"):null,a?We.join(a,\"Pr",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "de\"):null,r?We.join(r,\"ZCode\"):null,i?We.join(i,\"ZCode\"):null,a?We.join(a,\"Programs\",\"ZCode\"):null],p=n",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "?We.join(i,\"ZCode\"):null,a?We.join(a,\"Programs\",\"ZCode\"):null],p=new Set,l=[];for(let f of c){let m=typ",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "w Error(`Timed out after ${n}ms waiting for the ZCode file lock: ${t}`);return i.code=$o,i.path=e,i.s"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "owner-${a}.json`)throw Object.assign(new Error(\"ZCode file lock ownership changed during acquire\"),{c"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "NOENT\")return{};throw new Error(`Unable to read ZCode credentials: ${e}`,{cause:n})}try{let n=JSON.pa"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "e\",{backupPath:r,credentialsFile:e}),new Error(`ZCode credentials are corrupt: ${e}`,{cause:n})}}o(Rr"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E\"})}),Jp=d.object({"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "Buffer(E.data,E.name);v.addBuffer(Buffer.from([\"ZCode diagnostic logs\",`timestamp: ${t.toISOString()}"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": ",sep as Sge,win32 as Cge}from\"path\";s();var kw=\"ZCode Computer Use.app\",Pw=\"ZCode Computer Use Dev.ap"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "m\"path\";s();var kw=\"ZCode Computer Use.app\",Pw=\"ZCode Computer Use Dev.app\";s();var ake=\"ZCODE_CUA_BU"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "vor\");var $n=II(),Re=$n===\"epoch\",ss=Re?\"Epoch\":\"ZCode\";var $r=!Fe(),Pe=$r?\"development\":\"production\",j",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "??($r?\"ZCode Dev\":AI?\"Epoch\":ja?\"ZCode Preview\":\"ZCode\"),Ja=Vn(\"ZCODE_DESKTOP_HOME_DIR\"),Xa=_I(\"ZCODE_D",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "sktopExec\");function xM(e){let t=e.productName??\"ZCode\",r=e.iconName??\"zcode\",n={executablePath:e.execu",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "createCustomAboutDialogHtml\");var fo=Re?\"Epoch\":\"ZCode\",XM=`${fo} Desktop App`,YM=256,QM=312,Ry={\"zh-CN",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ")=>{let m=t(O.helpAbout);return Re?m.replaceAll(\"ZCode\",\"Epoch\"):m},\"getAboutMenuLabel\"),o=tr(),i=!gn.i",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ":\"production\",appId:\"dev.zcode.app\",productName:\"ZCode\",linuxExecutableName:\"zcode\",linuxPackageName:\"z",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "View\",\"Default\",\"Local Storage\",\"leveldb\"),_t(n,\"ZCode\",\"Local Storage\",\"leveldb\"),_t(n,\"ZCode\",\"Partit",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "\"),_t(n,\"ZCode\",\"Local Storage\",\"leveldb\"),_t(n,\"ZCode\",\"Partitions\",\"zcode-embedded-browser\",\"Local St",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "esktop\",uy=\"x-scheme-handler/zcode\",py=\"Comment=ZCode Desktop App\",my=\"Comment=Epoch Desktop App\",CM="
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "et=\"utf-8\" /> <title>${Re?\"Epoch Endpoint\":\"ZCode Endpoint\"}</title> <style> :root { co"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "<form id=\"form\"> <label for=\"endpoint\">ZCode endpoint origin</label> <input id=\"endpoi"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "le:!1,maximizable:!1,title:Re?\"Epoch Endpoint\":\"ZCode Endpoint\",webPreferences:{contextIsolation:!0,n"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "t KL(t,{type:\"error\",title:Re?\"Epoch Endpoint\":\"ZCode Endpoint\",message:\"Endpoint \\u65E0\\u6548\",detai"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "i(e.currentApplicationLocale,m);return Re&&y===\"ZCode Endpoint\"?\"Epoch Endpoint\":y},\"getLabel\"),r=s(m"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ":\"\\u66F4\\u65B0\\u5DF2\\u4E0B\\u8F7D\",readyMessage:\"ZCode \\u6B63\\u5728\\u51C6\\u5907\\u91CD\\u542F\\u5E76\\u5B8"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "728\\u5B89\\u88C5\\u66F4\\u65B0\",installingMessage:\"ZCode \\u5373\\u5C06\\u91CD\\u542F\\u5B8C\\u6210\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "s\",checkingMessage:\"Keep this window open while ZCode checks for updates.\",downloadingTitle:\"Download"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "nloading update v{version}\",downloadingMessage:\"ZCode will install the update automatically after dow"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ".\",readyTitle:\"Update downloaded\",readyMessage:\"ZCode is preparing to restart and install the update."
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "ingTitle:\"Installing update\",installingMessage:\"ZCode will restart to finish installing the update.\","
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "`:\"Z\"}</div> <div class=\"brand-title\">ZCode</div> </div> <button class=\"clo"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "f t.code==\"number\"&&t.code!==0)throw new Error(`ZCode client config failed: ${t.code}`);return Aa(t.d"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "eft:8};function zv(e){return e===\"zh-CN\"?{text:\"ZCode \\u6B63\\u5728\\u64CD\\u4F5C\\u7535\\u8111\",width:234"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "5728\\u64CD\\u4F5C\\u7535\\u8111\",width:234}:{text:\"ZCode is controlling your computer\",width:308}}s(zv,\""
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "spawn as yW}from\"child_process\";var bW=\"Open in ZCode.workflow\",vW=\"dev.zcode.app.finder-open-workflo"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "\\u5728ZCode\\u4E2D\\u6253\\u5F00\",\"en-US\":\"Open in ZCode\"},CW=`first=\"\" for item in \"$@\"; do if [ -d \""
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "rocess\";import{resolve as TW}from\"path\";var fS=\"ZCode.OpenInZCode\",AW=`HKCU\\\\Software\\\\Classes\\\\Direc"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "\\u5728ZCode\\u4E2D\\u6253\\u5F00\",\"en-US\":\"Open in ZCode\"};function xW(e){return pS[e]??pS[\"en-US\"]}s(xW"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "?.(e.appPath),!In(e.appPath,n))throw new Error(`ZCode Computer Use changed while its ${r} signature w"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "ty??Qo)(e.appPath);if(!bU(e,o))throw new Error(`ZCode Computer Use permission identity changed during"
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "ion Xr(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var aP=\"ZCode Protocol\",sP=1;var DV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "r S$=\"none\";var _$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],r2=[{value:S$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "ion sg(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var eP=\"ZCode Protocol\",tP=1;var IV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "r g$=\"none\";var f$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],qK=[{value:g$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "ion sg(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var sP=\"ZCode Protocol\",cP=1;var MV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "r _$=\"none\";var x$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],i2=[{value:_$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "ame\");function $S(t){let n=t?.trim();if(!n||n===\"ZCode\")return La(\"renderer\",\"main\");if(n===\"Resource M",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "ion yg(t){let n=t.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(n);if("
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var RP=\"ZCode Protocol\",TP=1;var dW=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "r Z$=\"none\";var B$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],z2=[{value:Z$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "return La(\"renderer\",\"resource-manager\");let i=\"ZCode - \";return n.startsWith(i)?La(\"renderer\",\"remot"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "ame\");function fS(t){let r=t?.trim();if(!r||r===\"ZCode\")return Da(\"renderer\",\"main\");if(r===\"Resource M",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "ion cg(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var tP=\"ZCode Protocol\",nP=1;var RV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "r f$=\"none\";var h$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],YK=[{value:f$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "return Da(\"renderer\",\"resource-manager\");let i=\"ZCode - \";return r.startsWith(i)?Da(\"renderer\",\"remot"
+          },
+          {
+            "file": "out/renderer/assets/cua-permission-panel-DBHWnmeh.js",
+            "snippet": "ill-CSRv37U6.js\";var e={\"zh-CN\":{documentTitle:`ZCode Computer Use 权限`,dragTitle:`拖动我到上面的权限列表`,hintPr"
+          },
+          {
+            "file": "out/renderer/assets/cua-permission-panel-DBHWnmeh.js",
+            "snippet": "creen_recording:`屏幕录制`},\"en-US\":{documentTitle:`ZCode Computer Use Permissions`,dragTitle:`Drag me to"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "`正在加载调用轨迹…`,\"modelTrajectory.empty\":`暂无模型调用记录（仅 ZCode Agent 会落盘 model-io）`,\"modelTrajectory.error\":`读"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "stallModeDescription\":`远端服务器下载可减少上传等待，但服务器需要能访问 ZCode CDN，并具备下载、解压和校验工具。`,\"ssh.password\":`密码`,\"ssh.pa"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "Title\":`MCP 服务器`,\"settings.mcp.description\":`管理 ZCode Agent 使用的 MCP 服务器配置。`,\"settings.mcp.create.open"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "`打开授权`,\"settings.mcp.statusOnlyUnsupported\":`当前 ZCode Agent 不支持 OAuth 状态刷新。请升级或重启 Epoch，然后重新打开 MCP 设置"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "ider.startPlan.highlight.trial.description\":`登录 ZCode 3.x 后开始计时。`,\"settings.modelProvider.startPlan.h"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "调用`,\"settings.usage.entitlementServerMcpUsage\":`ZCode MCP`,\"settings.usage.entitlementResetAt\":`重置 {t"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "lan.toolCalls\":`工具调用`,\"sidebar.usage.plan.mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcpDescription\":`"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "le\":`子智能体`,\"settings.subagents.description\":`管理 ZCode Agent 运行时消费的用户级子智能体 Markdown 文件。`,\"settings.sub"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "title\":`命令`,\"settings.commands.description\":`管理 ZCode Agent 的 .md 命令文件。命令可通过 /command-name 在聊天中调用。`,\""
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "\":`来源筛选`,\"settings.commands.source.zcodeAgent\":`ZCode Agent`,\"settings.commands.add\":`新建`,\"settings.c"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "tion.finish\":`开始使用`,\"settingsSync.agent.zcode\":`ZCode Agent`,\"settingsSync.agent.claudeCode\":`Claude"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "限，请切换模型继续当前任务`,\"chat.quota.mcp.quotaExhausted\":`ZCode MCP「{server}」今日额度已用完，明天自动恢复。`,\"chat.quota.mcp.c"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "自动恢复。`,\"chat.quota.mcp.codingPlanRequired\":`当前无 ZCode MCP「{server}」额度，请登录或开通 Coding Plan 使用。`,\"chat.q"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "rajectory.empty\":`No model calls recorded (only ZCode Agent writes model-io)`,\"modelTrajectory.error\""
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "s upload waiting, but the server must reach the ZCode CDN and have download, extract, and checksum to"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "tion\":`Manage MCP server configurations used by ZCode Agent.`,\"settings.mcp.create.open\":`Add MCP ser"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "ion`,\"settings.mcp.statusOnlyUnsupported\":`This ZCode Agent cannot refresh OAuth status. Upgrade or r"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "description\":`Timing starts after signing in to ZCode 3.x.`,\"settings.modelProvider.startPlan.highlig"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "ls`,\"settings.usage.entitlementServerMcpUsage\":`ZCode MCP`,\"settings.usage.entitlementResetAt\":`Reset"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "olCalls\":`Tool calls`,\"sidebar.usage.plan.mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcpDescription\":`"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "zcodeMcpDescription\":`Daily aggregate quota for ZCode built-in plugin MCPs`,\"chat.planUsage.title\":`P"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "user-level subagent Markdown files consumed by ZCode Agent.`,\"settings.subagents.workspaceScopeUnsup"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "mmands`,\"settings.commands.description\":`Manage ZCode Agent .md command files. Commands can be invoke"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "filter`,\"settings.commands.source.zcodeAgent\":`ZCode Agent`,\"settings.commands.add\":`New`,\"settings."
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "`Start using Epoch`,\"settingsSync.agent.zcode\":`ZCode Agent`,\"settingsSync.agent.claudeCode\":`Claude"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "sh commands have been broadcast for the current ZCode Agent session`,\"chat.slash.emptyResults\":`No ma"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "current task.`,\"chat.quota.mcp.quotaExhausted\":`ZCode MCP \"{server}\" has used up today's quota. It re"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "orrow.`,\"chat.quota.mcp.codingPlanRequired\":`No ZCode MCP \"{server}\" quota. Sign in or get a Coding P"
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "??`running`:t}var GS={aws:`AWS`,mcp:`MCP`,zcode:`ZCode`};function KS(e,t,n){if(n){let t=n[e];if(t)retur",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "unction vh(e){let t=e.trim();if(!t)throw Error(`ZCode endpoint origin is empty`);let n=new URL(t);if("
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "l!==`https:`&&n.protocol!==`http:`)throw Error(`ZCode endpoint origin must use http or https`);return"
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "erformance.timeOrigin+performance.now()}var gg=`ZCode Protocol`;D({independentPlanState:w().optional("
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": ".preparingUploadDetail`)}),[e])}var $Fe=80,eIe=`ZCode Agent`;function tIe(e,t){return(e.split(/\\r?\\n/"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "AI 分析`,``,`用户原始描述`,e.trim()].join(` `)}var rIe=`ZCode Agent`,iIe=`P2-中`,aIe=`其它`;async function zS({f"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": ",1e3,3e3],sLe=2e3,TC=new Set([`sendText`]),cLe=`ZCode agent runtime 已被回收，重连未成功`;function EC(){return"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "lt.subscription.runtimeRestarted`)||t.includes(`ZCode agent transport closed`)||t.includes(`ZCode Pro"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "es(`ZCode agent transport closed`)||t.includes(`ZCode Protocol client disposed`)||t.includes(`ZCode P"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "(`ZCode Protocol client disposed`)||t.includes(`ZCode Protocol client is disposed`)||t.includes(`ZCod"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "Code Protocol client is disposed`)||t.includes(`ZCode Agent runtime is not running`)}function OC(e,t)"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "ess`],message:`固定 Account Provider 的 Access 只能由 ZCode Built-in Config 声明`})});Wa({templateRules:ka(LL"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "ution failed`,`Compact failed`,`Rewind failed`,`ZCode session failed`]);function eO(e){return typeof"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "h:e.workspacePath,preparedSessionId:``,version:`ZCode Protocol/1`,provider:e.provider,configOptions:i"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "mplementation.`},\"control-browser\":{\"zh-CN\":`控制 ZCode 内置浏览器，用于打开、检查、点击、输入、截图或验证网页和本地开发页面。`,\"en-US\":`C"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "用于打开、检查、点击、输入、截图或验证网页和本地开发页面。`,\"en-US\":`Control ZCode's built-in browser to open, inspect, click, typ"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "equirements.`},\"plugin-creator\":{\"zh-CN\":`创建、校验 ZCode 插件，并指导本地安装与更新。`,\"en-US\":`Create and validate ZC"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "de 插件，并指导本地安装与更新。`,\"en-US\":`Create and validate ZCode plugins, and guide local installation and updat"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "success claims.`},\"web-gui-tester\":{\"zh-CN\":`使用 ZCode Browser Use 对网页和本地 Web 前端执行纯 GUI 黑盒测试，通过真实用户交互、"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "s against websites and local web frontends with ZCode Browser Use, combining real user interactions,"
+          },
+          {
+            "file": "out/renderer/cua-permission-panel.html",
+            "snippet": "<head> <meta charset=\"UTF-8\" /> <title>ZCode Computer Use</title> <style> html,"
+          },
+          {
+            "file": "out/renderer/cua-permission-panel.html",
+            "snippet": "border-radius: 6px; /* 占位：main 推送真实 ZCode 图标后被 background-image 覆盖 */ background:"
+          },
+          {
+            "file": "out/renderer/cua-permission-panel.html",
+            "snippet": "\"></div> <div class=\"name\" id=\"appName\">ZCode Computer Use</div> </div> <svg"
+          },
+          {
+            "file": "out/renderer/index.html",
+            "snippet": "0\" /> <!-- W036：产品以 Epoch 面世——窗口/页面标题不再使用上游 ZCode 名称。 进程名格式化（shared formatZCodeRendererP"
+          },
+          {
+            "file": "out/renderer/index.html",
+            "snippet": "程名格式化（shared formatZCodeRendererProcessName）只识别 ZCode 前缀做分类， \"Epoch\" 会落入默认 renderer 分支，内部诊断标"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E\"})}),sL=e.object({"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "ion Yn(t){let n=t.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let o=new URL(n);if("
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "\"https:\"&&o.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "number().int().nonnegative()}).strict();var mI=\"ZCode Protocol\",fI=1;var kF=e.object({independentPlan"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "r Yj=\"none\";var Xj=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],Yfe=[{value:Yj,label:\"\\u672A\\u6307\\u5B"
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "artifact-name-pattern",
+          "status": "pass",
+          "detail": "文件名符合 Epoch-<version>-linux-<arch> 规则（version=3.14.3，arch=amd64）"
+        },
+        {
+          "id": "artifact-nonempty",
+          "status": "pass",
+          "detail": "147130648 字节"
+        },
+        {
+          "id": "artifact-sha256",
+          "status": "pass",
+          "detail": "36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f"
+        },
+        {
+          "id": "dpkg-package",
+          "status": "pass",
+          "detail": "Package=\"epoch\""
+        },
+        {
+          "id": "dpkg-maintainer",
+          "status": "pass",
+          "detail": "Maintainer=Epoch Desktop <epoch@users.noreply.github.com>"
+        },
+        {
+          "id": "deb-executable-path",
+          "status": "pass",
+          "detail": "/opt/Epoch/epoch"
+        },
+        {
+          "id": "deb-asar-path",
+          "status": "pass",
+          "detail": "/opt/Epoch/resources/app.asar"
+        },
+        {
+          "id": "deb-hicolor-icons",
+          "status": "pass",
+          "detail": "usr/share/icons/hicolor/16x16/apps/epoch.png, usr/share/icons/hicolor/24x24/apps/epoch.png, usr/share/icons/hicolor/64x64/apps/epoch.png, usr/share/icons/hicolor/48x48/apps/epoch.png, usr/share/icons/hicolor/512x512/apps/epoch.png, usr/share/icons/hicolor/32x32/apps/epoch.png, usr/share/icons/hicolor/1024x1024/apps/epoch.png, usr/share/icons/hicolor/256x256/apps/epoch.png, usr/share/icons/hicolor/128x128/apps/epoch.png"
+        },
+        {
+          "id": "deb-desktop-entry-file",
+          "status": "pass",
+          "detail": "usr/share/applications/epoch.desktop"
+        },
+        {
+          "id": "deb-executable-bit",
+          "status": "pass",
+          "detail": "可执行位 0o111"
+        },
+        {
+          "id": "deb-desktop-name",
+          "status": "pass",
+          "detail": "Name=\"Epoch\""
+        },
+        {
+          "id": "deb-desktop-icon",
+          "status": "pass",
+          "detail": "Icon=\"epoch\""
+        },
+        {
+          "id": "deb-desktop-exec",
+          "status": "pass",
+          "detail": "Exec=/opt/Epoch/epoch %U"
+        },
+        {
+          "id": "deb-desktop-categories",
+          "status": "warn",
+          "detail": "Categories=Science;Engineering; 合法但非 Development（electron-builder.config.js 配置为 Development）"
+        },
+        {
+          "id": "asar-present",
+          "status": "pass",
+          "detail": "/tmp/epoch-brand-deb-YR0kgT/opt/Epoch/resources/app.asar"
+        },
+        {
+          "id": "asar-root-productName",
+          "status": "pass",
+          "detail": "productName=\"Epoch\""
+        },
+        {
+          "id": "asar-root-package-name",
+          "status": "pass",
+          "detail": "name=@zcode/desktop（内部命名空间，允许）"
+        },
+        {
+          "id": "asar-renderer-title",
+          "status": "pass",
+          "detail": "<title>=\"Epoch\""
+        },
+        {
+          "id": "asar-prominent-chrome",
+          "status": "pass",
+          "detail": "自有代码范围扫描 3227 个文件，0 违规（跳过二进制 1403，超限 0，范围外 26735）"
+        }
+      ],
+      "verdict": "pass",
+      "blockingFindings": [],
+      "warnings": [
+        "desktop entry Categories=Science;Engineering;"
+      ]
+    },
+    {
+      "kind": "appimage",
+      "path": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+      "fileName": "Epoch-3.14.3-linux-x86_64.AppImage",
+      "bytes": 198118483,
+      "sha256": "1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721",
+      "appimage": {
+        "extractExitCode": 0
+      },
+      "desktopEntry": {
+        "fileName": "epoch.desktop",
+        "fields": {
+          "Name": "Epoch",
+          "Exec": "AppRun --no-sandbox %U",
+          "Terminal": "false",
+          "Type": "Application",
+          "Icon": "epoch",
+          "StartupWMClass": "Epoch",
+          "X-AppImage-Version": "3.14.3",
+          "Comment": "Epoch — Construction Engineering Workbench",
+          "MimeType": "x-scheme-handler/zcode;",
+          "Categories": "Science;Engineering;"
+        }
+      },
+      "icons": {
+        "topLevelPng": [
+          "epoch.png"
+        ],
+        "dirIcon": true
+      },
+      "executable": {
+        "path": "AppRun",
+        "executableBit": true
+      },
+      "asar": {
+        "present": true,
+        "path": "/tmp/epoch-brand-ai-I9wVhc/squashfs-root/resources/app.asar",
+        "scanMode": "asar-header-ranges",
+        "skipNote": null,
+        "rootPackage": {
+          "name": "@zcode/desktop",
+          "productName": "Epoch",
+          "version": "3.14.3",
+          "description": "Epoch — Construction Engineering Workbench"
+        },
+        "rendererTitle": "Epoch",
+        "violations": [],
+        "exceptionCounts": {
+          "zcode-env-vars": 350,
+          "zcode-storage-ipc-keys": 196,
+          "zcode-domains": 25,
+          "zcode-paths": 720,
+          "zcode-package-scope": 25,
+          "zcode-endpoint-i18n-table-row": 2,
+          "copyright-notices": 119,
+          "preview-identity": 2,
+          "dev-identity": 3,
+          "compat-app-ids": 4,
+          "flavor-branch:chrome-zcode-desktop": 1,
+          "flavor-branch:chrome-quit-dialog": 1,
+          "flavor-branch:chrome-endpoint-dialog": 4,
+          "notice-file-names": 33
+        },
+        "reviewItems": [
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "ion ut(e){let n=e.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let o=new URL(n);if("
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "\"https:\"&&o.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "number().int().nonnegative()}).strict();var IA=\"ZCode Protocol\",CA=1;var qK=t.object({independentPlan"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "dNonEmptyString\");d();d();var eN={\"User-Agent\":\"ZCode/unknown\",\"HTTP-Referer\":ko,\"X-Title\":\"Z Code@el"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "on\";return{...eN,\"HTTP-Referer\":c,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "c,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}:{},\"X-Title\":`Z Code@${m}`,...u"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "igFileName:\"config.json\",missingBinaryMessage:\"[ZCode Agent] glm binary \\u672A\\u627E\\u5230\\uFF0C\\u8BF"
+          },
+          {
+            "file": "out/host/chunk-DEK7I32R.js",
+            "snippet": "r gN=\"none\";var fN=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],$X=[{value:gN,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/host/chunk-GME5UFKI.js",
+            "snippet": "or\")}code=On;constructor(){super(\"The connected ZCode Agent does not support MCP status-only refresh\""
+          },
+          {
+            "file": "out/host/chunk-GMUXKXRI.js",
+            "snippet": "wget\\uFF0C\\u65E0\\u6CD5\\u76F4\\u63A5\\u4E0B\\u8F7D ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/host/chunk-GMUXKXRI.js",
+            "snippet": "8\\u7F3A\\u5C11 tar\\uFF0C\\u65E0\\u6CD5\\u89E3\\u538B ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/host/chunk-GMUXKXRI.js",
+            "snippet": "um \\u6216 openssl\\uFF0C\\u65E0\\u6CD5\\u6821\\u9A8C ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "PDATA\"),d=[r.appInstallDir,ie(e,As),t?te.join(t,\"ZCode\"):null,s?te.join(s,\"ZCode\"):null,n?te.join(n,\"ZC",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": ",ie(e,As),t?te.join(t,\"ZCode\"):null,s?te.join(s,\"ZCode\"):null,n?te.join(n,\"ZCode\"):null,o?te.join(o,\"Pr",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "de\"):null,s?te.join(s,\"ZCode\"):null,n?te.join(n,\"ZCode\"):null,o?te.join(o,\"Programs\",\"ZCode\"):null],a=n",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "?te.join(n,\"ZCode\"):null,o?te.join(o,\"Programs\",\"ZCode\"):null],a=new Set,c=[];for(let u of d){let _=typ",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "t=class extends Error{constructor(t,s,n){super(`ZCode Protocol request timed out: ${t}`);this.method="
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "on?`: ${s.reason}`:\"\";this.rejectAll(new Error(`ZCode agent transport closed${n}`)),this.closeEmitter"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "tch(o){n.reject(o instanceof Error?o:new Error(`ZCode Protocol response parse failed: ${n.method}`))}"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "sposeLocalResources(){this.rejectAll(new Error(\"ZCode Protocol client disposed\"));for(let e of this.d"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "NotDisposed(){if(this.disposed)throw new Error(\"ZCode Protocol client is disposed\")}};f();import{Stri"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ed||!this.child.stdin.writable)throw new Error(\"ZCode agent stdio transport is closed\");let t=`${JSON"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "d,env:{...r.env,ELECTRON_RUN_AS_NODE:\"1\"}}:(ps(\"ZCode stdio tap proxy enabled but script not found\"),"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "essLifecycleReporter;if(t)try{e(t)}catch(s){Xe(\"ZCode agent process lifecycle reporter failed\",s)}}cl"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "Count>0||t.client.storageStartup.isWaiting||(G(\"ZCode agent process idle timeout; reclaiming\",{worksp"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "1,o=e.client.disposeAndWait().then(()=>{n=!0,G(\"ZCode agent process cleanup completed\",{workspaceKey:"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "upPromise=o,s.reportError!==!1&&o.catch(d=>{$e(\"ZCode agent process cleanup failed\",{workspaceKey:e.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "cess(e,t,{reportError:!1})}catch(o){let d=o;Xe(`ZCode agent process cleanup retrying during ${n}`,{wo"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "rocess(e,s,{reportError:!1})}catch(a){throw $e(\"ZCode agent process cleanup failed\",{workspaceKey:e.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "getClient(e){if(this.disposed)throw new Error(\"ZCode agent process manager is disposed.\");let t=N(e)"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ByWorkspaceKey.get(t);if(n){let u=Date.now();G(\"ZCode agent process start already in progress\",{works"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ress\",{workspaceKey:t});let _=await n;return G(\"ZCode agent process start wait completed\",{workspaceK"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ceKey:t}),c=Date.now()-d;if(!a)throw new Error(\"ZCode agent server command is not configured. Set ZCO"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "tion.\");if(n.aborted)throw n.reason??new Error(\"ZCode agent process start was cancelled.\");let u=Zo(a"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "process start was cancelled.\");let u=Zo(a,t);G(\"ZCode agent command resolved\",{workspaceKey:t,command"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ceKey:t})??{};if(this.disposed)throw new Error(\"ZCode agent process manager is disposed.\");if((this.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "nByWorkspaceKey.get(t)??0)!==s)throw new Error(\"ZCode agent process start was cancelled.\");let l=awai"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "Key:t,signal:n}),this.disposed)throw new Error(\"ZCode agent process manager is disposed.\");if((this.r"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "nByWorkspaceKey.get(t)??0)!==s)throw new Error(\"ZCode agent process start was cancelled.\");let g=jt(p"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "start was cancelled.\");let g=jt(process.env);G(\"ZCode agent spawn preflight\",{workspaceKey:t,spawnPre"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "meInstanceId:I})),this.reportRuntimeReady(p),G(\"ZCode agent process started\",{workspaceKey:t,command:"
+          },
+          {
+            "file": "out/host/chunk-NOXYX3FR.js",
+            "snippet": "ationMs:Date.now()-o})}),m.once(\"error\",E=>{$e(`ZCode agent process error${this.processLifecycleRepor"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "ode Network CA\"},{name:\"organizationName\",value:\"ZCode\"}];return t.setSubject(s),t.setIssuer(s),t.setEx",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "Current\"),a={id:r,generation:o,type:\"iab\",name:\"ZCode In-app Browser\",capabilities:{browser:[{id:\"vis"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "w Error(`Timed out after ${n}ms waiting for the ZCode file lock: ${t}`);return o.code=XR,o.path=e,o.s"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "owner-${s}.json`)throw Object.assign(new Error(\"ZCode file lock ownership changed during acquire\"),{c"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E\"})}),kx=T.object({"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E: ${t}`);if(!d&&!c)"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "viderConfigRules);if(n.has(Wx))throw new Error(`ZCode Built-in Release \\u5305\\u542B\\u5DF2\\u9000\\u51FA"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "t.bundledFilePath.trim();if(!n)throw new Error(\"ZCode Built-in bundledFilePath \\u4E0D\\u80FD\\u4E3A\\u7A"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "s(t)===Ms(r))return\"unchanged\";throw new Error(`ZCode Built-in \\u76F8\\u540C revision ${t.revision} \\u"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "r].filter(r=>r!==void 0),\"Bundled \\u4E0E Active ZCode Built-in Release \\u5747\\u4E0D\\u53EF\\u7528\");ret"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "0]?.code})`:\"invalid response\";throw new Error(`ZCode Built-in ${s}: ${d}`)}finally{clearTimeout(r)}a"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "this.#o)return\"disposed\";if(!r)throw new Error(\"ZCode Built-in \\u8FDC\\u7AEF Endpoint \\u4E0D\\u80FD\\u4E"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "ion rm(e){let t=e.trim();if(!t)throw new Error(\"ZCode Built-in Endpoint Origin \\u4E0D\\u80FD\\u4E3A\\u7A"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "\"http:\"&&n.protocol!==\"https:\")throw new Error(\"ZCode Built-in Endpoint Origin \\u53EA\\u652F\\u6301 HTT"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": ".\"||n===\"..\"||/[\\\\/]/u.test(n))throw new Error(`ZCode Built-in ${t} \\u4E0D\\u662F\\u5408\\u6CD5\\u8DEF\\u5"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "\"eggs/\",\"pip-wheel-metadata/\",\"wheels/\"],CO=[\"# ZCode \\u5DE5\\u4F5C\\u533A\\u6587\\u4EF6\\u641C\\u7D22\\u5FF"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": ".gitignore \\u4E00\\u81F4\\uFF0C\\u53EA\\u5F71\\u54CD ZCode \\u7684 @ \\u6587\\u4EF6\\u5019\\u9009 / Command Cen"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "F09=====\",dm=\"# ----- \\u2191 \\u4EE5\\u4E0A\\u4E3A ZCode \\u9ED8\\u8BA4\\u6392\\u9664\\u89C4\\u5219\\uFF08\\u81E"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "$D(e){return{GIT_INDEX_FILE:e,GIT_AUTHOR_NAME:\"ZCode Checkpoint\",GIT_AUTHOR_EMAIL:\"checkpoint@zcode."
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "IL:\"checkpoint@zcode.local\",GIT_COMMITTER_NAME:\"ZCode Checkpoint\",GIT_COMMITTER_EMAIL:\"checkpoint@zco"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "NOENT\")return{};throw new Error(`Unable to read ZCode credentials: ${e}`,{cause:n})}try{let n=JSON.pa"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "e\",{backupPath:r,credentialsFile:e}),new Error(`ZCode credentials are corrupt: ${e}`,{cause:n})}}i(GS"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "n N8(e){return e instanceof Error&&e.message===\"ZCode agent stdio transport is closed\"}i(N8,\"isClosed"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "M?e.method===t:e instanceof Error&&e.message===`ZCode Protocol request timed out: ${t}`}i(XF,\"isProto"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "SelectionView\");function uk(e){let t=new Error(\"ZCode Agent runtime is not running.\");return t.code=C"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "adersApplied:!0,requestAuth:M}),be.info(void 0,\"ZCode provider runtime headers \\u5DF2\\u5E94\\u7528\",{m"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "e.get(m.key)!==m.pending)return;be.warn(void 0,\"ZCode provider runtime headers \\u5E94\\u7528\\u5931\\u8D"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "ccount provider config \\u5DF2\\u4EA4\\u4ED8\\u5230 ZCode agent\",{providerCount:j.providerCount,reason:m."
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "u540E\\u5DF2\\u542F\\u52A8\\u7B49\\u5F85\\u4E2D\\u7684 ZCode agent\",{providerCount:m.snapshot.providerCount,"
+          },
+          {
+            "file": "out/host/index.js",
+            "snippet": "e:Z}):be.debug(void 0,\"\\u4E22\\u5F03\\u65E0\\u6548 ZCode CLI \\u8D44\\u6E90\\u6837\\u672C\",{issues:q.error.i"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "E\\u793A\\u5F53\\u524D\\u7A97\\u53E3\",\"tray.tooltip\":\"ZCode\",\"tray.menu.openZCode\":\"\\u6253\\u5F00 ZCode\",\"tra",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "entWindow\":\"Show current window\",\"tray.tooltip\":\"ZCode\",\"tray.menu.openZCode\":\"Open ZCode\",\"tray.menu.q",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ame\");function nX(t){let n=t?.trim();if(!n||n===\"ZCode\")return at(\"renderer\",\"main\");if(n===\"Resource M",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ion Qe(t){let n=t.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let o=new URL(n);if("
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "\"https:\"&&o.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "Name}\",\"titleBar.menu.help.about\":\"\\u5173\\u4E8E ZCode\",\"titleBar.menu.help.whatsNew\":\"\\u66F4\\u65B0\\u6"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ip\":\"ZCode\",\"tray.menu.openZCode\":\"\\u6253\\u5F00 ZCode\",\"tray.menu.quit\":\"\\u9000\\u51FA\"},\"en-US\":{\"tit"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "it {appName}\",\"titleBar.menu.help.about\":\"About ZCode\",\"titleBar.menu.help.whatsNew\":\"What's new\",\"ti"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "ay.tooltip\":\"ZCode\",\"tray.menu.openZCode\":\"Open ZCode\",\"tray.menu.quit\":\"Quit\"}};function Q_(t,n){ret"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "number().int().nonnegative()}).strict();var AE=\"ZCode Protocol\",OE=1;var UG=e.object({independentPlan"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "didates\");u();u();u();u();var sD={\"User-Agent\":\"ZCode/unknown\",\"HTTP-Referer\":Yt,\"X-Title\":\"Z Code@el"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "on\";return{...sD,\"HTTP-Referer\":s,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "s,\"User-Agent\":`ZCode/${n??\"unknown\"}`,...n?{\"X-ZCode-App-Version\":n}:{},\"X-Title\":`Z Code@${m}`,...d"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "igFileName:\"config.json\",missingBinaryMessage:\"[ZCode Agent] glm binary \\u672A\\u627E\\u5230\\uFF0C\\u8BF"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "r yD=\"none\";var bD=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],uY=[{value:yD,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/main/chunk-2MXP3AG4.js",
+            "snippet": "return at(\"renderer\",\"resource-manager\");let o=\"ZCode - \";return n.startsWith(o)?at(\"renderer\",\"remot"
+          },
+          {
+            "file": "out/main/chunk-ELBKQA55.js",
+            "snippet": "wget\\uFF0C\\u65E0\\u6CD5\\u76F4\\u63A5\\u4E0B\\u8F7D ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/chunk-ELBKQA55.js",
+            "snippet": "8\\u7F3A\\u5C11 tar\\uFF0C\\u65E0\\u6CD5\\u89E3\\u538B ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/chunk-ELBKQA55.js",
+            "snippet": "um \\u6216 openssl\\uFF0C\\u65E0\\u6CD5\\u6821\\u9A8C ZCode \\u8FDC\\u7A0B\\u8D44\\u6E90\\u3002\\u8BF7\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/chunk-NYUAABO3.js",
+            "snippet": "rom\"path\";function E(){return new DOMException(\"ZCode data size scan aborted\",\"AbortError\")}n(E,\"crea"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "PDATA\"),c=[e.appInstallDir,st(t,ni),n?We.join(n,\"ZCode\"):null,r?We.join(r,\"ZCode\"):null,i?We.join(i,\"ZC",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": ",st(t,ni),n?We.join(n,\"ZCode\"):null,r?We.join(r,\"ZCode\"):null,i?We.join(i,\"ZCode\"):null,a?We.join(a,\"Pr",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "de\"):null,r?We.join(r,\"ZCode\"):null,i?We.join(i,\"ZCode\"):null,a?We.join(a,\"Programs\",\"ZCode\"):null],p=n",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "?We.join(i,\"ZCode\"):null,a?We.join(a,\"Programs\",\"ZCode\"):null],p=new Set,l=[];for(let f of c){let m=typ",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "w Error(`Timed out after ${n}ms waiting for the ZCode file lock: ${t}`);return i.code=$o,i.path=e,i.s"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "owner-${a}.json`)throw Object.assign(new Error(\"ZCode file lock ownership changed during acquire\"),{c"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "NOENT\")return{};throw new Error(`Unable to read ZCode credentials: ${e}`,{cause:n})}try{let n=JSON.pa"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "e\",{backupPath:r,credentialsFile:e}),new Error(`ZCode credentials are corrupt: ${e}`,{cause:n})}}o(Rr"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E\"})}),Jp=d.object({"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "Buffer(E.data,E.name);v.addBuffer(Buffer.from([\"ZCode diagnostic logs\",`timestamp: ${t.toISOString()}"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": ",sep as Sge,win32 as Cge}from\"path\";s();var kw=\"ZCode Computer Use.app\",Pw=\"ZCode Computer Use Dev.ap"
+          },
+          {
+            "file": "out/main/chunk-RDBUJPCQ.js",
+            "snippet": "m\"path\";s();var kw=\"ZCode Computer Use.app\",Pw=\"ZCode Computer Use Dev.app\";s();var ake=\"ZCODE_CUA_BU"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "vor\");var $n=II(),Re=$n===\"epoch\",ss=Re?\"Epoch\":\"ZCode\";var $r=!Fe(),Pe=$r?\"development\":\"production\",j",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "??($r?\"ZCode Dev\":AI?\"Epoch\":ja?\"ZCode Preview\":\"ZCode\"),Ja=Vn(\"ZCODE_DESKTOP_HOME_DIR\"),Xa=_I(\"ZCODE_D",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "sktopExec\");function xM(e){let t=e.productName??\"ZCode\",r=e.iconName??\"zcode\",n={executablePath:e.execu",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "createCustomAboutDialogHtml\");var fo=Re?\"Epoch\":\"ZCode\",XM=`${fo} Desktop App`,YM=256,QM=312,Ry={\"zh-CN",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ")=>{let m=t(O.helpAbout);return Re?m.replaceAll(\"ZCode\",\"Epoch\"):m},\"getAboutMenuLabel\"),o=tr(),i=!gn.i",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ":\"production\",appId:\"dev.zcode.app\",productName:\"ZCode\",linuxExecutableName:\"zcode\",linuxPackageName:\"z",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "View\",\"Default\",\"Local Storage\",\"leveldb\"),_t(n,\"ZCode\",\"Local Storage\",\"leveldb\"),_t(n,\"ZCode\",\"Partit",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "\"),_t(n,\"ZCode\",\"Local Storage\",\"leveldb\"),_t(n,\"ZCode\",\"Partitions\",\"zcode-embedded-browser\",\"Local St",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "esktop\",uy=\"x-scheme-handler/zcode\",py=\"Comment=ZCode Desktop App\",my=\"Comment=Epoch Desktop App\",CM="
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "et=\"utf-8\" /> <title>${Re?\"Epoch Endpoint\":\"ZCode Endpoint\"}</title> <style> :root { co"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "<form id=\"form\"> <label for=\"endpoint\">ZCode endpoint origin</label> <input id=\"endpoi"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "le:!1,maximizable:!1,title:Re?\"Epoch Endpoint\":\"ZCode Endpoint\",webPreferences:{contextIsolation:!0,n"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "t KL(t,{type:\"error\",title:Re?\"Epoch Endpoint\":\"ZCode Endpoint\",message:\"Endpoint \\u65E0\\u6548\",detai"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "i(e.currentApplicationLocale,m);return Re&&y===\"ZCode Endpoint\"?\"Epoch Endpoint\":y},\"getLabel\"),r=s(m"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ":\"\\u66F4\\u65B0\\u5DF2\\u4E0B\\u8F7D\",readyMessage:\"ZCode \\u6B63\\u5728\\u51C6\\u5907\\u91CD\\u542F\\u5E76\\u5B8"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "728\\u5B89\\u88C5\\u66F4\\u65B0\",installingMessage:\"ZCode \\u5373\\u5C06\\u91CD\\u542F\\u5B8C\\u6210\\u5B89\\u88C"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "s\",checkingMessage:\"Keep this window open while ZCode checks for updates.\",downloadingTitle:\"Download"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "nloading update v{version}\",downloadingMessage:\"ZCode will install the update automatically after dow"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": ".\",readyTitle:\"Update downloaded\",readyMessage:\"ZCode is preparing to restart and install the update."
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "ingTitle:\"Installing update\",installingMessage:\"ZCode will restart to finish installing the update.\","
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "`:\"Z\"}</div> <div class=\"brand-title\">ZCode</div> </div> <button class=\"clo"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "f t.code==\"number\"&&t.code!==0)throw new Error(`ZCode client config failed: ${t.code}`);return Aa(t.d"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "eft:8};function zv(e){return e===\"zh-CN\"?{text:\"ZCode \\u6B63\\u5728\\u64CD\\u4F5C\\u7535\\u8111\",width:234"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "5728\\u64CD\\u4F5C\\u7535\\u8111\",width:234}:{text:\"ZCode is controlling your computer\",width:308}}s(zv,\""
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "spawn as yW}from\"child_process\";var bW=\"Open in ZCode.workflow\",vW=\"dev.zcode.app.finder-open-workflo"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "\\u5728ZCode\\u4E2D\\u6253\\u5F00\",\"en-US\":\"Open in ZCode\"},CW=`first=\"\" for item in \"$@\"; do if [ -d \""
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "rocess\";import{resolve as TW}from\"path\";var fS=\"ZCode.OpenInZCode\",AW=`HKCU\\\\Software\\\\Classes\\\\Direc"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "\\u5728ZCode\\u4E2D\\u6253\\u5F00\",\"en-US\":\"Open in ZCode\"};function xW(e){return pS[e]??pS[\"en-US\"]}s(xW"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "?.(e.appPath),!In(e.appPath,n))throw new Error(`ZCode Computer Use changed while its ${r} signature w"
+          },
+          {
+            "file": "out/main/index.js",
+            "snippet": "ty??Qo)(e.appPath);if(!bU(e,o))throw new Error(`ZCode Computer Use permission identity changed during"
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "ion Xr(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var aP=\"ZCode Protocol\",sP=1;var DV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/codingPlanWebview.cjs",
+            "snippet": "r S$=\"none\";var _$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],r2=[{value:S$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "ion sg(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var eP=\"ZCode Protocol\",tP=1;var IV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/cuaPermissionPanel.cjs",
+            "snippet": "r g$=\"none\";var f$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],qK=[{value:g$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "ion sg(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var sP=\"ZCode Protocol\",cP=1;var MV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/embeddedBrowserJavaScriptDialog.cjs",
+            "snippet": "r _$=\"none\";var x$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],i2=[{value:_$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "ame\");function $S(t){let n=t?.trim();if(!n||n===\"ZCode\")return La(\"renderer\",\"main\");if(n===\"Resource M",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "ion yg(t){let n=t.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(n);if("
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var RP=\"ZCode Protocol\",TP=1;var dW=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "r Z$=\"none\";var B$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],z2=[{value:Z$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/index.cjs",
+            "snippet": "return La(\"renderer\",\"resource-manager\");let i=\"ZCode - \";return n.startsWith(i)?La(\"renderer\",\"remot"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "ame\");function fS(t){let r=t?.trim();if(!r||r===\"ZCode\")return Da(\"renderer\",\"main\");if(r===\"Resource M",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "ion cg(t){let r=t.trim();if(!r)throw new Error(\"ZCode endpoint origin is empty\");let i=new URL(r);if("
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "\"https:\"&&i.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "number().int().nonnegative()}).strict();var tP=\"ZCode Protocol\",nP=1;var RV=e.object({independentPlan"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "r f$=\"none\";var h$=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],YK=[{value:f$,label:\"\\u672A\\u6307\\u5B9"
+          },
+          {
+            "file": "out/preload/resourceManager.cjs",
+            "snippet": "return Da(\"renderer\",\"resource-manager\");let i=\"ZCode - \";return r.startsWith(i)?Da(\"renderer\",\"remot"
+          },
+          {
+            "file": "out/renderer/assets/cua-permission-panel-DBHWnmeh.js",
+            "snippet": "ill-CSRv37U6.js\";var e={\"zh-CN\":{documentTitle:`ZCode Computer Use 权限`,dragTitle:`拖动我到上面的权限列表`,hintPr"
+          },
+          {
+            "file": "out/renderer/assets/cua-permission-panel-DBHWnmeh.js",
+            "snippet": "creen_recording:`屏幕录制`},\"en-US\":{documentTitle:`ZCode Computer Use Permissions`,dragTitle:`Drag me to"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "`正在加载调用轨迹…`,\"modelTrajectory.empty\":`暂无模型调用记录（仅 ZCode Agent 会落盘 model-io）`,\"modelTrajectory.error\":`读"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "stallModeDescription\":`远端服务器下载可减少上传等待，但服务器需要能访问 ZCode CDN，并具备下载、解压和校验工具。`,\"ssh.password\":`密码`,\"ssh.pa"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "Title\":`MCP 服务器`,\"settings.mcp.description\":`管理 ZCode Agent 使用的 MCP 服务器配置。`,\"settings.mcp.create.open"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "`打开授权`,\"settings.mcp.statusOnlyUnsupported\":`当前 ZCode Agent 不支持 OAuth 状态刷新。请升级或重启 Epoch，然后重新打开 MCP 设置"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "ider.startPlan.highlight.trial.description\":`登录 ZCode 3.x 后开始计时。`,\"settings.modelProvider.startPlan.h"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "调用`,\"settings.usage.entitlementServerMcpUsage\":`ZCode MCP`,\"settings.usage.entitlementResetAt\":`重置 {t"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "lan.toolCalls\":`工具调用`,\"sidebar.usage.plan.mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcpDescription\":`"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "le\":`子智能体`,\"settings.subagents.description\":`管理 ZCode Agent 运行时消费的用户级子智能体 Markdown 文件。`,\"settings.sub"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "title\":`命令`,\"settings.commands.description\":`管理 ZCode Agent 的 .md 命令文件。命令可通过 /command-name 在聊天中调用。`,\""
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "\":`来源筛选`,\"settings.commands.source.zcodeAgent\":`ZCode Agent`,\"settings.commands.add\":`新建`,\"settings.c"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "tion.finish\":`开始使用`,\"settingsSync.agent.zcode\":`ZCode Agent`,\"settingsSync.agent.claudeCode\":`Claude"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "限，请切换模型继续当前任务`,\"chat.quota.mcp.quotaExhausted\":`ZCode MCP「{server}」今日额度已用完，明天自动恢复。`,\"chat.quota.mcp.c"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "自动恢复。`,\"chat.quota.mcp.codingPlanRequired\":`当前无 ZCode MCP「{server}」额度，请登录或开通 Coding Plan 使用。`,\"chat.q"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "rajectory.empty\":`No model calls recorded (only ZCode Agent writes model-io)`,\"modelTrajectory.error\""
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "s upload waiting, but the server must reach the ZCode CDN and have download, extract, and checksum to"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "tion\":`Manage MCP server configurations used by ZCode Agent.`,\"settings.mcp.create.open\":`Add MCP ser"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "ion`,\"settings.mcp.statusOnlyUnsupported\":`This ZCode Agent cannot refresh OAuth status. Upgrade or r"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "description\":`Timing starts after signing in to ZCode 3.x.`,\"settings.modelProvider.startPlan.highlig"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "ls`,\"settings.usage.entitlementServerMcpUsage\":`ZCode MCP`,\"settings.usage.entitlementResetAt\":`Reset"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "olCalls\":`Tool calls`,\"sidebar.usage.plan.mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "mcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcp\":`ZCode MCP`,\"sidebar.usage.plan.zcodeMcpDescription\":`"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "zcodeMcpDescription\":`Daily aggregate quota for ZCode built-in plugin MCPs`,\"chat.planUsage.title\":`P"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "user-level subagent Markdown files consumed by ZCode Agent.`,\"settings.subagents.workspaceScopeUnsup"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "mmands`,\"settings.commands.description\":`Manage ZCode Agent .md command files. Commands can be invoke"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "filter`,\"settings.commands.source.zcodeAgent\":`ZCode Agent`,\"settings.commands.add\":`New`,\"settings."
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "`Start using Epoch`,\"settingsSync.agent.zcode\":`ZCode Agent`,\"settingsSync.agent.claudeCode\":`Claude"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "sh commands have been broadcast for the current ZCode Agent session`,\"chat.slash.emptyResults\":`No ma"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "current task.`,\"chat.quota.mcp.quotaExhausted\":`ZCode MCP \"{server}\" has used up today's quota. It re"
+          },
+          {
+            "file": "out/renderer/assets/IntlProvider-CyZWWfWD.js",
+            "snippet": "orrow.`,\"chat.quota.mcp.codingPlanRequired\":`No ZCode MCP \"{server}\" quota. Sign in or get a Coding P"
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "??`running`:t}var GS={aws:`AWS`,mcp:`MCP`,zcode:`ZCode`};function KS(e,t,n){if(n){let t=n[e];if(t)retur",
+            "priority": true,
+            "patternId": "product-name-literal",
+            "reason": "ZCode 产品名字面量（共享代码基 flavor 分支合法；若为未门控的用户可见字符串则需 Epoch 化）"
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "unction vh(e){let t=e.trim();if(!t)throw Error(`ZCode endpoint origin is empty`);let n=new URL(t);if("
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "l!==`https:`&&n.protocol!==`http:`)throw Error(`ZCode endpoint origin must use http or https`);return"
+          },
+          {
+            "file": "out/renderer/assets/src-aqacuUkv.js",
+            "snippet": "erformance.timeOrigin+performance.now()}var gg=`ZCode Protocol`;D({independentPlanState:w().optional("
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": ".preparingUploadDetail`)}),[e])}var $Fe=80,eIe=`ZCode Agent`;function tIe(e,t){return(e.split(/\\r?\\n/"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "AI 分析`,``,`用户原始描述`,e.trim()].join(` `)}var rIe=`ZCode Agent`,iIe=`P2-中`,aIe=`其它`;async function zS({f"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": ",1e3,3e3],sLe=2e3,TC=new Set([`sendText`]),cLe=`ZCode agent runtime 已被回收，重连未成功`;function EC(){return"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "lt.subscription.runtimeRestarted`)||t.includes(`ZCode agent transport closed`)||t.includes(`ZCode Pro"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "es(`ZCode agent transport closed`)||t.includes(`ZCode Protocol client disposed`)||t.includes(`ZCode P"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "(`ZCode Protocol client disposed`)||t.includes(`ZCode Protocol client is disposed`)||t.includes(`ZCod"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "Code Protocol client is disposed`)||t.includes(`ZCode Agent runtime is not running`)}function OC(e,t)"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "ess`],message:`固定 Account Provider 的 Access 只能由 ZCode Built-in Config 声明`})});Wa({templateRules:ka(LL"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "ution failed`,`Compact failed`,`Rewind failed`,`ZCode session failed`]);function eO(e){return typeof"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "h:e.workspacePath,preparedSessionId:``,version:`ZCode Protocol/1`,provider:e.provider,configOptions:i"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "mplementation.`},\"control-browser\":{\"zh-CN\":`控制 ZCode 内置浏览器，用于打开、检查、点击、输入、截图或验证网页和本地开发页面。`,\"en-US\":`C"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "用于打开、检查、点击、输入、截图或验证网页和本地开发页面。`,\"en-US\":`Control ZCode's built-in browser to open, inspect, click, typ"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "equirements.`},\"plugin-creator\":{\"zh-CN\":`创建、校验 ZCode 插件，并指导本地安装与更新。`,\"en-US\":`Create and validate ZC"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "de 插件，并指导本地安装与更新。`,\"en-US\":`Create and validate ZCode plugins, and guide local installation and updat"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "success claims.`},\"web-gui-tester\":{\"zh-CN\":`使用 ZCode Browser Use 对网页和本地 Web 前端执行纯 GUI 黑盒测试，通过真实用户交互、"
+          },
+          {
+            "file": "out/renderer/assets/styles-B85oe-Tr.js",
+            "snippet": "s against websites and local web frontends with ZCode Browser Use, combining real user interactions,"
+          },
+          {
+            "file": "out/renderer/cua-permission-panel.html",
+            "snippet": "<head> <meta charset=\"UTF-8\" /> <title>ZCode Computer Use</title> <style> html,"
+          },
+          {
+            "file": "out/renderer/cua-permission-panel.html",
+            "snippet": "border-radius: 6px; /* 占位：main 推送真实 ZCode 图标后被 background-image 覆盖 */ background:"
+          },
+          {
+            "file": "out/renderer/cua-permission-panel.html",
+            "snippet": "\"></div> <div class=\"name\" id=\"appName\">ZCode Computer Use</div> </div> <svg"
+          },
+          {
+            "file": "out/renderer/index.html",
+            "snippet": "0\" /> <!-- W036：产品以 Epoch 面世——窗口/页面标题不再使用上游 ZCode 名称。 进程名格式化（shared formatZCodeRendererP"
+          },
+          {
+            "file": "out/renderer/index.html",
+            "snippet": "程名格式化（shared formatZCodeRendererProcessName）只识别 ZCode 前缀做分类， \"Epoch\" 会落入默认 renderer 分支，内部诊断标"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "count Provider \\u7684 Access \\u53EA\\u80FD\\u7531 ZCode Built-in Config \\u58F0\\u660E\"})}),sL=e.object({"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "ion Yn(t){let n=t.trim();if(!n)throw new Error(\"ZCode endpoint origin is empty\");let o=new URL(n);if("
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "\"https:\"&&o.protocol!==\"http:\")throw new Error(\"ZCode endpoint origin must use http or https\");return"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "number().int().nonnegative()}).strict();var mI=\"ZCode Protocol\",fI=1;var kF=e.object({independentPlan"
+          },
+          {
+            "file": "out/scheduler/index.js",
+            "snippet": "r Yj=\"none\";var Xj=[{value:\"zcode-agent\",label:\"ZCode Agent\"}],Yfe=[{value:Yj,label:\"\\u672A\\u6307\\u5B"
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "artifact-name-pattern",
+          "status": "pass",
+          "detail": "文件名符合 Epoch-<version>-linux-<arch> 规则（version=3.14.3，arch=x86_64）"
+        },
+        {
+          "id": "artifact-nonempty",
+          "status": "pass",
+          "detail": "198118483 字节"
+        },
+        {
+          "id": "artifact-sha256",
+          "status": "pass",
+          "detail": "1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721"
+        },
+        {
+          "id": "appimage-extract",
+          "status": "pass",
+          "detail": "squashfs-root 解包成功"
+        },
+        {
+          "id": "appimage-apprun",
+          "status": "pass",
+          "detail": "AppRun 存在且可执行"
+        },
+        {
+          "id": "appimage-desktop-entry-file",
+          "status": "pass",
+          "detail": "epoch.desktop"
+        },
+        {
+          "id": "appimage-desktop-name",
+          "status": "pass",
+          "detail": "Name=\"Epoch\""
+        },
+        {
+          "id": "appimage-desktop-icon",
+          "status": "pass",
+          "detail": "Icon=\"epoch\""
+        },
+        {
+          "id": "appimage-desktop-exec",
+          "status": "pass",
+          "detail": "Exec=AppRun --no-sandbox %U"
+        },
+        {
+          "id": "appimage-desktop-categories",
+          "status": "warn",
+          "detail": "Categories=Science;Engineering; 合法但非 Development（electron-builder.config.js 配置为 Development）"
+        },
+        {
+          "id": "appimage-icon-png",
+          "status": "pass",
+          "detail": "epoch.png"
+        },
+        {
+          "id": "appimage-diricon",
+          "status": "pass",
+          "detail": ".DirIcon 存在"
+        },
+        {
+          "id": "asar-present",
+          "status": "pass",
+          "detail": "/tmp/epoch-brand-ai-I9wVhc/squashfs-root/resources/app.asar"
+        },
+        {
+          "id": "asar-root-productName",
+          "status": "pass",
+          "detail": "productName=\"Epoch\""
+        },
+        {
+          "id": "asar-root-package-name",
+          "status": "pass",
+          "detail": "name=@zcode/desktop（内部命名空间，允许）"
+        },
+        {
+          "id": "asar-renderer-title",
+          "status": "pass",
+          "detail": "<title>=\"Epoch\""
+        },
+        {
+          "id": "asar-prominent-chrome",
+          "status": "pass",
+          "detail": "自有代码范围扫描 3227 个文件，0 违规（跳过二进制 1403，超限 0，范围外 26735）"
+        }
+      ],
+      "verdict": "pass",
+      "blockingFindings": [],
+      "warnings": [
+        "desktop entry Categories=Science;Engineering;"
+      ]
+    }
+  ],
+  "counts": {
+    "pass": 2,
+    "fail": 0
+  },
+  "verdict": "pass"
+}

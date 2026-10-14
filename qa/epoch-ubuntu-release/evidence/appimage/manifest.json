@@ -1,0 +1,254 @@
+{
+  "workOrder": "W036 — Ubuntu Epoch Desktop Release（打包产物验收旅程）",
+  "journey": "launch → identity → world-dominant → navigate → select → inspect → isolate → unisolate → measure → annotate → relaunch",
+  "generatedAt": "2026-10-14T18:43:25.413Z",
+  "mode": "appimage",
+  "artifact": {
+    "path": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+    "fileName": "Epoch-3.14.3-linux-x86_64.AppImage",
+    "sha256": "1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721",
+    "bytes": 198118483
+  },
+  "runPath": {
+    "executablePath": "/tmp/epoch-journey-appimage-GOZYsQ/squashfs-root/epoch",
+    "launchArgs": [
+      "--no-sandbox",
+      "--disable-gpu-sandbox",
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+      "--ignore-gpu-blocklist",
+      "--disable-gpu-compositing"
+    ],
+    "electronApi": "playwright-core _electron.launch (真实 Electron 窗口)",
+    "envNotes": [
+      "ELECTRON_RENDERER_URL 已剥离（打包态 renderer 从 app.asar 内加载）",
+      "ZCODE_DESKTOP_USER_DATA_DIR/SESSION_DATA_DIR 指向旅程临时目录（单实例锁与数据隔离）"
+    ]
+  },
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "linux",
+    "osRelease": "5.10.134-013.15.kangaroo.al8.x86_64",
+    "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+    "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+    "arch": "x86_64",
+    "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+    "display": ":99",
+    "gitCommit": "9b8e66e968047d6236e99fff569bbd6ce600c937"
+  },
+  "identity": {
+    "windowTitle": "Epoch",
+    "appName": "Epoch",
+    "appVersion": "3.14.3",
+    "electronVersion": "41.0.3",
+    "chromeVersion": "146.0.7680.80"
+  },
+  "selectors": {
+    "worldCanvas": "[data-testid=\"epoch-world-canvas\"]",
+    "readyDot": "[title=\"world ready\"]",
+    "w007Panel": "[data-testid=\"epoch-w007-panel\"]",
+    "unisolate": "[data-testid=\"epoch-unisolate\"]",
+    "measure": "[data-testid=\"epoch-measure\"]",
+    "measurements": "[data-testid=\"epoch-measurements\"]",
+    "annotationInput": "[data-testid=\"epoch-annotation-input\"]",
+    "annotate": "[data-testid=\"epoch-annotate\"]",
+    "annotations": "[data-testid=\"epoch-annotations\"]",
+    "inspectorEntityRow": "text=entityId:"
+  },
+  "steps": [
+    {
+      "step": "01-launch-identity",
+      "title": "窗口打开；窗口标题必须为 Epoch；app.getName() 可读时必须为 Epoch",
+      "status": "pass",
+      "durationMs": 1985,
+      "detail": {
+        "url": "file:///tmp/epoch-journey-appimage-GOZYsQ/squashfs-root/resources/app.asar/out/renderer/index.html?restoreSession=true&supportsSettings=true&initialWorkspacePath=%2Fhome%2Fz%2F.zcode%2Fworkspace%2Fdefault&initialWorkspacePurpose=conversation&zcodeLaunchMarks=%7B%22createdAt%22%3A1792003382140%2C%22mainStart%22%3A1792003383296%2C%22appReady%22%3A1792003383409%2C%22loadUrl%22%3A1792003383748%7D",
+        "windowTitle": "Epoch",
+        "appInfo": {
+          "name": "Epoch",
+          "version": "3.14.3",
+          "packaged": true,
+          "electron": "41.0.3",
+          "chrome": "146.0.7680.80",
+          "node": "24.14.0"
+        },
+        "identitySource": "window-title+app.getName()"
+      }
+    },
+    {
+      "step": "02-world-dominant",
+      "title": "施工世界可见且占主导（画布 + ready + ≥85% 覆盖）",
+      "status": "pass",
+      "durationMs": 1022,
+      "detail": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "canvasBox": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 800
+        },
+        "coverage": 1,
+        "hudText": "Epoch— Construction Engineering WorkbenchEpoch Construction Fixture Engine · construction-fixture:baselineReset viewShow workbenchLayersSiteFoundationStructureE"
+      }
+    },
+    {
+      "step": "03-navigate",
+      "title": "真实指针事件轨道拖拽 + 滚轮缩放；画面必须随之变化",
+      "status": "pass",
+      "durationMs": 3237,
+      "detail": {
+        "viewChanged": true
+      }
+    },
+    {
+      "step": "04-select",
+      "title": "点击画布命中语义实体（presentationId→entityId，invariant 11）",
+      "status": "pass",
+      "durationMs": 1969,
+      "detail": {
+        "hitTarget": {
+          "fx": 0.42,
+          "fy": 0.55
+        },
+        "entityId": "site-plot",
+        "layerId": "SITE",
+        "panelTextHead": "InspectorclearSite Plot BoundaryentityId: site-plottype: site-plotlayer: Sitedimensions:length: 12 mwidth: 10 mquantity: 120 m2phase: site-worksstatus: proposedDownstream projectionBOQ-ish quantity: 120 m2 (read from world model)constraint "
+      }
+    },
+    {
+      "step": "05-inspect",
+      "title": "inspector 展示工程语义（entityId/type/layer 必备行）",
+      "status": "pass",
+      "durationMs": 234,
+      "detail": {
+        "panelTextHead": "InspectorclearSite Plot BoundaryentityId: site-plottype: site-plotlayer: Sitedimensions:length: 12 mwidth: 10 mquantity: 120 m2phase: site-worksstatus: proposedDownstream projectionBOQ-ish quantity: 120 m2 (read from world model)constraint refs:—Engineering ToolsLayer isolateSITEFOUNDATIONSTRUCTUREENVELOPEMEPFINISHESShow all layersPlan / SectionPlan viewSection cutMeasurementAdd measurementAnnotat"
+      }
+    },
+    {
+      "step": "06-isolate",
+      "title": "隔离一层（仅该层可见）；命中测试必须反映可见性变化",
+      "status": "pass",
+      "durationMs": 1947,
+      "detail": {
+        "isolatedLayerId": "FOUNDATION",
+        "originalLayerId": "SITE",
+        "originalEntityId": "site-plot",
+        "probeEntityIdAfterIsolate": "foundation-subgrade",
+        "probeClearedSelection": false
+      }
+    },
+    {
+      "step": "07-unisolate",
+      "title": "恢复全部图层；同一命中点应重新解析到原实体",
+      "status": "pass",
+      "durationMs": 1902,
+      "detail": {
+        "restoredEntityId": "site-plot"
+      }
+    },
+    {
+      "step": "08-measure",
+      "title": "添加测量；epoch-measurements 列表增长且含 SI 单位读数",
+      "status": "pass",
+      "durationMs": 294,
+      "detail": {
+        "listBefore": 0,
+        "listAfter": 1,
+        "firstMeasurement": "m:1: 5.00 m"
+      }
+    },
+    {
+      "step": "09-annotate",
+      "title": "录入标注并锚定到选中实体；epoch-annotations 列表增长",
+      "status": "pass",
+      "durationMs": 683,
+      "detail": {
+        "listBefore": 0,
+        "listAfter": 1,
+        "firstAnnotation": "a:1: “W036 acceptance anchor — world-anchored note” → site-plot"
+      }
+    },
+    {
+      "step": "10-relaunch",
+      "title": "关闭并重启；世界恢复且无崩溃循环",
+      "status": "pass",
+      "durationMs": 7303,
+      "detail": {
+        "closeMode": "close",
+        "exitedGracefully": true,
+        "relaunchTitle": "Epoch"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "file": "01-launch.png",
+      "step": "01-launch",
+      "description": "Epoch 窗口打开；标题与 app.getName() 均为 Epoch。"
+    },
+    {
+      "file": "02-world.png",
+      "step": "02-world",
+      "description": "打开即入施工 Solution 世界：画布全幅占主导，无仪表盘/占位符，ready dot 亮起。"
+    },
+    {
+      "file": "03-navigate.png",
+      "step": "03-navigate",
+      "description": "轨道拖拽（orbit）+ 滚轮缩放后的视角；与 02 相比画面已变化。"
+    },
+    {
+      "file": "04-select.png",
+      "step": "04-select",
+      "description": "点击命中语义实体 site-plot（layer=SITE）；inspector 出现 \"entityId:\" 行。"
+    },
+    {
+      "file": "05-inspect.png",
+      "step": "05-inspect",
+      "description": "Inspector 显示选中实体的工程语义（entityId/type/layer/材料/尺寸/工程量投影）。"
+    },
+    {
+      "file": "06-isolate.png",
+      "step": "06-isolate",
+      "description": "隔离 FOUNDATION：仅该层可见，其余五层隐藏（renderer-neutral setVisibility）。"
+    },
+    {
+      "file": "07-unisolate.png",
+      "step": "07-unisolate",
+      "description": "恢复全部六层可见（Show all layers）。"
+    },
+    {
+      "file": "08-measure.png",
+      "step": "08-measure",
+      "description": "测量列表 0→1，读数 m:1: 5.00 m。"
+    },
+    {
+      "file": "09-annotate.png",
+      "step": "09-annotate",
+      "description": "标注 “W036 acceptance anchor — world-anchored note” 已锚定到实体 site-plot。"
+    },
+    {
+      "file": "10-relaunch.png",
+      "step": "10-relaunch",
+      "description": "关闭后重启：世界立即恢复，无崩溃循环/缺失运行时依赖/必需凭据。"
+    },
+    {
+      "file": "00-failure.png",
+      "step": "00",
+      "description": "失败诊断截图"
+    }
+  ],
+  "diagnostics": {
+    "failure": {
+      "bodyTextHead": "\n    \n    \n  \n\nEpoch— Construction Engineering WorkbenchEpoch Construction Fixture Engine · construction-fixture:baselineReset viewShow workbenchLayersSiteFoundationStructureEnvelopeMEPFinishesClick an entity to inspect its semantics.Engineering ToolsLayer isolateSITEFOUNDATIONSTRUCTUREENVELOPEMEPFINISHESShow all layersPlan / SectionPlan viewSection cutMeasurementAdd measurementAnnotationAttach to entityDrag: orbit · Shift+drag: pan · Wheel: zoom · Click: select"
+    },
+    "pageErrors": [],
+    "consoleErrors": []
+  },
+  "pass": true,
+  "law": "No skipped critical desktop journey may be recorded as a passing release (spec/acceptance/ubuntu-epoch-desktop-release.md)"
+}

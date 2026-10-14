@@ -1,0 +1,10 @@
+[install-launch-check] deb=packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb
+[install-launch-check] appimage=packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage
+[install-launch-check] display=fixed (:99) sudo=0 fuse=0
+[install-launch-check] deb: 降级模式（无免密 sudo）——dpkg-deb -x 解包到 /tmp/epoch-install-launch.F2blSi/deb/root 后直接启动
+[install-launch-check] deb: 如需真实安装演练，请为当前用户配置免密 sudo（visudo: '<user> ALL=(ALL) NOPASSWD: /usr/bin/dpkg'）后重跑
+[install-launch-check] deb-launch: 启动成功（exit=124 uptime_ms=25053）
+[install-launch-check] appimage-launch: 启动成功（exit=124 uptime_ms=25043）
+[install-launch-check] 生成结果 JSON: /home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/install-launch-results.json
+[install-launch-check] deb + AppImage 安装/启动演练通过
+[install-launch-check] 完成：结果 JSON /home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/install-launch-results.json
