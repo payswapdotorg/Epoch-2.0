@@ -1,13 +1,9 @@
 {
   "program": "Epoch 2.0 architecture reset",
   "status": "RELEASE_TRACK_IN_PROGRESS",
-  "frontier": [
-    "W036"
-  ],
+  "frontier": [],
   "eligible": 0,
-  "inFlight": [
-    "W036"
-  ],
+  "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -25,10 +21,10 @@
     "arenaExpertLoop": "COMPLETE (W034 merged 79bc350 — simulated full round trip, typed returns, independent reuse rights)",
     "engineeringAbundanceEvaluation": "COMPLETE (W035 merged 3c4c9af — task-family denominators, verified-quality metrics, intervention quality-gate law, escalation/reuse rates, safety regressions, predicted-vs-actual feasibility gate, end-to-end provenance; 76 tests)",
     "durablePersistence": "COMPLETE (W021 merged 1019cbd; content-addressed store + surface identity continuity, 52 tests)",
-    "ubuntuEpochDesktopRelease": "IN_PROGRESS (W036: Epoch-native desktop startup/branding, Ubuntu x86_64 .deb + AppImage, real installed-app journey, versioned public GitHub Release)"
+    "ubuntuEpochDesktopRelease": "COMPLETE (W036: public release epoch-v3.14.3 — Epoch-native desktop startup/branding, Ubuntu x86_64 .deb + AppImage, real installed-app journey on both artifacts, verified public download URLs)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W036 gates passed (PASS 5/5, real Electron journey both artifacts); publish GitHub Release epoch-v3.14.3 with .deb/.AppImage/SHA256SUMS/release-manifest.json + evidence, verify public URLs, then close W036.",
+  "nextAction": "W036 closed with the first public Epoch Ubuntu release. Post-release program: optional arm64 build, auto-update channel for the epoch flavor, and CI candidate runs of epoch-ubuntu-release.yml on demand.",
   "lastMerge": {
     "workOrder": "W019",
     "mergeSha": "70e9b75"

@@ -1,14 +1,12 @@
 {
-  "status": "RELEASE_TRACK_IN_PROGRESS",
+  "status": "RELEASE_PUBLISHED",
   "architecture": "E2.0",
   "experience": "X3.0",
   "workOrderVersion": "WO3.0",
   "repository": "payswapdotorg/Epoch-2.0",
   "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
   "resetMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
-  "currentFrontier": [
-    "W036"
-  ],
+  "currentFrontier": [],
   "visualizationFirst": true,
   "maxConcurrentWorkers": 3,
   "verification": {
@@ -16,7 +14,7 @@
     "coreRoadmap": "COMPLETE — W000-W035 recorded complete",
     "freshClone": "PASS per TL verification record dated 2026-10-12: package tests 0 failures, root typecheck 0 errors, lint 0 errors (99 advisory warnings), architecture 0 violations",
     "ubuntuProductIdentity": "VERIFIED — Epoch identity end-to-end: productName/appId/org.epoch.desktop, window title Epoch, desktop entry Name=Epoch Icon=epoch Categories=Science;Engineering, deb package epoch, runtime app.getName()=Epoch; brand audit PASS with flavor-branch ternaries + i18n-table-row exception (three-identity shared codebase law)",
-    "ubuntuPackages": "BUILT+GATED — Epoch-3.14.3-linux-amd64.deb (147105076B) + Epoch-3.14.3-linux-x86_64.AppImage (198097346B) + SHA256SUMS + release-manifest.json @ commit 75a1f08; 44/44 mechanical checks; public release pending",
+    "ubuntuPackages": "PUBLISHED — https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3 : Epoch-3.14.3-linux-amd64.deb 147130648B sha256 36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f; Epoch-3.14.3-linux-x86_64.AppImage 198118483B sha256 1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721; post-publication anonymous URL + sha256 verification green",
     "realUbuntuJourney": "PASS — 10-step real Electron window journey on BOTH artifacts (Xvfb :99, non-root, electron 41.0.3, Debian 13 trixie x86_64): the W020 skip is closed with real-window evidence"
   },
   "next": "W036: dispatch three disjoint workers; ensure default desktop opens Epoch's construction Solution Surface; build/install/test Ubuntu x86_64 .deb and AppImage; create manual candidate-build + tag-based publication workflow; publish only after all acceptance gates pass.",
@@ -30,7 +28,9 @@
     "workOrder": "W036",
     "workOrderPath": "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
     "acceptancePath": "spec/acceptance/ubuntu-epoch-desktop-release.md",
-    "releasePublished": false
+    "releasePublished": true,
+    "releaseTag": "epoch-v3.14.3",
+    "releaseUrl": "https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3"
   },
   "lastStateUpdate": {
     "commit": "a6ef1f2854db65065935918d55ca6baaf5477684",
