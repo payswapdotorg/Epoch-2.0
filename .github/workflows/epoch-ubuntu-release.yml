@@ -57,8 +57,10 @@ jobs:
         with:
           node-version: "24.21.0"
 
-      - name: Enable corepack pnpm (pinned by packageManager field)
-        run: corepack enable && pnpm --version
+      - name: Setup pnpm 10.33.2 (direct install — corepack shims are unreliable on hosted runners)
+        run: |
+          npm install -g pnpm@10.33.2
+          pnpm --version
 
       - name: Install desktop runtime libraries + Xvfb (real-window journey)
         run: |
