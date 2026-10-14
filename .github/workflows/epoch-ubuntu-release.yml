@@ -65,8 +65,9 @@ jobs:
       - name: Install desktop runtime libraries + Xvfb (real-window journey)
         run: |
           sudo apt-get update
+          # ubuntu-24.04 的 t64 过渡：libasound2 已更名 libasound2t64（transitional 包不在源里）。
           sudo apt-get install -y --no-install-recommends \
-            xvfb libgbm1 libasound2 libgtk-3-0 libnss3 libxss1 libxtst6 \
+            xvfb libgbm1 libasound2t64 libgtk-3-0 libnss3 libxss1 libxtst6 \
             libatspi2.0-0 libsecret-1-0 libnotify4 xdg-utils
 
       - name: Frozen dependency install
