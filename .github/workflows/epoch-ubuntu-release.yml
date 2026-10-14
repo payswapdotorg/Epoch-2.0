@@ -52,15 +52,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm 10.33.2 (must precede setup-node — the action resolves packageManager and invokes pnpm)
+        run: |
+          npm install -g pnpm@10.33.2
+          pnpm --version
+
       - name: Setup Node 24
         uses: actions/setup-node@v5
         with:
           node-version: "24.21.0"
-
-      - name: Setup pnpm 10.33.2 (direct install — corepack shims are unreliable on hosted runners)
-        run: |
-          npm install -g pnpm@10.33.2
-          pnpm --version
 
       - name: Install desktop runtime libraries + Xvfb (real-window journey)
         run: |
