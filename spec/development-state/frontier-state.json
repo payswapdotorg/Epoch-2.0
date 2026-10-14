@@ -28,7 +28,7 @@
     "ubuntuEpochDesktopRelease": "IN_PROGRESS (W036: Epoch-native desktop startup/branding, Ubuntu x86_64 .deb + AppImage, real installed-app journey, versioned public GitHub Release)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W036: TL dispatches three disjoint workers; release remains unready until the candidate artifact passes the real Ubuntu Electron journey and a public GitHub Release contains verified .deb, AppImage and checksums.",
+  "nextAction": "W036 gates passed (PASS 5/5, real Electron journey both artifacts); publish GitHub Release epoch-v3.14.3 with .deb/.AppImage/SHA256SUMS/release-manifest.json + evidence, verify public URLs, then close W036.",
   "lastMerge": {
     "workOrder": "W019",
     "mergeSha": "70e9b75"

@@ -52,7 +52,7 @@
   "eligible": [],
   "blocked": [],
   "lastMergeSha": "70e9b75",
-  "lastAction": "W036 OPENED: Ubuntu desktop release with Epoch-native UX. Three disjoint worker surfaces planned; TL retains product identity, release workflow, state integration and publication. Do not call the app ready until real Ubuntu artifact journey and public release assets pass W036.",
+  "lastAction": "W036 BUILD+GATE COMPLETE (pending publication): Epoch 3.14.3 linux x64 deb+AppImage built from frozen lockfile with EPOCH_DESKTOP_IDENTITY=1; acceptance gate PASS 5/5 fail=0 skipped=0 (brand audit deb+AppImage, non-root install/launch, real Electron window journey 10 steps x2 modes incl. identity/world-dominant/semantic-select/inspect/isolate+hit-test/measure/annotate/relaunch); battery typecheck 0 / lint 0 errors at baseline / architecture 0; evidence committed under qa/epoch-ubuntu-release/evidence. Remaining: publish public GitHub Release epoch-v3.14.3 with verified download URLs, then close W036.",
   "lastMergeWorkOrder": "W019",
   "closureVerification": {
     "verifiedAt": "2026-10-12",

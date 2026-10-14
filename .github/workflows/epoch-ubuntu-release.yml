@@ -1,0 +1,216 @@
+# W036: Epoch Ubuntu 桌面发布工作流。
+#
+# 两条受控路径（spec/work-orders/W036-ubuntu-epoch-desktop-release.md 的 Release workflow 节）：
+#   1. 手动候选构建（workflow_dispatch，默认）——构建 + 全套验收门，产物以 workflow
+#      artifact 上传供审阅，绝不自动发布。
+#   2. 版本化发布（push tag epoch-vX.Y.Z）——同一候选管线全绿后，才创建公开
+#      GitHub Release 并挂载 .deb / .AppImage / SHA256SUMS / release-manifest.json /
+#      验收摘要；发布后回读每个资产 URL 校验 size 与 checksum。
+#
+# 设计法：
+#   - 最小权限：candidate 作业只读 contents；publish 作业才拿 contents:write，
+#     且只在 tag 上运行（manual 调用永远到不了 publish）。
+#   - 冻结依赖：pnpm install --frozen-lockfile（packageManager 锁定 pnpm 10.33.2，Node 24）。
+#   - 不发明命令：构建/校验/验收全部走仓库真实脚本（scripts/linux-release/* 与
+#     qa/epoch-ubuntu-release/*，同一条发布门在本地与 CI 完全一致）。
+#   - 无密钥入库；日志不含 secret。低内存防线（本地 4GB 盒实测的 OOM 类）：
+#     串行 tsup/vite、关闭 renderer sourcemap、turbo 单并发——大 runner 同样安全。
+#   - Actions 用官方仓 major-pin；发布用 runner 预装 gh（不引入第三方 release action）。
+name: Epoch Ubuntu Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      notes:
+        description: "Release notes (markdown, tag builds only; candidate builds ignore this)"
+        required: false
+        default: ""
+  push:
+    tags:
+      - "epoch-v*"
+
+permissions: {}
+
+concurrency:
+  group: epoch-ubuntu-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  candidate:
+    name: Build + acceptance gate (no publish)
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 90
+    env:
+      ZCODE_DESKTOP_SERIAL_BUILD: "1"
+      ZCODE_DESKTOP_RENDERER_SOURCEMAP: "0"
+      TURBO_CONCURRENCY: "1"
+    steps:
+      - name: Checkout (full history for release manifest provenance)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 24
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24.21.0"
+
+      - name: Enable corepack pnpm (pinned by packageManager field)
+        run: corepack enable && pnpm --version
+
+      - name: Install desktop runtime libraries + Xvfb (real-window journey)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xvfb libgbm1 libasound2 libgtk-3-0 libnss3 libxss1 libxtst6 \
+            libatspi2.0-0 libsecret-1-0 libnotify4 xdg-utils
+
+      - name: Frozen dependency install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Epoch linux x64 artifacts (deb + AppImage, locked identity)
+        run: bash packages/desktop/scripts/linux-release/build-linux-release.sh
+
+      - name: Install/launch drill (non-root)
+        run: bash packages/desktop/scripts/linux-release/install-launch-check.sh
+
+      - name: Acceptance gate (brand audit + real Electron window journey + aggregate)
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          bash qa/epoch-ubuntu-release/run-release-gate.sh \
+            --deb "packages/desktop/dist/Epoch-${VERSION}-linux-amd64.deb" \
+            --appimage "packages/desktop/dist/Epoch-${VERSION}-linux-x86_64.AppImage"
+
+      - name: Upload candidate artifacts (always — review even on failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: epoch-ubuntu-x64-candidate
+          path: |
+            packages/desktop/dist/*.deb
+            packages/desktop/dist/*.AppImage
+            packages/desktop/dist/SHA256SUMS
+            packages/desktop/dist/release-manifest.json
+            packages/desktop/dist/validation-report.json
+            qa/epoch-ubuntu-release/evidence/
+          if-no-files-found: warn
+          retention-days: 14
+
+  publish:
+    name: Publish GitHub Release (tag only, after gates)
+    needs: candidate
+    if: startsWith(github.ref, 'refs/tags/epoch-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 20
+    steps:
+      - name: Download candidate artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: epoch-ubuntu-x64-candidate
+          path: candidate
+
+      - name: Locate artifacts + verify SHA256SUMS integrity
+        run: |
+          set -euo pipefail
+          DEB="$(find candidate -name 'Epoch-*-linux-amd64.deb' | head -1)"
+          APPIMAGE="$(find candidate -name 'Epoch-*-linux-x86_64.AppImage' | head -1)"
+          SUMS="$(find candidate -name SHA256SUMS | head -1)"
+          MANIFEST="$(find candidate -name release-manifest.json | head -1)"
+          SUMMARY="$(find candidate -name acceptance-summary.md | head -1)"
+          test -n "$DEB" && test -n "$APPIMAGE" && test -n "$SUMS" && test -n "$MANIFEST" && test -n "$SUMMARY"
+          (cd "$(dirname "$SUMS")" && sha256sum --check --strict "$(basename "$SUMS")")
+          {
+            echo "DEB=$DEB"
+            echo "APPIMAGE=$APPIMAGE"
+            echo "SUMS=$SUMS"
+            echo "MANIFEST=$MANIFEST"
+            echo "SUMMARY=$SUMMARY"
+            echo "REPORT=$(find candidate -name acceptance-report.json | head -1)"
+          } >> "$GITHUB_ENV"
+
+      - name: Create GitHub Release with verified artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTES: ${{ github.event.inputs.notes }}
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="$(node -p "JSON.parse(require('fs').readFileSync(process.env.MANIFEST,'utf8')).version")"
+          cat > "$RUNNER_TEMP/notes.md" <<EOF
+          # Epoch ${TAG}
+
+          Ubuntu desktop release of **Epoch** — the construction-engineering workbench.
+
+          - Source commit: \`${GITHUB_SHA}\`
+          - Release version: ${VERSION}
+          - Tested: real installed-app journey (10 steps: launch → construction world → navigate → semantic select → inspect → isolate → unisolate → measure → annotate → relaunch) on Ubuntu-class Linux x86_64, Electron 41.0.3, non-root; CI candidate on ubuntu-24.04
+          - Supported: Ubuntu 20.04 / 22.04 / 24.04 LTS x86_64 (see packages/desktop/scripts/linux-release/README.md)
+
+          ## Install
+
+          \`\`\`bash
+          # .deb (recommended)
+          sudo apt install ./Epoch-${VERSION}-linux-amd64.deb
+          # launch: "Epoch" in the application menu, or run: epoch
+
+          # AppImage (no install)
+          chmod +x Epoch-${VERSION}-linux-x86_64.AppImage
+          ./Epoch-${VERSION}-linux-x86_64.AppImage
+          # without FUSE:
+          ./Epoch-${VERSION}-linux-x86_64.AppImage --appimage-extract-and-run
+          \`\`\`
+
+          ## Verify
+
+          \`\`\`bash
+          sha256sum --check SHA256SUMS
+          \`\`\`
+
+          ## Known limitations
+
+          - x86_64 only in this release (arm64 pending toolchain verification).
+          - The construction-engineering demo opens with no credentials; agent/backend features may require provider configuration.
+          - AppImage needs FUSE or the documented --appimage-extract-and-run fallback.
+          EOF
+          if [ -n "${NOTES:-}" ]; then
+            printf '\n## Release notes\n\n%s\n' "$NOTES" >> "$RUNNER_TEMP/notes.md"
+          fi
+          # 幂等发布：release 已存在（例如 TL 手工发布过同 tag 的本地验收产物）时
+          # 转为上传/覆盖资产而不是失败——两条发布路径（CI 构建 / 本地构建+同一验收门）
+          # 产物同源同校验，允许互相补齐。
+          if ! gh release create "$TAG" \
+            --title "Epoch ${TAG}" \
+            --notes-file "$RUNNER_TEMP/notes.md" \
+            --verify-tag \
+            "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT"; then
+            echo "release ${TAG} already exists — uploading assets idempotently"
+            gh release upload "$TAG" \
+              "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT" --clobber
+          fi
+
+      - name: Verify every public asset URL + checksum after publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF#refs/tags/}"
+          TMPD="$(mktemp -d)"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TAG}" \
+            --jq '.assets[] | [.name, .size, .browser_download_url] | @tsv' > "$TMPD/assets.tsv"
+          COUNT="$(wc -l < "$TMPD/assets.tsv")"
+          [ "$COUNT" -ge 4 ] || { echo "FATAL: expected >=4 release assets, found $COUNT"; exit 1; }
+          while IFS=$'\t' read -r NAME SIZE URL; do
+            curl -fsSL -o "$TMPD/$NAME" "$URL"
+            ACTUAL="$(stat -c%s "$TMPD/$NAME")"
+            [ "$ACTUAL" = "$SIZE" ] || { echo "FATAL: size mismatch for $NAME ($ACTUAL vs $SIZE)"; exit 1; }
+            echo "OK $NAME ($ACTUAL bytes from public URL)"
+          done < "$TMPD/assets.tsv"
+          for NAME in $(awk -F'\t' '{print $1}' "$TMPD/assets.tsv" | grep -E 'Epoch-.*\.(deb|AppImage)$'); do
+            grep " $NAME\$" "$SUMS" | (cd "$TMPD" && sha256sum -c --strict -) \
+              || { echo "FATAL: sha256 mismatch for $NAME against SHA256SUMS"; exit 1; }
+          done
+          echo "ALL PUBLIC ASSET URLS VERIFIED (size + sha256)"
