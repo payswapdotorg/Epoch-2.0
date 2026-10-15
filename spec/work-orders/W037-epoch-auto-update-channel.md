@@ -18,6 +18,30 @@ This is the first item of the post-release program recorded in
 for the epoch flavor). W036 is complete and published (`epoch-v3.14.3`); this
 work order builds on its frozen output.
 
+## Live defect discovered at dispatch (2026-10-15)
+
+The published epoch-v3.14.3 artifacts do NOT merely lack a channel — they
+carry the WRONG channel. `packages/shared/src/env.ts`
+`normalizeZCodeProductFlavor` only recognizes `production|preview`: the
+epoch build's `__ZCODE_PRODUCT_FLAVOR__ = "epoch"` falls through to
+`zcodeEnv === "production" ? "production" : "preview"` — and the epoch
+desktop build locks `ZCODE_ENV=production` — so inside packaged Epoch apps
+the shared `ZCODE_PRODUCT_FLAVOR === "production"` is TRUE. Consequences in
+`packages/desktop/src/main/index.ts` (~line 2029):
+
+- `initAutoUpdater({ enabled: ZCODE_PRODUCT_FLAVOR === "production" })` —
+  auto-update is ENABLED in the published Epoch artifacts;
+- `applyManifestUpdateProvider` installs the ZCode server manifest provider
+  (endpoint origin `https://zcode.z.ai` or the configured origin).
+
+Installed Epoch 3.14.3 apps therefore poll the ZCode server for updates and
+may be offered/download upstream ZCode installers. The main process already
+has the correct raw-flavor source (`desktopProductRuntimeIdentity.ts`:
+`desktopRuntimeProductFlavor` / `isEpochDesktopRuntime`, which preserve
+"epoch"); the updater wiring at the `index.ts` call site simply still reads
+the NORMALIZED shared constant. W037 Worker 1 fixes exactly this seam; the
+next Epoch release notes must disclose the defect and the fix.
+
 ## Non-negotiable laws
 
 1. Epoch update traffic resolves the Epoch feed only: the baked
