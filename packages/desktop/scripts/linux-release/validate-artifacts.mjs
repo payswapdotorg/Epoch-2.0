@@ -862,7 +862,7 @@ async function main() {
     expectedVersion = rootPackageJson.version;
   }
 
-  if (options.arch !== "x64" if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") {if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") { options.arch !== "arm64") {
+  if (options.arch !== "x64" if (options.arch !== "x64" if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") {if (options.arch !== "x64") { options.arch !== "arm64") {if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") { options.arch !== "arm64") {
     console.error(
       `[validate-artifacts] 仅支持 x64 和 arm64（当前 --arch ${options.arch}）`,
     );
