@@ -276,7 +276,11 @@
   "releaseWaves": [
     [
       "W036"
+    ],
+    [
+      "W037",
+      "W038"
     ]
   ],
-  "releaseTrackNote": "W036 is the post-roadmap Ubuntu release/certification track. W005/W006/W007/W020/W026 are complete. At most three workers may run on pairwise-disjoint surfaces; TL exclusively owns product identity, release workflow, shared state, integration and publication. No public release until the real Ubuntu artifact journey and Epoch-native UI acceptance pass."
+  "releaseTrackNote": "W036 complete and published (epoch-v3.14.3). Post-release program: W037 (epoch auto-update channel) + W038 (Ubuntu arm64) run as one wave, max three workers, pairwise-disjoint surfaces; TL pre-integration (epoch publish identity, --publish never pin, feed assets in the workflow) landed before dispatch. arm64 is an addition — x86_64 outputs are frozen. No public release until the arm64/update-channel acceptance gates pass on real artifacts."
 }

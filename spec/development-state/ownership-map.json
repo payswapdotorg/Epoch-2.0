@@ -125,6 +125,46 @@
         "spec/development-state/**"
       ]
     },
-    "rule": "W036 maximum three concurrent workers; all worker path sets are pairwise-disjoint. TL owns product identity, update feed/release workflow, shared acceptance integration, state files, publication and merge. Workers do not merge. Worker 1 builds Epoch-native UI and the launch path; Worker 2 handles Linux packaging; Worker 3 handles Ubuntu acceptance evidence. Do not rebrand by global string replacement or disturb internal compatibility."
+    "rule": "Post-release wave W037+W038: three workers total, all worker path sets pairwise-disjoint (W037-W1 desktop main updater runtime; W037-W2 update-channel acceptance in a NEW qa subdir; W038-W1 linux-release scripts + native module tooling). TL owns publish/update identity (electron-builder.config.js, bundle.mjs, dev-app-update.yml), the shared manifest provider, the release workflow, acceptance specs (W038), state files, integration, merge and publication. Workers do not merge. x86_64 outputs frozen; upstream ZCode flavors byte-for-byte unchanged.",
+    "W037": {
+      "worker1": [
+        "packages/desktop/src/main/autoUpdater.ts",
+        "packages/desktop/src/main/index.ts",
+        "packages/desktop/src/main/desktopApplicationMenu.ts",
+        "packages/desktop/src/main/*.test.ts (tests of the above)"
+      ],
+      "worker2": [
+        "qa/epoch-ubuntu-release/update-channel/**",
+        "spec/acceptance/epoch-auto-update-channel.md"
+      ],
+      "tlIntegration": [
+        "packages/desktop/electron-builder.config.js",
+        "packages/desktop/scripts/bundle.mjs",
+        "packages/desktop/dev-app-update.yml",
+        "packages/desktop/src/main/manifestUpdateProvider.ts",
+        ".github/workflows/epoch-ubuntu-release.yml",
+        "spec/work-orders.md",
+        "spec/work-orders/W037-epoch-auto-update-channel.md",
+        "spec/development-state/**"
+      ]
+    },
+    "W038": {
+      "worker1": [
+        "packages/desktop/scripts/linux-release/**",
+        "packages/desktop/scripts/node-pty-rebuild.mjs",
+        "scripts/native-search-tools-config.mjs",
+        "scripts/prepare-native-search-tools.mjs",
+        "scripts/build-native-search-tools.mjs",
+        "scripts/package-native-search-tools.mjs"
+      ],
+      "tlIntegration": [
+        ".github/workflows/epoch-ubuntu-release.yml",
+        "packages/desktop/electron-builder.config.js",
+        "spec/acceptance/ubuntu-arm64-release.md",
+        "spec/work-orders.md",
+        "spec/work-orders/W038-ubuntu-arm64-release.md",
+        "spec/development-state/**"
+      ]
+    }
   }
 }

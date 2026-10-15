@@ -47,7 +47,10 @@
     "W019",
     "W036"
   ],
-  "active": [],
+  "active": [
+    "W037",
+    "W038"
+  ],
   "eligible": [],
   "blocked": [],
   "lastMergeSha": "70e9b75",
@@ -69,14 +72,23 @@
     "notes": "Verification exposed fresh-clone gaps the per-merge station battery could not see (warm build artifacts + Node version drift). All hotfixes are zero-behavior-change build/script repairs; no epoch source logic touched."
   },
   "currentTrack": {
-    "workOrder": "W036",
-    "status": "COMPLETE",
-    "goal": "Publish a verified Ubuntu .deb and AppImage whose installed/default UI is Epoch’s construction engineering workbench, not ZCode.",
-    "workOrderPath": "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
-    "acceptancePath": "spec/acceptance/ubuntu-epoch-desktop-release.md",
-    "releasePublished": true,
-    "releaseUrl": "https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3"
+    "workOrder": "W037+W038",
+    "status": "IN_PROGRESS",
+    "goal": "Post-release program: give installed Epoch builds an Epoch-owned auto-update channel (W037) and extend the Ubuntu release pipeline to arm64 (W038).",
+    "workOrders": {
+      "W037": "spec/work-orders/W037-epoch-auto-update-channel.md",
+      "W038": "spec/work-orders/W038-ubuntu-arm64-release.md"
+    },
+    "acceptancePaths": {
+      "W037": "spec/acceptance/epoch-auto-update-channel.md",
+      "W038": "spec/acceptance/ubuntu-arm64-release.md"
+    },
+    "priorRelease": {
+      "workOrder": "W036",
+      "status": "COMPLETE",
+      "releaseUrl": "https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3"
+    }
   },
   "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
-  "nextAction": "TL dispatches up to three disjoint W036 workers; integrate Epoch-native startup/branding, build x86_64 .deb + AppImage, run real Ubuntu/Electron acceptance, then publish a versioned GitHub Release only when every gate passes."
+  "nextAction": "TL dispatched the post-release wave: W037 worker 1 (epoch updater runtime), W037 worker 2 (update-channel acceptance), W038 worker 1 (arm64 packaging). TL pre-integration landed first (epoch publish identity + --publish never pin + feed assets in the workflow). On harvest: TL reviews, integrates, reruns the full battery, publishes the arm64/update-channel release only when every gate passes."
 }

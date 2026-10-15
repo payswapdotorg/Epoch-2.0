@@ -1,12 +1,15 @@
 {
-  "status": "RELEASE_PUBLISHED",
+  "status": "POST_RELEASE_PROGRAM_IN_PROGRESS",
   "architecture": "E2.0",
   "experience": "X3.0",
   "workOrderVersion": "WO3.0",
   "repository": "payswapdotorg/Epoch-2.0",
   "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
   "resetMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
-  "currentFrontier": [],
+  "currentFrontier": [
+    "W037",
+    "W038"
+  ],
   "visualizationFirst": true,
   "maxConcurrentWorkers": 3,
   "verification": {
