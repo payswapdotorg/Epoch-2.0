@@ -11,7 +11,7 @@ import {
 } from "@zcode/shared";
 import { readZCodeStdioTapDevState } from "@zcode/services/node";
 import { CHECK_FOR_UPDATE_MENU_ID, setAutoUpdaterMenuLocale } from "./autoUpdater.js";
-import { isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
+import { desktopRuntimeProductFlavor, isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
 import {
   DESKTOP_ZOOM_MAX_LEVEL,
   DESKTOP_ZOOM_MIN_LEVEL,
@@ -33,7 +33,7 @@ export function getDesktopMenuLabel(
 
 export function resolveSystemApplicationLocale(): Locale {
   // macOS 系统语言为中文时，Electron app.getLocale() 仍可能返回 en-US；
-  // 优先读取系统首选语言列表，避免 System default 被误解析成英文。
+  // 优先读取系统首选语言列表���避免 System default 被误解析成英文。
   const systemLocale = app.getPreferredSystemLanguages?.()[0] ?? app.getLocale();
   return systemLocale.toLowerCase().startsWith("zh") ? "zh-CN" : "en-US";
 }
@@ -132,7 +132,7 @@ function buildApplicationMenuTemplate(options: {
                 click: () => void options.executeDesktopCommand(DesktopCommandIds.ShowAbout),
               },
               // 更新入口跟随产品身份：Preview 禁用更新器，生产后端的 Preview 也不例外。
-              ...(ZCODE_PRODUCT_FLAVOR === "production"
+              ...(desktopRuntimeProductFlavor === "production"
                 ? [
                     {
                       id: CHECK_FOR_UPDATE_MENU_ID,
@@ -195,7 +195,7 @@ function buildApplicationMenuTemplate(options: {
     {
       label: getLabel(desktopMenuMessageIds.edit),
       // 顶层使用 Electron 的 editMenu/windowMenu role 会按系统/Electron locale 生成文案，
-      // 和应用内 currentApplicationLocale 混用后出现“文件 Edit 视图 Window 帮助”的中英混排。
+      // 和应用内 currentApplicationLocale 混用后出现"文件 Edit 视图 Window 帮助"的中英混排。
       submenu: [
         { label: getLabel(desktopMenuMessageIds.editUndo), role: "undo" as const },
         { label: getLabel(desktopMenuMessageIds.editRedo), role: "redo" as const },
@@ -273,7 +273,7 @@ function buildApplicationMenuTemplate(options: {
                 label: getAboutMenuLabel(),
                 click: () => void options.executeDesktopCommand(DesktopCommandIds.ShowAbout),
               },
-              ...(ZCODE_PRODUCT_FLAVOR === "production"
+              ...(desktopRuntimeProductFlavor === "production"
                 ? [
                     {
                       id: CHECK_FOR_UPDATE_MENU_ID,

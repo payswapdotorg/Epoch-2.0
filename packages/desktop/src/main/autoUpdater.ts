@@ -20,6 +20,7 @@ import pkg, { CancellationToken } from "electron-updater";
 import semver from "semver";
 import { logger } from "./logger.js";
 import { getElectronReleasePlatform, ManifestUpdateProvider } from "./manifestUpdateProvider.js";
+import { desktopRuntimeProductFlavor, isEpochDesktopRuntime } from "./desktopProductRuntimeIdentity.js";
 const { autoUpdater } = pkg;
 
 export const CHECK_FOR_UPDATE_MENU_ID = "check-for-update";
@@ -752,6 +753,13 @@ async function syncAutoUpdateCheckChannelFromSettings(
 }
 
 function applyManifestUpdateProvider(options: InitAutoUpdaterOptions): void {
+  // Epoch flavor uses the baked GitHub provider and should NOT apply the ZCode manifest provider
+  if (isEpochDesktopRuntime) {
+    logger.info(
+      "[auto-update] epoch flavor detected - using baked GitHub provider, skipping ZCode manifest provider"
+    );
+    return;
+  }
   const manifestUrl = options.updateFeedSource?.url.trim();
   autoUpdater.setFeedURL({
     provider: "custom",
