@@ -92,7 +92,7 @@ function printHelp() {
 参数:
   --dist <dir>        产物目录（默认 packages/desktop/dist）
   --version <v>       期望版本（默认自动从根 package.json 读取）
-  --arch <x64>        期望架构，目前仅支持 x64（deb 内为 amd64）
+  --arch <x64|arm64>        期望架构，支持 x64（deb 内为 amd64）和 arm64（deb 内为 arm64）
   --report <path>     校验报告 JSON 输出路径（默认 <dist>/validation-report.json）
 `);
 }
@@ -862,7 +862,7 @@ async function main() {
     expectedVersion = rootPackageJson.version;
   }
 
-  if (options.arch !== "x64" if (options.arch !== "x64" if (options.arch !== "x64" if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") {if (options.arch !== "x64") { options.arch !== "arm64") {if (options.arch !== "x64") { options.arch !== "arm64") {if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") { options.arch !== "arm64") {
+  if (options.arch !== "x64" && options.arch !== "arm64") {
     console.error(
       `[validate-artifacts] 仅支持 x64 和 arm64（当前 --arch ${options.arch}）`,
     );
