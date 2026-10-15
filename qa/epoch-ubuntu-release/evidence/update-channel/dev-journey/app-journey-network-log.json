@@ -1,0 +1,148 @@
+{
+  "proxy": [
+    {
+      "timestamp": "2026-10-15T08:35:05.889Z",
+      "layer": "proxy",
+      "kind": "connect",
+      "host": "redirector.gvt1.com",
+      "port": 443,
+      "policy": "tunnel"
+    },
+    {
+      "timestamp": "2026-10-15T08:35:05.889Z",
+      "layer": "proxy",
+      "kind": "connect",
+      "host": "zcode.z.ai",
+      "port": 443,
+      "policy": "sink"
+    },
+    {
+      "timestamp": "2026-10-15T08:35:05.908Z",
+      "layer": "proxy",
+      "kind": "connect-established",
+      "host": "redirector.gvt1.com",
+      "port": 443
+    },
+    {
+      "timestamp": "2026-10-15T08:35:05.986Z",
+      "layer": "proxy",
+      "kind": "connect",
+      "host": "rr1---sn-oji3b5-58.gvt1.com",
+      "port": 443,
+      "policy": "tunnel"
+    },
+    {
+      "timestamp": "2026-10-15T08:35:05.992Z",
+      "layer": "proxy",
+      "kind": "connect-established",
+      "host": "rr1---sn-oji3b5-58.gvt1.com",
+      "port": 443
+    },
+    {
+      "timestamp": "2026-10-15T08:35:06.014Z",
+      "layer": "proxy",
+      "kind": "connect",
+      "host": "rr3---sn-oji3b5-58.gvt1.com",
+      "port": 443,
+      "policy": "tunnel"
+    },
+    {
+      "timestamp": "2026-10-15T08:35:06.048Z",
+      "layer": "proxy",
+      "kind": "connect-established",
+      "host": "rr3---sn-oji3b5-58.gvt1.com",
+      "port": 443
+    },
+    {
+      "timestamp": "2026-10-15T08:35:10.672Z",
+      "layer": "proxy",
+      "kind": "connect",
+      "host": "zcode.z.ai",
+      "port": 443,
+      "policy": "sink"
+    }
+  ],
+  "cdp": [
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:09.228Z",
+      "requestId": "21237.1002",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/noise.fragment-BpMcf1OL.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:09.366Z",
+      "requestId": "21237.1003",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/default.vertex-DiiYkHqe.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:09.366Z",
+      "requestId": "21237.1004",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/default.fragment-zZOM5zm7.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:14.059Z",
+      "requestId": "21237.1005",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/github-dark-bOMvx6Px.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:14.059Z",
+      "requestId": "21237.1006",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/github-light-qHLrLL4E.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:14.154Z",
+      "requestId": "907AE4139F36950FFCFB10D79F3F4815",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/diffs.worker-CAavpt0L.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:14.176Z",
+      "requestId": "21237.1007",
+      "method": "GET",
+      "url": "http://127.0.0.1:33743/assets/wasm-BME1teje.js",
+      "type": "Script"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:15.065Z",
+      "requestId": "21237.1009",
+      "method": "GET",
+      "url": "data:image/svg+xml,%3csvg%20width='18'%20height='18'%20viewBox='0%200%2018%2018'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M2.91528%2017.32C1.40918%2017.32%200.183716%2016.0946%200.183716%2014.5885V2.91906C0.183716%201.41296%201.40918%200.1875%202.91528%200.1875H14.5847C16.0908%200.1875%2017.3163%201.41296%2017.3163%202.91906V14.5885C17.3163%2016.0946%2016.0908%2017.32%2014.5847%2017.32H2.91528Z'%20fill='url(%23paint0_linear_11758_79291)'%20style=''%20/%3e%3cpath%20d='M14.5847%200.367454C15.9918%200.367454%2017.1325%201.50817%2017.1325%202.91529V14.5847C17.1325%2015.9918%2015.9918%2017.1325%2014.5847%2017.1325H2.91529C1.50817%2017.1325%200.367454%2015.9918%200.367454%2014.5847V2.91529C0.367454%201.50817%201.50817%200.367454%202.91529%200.367454H14.5847ZM14.5847%200H2.91529C2.13652%200%201.40459%200.303149%200.853871%200.853871C0.303149%201.40459%200%202.13652%200%202.91529V14.5847C0%2015.3635%200.303149%2016.0954%200.853871%2016.6461C1.40459%2017.1969%202.13652%2017.5%202.91529%2017.5H14.5847C15.3635%2017.5%2016.0954%2017.1969%2016.6461%2016.6461C17.1969%2016.0954%2017.5%2015.3635%2017.5%2014.5847V2.91529C17.5%202.13652%2017.1969%201.40459%2016.6461%200.853871C16.0954%200.303149%2015.3635%200%2014.5847%200Z'%20fill='%23B7BCBF'%20style='fill:%23B7BCBF;fill:color(display-p3%200.7176%200.7373%200.7490);fill-opacity:1;'%20/%3e%3cpath%20d='M9.03854%203.86902L8.2306%205.01755C8.1036%205.19645%207.89598%205.306%207.67092%205.306H3.26767V3.86328C3.26767%203.86902%209.03854%203.86902%209.03854%203.86902Z'%20fill='white'%20style='fill:white;fill-opacity:1;'%20/%3e%3cpath%20d='M14.5209%203.86328L7.59573%2013.6741H2.97913L9.90426%203.86328H14.5209Z'%20fill='white'%20style='fill:white;fill-opacity:1;'%20/%3e%3cpath%20d='M8.46146%2013.6732L9.27514%2012.5189C9.40214%2012.34%209.60975%2012.2305%209.83482%2012.2305H14.2323V13.6732H8.46146Z'%20fill='white'%20style='fill:white;fill-opacity:1;'%20/%3e%3cdefs%3e%3clinearGradient%20id='paint0_linear_11758_79291'%20x1='8.74999'%20y1='17.32'%20x2='8.74999'%20y2='0.187504'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20style='stop-color:black;stop-opacity:1;'%20/%3e%3cstop%20offset='1'%20stop-color='%23151718'%20style='stop-color:%23151718;stop-color:color(display-p3%200.0824%200.0902%200.0941);stop-opacity:1;'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e",
+      "type": "Image"
+    },
+    {
+      "layer": "cdp",
+      "kind": "http",
+      "timestamp": "2026-10-15T08:35:15.065Z",
+      "requestId": "21237.1010",
+      "method": "GET",
+      "url": "data:image/svg+xml,%3csvg%20width='16'%20height='16'%20viewBox='0%200%2016%2016'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_4966_14195)'%3e%3cpath%20d='M8.00351%200.142578L14.9084%208.01458L8.00351%2015.883L1.10217%208.01458L8.00351%200.142578Z'%20fill='white'%20style='fill:white;fill-opacity:1;'/%3e%3cpath%20d='M14.9084%204.07858V8.01102H13.8417C13.8417%208.01102%2011.7013%208.12124%209.87372%206.25813C7.96083%204.30613%208.0035%201.78169%208.0035%201.78169V0.142578L14.9084%204.07858Z'%20fill='url(%23paint0_linear_4966_14195)'%20style=''/%3e%3cpath%20d='M1.10217%204.07858V8.01102H2.16884C2.16884%208.01102%204.30928%208.12124%206.13684%206.25813C8.04973%204.30613%208.00706%201.78169%208.00706%201.78169V0.142578L1.10217%204.07858Z'%20fill='url(%23paint1_linear_4966_14195)'%20style=''/%3e%3cpath%20d='M1.10217%2011.9474V8.01491H2.16884C2.16884%208.01491%204.30928%207.90468%206.13684%209.76779C8.04973%2011.7198%208.00706%2014.2442%208.00706%2014.2442V15.8833L1.10217%2011.9474Z'%20fill='url(%23paint2_linear_4966_14195)'%20style=''/%3e%3cpath%20d='M14.9084%2011.9474V8.01491H13.8417C13.8417%208.01491%2011.7013%207.90468%209.87372%209.76779C7.96083%2011.7198%208.0035%2014.2442%208.0035%2014.2442V15.8833L14.9084%2011.9474Z'%20fill='url(%23paint3_linear_4966_14195)'%20style=''/%3e%3c/g%3e%3cdefs%3e%3clinearGradient%20id='paint0_linear_4966_14195'%20x1='8.00484'%20y1='4.07834'%20x2='14.9077'%20y2='4.07834'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%238C8AF4'%20style='stop-color:%238C8AF4;stop-color:color(display-p3%200.5490%200.5412%200.9569);stop-opacity:1;'/%3e%3cstop%20offset='1'%20stop-color='%232556D3'%20style='stop-color:%232556D3;stop-color:color(display-p3%200.1451%200.3373%200.8275);stop-opacity:1;'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint1_linear_4966_14195'%20x1='1.10217'%20y1='4.07834'%20x2='8.00501'%20y2='4.07834'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%238C8AF4'%20style='stop-color:%238C8AF4;stop-color:color(display-p3%200.5490%200.5412%200.9569);stop-opacity:1;'/%3e%3cstop%20offset='1'%20stop-color='%232556D3'%20style='stop-color:%232556D3;stop-color:color(display-p3%200.1451%200.3373%200.8275);stop-opacity:1;'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint2_linear_4966_14195'%20x1='1.10217'%20y1='11.9478'%20x2='8.00501'%20y2='11.9478'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%233091D6'%20style='stop-color:%233091D6;stop-color:color(display-p3%200.1882%200.5686%200.8392);stop-opacity:1;'/%3e%3cstop%20offset='1'%20stop-color='%2389A2F4'%20style='stop-color:%2389A2F4;stop-color:color(display-p3%200.5373%200.6353%200.9569);stop-opacity:1;'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint3_linear_4966_14195'%20x1='8.00484'%20y1='11.9478'%20x2='14.9077'%20y2='11.9478'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%232362D2'%20style='stop-color:%232362D2;stop-color:color(display-p3%200.1373%200.3843%200.8235);stop-opacity:1;'/%3e%3cstop%20offset='1'%20stop-color='%238898F3'%20style='stop-color:%238898F3;stop-color:color(display-p3%200.5333%200.5961%200.9529);stop-opacity:1;'/%3e%3c/linearGradient%3e%3cclipPath%20id='clip0_4966_14195'%3e%3crect%20width='16'%20height='16'%20fill='white'%20style='fill:white;fill-opacity:1;'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e",
+      "type": "Image"
+    }
+  ]
+}
