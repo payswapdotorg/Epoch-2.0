@@ -33,7 +33,7 @@ export function getDesktopMenuLabel(
 
 export function resolveSystemApplicationLocale(): Locale {
   // macOS 系统语言为中文时，Electron app.getLocale() 仍可能返回 en-US；
-  // 优先读取系统首选语言列表���避免 System default 被误解析成英文。
+  // 优先读取系统首选语言列表，避免 System default 被误解析成英文。
   const systemLocale = app.getPreferredSystemLanguages?.()[0] ?? app.getLocale();
   return systemLocale.toLowerCase().startsWith("zh") ? "zh-CN" : "en-US";
 }
@@ -118,7 +118,7 @@ function buildApplicationMenuTemplate(options: {
   const canZoomOut = currentZoomLevel > DESKTOP_ZOOM_MIN_LEVEL;
   // zoomIn 主绑定含 "=" 时保留 Plus 可见 + "=" 隐藏的双条目（Plus 在菜单显示更好，"=" 兜底 Windows 无 Shift 直按）。
   // 录制态 accelerator 为 undefined（摘掉键位，菜单项保留可点击）。
-  const zoomInBinding = resolveMenuAccelerator(options, "zoomIn", "CmdOrCtrl+=");
+  const zoomInBinding = resolveMenuAccelerator(options, "zoomIn", "CmdOrCtrl+");
   const zoomInVisibleAccelerator = zoomInBinding?.replace("=", "Plus");
 
   return [
@@ -132,7 +132,7 @@ function buildApplicationMenuTemplate(options: {
                 click: () => void options.executeDesktopCommand(DesktopCommandIds.ShowAbout),
               },
               // 更新入口跟随产品身份：Preview 禁用更新器，生产后端的 Preview 也不例外。
-              ...(desktopRuntimeProductFlavor === "production"
+              ...(desktopRuntimeProductFlavor !== "preview"
                 ? [
                     {
                       id: CHECK_FOR_UPDATE_MENU_ID,
@@ -273,7 +273,7 @@ function buildApplicationMenuTemplate(options: {
                 label: getAboutMenuLabel(),
                 click: () => void options.executeDesktopCommand(DesktopCommandIds.ShowAbout),
               },
-              ...(desktopRuntimeProductFlavor === "production"
+              ...(desktopRuntimeProductFlavor !== "preview"
                 ? [
                     {
                       id: CHECK_FOR_UPDATE_MENU_ID,
