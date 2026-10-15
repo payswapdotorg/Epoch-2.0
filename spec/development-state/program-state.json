@@ -70,11 +70,12 @@
   },
   "currentTrack": {
     "workOrder": "W036",
-    "status": "IN_PROGRESS",
+    "status": "COMPLETE",
     "goal": "Publish a verified Ubuntu .deb and AppImage whose installed/default UI is Epoch’s construction engineering workbench, not ZCode.",
     "workOrderPath": "spec/work-orders/W036-ubuntu-epoch-desktop-release.md",
     "acceptancePath": "spec/acceptance/ubuntu-epoch-desktop-release.md",
-    "releasePublished": false
+    "releasePublished": true,
+    "releaseUrl": "https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3"
   },
   "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
   "nextAction": "TL dispatches up to three disjoint W036 workers; integrate Epoch-native startup/branding, build x86_64 .deb + AppImage, run real Ubuntu/Electron acceptance, then publish a versioned GitHub Release only when every gate passes."
