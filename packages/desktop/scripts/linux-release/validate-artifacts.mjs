@@ -862,15 +862,15 @@ async function main() {
     expectedVersion = rootPackageJson.version;
   }
 
-  if (options.arch !== "x64") {
+  if (options.arch !== "x64" if (options.arch !== "x64") {if (options.arch !== "x64") { options.arch !== "arm64") {
     console.error(
-      `[validate-artifacts] 仅支持 x64（当前 --arch ${options.arch}）；arm64 产物校验待后续版本`,
+      `[validate-artifacts] 仅支持 x64 和 arm64（当前 --arch ${options.arch}）`,
     );
     process.exit(2);
   }
 
-  const debPath = join(distDir, `Epoch-${expectedVersion}-linux-amd64.deb`);
-  const appImagePath = join(distDir, `Epoch-${expectedVersion}-linux-x86_64.AppImage`);
+  const debPath = join(distDir, `Epoch-${expectedVersion}-linux-${options.arch === "arm64" ? "arm64" : "amd64"}.deb`);
+  const appImagePath = join(distDir, `Epoch-${expectedVersion}-linux-${options.arch === "arm64" ? "aarch64" : "x86_64"}.AppImage`);
   const missingFiles = [
     existsSync(debPath) ? null : debPath,
     existsSync(appImagePath) ? null : appImagePath,

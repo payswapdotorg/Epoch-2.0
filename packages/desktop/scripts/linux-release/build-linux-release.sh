@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # W036：Epoch Ubuntu 桌面发布驱动（linux x64 的 deb + AppImage 一条龙）。
+# W038 扩展：支持 arm64 构建参数化（默认 x64 保持不变）。
 #
 # 职责（只复用仓库既有命令，不发明新的构建入口）：
 #   1. 环境锁定：EPOCH_DESKTOP_IDENTITY=1（Epoch 身份，优先级最高，见
@@ -9,7 +10,7 @@
 #      无 rpmbuild 的环境也能出包）。
 #   2. 仓库根目录 `pnpm build`：仓库真实构建路径（所有包，含 desktop 的
 #      prepare:runtime-assets + run-production-build）。
-#   3. packages/desktop 内 `pnpm bundle -- --os linux --arch x64 --skip-prepare
+#   3. packages/desktop 内 `pnpm bundle -- --os linux --arch <arch> --skip-prepare
 #      --skip-build`：只跑 electron-builder（构建已由第 2 步完成，skip 标志避免重复
 #      全量构建）。注意 bundle.mjs 只认 `--os/--arch` 旗标或位置参数 `linux x64`，
 #      不支持 `--linux --x64` 这类平台旗标（parseArgs 会直接报不支持的参数）。
@@ -22,7 +23,11 @@
 #   - git 可用（release-manifest 需要真实 commit 溯源）。
 #
 # 用法（仓库根目录）：
-#   bash packages/desktop/scripts/linux-release/build-linux-release.sh
+#   bash packages/desktop/scripts/linux-release/build-linux-release.sh [选项]
+#
+# 选项：
+#   --arch <x64|arm64>  目标架构，默认 x64（支持原有行为）
+#   -h, --help          显示帮助
 #
 # 产物目录：packages/desktop/dist（可用 ZCODE_DESKTOP_DIST_DIR 覆盖；语义与
 # electron-builder 的 directories.output 一致：相对路径基于 packages/desktop 解析）。
@@ -36,15 +41,58 @@ LOG_PREFIX="[linux-release]"
 log() { echo "${LOG_PREFIX} $*"; }
 fail() { echo "${LOG_PREFIX} ERROR: $*" >&2; exit 1; }
 
+# ---------- 参数解析 ----------
+usage() {
+  cat <<'USAGE'
+用法:
+  bash packages/desktop/scripts/linux-release/build-linux-release.sh [选项]
+
+选项:
+  --arch <x64|arm64>  目标架构，默认 x64（支持原有行为）
+  -h, --help          显示帮助
+
+环境变量:
+  ZCODE_DESKTOP_DIST_DIR  覆盖产物目录（默认 packages/desktop/dist）
+  ZCODE_LINUX_TARGETS    覆盖构建目标（默认 deb,AppImage）
+  ZCODE_ENV              后端环境（默认 production）
+  EPOCH_DESKTOP_IDENTITY 产品身份（默认 1）
+USAGE
+}
+
+ARCH="x64"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --arch) ARCH="${2:?}"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) fail "未知参数: $1（--help 查看用法）" ;;
+  esac
+done
+
+# 架构参数验证
+case "$ARCH" in
+  x64|arm64) ;;
+  *) fail "不支持的架构: $ARCH（仅支持 x64 和 arm64）" ;;
+esac
+
 # ---------- 环境锁定 ----------
 # Epoch 身份与生产后端两轴分离（见 desktop-product-identity.mjs 注释）：
-# 身份决定 appId/productName/executableName/packageName，后端决定产物名是否带 _TEST。
+# 身份决定 appId/productName/executableName/packageName，后端决定产物名是否带 _TEST 后缀。
 export EPOCH_DESKTOP_IDENTITY=1
 export ZCODE_ENV=production
 export ZCODE_TARGET_OS=linux
-export ZCODE_TARGET_ARCH=x64
+export ZCODE_TARGET_ARCH="$ARCH"
 # 默认只出 deb + AppImage；需要全量 target 时显式传 ZCODE_LINUX_TARGETS 覆盖。
 export ZCODE_LINUX_TARGETS="${ZCODE_LINUX_TARGETS:-deb,AppImage}"
+
+# 架构相关变量
+DEB_ARCH="$ARCH"
+APPIMAGE_ARCH="$ARCH"
+
+# 架构名称映射（Debian 架构名）
+if [ "$ARCH" = "arm64" ]; then
+  DEB_ARCH="arm64"
+  APPIMAGE_ARCH="aarch64"
+fi
 
 # ---------- 前置检查 ----------
 command -v node >/dev/null 2>&1 || fail "缺少 node（需要 >=24，见 mise.toml）"
@@ -91,8 +139,9 @@ console.log(version);
 ' "${DESKTOP_ROOT}/out/metadata/build-meta.json" "${REPO_ROOT}/package.json")" ||
   fail "无法确定 app 版本（build-meta.json 与根 package.json 均缺失/无效）"
 
-DEB_ARTIFACT="Epoch-${APP_VERSION}-linux-amd64.deb" # electron-builder deb 用 Debian 架构名 amd64
-APPIMAGE_ARTIFACT="Epoch-${APP_VERSION}-linux-x86_64.AppImage" # AppImage 用 uname 风格 x86_64
+# 架构相关的产物名称
+DEB_ARTIFACT="Epoch-${APP_VERSION}-linux-${DEB_ARCH}.deb"
+APPIMAGE_ARTIFACT="Epoch-${APP_VERSION}-linux-${APPIMAGE_ARCH}.AppImage"
 
 log "repo=${REPO_ROOT}"
 log "dist=${DIST_DIR}"
@@ -100,7 +149,7 @@ log "version=${APP_VERSION} commit=${GIT_COMMIT_SHORT}"
 log "identity=EPOCH_DESKTOP_IDENTITY=${EPOCH_DESKTOP_IDENTITY} backend=ZCODE_ENV=${ZCODE_ENV}"
 log "targets=${ZCODE_LINUX_TARGETS} arch=${ZCODE_TARGET_ARCH}"
 
-# ---------- 1/4 仓库真实构建路径（根 pnpm build：所有包） ----------
+# ---------- 1/4 仓库真实构建路径（根 pnpm build：所有包）----------
 # W036_SKIP_ROOT_BUILD=1：可恢复重跑开关——大仓库在低内存 CI/本地盒上可能被 OOM 或
 # 会话回收打断，重跑时若根构建已单独完成（pnpm build 已 green），跳过第 1 步直接
 # 进入打包。发布语义不变：调用方自行保证「跳过 = 根构建已在同一 commit 上通过」。
@@ -110,7 +159,7 @@ else
   log "step 1/4: 桌面发布所需构建（packages/* 除 desktop + desktop 全量含 runtime assets）"
   # TL 修正（2026-10-14 实测）：根 `pnpm build` 会把 apps/zcode-cli 全量 turbo 与
   # @zcode/web 的 vite 一并构建——4GB CI/本地盒上被 OOM(137) 杀死。桌面包的真实
-  # 依赖集是 packages/*（@zcode/* workspace 依赖，产物进 asar）+ desktop 自身
+  # 依赖集是 packages/*（@zcode/* workspace 依赖，产物进 asar）+ desktop 自���
   # （prepare:runtime-assets 内部按需构建 agent CLI 的 desktop-agent 目标与
   # native-search，不跑 cli 全量 turbo，也不碰 web）。该过滤集与根 pnpm build 在
   # 这些包上执行的是完全相同的命令，只是去掉了发布不需要的两个 app 目标。
@@ -126,10 +175,10 @@ else
 fi
 
 # ---------- 2/4 electron-builder 打包 ----------
-log "step 2/4: pnpm bundle（linux x64，--skip-prepare --skip-build 避免重复构建）"
+log "step 2/4: pnpm bundle（linux $ARCH，--skip-prepare --skip-build 避免重复构建）"
 (
   cd "${DESKTOP_ROOT}" &&
-    pnpm bundle -- --os linux --arch x64 --skip-prepare --skip-build
+    pnpm bundle -- --os linux --arch "$ARCH" --skip-prepare --skip-build
 )
 
 # ---------- 3/4 产物存在性 + SHA256SUMS + release-manifest.json ----------
@@ -166,6 +215,7 @@ node - \
   "${PNPM_VERSION}" \
   "${KERNEL_INFO}" \
   "${ZCODE_LINUX_TARGETS}" \
+  "${ARCH}" \
   "${DEB_ARTIFACT}" \
   "${APPIMAGE_ARTIFACT}" <<'NODE'
 // 生成 SHA256SUMS 与 release-manifest.json 骨架。
@@ -187,6 +237,7 @@ const [
   pnpmVersion,
   kernelInfo,
   targetsRaw,
+  arch,
   ...artifactNames
 ] = process.argv.slice(2);
 
@@ -219,14 +270,14 @@ function sha256File(filePath) {
     appId: "org.epoch.desktop",
     version,
     targets: targetsRaw.split(",").map((entry) => entry.trim()).filter(Boolean),
-    arch: "x64",
+    arch,
     commit,
     commitShort,
     buildTime: new Date().toISOString(),
     electronVersion,
     electronBuilderVersion,
     buildMachine: {
-      // kernelInfo 已含 “Linux 5.x …” 前缀（uname -sr），避免与 os.type() 重复。
+      // kernelInfo 已含 "Linux 5.x …" 前缀（uname -sr），避免与 os.type() 重复。
       os: `${kernelInfo} (${os.arch()})`,
       glibc: glibcVersion,
       node: nodeVersion,
@@ -260,12 +311,12 @@ log "step 4/4: validate-artifacts.mjs（任一检查失败则本脚本非零退�
 node "${LINUX_RELEASE_DIR}/validate-artifacts.mjs" \
   --dist "${DIST_DIR}" \
   --version "${APP_VERSION}" \
-  --arch x64 \
+  --arch "$ARCH" \
   --report "${DIST_DIR}/validation-report.json"
 
-log "完成：Epoch ${APP_VERSION} (commit ${GIT_COMMIT_SHORT}) linux x64 产物就绪"
+log "完成：Epoch ${APP_VERSION} (commit ${GIT_COMMIT_SHORT}) linux $ARCH 产物就绪"
 log "  dist:      ${DIST_DIR}"
 log "  deb:       ${DEB_ARTIFACT}"
 log "  AppImage:  ${APPIMAGE_ARTIFACT}"
 log "下一步（安装/启动演练，非 root）："
-log "  bash packages/desktop/scripts/linux-release/install-launch-check.sh"
+log "  bash packages/desktop/scripts/linux-release/install-launch-check.sh --arch $ARCH"
