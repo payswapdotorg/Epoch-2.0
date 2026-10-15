@@ -710,6 +710,14 @@ async function main() {
     "electron-builder.config.js",
     osBuilderFlagMap[os],
     archBuilderFlagMap[arch],
+    // W037：发布决策属于 release 工作流（候选产物上传 + 门控 publish 作业），构建器
+    // 永不自行发布。显式 --publish never 还有一个硬性理由：epoch flavor 的 publish
+    // 身份是 GitHub provider，electron-builder 在 CI+tag 环境的默认 publish 策略是
+    // onTagOrDraft——若不固定 never，tag 构建会在缺 GH_TOKEN 时直接失败、或在有
+    // token 的环境绕过验收门自行发布。--publish never 不影响产物生成：配置了
+    // publish provider 时 electron-builder 仍会产出 app-update.yml 与 latest-linux.yml。
+    "--publish",
+    "never",
   ];
 
   console.log(`[bundle] target=${os}/${arch}`);

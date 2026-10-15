@@ -97,6 +97,8 @@ jobs:
             packages/desktop/dist/SHA256SUMS
             packages/desktop/dist/release-manifest.json
             packages/desktop/dist/validation-report.json
+            packages/desktop/dist/latest-linux.yml
+            packages/desktop/dist/*.blockmap
             qa/epoch-ubuntu-release/evidence/
           if-no-files-found: warn
           retention-days: 14
@@ -126,6 +128,11 @@ jobs:
           SUMMARY="$(find candidate -name acceptance-summary.md | head -1)"
           test -n "$DEB" && test -n "$APPIMAGE" && test -n "$SUMS" && test -n "$MANIFEST" && test -n "$SUMMARY"
           (cd "$(dirname "$SUMS")" && sha256sum --check --strict "$(basename "$SUMS")")
+          # W037 自动更新通道：更新 feed 资产（latest-linux.yml 供 electron-updater 发现新版本；
+          # *.blockmap 供 AppImage 差分下载）。二者由 electron-builder 在构建期产出、随候选
+          # 产物上传；缺席（如上游 ZCode flavor 构建）不阻塞发布——只在存在时挂载。
+          LATESTYML="$(find candidate -name latest-linux.yml | head -1 || true)"
+          BLOCKMAPS="$(find candidate -name '*.blockmap' -print || true)"
           {
             echo "DEB=$DEB"
             echo "APPIMAGE=$APPIMAGE"
@@ -133,7 +140,9 @@ jobs:
             echo "MANIFEST=$MANIFEST"
             echo "SUMMARY=$SUMMARY"
             echo "REPORT=$(find candidate -name acceptance-report.json | head -1)"
+            echo "LATESTYML=${LATESTYML:-}"
           } >> "$GITHUB_ENV"
+          printf '%s\n' "$BLOCKMAPS" > "$RUNNER_TEMP/blockmaps.list"
 
       - name: Create GitHub Release with verified artifacts
         env:
@@ -185,13 +194,19 @@ jobs:
           # 幂等发布：release 已存在（例如 TL 已手工发布同 tag 的本地验收产物）时
           # 只补齐缺失资产，绝不覆盖——已发布并经 URL+sha256 复核的资产是不可变的，
           # CI 重建的二进制（时间戳不同）不允许替换已验证字节。
+          # 更新 feed 资产存在才挂载（W037：latest-linux.yml + *.blockmap）。
+          FEED_ASSETS=()
+          [ -n "${LATESTYML:-}" ] && FEED_ASSETS+=("$LATESTYML")
+          while IFS= read -r BM; do
+            [ -n "$BM" ] && FEED_ASSETS+=("$BM")
+          done < "$RUNNER_TEMP/blockmaps.list"
           if ! gh release create "$TAG" \
             --title "Epoch ${TAG}" \
             --notes-file "$RUNNER_TEMP/notes.md" \
             --verify-tag \
-            "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT"; then
+            "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT" ${FEED_ASSETS[@]+"${FEED_ASSETS[@]}"}; then
             echo "release ${TAG} already exists — filling missing assets only (no replace)"
-            for ASSET in "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT"; do
+            for ASSET in "$DEB" "$APPIMAGE" "$SUMS" "$MANIFEST" "$SUMMARY" "$REPORT" ${FEED_ASSETS[@]+"${FEED_ASSETS[@]}"}; do
               gh release upload "$TAG" "$ASSET" 2>/dev/null \
                 || echo "asset $(basename "$ASSET") already present — kept as published"
             done
