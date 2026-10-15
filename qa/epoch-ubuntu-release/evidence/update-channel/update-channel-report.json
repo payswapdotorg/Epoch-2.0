@@ -1,0 +1,96 @@
+{
+  "tool": "qa/epoch-ubuntu-release/update-channel/aggregate.mjs (W037-W2)",
+  "workOrder": "W037 — Epoch Auto-Update Channel（更新通道验收总门）",
+  "generatedAt": "2026-10-15T08:37:23.181Z",
+  "verdict": "fail",
+  "counts": {
+    "pass": 2,
+    "fail": 3,
+    "skipped": 0
+  },
+  "checks": [
+    {
+      "id": "feed-audit:deb:Epoch-3.14.3-linux-amd64.deb",
+      "kind": "feed-audit",
+      "artifactKind": "deb",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+      "status": "pass",
+      "summary": "烘烤 feed = GitHub provider payswapdotorg/Epoch-2.0（sha256=12f4dd48f346ade35a5ada7d24ce125a19c2b619c0612749c8330793a8d7d309）",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/update-channel/feed-audit.json"
+    },
+    {
+      "id": "feed-audit:appimage:Epoch-3.14.3-linux-x86_64.AppImage",
+      "kind": "feed-audit",
+      "artifactKind": "appimage",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+      "status": "pass",
+      "summary": "烘烤 feed = GitHub provider payswapdotorg/Epoch-2.0（sha256=3196261af8cb3cbd3581e1989e833baecf7b8857e1e15a9f7df8648b5e0efdf9）",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/update-channel/feed-audit.json"
+    },
+    {
+      "id": "network-assertion:appimage",
+      "kind": "network-assertion",
+      "mode": "appimage",
+      "status": "fail",
+      "summary": "2 项失败：epoch-feed-hit（更新尝试应命中 Epoch feed 主机（api.github.com/github.com 资产域）；观察窗内命中 0 次）；manifest-provider-runtime-absent（主进程日志实测：[auto-update] service manifest provider applied —— ZCode manifest provider 被安装（W037-W1 seam 缺陷的运行时证据））",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/update-channel/network/appimage/manifest.json",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+      "environment": {
+        "node": "v24.21.0",
+        "platform": "linux",
+        "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+        "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+        "arch": "x86_64",
+        "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+        "display": {
+          "display": ":99",
+          "mode": "private-xvfb"
+        },
+        "electronVersion": "41.0.3",
+        "electronSource": "packages/desktop/package.json devDependencies（构建输入声明）",
+        "gitCommit": "57255b1f2e5467922fec0bfdcb78305e4d177285",
+        "displayMode": "private-xvfb",
+        "electronRuntimeVersion": null,
+        "zcodeOriginUnderAssertion": "https://zcode.z.ai"
+      },
+      "preFixBuildNote": "预修复构建（W037-W1 seam 未合入时的 main）：主进程实测安装了 ZCode manifest provider（service manifest provider applied）并向 zcode 端点发起更新请求 —— 这是 W037 工单记录的线上缺陷的实测证据，不是验收通过态。"
+    },
+    {
+      "id": "network-assertion:deb",
+      "kind": "network-assertion",
+      "mode": "deb",
+      "status": "fail",
+      "summary": "3 项失败：epoch-feed-hit（更新尝试应命中 Epoch feed 主机（api.github.com/github.com 资产域）；观察窗内命中 0 次）；zero-zcode-update-traffic（更新尝试对 ZCode 端点（zcode.z.ai）命中 1 次（必须为 0））；manifest-provider-runtime-absent（主进程日志实测：[auto-update] service manifest provider applied —— ZCode manifest provider 被安装（W037-W1 seam 缺陷的运行时证据））",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/update-channel/network/deb/manifest.json",
+      "artifact": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+      "environment": {
+        "node": "v24.21.0",
+        "platform": "linux",
+        "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+        "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+        "arch": "x86_64",
+        "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+        "display": {
+          "display": ":99",
+          "mode": "ambient"
+        },
+        "electronVersion": "41.0.3",
+        "electronSource": "packages/desktop/package.json devDependencies（构建输入声明）",
+        "gitCommit": "57255b1f2e5467922fec0bfdcb78305e4d177285",
+        "displayMode": "ambient",
+        "electronRuntimeVersion": null,
+        "zcodeOriginUnderAssertion": "https://zcode.z.ai"
+      },
+      "preFixBuildNote": "预修复构建（W037-W1 seam 未合入时的 main）：主进程实测安装了 ZCode manifest provider（service manifest provider applied）并向 zcode 端点发起更新请求 —— 这是 W037 工单记录的线上缺陷的实测证据，不是验收通过态。"
+    },
+    {
+      "id": "dev-update-journey",
+      "kind": "dev-journey",
+      "status": "fail",
+      "summary": "未通过部分: appJourney: feed-manifest-requested,update-available-surfaced,downloading-progress-observed,ready-staged-on-disk,staged-sha512-match,downloaded-menu-state,feed-file-downloaded,no-zcode-update-traffic",
+      "reportPath": "/home/z/Epoch-2.0/qa/epoch-ubuntu-release/evidence/update-channel/dev-journey/manifest.json",
+      "preFixBuildNote": "预修复构建：initAutoUpdater 无条件 setFeedURL(ZCode manifest provider)，electron-updater 的 clientPromise 已设即不再读取 dev-app-update.yml —— 本地 feed 0 命中即该 seam（W037-W1）的实测证据。"
+    }
+  ],
+  "law": "No skipped critical desktop journey may be recorded as a passing release (W036 law); pre-fix FAILs are honest evidence of the W037 live defect, never green-washed."
+}

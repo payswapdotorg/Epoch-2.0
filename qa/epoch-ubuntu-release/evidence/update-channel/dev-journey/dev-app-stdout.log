@@ -1,0 +1,419 @@
+[stdout] [2026-10-15 08:35:05.713] [pid:21171] [main] [desktop-network] renderer proxy mode=direct bypass=disabled customCa=disabled insecureCerts=rejected
+[stdout] [2026-10-15 08:35:05.714] [pid:21171] [main] [desktop-network] renderer proxy mode=system bypass=disabled customCa=disabled insecureCerts=rejected
+[stdout] [2026-10-15 08:35:05.715] [pid:21171] [main] [auto-update] dev update enabled version=3.14.3
+[stdout] [2026-10-15 08:35:05.716] [pid:21171] [main] [auto-update] initializing, current version: 3.14.3
+[stdout] [2026-10-15 08:35:05.716] [pid:21171] [main] [auto-update] service manifest provider applied platform=linux-x86_64
+[stdout] [2026-10-15 08:35:05.719] [pid:21171] [main] [resource] sampling started interval=10000ms report=60000ms
+[stdout] [2026-10-15 08:35:05.719] [pid:21171] [main] [network] reporting started interval=60000ms
+[stdout] [2026-10-15 08:35:05.720] [pid:21171] [main] [force-update] 本地 dev 构建（未打包）跳过远端强制升级检查
+[stdout] [2026-10-15 08:35:05.720] [pid:21171] [main] [startup] 创建主窗口
+[stdout] [2026-10-15 08:35:05.743] [pid:21171] [main] [primary-window] creating main window (app-ready)
+[stdout] [2026-10-15 08:35:05.747] [pid:21171] [main] Checking for update
+[stdout] [2026-10-15 08:35:05.748] [pid:21171] [main] [auto-update] checking for update...
+[stdout] [2026-10-15 08:35:05.754] [pid:21171] [main] Generated new staging user ID: 80839698-9eea-5167-b1b2-5f8874223cc5
+[stdout] [2026-10-15 08:35:05.757] [pid:21171] [main] [startup-workspace] using conversation workspace: /home/z/.zcode/workspace/default
+[stderr] [21171:1015/083505.799049:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083505.864162:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [2026-10-15 08:35:05.892] [pid:21171] [main] Error: Error: net::ERR_TUNNEL_CONNECTION_FAILED
+[stderr]     at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:134569)
+[stderr]     at SimpleURLLoaderWrapper.emit (node:events:508:28)
+[stderr] [2026-10-15 08:35:05.894] [pid:21171] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED
+[stderr]     at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:134569)
+[stderr]     at SimpleURLLoaderWrapper.emit (node:events:508:28)
+[stderr] [2026-10-15 08:35:05.899] [pid:21171] [main] [auto-update] startup check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED
+[stderr]     at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:134569)
+[stderr]     at SimpleURLLoaderWrapper.emit (node:events:508:28)
+[stdout] [2026-10-15 08:35:05.956] [pid:21171] [main] [desktop-context-prompt] config refreshed { enabled: true, configVersion: 'desktop-sp-v1' }
+[stdout] [2026-10-15 08:35:09.179] [pid:21171] [main] [createWindow] dom-ready fired (local-1)
+[stdout] [2026-10-15 08:35:09.180] [pid:21171] [main] [desktop-context-prompt] first host spawn decision resolved { enabled: true, configVersion: 'desktop-sp-v1' }
+[stdout] [2026-10-15 08:35:09.204] [pid:21171] [main] [spawnHostProcess] forked host process for (local-1), pid=undefined
+[stdout] [2026-10-15 08:35:09.205] [pid:21171] [main] [spawnHostProcess] host module path: /home/z/Epoch-2.0/packages/desktop/out/host/index.js
+[stdout] [2026-10-15 08:35:09.206] [pid:21171] [main] [spawnHostProcess] glm binary path: <not found>
+[stdout] [2026-10-15 08:35:09.207] [pid:21171] [main] [spawnHostProcess] BIGMODEL_OAUTH_APP_SECRET source: fallback
+[stdout] [2026-10-15 08:35:09.209] [pid:21171] [main] [task-realtime] registered host {
+[stdout]   hostId: '882d0b84-04ef-48c9-b0d0-ae051a4b896b',
+[stdout]   windowId: 1,
+[stdout]   workspaceKeyCount: 0,
+[stdout]   deliveryKind: 'desktop_window'
+[stdout] }
+[stdout] [2026-10-15 08:35:09.251] [pid:21171] [main] [renderer-action-trace] config refreshed { enabled: true, configVersion: 'ttft-2026-09-18' }
+[stderr] [21201:1015/083509.367033:ERROR:gpu/command_buffer/service/gl_utils.cc:387] [.WebGL-0x7bc000f7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[stderr] [21201:1015/083509.455091:ERROR:gpu/command_buffer/service/gl_utils.cc:387] [.WebGL-0x7bc000f7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[stderr] [21201:1015/083509.472019:ERROR:gpu/command_buffer/service/gl_utils.cc:387] [.WebGL-0x7bc000f7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[stderr] [21201:1015/083509.487984:ERROR:gpu/command_buffer/service/gl_utils.cc:387] [.WebGL-0x7bc000f7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[stderr] [21171:1015/083510.051453:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083510.051608:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:
+[stderr] [21171:1015/083510.051651:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083510.051667:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:
+[stderr] (node:21264) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+[stderr] (Use `exe --trace-warnings ...` to show where the warning was created)
+[stderr] [2026-10-15 08:35:10.203] [pid:21264] [zcode-host] ExperimentalWarning: SQLite is an experimental feature and might change at any time
+[stderr] [2026-10-15 08:35:10.213] [pid:21264] [zcode-host] [cua-pip-session] focus event dropped: service unavailable
+[stderr] [2026-10-15 08:35:10.255] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:10.203] [pid:21264] [zcode-host] ExperimentalWarning: SQLite is an experimental feature and might change at any time
+[stderr] (node:21264) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+[stderr] (Use `exe --trace-warnings ...` to show where the warning was created)
+[stderr] [2026-10-15 08:35:10.585] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:10.213] [pid:21264] [zcode-host] [cua-pip-session] focus event dropped: service unavailable
+[stdout] [2026-10-15 08:35:10.658] [pid:21171] [main] [desktop-command] execute checkForUpdates windowId=1
+[stdout] [2026-10-15 08:35:10.659] [pid:21171] [main] [auto-update] user clicked Check for Updates
+[stdout] [2026-10-15 08:35:10.667] [pid:21171] [main] Checking for update
+[stdout] [2026-10-15 08:35:10.668] [pid:21171] [main] [auto-update] checking for update...
+[stderr] [2026-10-15 08:35:10.673] [pid:21171] [main] Error: Error: net::ERR_TUNNEL_CONNECTION_FAILED
+[stderr]     at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:134569)
+[stderr]     at SimpleURLLoaderWrapper.emit (node:events:508:28)
+[stderr] [2026-10-15 08:35:10.673] [pid:21171] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED
+[stderr]     at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:134569)
+[stderr]     at SimpleURLLoaderWrapper.emit (node:events:508:28)
+[stdout] [2026-10-15 08:35:10.685] [pid:21171] [main] [auto-update] manual check result → wc=1: error
+[stderr] [2026-10-15 08:35:10.685] [pid:21171] [main] [auto-update] manual check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED
+[stderr]     at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:134569)
+[stderr]     at SimpleURLLoaderWrapper.emit (node:events:508:28)
+[stdout] [2026-10-15 08:35:12.416] [pid:21171] [main] [stability] perf_app_start reported
+[stdout] [2026-10-15 08:35:13.793] [pid:21264] [zcode-host] initializing local services
+[stdout] [2026-10-15 08:35:13.795] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.793] [pid:21264] [zcode-host] initializing local services
+[stdout] [2026-10-15 08:35:13.805] [pid:21264] [cua-pip-session] [cua-pip-session] wiring resolved {
+[stdout]   enabled: false,
+[stdout]   platform: 'linux',
+[stdout]   serviceAuthorityMode: 'desktop-local',
+[stdout]   lifecycleWired: true
+[stdout] }
+[stdout] [2026-10-15 08:35:13.807] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.805] [pid:21264] [cua-pip-session] [cua-pip-session] wiring resolved {"enabled":false,"platform":"linux","serviceAuthorityMode":"desktop-local","lifecycleWired":true}
+[stdout] [2026-10-15 08:35:13.820] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:13.821] [pid:21264] [zcode-agent-service] 开始初始化 ZCode agent {
+[stdout]   workspaceKey: '/home/z/.zcode/workspace/default',
+[stdout]   workspacePath: '/home/z/.zcode/workspace/default'
+[stdout] }
+[stdout] [2026-10-15 08:35:13.821] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.821] [pid:21264] [zcode-agent-service] 开始初始化 ZCode agent {"workspaceKey":"/home/z/.zcode/workspace/default","workspacePath":"/home/z/.zcode/workspace/default"}
+[stdout] [2026-10-15 08:35:13.822] [pid:21264] [zcode-host] exposing services on ChannelServer...
+[stdout] [2026-10-15 08:35:13.823] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.822] [pid:21264] [zcode-host] exposing services on ChannelServer...
+[stdout] [2026-10-15 08:35:13.823] [pid:21264] [zcode-host] creating ChannelServer (deferInit=false)
+[stdout] [2026-10-15 08:35:13.824] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.823] [pid:21264] [zcode-host] creating ChannelServer (deferInit=false)
+[stdout] [2026-10-15 08:35:13.826] [pid:21264] [zcode-host] [rpc:register] channel "file"
+[stdout] [2026-10-15 08:35:13.826] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.826] [pid:21264] [zcode-host] [rpc:register] channel "file"
+[stdout] [2026-10-15 08:35:13.827] [pid:21264] [zcode-host] [rpc:register] channel "media-preview"
+[stdout] [2026-10-15 08:35:13.827] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.827] [pid:21264] [zcode-host] [rpc:register] channel "media-preview"
+[stdout] [2026-10-15 08:35:13.828] [pid:21264] [zcode-host] [rpc:register] channel "git"
+[stdout] [2026-10-15 08:35:13.828] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.828] [pid:21264] [zcode-host] [rpc:register] channel "git"
+[stdout] [2026-10-15 08:35:13.829] [pid:21264] [zcode-host] [rpc:register] channel "git-checkpoint"
+[stdout] [2026-10-15 08:35:13.829] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.829] [pid:21264] [zcode-host] [rpc:register] channel "git-checkpoint"
+[stdout] [2026-10-15 08:35:13.829] [pid:21264] [zcode-host] [rpc:register] channel "system"
+[stdout] [2026-10-15 08:35:13.830] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.829] [pid:21264] [zcode-host] [rpc:register] channel "system"
+[stdout] [2026-10-15 08:35:13.830] [pid:21264] [zcode-host] [rpc:register] channel "terminal"
+[stdout] [2026-10-15 08:35:13.831] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.830] [pid:21264] [zcode-host] [rpc:register] channel "terminal"
+[stdout] [2026-10-15 08:35:13.832] [pid:21264] [zcode-host] [rpc:register] channel "setting"
+[stdout] [2026-10-15 08:35:13.832] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.832] [pid:21264] [zcode-host] [rpc:register] channel "setting"
+[stdout] [2026-10-15 08:35:13.833] [pid:21264] [zcode-host] [rpc:register] channel "onboarding-record"
+[stdout] [2026-10-15 08:35:13.833] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.833] [pid:21264] [zcode-host] [rpc:register] channel "onboarding-record"
+[stdout] [2026-10-15 08:35:13.833] [pid:21264] [zcode-host] [rpc:register] channel "credential"
+[stdout] [2026-10-15 08:35:13.834] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.833] [pid:21264] [zcode-host] [rpc:register] channel "credential"
+[stdout] [2026-10-15 08:35:13.834] [pid:21264] [zcode-host] [rpc:register] channel "broadcast"
+[stdout] [2026-10-15 08:35:13.834] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.834] [pid:21264] [zcode-host] [rpc:register] channel "broadcast"
+[stdout] [2026-10-15 08:35:13.835] [pid:21264] [zcode-host] [rpc:register] channel "zcode-task"
+[stdout] [2026-10-15 08:35:13.836] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.835] [pid:21264] [zcode-host] [rpc:register] channel "zcode-task"
+[stdout] [2026-10-15 08:35:13.836] [pid:21264] [zcode-host] [rpc:register] channel "zcode-agent"
+[stdout] [2026-10-15 08:35:13.836] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.836] [pid:21264] [zcode-host] [rpc:register] channel "zcode-agent"
+[stdout] [2026-10-15 08:35:13.837] [pid:21264] [zcode-host] [rpc:register] channel "zcode-session"
+[stdout] [2026-10-15 08:35:13.837] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.837] [pid:21264] [zcode-host] [rpc:register] channel "zcode-session"
+[stdout] [2026-10-15 08:35:13.838] [pid:21264] [zcode-host] [rpc:register] channel "cua-permission"
+[stdout] [2026-10-15 08:35:13.838] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.838] [pid:21264] [zcode-host] [rpc:register] channel "cua-permission"
+[stdout] [2026-10-15 08:35:13.839] [pid:21264] [zcode-host] [rpc:register] channel "cua-pip-session"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "conversation-share"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "bots"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "file-watcher"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "oauth"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "usage-stats"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "coding-plan-subscription"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "client-config"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "client-scenes"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "off-peak-task"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "skills"
+[stdout] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "skill-sync"
+[stdout] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "mcp-sync"
+[stdout] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "plugin-sync"
+[stdout] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "plugins"
+[stdout] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "plugin-management"
+[stdout] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "subagents"
+[stdout] [2026-10-15 08:35:13.839] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.839] [pid:21264] [zcode-host] [rpc:register] channel "cua-pip-session"
+[stdout] [2026-10-15 08:35:13.844] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "conversation-share"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "commands"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "hooks"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "memory"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "settings-sync"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "feedback"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "prompt-attachment-transfer"
+[stdout] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "provider-settings"
+[stdout] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] [rpc:register] channel "model-selection"
+[stdout] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] [rpc:register] channel "window-controller"
+[stdout] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] service connection ready mode=desktop-continuous
+[stdout] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] window Host topology, reason=base-attachment-ready, pid=21264, connections=0, logicalSessions=0, attachments=1
+[stdout] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] local services ready, all channels registered
+[stdout] [2026-10-15 08:35:13.845] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "bots"
+[stdout] [2026-10-15 08:35:13.846] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "file-watcher"
+[stdout] [2026-10-15 08:35:13.848] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "oauth"
+[stdout] [2026-10-15 08:35:13.848] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "usage-stats"
+[stdout] [2026-10-15 08:35:13.849] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "coding-plan-subscription"
+[stdout] [2026-10-15 08:35:13.849] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "client-config"
+[stdout] [2026-10-15 08:35:13.851] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "client-scenes"
+[stdout] [2026-10-15 08:35:13.851] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "off-peak-task"
+[stdout] [2026-10-15 08:35:13.852] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "skills"
+[stdout] [2026-10-15 08:35:13.855] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.842] [pid:21264] [zcode-host] [rpc:register] channel "skill-sync"
+[stdout] [2026-10-15 08:35:13.855] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "mcp-sync"
+[stdout] [2026-10-15 08:35:13.858] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "plugin-sync"
+[stdout] [2026-10-15 08:35:13.858] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "plugins"
+[stdout] [2026-10-15 08:35:13.858] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "plugin-management"
+[stdout] [2026-10-15 08:35:13.859] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.843] [pid:21264] [zcode-host] [rpc:register] channel "subagents"
+[stdout] [2026-10-15 08:35:13.861] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "commands"
+[stdout] [2026-10-15 08:35:13.862] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "hooks"
+[stdout] [2026-10-15 08:35:13.864] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "memory"
+[stdout] [2026-10-15 08:35:13.865] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "settings-sync"
+[stdout] [2026-10-15 08:35:13.865] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "feedback"
+[stdout] [2026-10-15 08:35:13.866] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "prompt-attachment-transfer"
+[stdout] [2026-10-15 08:35:13.868] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.844] [pid:21264] [zcode-host] [rpc:register] channel "provider-settings"
+[stdout] [2026-10-15 08:35:13.870] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] [rpc:register] channel "model-selection"
+[stdout] [2026-10-15 08:35:13.871] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] [rpc:register] channel "window-controller"
+[stdout] [2026-10-15 08:35:13.872] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] service connection ready mode=desktop-continuous
+[stdout] [2026-10-15 08:35:13.872] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] window Host topology, reason=base-attachment-ready, pid=21264, connections=0, logicalSessions=0, attachments=1
+[stdout] [2026-10-15 08:35:13.873] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:13.875] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:13.845] [pid:21264] [zcode-host] local services ready, all channels registered
+[stdout] [2026-10-15 08:35:13.879] [pid:21171] [main] [database-startup] terminal {
+[stdout]   attemptId: 'ca909306-f489-4e6c-8ae1-d141261e0245',
+[stdout]   status: 'ready',
+[stdout]   durationMs: 3636,
+[stdout]   errorCode: undefined,
+[stdout]   disk: [
+[stdout]     {
+[stdout]       scopeId: '44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a',
+[stdout]       observedAvailableDropPeakBytes: 49152,
+[stdout]       minAvailableBytes: 1526620160,
+[stdout]       quality: 'complete',
+[stdout]       sampledAt: 1792053312769
+[stdout]     }
+[stdout]   ]
+[stdout] }
+[stdout] [2026-10-15 08:35:13.886] [pid:21171] [main] [cron-scheduler] forked scheduler process pid=undefined
+[stdout] [2026-10-15 08:35:14.007] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.014] [pid:21171] [main] [task-realtime] updated host workspace scopes {
+[stdout]   hostId: '882d0b84-04ef-48c9-b0d0-ae051a4b896b',
+[stdout]   workspaceKeyCount: 0
+[stdout] }
+[stdout] [2026-10-15 08:35:14.020] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.007] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stderr] [21171:1015/083514.045003:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [2026-10-15 08:35:14.055] [pid:21264] [cua-pip-session] [cua-pip-session] event delivery dropped {
+[stderr]   kind: 'focus-changed',
+[stderr]   revision: 3,
+[stderr]   sessionId: null,
+[stderr]   sourceWindowId: 'window-1',
+[stderr]   skipReason: 'service-disabled'
+[stderr] }
+[stdout] [2026-10-15 08:35:14.059] [pid:21264] [zcode-host] [rpc:listen] zcode-agent.onDynamicCuaPermissionObservation subscribed
+[stderr] [2026-10-15 08:35:14.060] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.055] [pid:21264] [cua-pip-session] [cua-pip-session] event delivery dropped {"kind":"focus-changed","revision":3,"sessionId":null,"sourceWindowId":"window-1","skipReason":"service-disabled"}
+[stdout] [2026-10-15 08:35:14.063] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.059] [pid:21264] [zcode-host] [rpc:listen] zcode-agent.onDynamicCuaPermissionObservation subscribed
+[stdout] [2026-10-15 08:35:14.064] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.065] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.067] [pid:21264] [zcode-host] [rpc:listen] model-selection.onDidChange subscribed
+[stdout] [2026-10-15 08:35:14.068] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.068] [pid:21264] [zcode-host] [rpc:listen] provider-settings.onDidChange subscribed
+[stdout] [2026-10-15 08:35:14.069] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.069] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.070] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.067] [pid:21264] [zcode-host] [rpc:listen] model-selection.onDidChange subscribed
+[stdout] [2026-10-15 08:35:14.071] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.068] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.072] [pid:21264] [zcode-host] [rpc:listen] provider-settings.onDidChange subscribed
+[stdout] [2026-10-15 08:35:14.074] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.068] [pid:21264] [zcode-host] [rpc:listen] provider-settings.onDidChange subscribed
+[stdout] [2026-10-15 08:35:14.079] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.079] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.080] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.081] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.069] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.082] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.072] [pid:21264] [zcode-host] [rpc:listen] provider-settings.onDidChange subscribed
+[stdout] [2026-10-15 08:35:14.083] [pid:21264] [oauthService] restoreCachedSession skipped: no active provider
+[stdout] [2026-10-15 08:35:14.083] [pid:21264] [zcode-host] [rpc:call] oauth.restoreCachedSessionState OK (10.4ms)
+[stdout] [2026-10-15 08:35:14.084] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.079] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.086] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.080] [pid:21264] [zcode-host] [rpc:listen] broadcast.onMessage subscribed
+[stdout] [2026-10-15 08:35:14.090] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.083] [pid:21264] [oauthService] restoreCachedSession skipped: no active provider
+[stdout] [2026-10-15 08:35:14.094] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.083] [pid:21264] [zcode-host] [rpc:call] oauth.restoreCachedSessionState OK (10.4ms)
+[stdout] [2026-10-15 08:35:14.103] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.117] [pid:21264] [node-api-client] zcode endpoint request headers prepared {
+[stdout]   headerKeys: [
+[stdout]     'http-referer',
+[stdout]     'user-agent',
+[stdout]     'x-client-language',
+[stdout]     'x-client-timezone',
+[stdout]     'x-device-mid',
+[stdout]     'x-os-category',
+[stdout]     'x-os-version',
+[stdout]     'x-platform',
+[stdout]     'x-release-channel',
+[stdout]     'x-request-id',
+[stdout]     'x-title',
+[stdout]     'x-zcode-app-version'
+[stdout]   ],
+[stdout]   method: 'GET',
+[stdout]   url: 'https://zcode.z.ai/api/v1/client/configs?app_version=3.14.3&platform=linux-x64'
+[stdout] }
+[stdout] [2026-10-15 08:35:14.118] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.118] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.118] [pid:21264] [zcode-host] [rpc:call] setting.get OK (53.5ms)
+[stdout] [2026-10-15 08:35:14.119] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.119] [pid:21264] [zcode-host] [rpc:call] setting.get OK (50.6ms)
+[stdout] [2026-10-15 08:35:14.120] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.120] [pid:21264] [zcode-host] [rpc:call] setting.get OK (40.9ms)
+[stdout] [2026-10-15 08:35:14.142] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.118] [pid:21264] [zcode-host] [rpc:call] setting.get OK (53.5ms)
+[stdout] [2026-10-15 08:35:14.143] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.119] [pid:21264] [zcode-host] [rpc:call] setting.get OK (50.6ms)
+[stdout] [2026-10-15 08:35:14.143] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.120] [pid:21264] [zcode-host] [rpc:call] setting.get OK (40.9ms)
+[stdout] [2026-10-15 08:35:14.145] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.284] [pid:21264] [zcode-host] [rpc:call] oauth.getActiveProvider OK (5.5ms)
+[stdout] [2026-10-15 08:35:14.284] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.284] [pid:21264] [zcode-host] [rpc:call] oauth.getActiveProvider OK (5.5ms)
+[stdout] [2026-10-15 08:35:14.290] [pid:21264] [zcode-host] [rpc:call] zcode-agent.syncAppRuntimePreferences OK (0.1ms)
+[stdout] [2026-10-15 08:35:14.291] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.290] [pid:21264] [zcode-host] [rpc:call] zcode-agent.syncAppRuntimePreferences OK (0.1ms)
+[stdout] [2026-10-15 08:35:14.292] [pid:21264] [zcode-host] [rpc:call] bots.syncAppRuntimePreferences OK (0.2ms)
+[stdout] [2026-10-15 08:35:14.293] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.292] [pid:21264] [zcode-host] [rpc:call] bots.syncAppRuntimePreferences OK (0.2ms)
+[stdout] [2026-10-15 08:35:14.294] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.346] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.346] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.351] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.487] [pid:21264] [provider-config] ZCode Built-in 刷新检查 { result: 'skipped', reason: 'not-due' }
+[stdout] [2026-10-15 08:35:14.489] [pid:21264] [zcode-host] [rpc:call] coding-plan-subscription.getDynamicWorkflowClientConfig OK (429.5ms)
+[stdout] [2026-10-15 08:35:14.490] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.489] [pid:21264] [zcode-host] [rpc:call] coding-plan-subscription.getDynamicWorkflowClientConfig OK (429.5ms)
+[stdout] [2026-10-15 08:35:14.577] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.578] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.583] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.585] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.646] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.648] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.650] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.653] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.767] [pid:21264] [provider-runtime][trace:Provider Registry 已就绪] {
+[stdout]   configRevision: '["zcode-builtin:30:ff08462c57d53ea885413bf61f0ad22cda41be6e142d4ad2b240632f6df21fbb","2915b997aefbd6c7fe8ccfc87153713dc11851987034eec5a515e9660ac81b0e"]',
+[stdout]   providerCount: 0
+[stdout] }
+[stdout] [2026-10-15 08:35:14.769] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.767] [pid:21264] [provider-runtime][trace:Provider Registry 已就绪] {"configRevision":"[\"zcode-builtin:30:ff08462c57d53ea885413bf61f0ad22cda41be6e142d4ad2b240632f6df21fbb\",\"2915b997aefbd6c7fe8ccfc87153713dc11851987034eec5a515e9660ac81b0e\"]","providerCount":0}
+[stdout] [2026-10-15 08:35:14.770] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.770] [pid:21264] [zcode-host] [rpc:call] provider-settings.getView OK (701.4ms)
+[stdout] [2026-10-15 08:35:14.770] [pid:21264] [zcode-host] [rpc:call] provider-settings.getView OK (697.1ms)
+[stdout] [2026-10-15 08:35:14.771] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.770] [pid:21264] [zcode-host] [rpc:call] provider-settings.getView OK (701.4ms)
+[stdout] [2026-10-15 08:35:14.772] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.770] [pid:21264] [zcode-host] [rpc:call] provider-settings.getView OK (697.1ms)
+[stdout] [2026-10-15 08:35:14.774] [pid:21264] [zcode-agent-service] provider/model 尚未就绪，ZCode agent 保持未启动 {
+[stdout]   providerCount: 0,
+[stdout]   revision: 'model-selection:1',
+[stdout]   workspaceKey: '/home/z/.zcode/workspace/default',
+[stdout]   workspacePath: '/home/z/.zcode/workspace/default'
+[stdout] }
+[stdout] [2026-10-15 08:35:14.775] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.774] [pid:21264] [zcode-agent-service] provider/model 尚未就绪，ZCode agent 保持未启动 {"providerCount":0,"revision":"model-selection:1","workspaceKey":"/home/z/.zcode/workspace/default","workspacePath":"/home/z/.zcode/workspace/default"}
+[stdout] [2026-10-15 08:35:14.774] [pid:21264] [zcode-agent-service] ZCode agent 等待 provider/model 就绪 {
+[stdout]   durationMs: 953,
+[stdout]   message: '当前没有可用的模型供应商和模型，请先登录或配置 API Key。',
+[stdout]   workspaceKey: '/home/z/.zcode/workspace/default',
+[stdout]   workspacePath: '/home/z/.zcode/workspace/default'
+[stdout] }
+[stdout] [2026-10-15 08:35:14.776] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.774] [pid:21264] [zcode-agent-service] ZCode agent 等待 provider/model 就绪 {"durationMs":953,"message":"当前没有可用的模型供应商和模型，请先登录或配置 API Key。","workspaceKey":"/home/z/.zcode/workspace/default","workspacePath":"/home/z/.zcode/workspace/default"}
+[stdout] [2026-10-15 08:35:14.776] [pid:21264] [zcode-host] ZCode agent warmup waiting for provider/model (local host init (1/1)) workspace=/home/z/.zcode/workspace/default
+[stdout] [2026-10-15 08:35:14.777] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.776] [pid:21264] [zcode-host] ZCode agent warmup waiting for provider/model (local host init (1/1)) workspace=/home/z/.zcode/workspace/default
+[stdout] [2026-10-15 08:35:14.777] [pid:21264] [zcode-host] [rpc:call] model-selection.getView OK (709.5ms)
+[stdout] [2026-10-15 08:35:14.778] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.777] [pid:21264] [zcode-host] [rpc:call] model-selection.getView OK (709.5ms)
+[stdout] [2026-10-15 08:35:14.779] [pid:21264] [zcode-host] [rpc:call] model-selection.getView OK (370.2ms)
+[stdout] [2026-10-15 08:35:14.779] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.779] [pid:21264] [zcode-host] [rpc:call] model-selection.getView OK (370.2ms)
+[stdout] [2026-10-15 08:35:14.780] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.781] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.784] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.842] [pid:21264] [zcode-host] [rpc:call] credential.load OK (26.1ms)
+[stdout] [2026-10-15 08:35:14.842] [pid:21264] [zcode-host] [rpc:call] credential.load OK (26.3ms)
+[stdout] [2026-10-15 08:35:14.843] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.842] [pid:21264] [zcode-host] [rpc:call] credential.load OK (26.1ms)
+[stdout] [2026-10-15 08:35:14.844] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.842] [pid:21264] [zcode-host] [rpc:call] credential.load OK (26.3ms)
+[stdout] [2026-10-15 08:35:14.844] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.850] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.852] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.856] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.857] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.858] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.859] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.864] [pid:21264] [node-api-client] zcode endpoint request headers prepared {
+[stdout]   headerKeys: [
+[stdout]     'http-referer',
+[stdout]     'user-agent',
+[stdout]     'x-client-language',
+[stdout]     'x-client-timezone',
+[stdout]     'x-device-mid',
+[stdout]     'x-os-category',
+[stdout]     'x-os-version',
+[stdout]     'x-platform',
+[stdout]     'x-release-channel',
+[stdout]     'x-request-id',
+[stdout]     'x-title',
+[stdout]     'x-zcode-app-version'
+[stdout]   ],
+[stdout]   method: 'GET',
+[stdout]   url: 'https://zcode.z.ai/api/v1/client/configs?app_version=3.14.3&platform=linux-x86_64'
+[stdout] }
+[stdout] [2026-10-15 08:35:14.866] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.896] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.896] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.897] [pid:21264] [zcode-host] [rpc:call] setting.get OK (1.1ms)
+[stdout] [2026-10-15 08:35:14.897] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:14.897] [pid:21264] [zcode-host] [rpc:call] setting.get OK (1.1ms)
+[stdout] [2026-10-15 08:35:14.951] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.955] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:14.955] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:14.959] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.015] [pid:21264] [zcode-host] [rpc:call] oauth.getProviders OK (0.1ms)
+[stdout] [2026-10-15 08:35:15.016] [pid:21264] [zcode-host] [rpc:call] oauth.getProviders OK (0.0ms)
+[stdout] [2026-10-15 08:35:15.017] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:15.018] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.019] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:15.019] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.020] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:15.043] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:15.015] [pid:21264] [zcode-host] [rpc:call] oauth.getProviders OK (0.1ms)
+[stdout] [2026-10-15 08:35:15.043] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:15.016] [pid:21264] [zcode-host] [rpc:call] oauth.getProviders OK (0.0ms)
+[stdout] [2026-10-15 08:35:15.020] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.045] [pid:21264] [zcode-host] [rpc:call] oauth.getActiveProvider OK (0.1ms)
+[stdout] [2026-10-15 08:35:15.046] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:15.045] [pid:21264] [zcode-host] [rpc:call] oauth.getActiveProvider OK (0.1ms)
+[stdout] [2026-10-15 08:35:15.054] [pid:21264] [zcode-host] [rpc:call] oauth.getActiveProvider OK (0.2ms)
+[stdout] [2026-10-15 08:35:15.054] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:15.054] [pid:21264] [zcode-host] [rpc:call] oauth.getActiveProvider OK (0.2ms)
+[stdout] [2026-10-15 08:35:15.105] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:15.105] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.164] [pid:21264] [provider-config] ZCode Built-in 刷新检查 { result: 'stale', revision: 23 }
+[stdout] [2026-10-15 08:35:15.164] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:15.165] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.207] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:35:15.208] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:35:15.263] [pid:21264] [zcode-host] [rpc:call] provider-settings.refresh OK (1119.4ms)
+[stdout] [2026-10-15 08:35:15.264] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:15.263] [pid:21264] [zcode-host] [rpc:call] provider-settings.refresh OK (1119.4ms)
+[stdout] [2026-10-15 08:35:15.265] [pid:21264] [zcode-host] [rpc:call] provider-settings.refresh OK (310.4ms)
+[stdout] [2026-10-15 08:35:15.266] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:35:15.265] [pid:21264] [zcode-host] [rpc:call] provider-settings.refresh OK (310.4ms)
+[stderr] (node:21287) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+[stderr] (Use `exe --trace-warnings ...` to show where the warning was created)
+[stdout] [2026-10-15 08:35:15.389] [pid:21171] [main] [cron-scheduler] cron scheduler started
+[stdout] [2026-10-15 08:36:05.719] [pid:21171] [main] [resource] perf_process_window + perf_system_window flushed
+[stdout] [2026-10-15 08:36:05.725] [pid:21171] [main] [network] perf_network flushed interfaces=11
+[stdout] [2026-10-15 08:36:05.728] [pid:21171] [main] [memory] role=main reason=first rssKb=259540 heapUsedKb=28632 heapTotalKb=30028 externalKb=5754 arrayBuffersKb=0 app.willDownloadListeners=0 app.windows=1 broadcast.claims=0 broadcast.processes=1 guest.closedTabIds=0 guest.tabs=0 taskBus.leases=0 taskBus.sessionRoutes=0 taskBus.streamBatches=0 ws.chromium_other=87668 ws.gpu=190112 ws.host=140020 ws.main=259396 ws.renderer_main=272740 ws.scheduler=139828
+[stdout] [2026-10-15 08:36:10.203] [pid:21264] [zcode-host] [memory] role=utility_host reason=first rssKb=138664 heapUsedKb=25584 heapTotalKb=27136 externalKb=5234 arrayBuffersKb=0 agent.pendingPermissions=0 agent.pendingUserInputs=0 agent.seqStates=0 agent.sessionEmitters=0 bots.liveStatusProgress=0 bots.runningTasks=0 bots.streamSubs=0 bots.typingIntervals=0 fileWatcher.open=0 task.overlays=0 task.runtimeCommands=0 task.taskEmitters=0 task.toolMemoryTasks=0 terminal.open=0
+[stdout] [2026-10-15 08:36:10.204] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:36:10.203] [pid:21264] [zcode-host] [memory] role=utility_host reason=first rssKb=138664 heapUsedKb=25584 heapTotalKb=27136 externalKb=5234 arrayBuffersKb=0 agent.pendingPermissions=0 agent.pendingUserInputs=0 agent.seqStates=0 agent.sessionEmitters=0 bots.liveStatusProgress=0 bots.runningTasks=0 bots.streamSubs=0 bots.typingIntervals=0 fileWatcher.open=0 task.overlays=0 task.runtimeCommands=0 task.taskEmitters=0 task.toolMemoryTasks=0 terminal.open=0
+[stdout] [2026-10-15 08:36:14.295] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:36:14.296] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:36:14.296] [pid:21264] [settingService] reading settings from: /home/z/.zcode/v2/setting.json
+[stdout] [2026-10-15 08:36:14.297] [pid:21264] [settingService] read result: {"recentProjects":[],"locale":"en-US","localePreference":"system","terminalInheritSystemProfile":true,"embeddedBrowserAllowInsecureCertificates":false,"embeddedBrowserViewportPreference":{"mode":"normal","viewport":{"width":393,"height":852},"zoom":"fit"},"computerUseComposerEntryHidden":true,"taskAutoArchiveEnabled":false,"taskAutoArchiveOlderThanDays":7,"closeToTrayOnWindows":true,"closeToTrayOnWindowsMigrationInitialized":true,"keepAwakeWhileRunning":false,"desktopChromiumHardwareAccelerationEnabled":true,"messageStreamShowReasoning":true,"messageStreamShowReasoningMigrationInitialized":true,"messageStreamShowTodos":false,"toolGroupingExploreEnabled":true,"toolGroupingTerminalEnabled":true,"toolGroupingChangesEnabled":false,"zcodeInteractionBehavior":"queue","askUserQuestionAutoResolutionEnabled":true,"modelIoFullRetentionEnabled":false,"startPlanRecommendationDismissed":false,"providerFamilyConnectionSelections":{},"providerFamilyDomainMigrated":false,"nativeSearchEnhancementsEnabled":true,"memoryEnabled":false,"lastWorkspaceSession":[],"lastActiveTabIndex":0,"receivePreviewUpdates":false,"autoDownloadAndInstallUpdates":false,"skippedElectronUpdateVersions":{}}
+[stdout] [2026-10-15 08:36:14.344] [pid:21264] [provider-config] ZCode Built-in 刷新检查 { result: 'skipped', reason: 'not-due' }
+[stdout] [2026-10-15 08:37:05.719] [pid:21171] [main] [resource] perf_process_window + perf_system_window flushed
+[stdout] [2026-10-15 08:37:05.728] [pid:21171] [main] [memory] role=main reason=changed rssKb=258740 heapUsedKb=28784 heapTotalKb=30540 externalKb=5754 arrayBuffersKb=0 app.willDownloadListeners=0 app.windows=1 broadcast.claims=0 broadcast.processes=1 guest.closedTabIds=0 guest.tabs=0 taskBus.leases=0 taskBus.sessionRoutes=0 taskBus.streamBatches=0 ws.chromium_other=84852 ws.gpu=190084 ws.host=143016 ws.main=258740 ws.renderer_main=265184 ws.scheduler=116720
+[stdout] [2026-10-15 08:37:10.202] [pid:21264] [zcode-host] [memory] role=utility_host reason=changed rssKb=143016 heapUsedKb=27382 heapTotalKb=30616 externalKb=5256 arrayBuffersKb=0 agent.pendingPermissions=0 agent.pendingUserInputs=0 agent.seqStates=0 agent.sessionEmitters=0 bots.liveStatusProgress=0 bots.runningTasks=0 bots.streamSubs=0 bots.typingIntervals=0 fileWatcher.open=0 task.overlays=0 task.runtimeCommands=0 task.taskEmitters=0 task.toolMemoryTasks=0 terminal.open=0
+[stdout] [2026-10-15 08:37:10.203] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:37:10.202] [pid:21264] [zcode-host] [memory] role=utility_host reason=changed rssKb=143016 heapUsedKb=27382 heapTotalKb=30616 externalKb=5256 arrayBuffersKb=0 agent.pendingPermissions=0 agent.pendingUserInputs=0 agent.seqStates=0 agent.sessionEmitters=0 bots.liveStatusProgress=0 bots.runningTasks=0 bots.streamSubs=0 bots.typingIntervals=0 fileWatcher.open=0 task.overlays=0 task.runtimeCommands=0 task.taskEmitters=0 task.toolMemoryTasks=0 terminal.open=0
+[stderr] [21171:1015/083710.894029:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083710.894089:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:
+[stderr] [21171:1015/083710.894163:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083710.894179:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:
+[stderr] [21171:1015/083713.077222:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083713.077275:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:
+[stderr] [21171:1015/083713.077313:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[stderr] [21171:1015/083713.077340:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:
+[stdout] [2026-10-15 08:37:13.255] [pid:21171] [main] [app-quit] forceQuit enabled (app-before-quit)
+[stdout] [2026-10-15 08:37:13.256] [pid:21171] [main] [stability] perf_app_exit reported { scene: 'app_quit', exitCode: 0 }
+[stdout] [2026-10-15 08:37:13.256] [pid:21171] [main] [app-quit] waiting for host process cleanup (app-before-quit), kind=normal, hosts=1, forceKillDelayMs=7500, waitTimeoutMs=9000
+[stdout] [2026-10-15 08:37:13.258] [pid:21171] [main] [disposeHostProcess] disposing host process (app-before-quit-1), pid=21264
+[stderr] Debugger ending on ws://127.0.0.1:34869/d1896e4a-3cb2-46af-a677-9e5429f536a4
+[stderr] For help, see: https://nodejs.org/en/docs/inspector
+[stdout] [2026-10-15 08:37:13.260] [pid:21171] [main] [cron-scheduler] scheduler process exited code=0
+[stdout] [2026-10-15 08:37:13.261] [pid:21264] [zcode-host] disposing host resources, reason=parent dispose
+[stdout] [2026-10-15 08:37:13.263] [pid:21171] [main] [host-log] (local-1) [host] [2026-10-15 08:37:13.261] [pid:21264] [zcode-host] disposing host resources, reason=parent dispose
+[stdout] [2026-10-15 08:37:13.268] [pid:21171] [main] [task-realtime] unregistered host { hostId: '882d0b84-04ef-48c9-b0d0-ae051a4b896b', windowId: 1 }
+[stdout] [2026-10-15 08:37:13.269] [pid:21171] [main] [spawnHostProcess] host process (local-1) exited with code 0
+[stdout] [2026-10-15 08:37:13.270] [pid:21171] [main] [app-quit] host process cleanup completed (app-before-quit)
+[stdout] [2026-10-15 08:37:13.270] [pid:21171] [main] [app-quit] preparation finished, resuming quit with windows=1
+[stdout] [2026-10-15 08:37:13.293] [pid:21171] [main] [createWindow] window closed, killing host process (local-1)
+[stdout] [2026-10-15 08:37:13.293] [pid:21171] [main] [app-quit] all windows closed after preparation, exiting app
+[stdout] [2026-10-15 08:37:13.294] [pid:21171] [main] [app-quit] exiting prepared app (all-windows-closed-after-preparation)

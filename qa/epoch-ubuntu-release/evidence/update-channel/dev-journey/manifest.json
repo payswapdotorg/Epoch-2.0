@@ -1,0 +1,500 @@
+{
+  "tool": "qa/epoch-ubuntu-release/update-channel/dev-update-journey.mjs (W037-W2)",
+  "workOrder": "W037 — Epoch Auto-Update Channel（密封 dev 态更新旅程）",
+  "generatedAt": "2026-10-15T08:37:13.427Z",
+  "appVersion": "3.14.3",
+  "devFeed": {
+    "url": "http://127.0.0.1:8081",
+    "path": "/home/z/Epoch-2.0/packages/desktop/dev-app-update.yml",
+    "parsed": {
+      "provider": "generic",
+      "url": "http://localhost:8081",
+      "useMultipleRangeRequest": "false",
+      "updaterCacheDirName": "zcode-dev-updater"
+    }
+  },
+  "selfTest": {
+    "part": "feedFixtureSelfTest",
+    "purpose": "夹具自证：仓库 electron-updater + 真实 dev-app-update.yml（副本）+ 本地 latest-linux.yml 夹具端到端可用。它不代替应用旅程（appJourney 才是验收门）。",
+    "feedOrigin": "http://127.0.0.1:8081",
+    "fixture": {
+      "currentVersion": "3.14.3",
+      "targetVersion": "3.14.4",
+      "fileName": "Epoch-3.14.4-linux-x86_64.AppImage",
+      "bytes": 3145728,
+      "sha512Base64": "SyFdYp4sgYr+uHDMaugXF+PP3nzLLq6EJEnrv1/Q57rgAfAmwrKtQgN5UZA5sU33p/6INV+OsCIlEGhKORKXtw=="
+    },
+    "selftestLines": [
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:02.150Z",
+        "text": "[selftest] window-ready"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.123Z",
+        "text": "[selftest] started"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.123Z",
+        "text": "[selftest] checking"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.123Z",
+        "text": "[updater] Checking for update"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.142Z",
+        "text": "[updater] Found version 3.14.4 (url: Epoch-3.14.4-linux-x86_64.AppImage)"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.142Z",
+        "text": "[selftest] update-available 3.14.4"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.142Z",
+        "text": "[selftest] check-result isUpdateAvailable=true version=3.14.4"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.142Z",
+        "text": "[selftest] downloading"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.142Z",
+        "text": "[updater] Downloading update from Epoch-3.14.4-linux-x86_64.AppImage"
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:35:03.147Z",
+        "text": "[updater] Cannot download differentially, fallback to full download: RangeError [ERR_OUT_OF_RANGE]: The value of \"size\" is out of range. It must be >= 0 && <= 34359738367. Received NaN"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.166Z",
+        "text": "[selftest] download-progress 100.0"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.168Z",
+        "text": "[updater] New version 3.14.4 has been downloaded to /tmp/w037-feed-selftest-60ds7L/cache-home/zcode-dev-updater/pending/Epoch-3.14.4-linux-x86_64.AppImage"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.169Z",
+        "text": "[selftest] update-downloaded 3.14.4"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.170Z",
+        "text": "[selftest] download-call-resolved"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:35:03.170Z",
+        "text": "[selftest] done"
+      }
+    ],
+    "environment": {
+      "appimageEnv": "/tmp/w037-appimage-placeholder-1792053301386"
+    },
+    "stagedFiles": [
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/077deaac20fd80ec8335665f9bcf3e7f-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/077deaac20fd80ec8335665f9bcf3e7f-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/0bd3dc0958fa2205aaaa8ebb13e2872b-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/0bd3dc0958fa2205aaaa8ebb13e2872b-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/188ac73a183f12857f63bb60a4a6d603-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/188ac73a183f12857f63bb60a4a6d603-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/29c2f3f0fcf3a19987f1ef234ab50ab1-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/29c2f3f0fcf3a19987f1ef234ab50ab1-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/32b6488e5b8292a2e95c79d947e009e8-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/32b6488e5b8292a2e95c79d947e009e8-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/4c599c202bc5c08e2d34565a40eac3b2-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/4c599c202bc5c08e2d34565a40eac3b2-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/4d6aee6d44eccb37054d3216e945f618-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/4d6aee6d44eccb37054d3216e945f618-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/573ec803664ed168555e0e8b6d0f0c7f-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/573ec803664ed168555e0e8b6d0f0c7f-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/57e423e26b20ab21d0f2f29c145174c3-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/57e423e26b20ab21d0f2f29c145174c3-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/6333f38776742d18e214673cd2c24e34-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/6333f38776742d18e214673cd2c24e34-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/6cc790b63b123a6a96ee260fcdad32a9-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/6cc790b63b123a6a96ee260fcdad32a9-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/707971e003b4ae6c8121c3a920e507f5-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/707971e003b4ae6c8121c3a920e507f5-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/7414083fe2370eaf71fb708516e5cd30-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/7414083fe2370eaf71fb708516e5cd30-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/95530828ff6c81d309f8258d8d02a23e-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/95530828ff6c81d309f8258d8d02a23e-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/99e8ed0e538f840c565b6ed5dad60d56-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/99e8ed0e538f840c565b6ed5dad60d56-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/CACHEDIR.TAG",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/a4e60e8d1e10d2fdff3fe3037a1845fb-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/a4e60e8d1e10d2fdff3fe3037a1845fb-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/bb9ef35e7661cc55c3d6e0d2d8cc2051-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/bb9ef35e7661cc55c3d6e0d2d8cc2051-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/c855463f699352c367813e37f3f70ea7-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/c855463f699352c367813e37f3f70ea7-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/c90a4cfc1697df96c48b6b4b3ccd6930-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/c90a4cfc1697df96c48b6b4b3ccd6930-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d3e5c4ee2ceb1fc347f91d4cefc53bc0-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d3e5c4ee2ceb1fc347f91d4cefc53bc0-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d52a8644073d54c13679302ca1180695-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d52a8644073d54c13679302ca1180695-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d82eb4fd963d448e2fcb7d7b793b5df3-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/d82eb4fd963d448e2fcb7d7b793b5df3-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/da43223dd54fb3bb4243ae19d4b583b2-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/da43223dd54fb3bb4243ae19d4b583b2-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/da82082e1ef13c4097208324d67c180c-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/da82082e1ef13c4097208324d67c180c-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/e52a45a1c8c8fe895fc0fc8c4e6999b8-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/e52a45a1c8c8fe895fc0fc8c4e6999b8-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/f1f2465696798768e9653f19e17ccdc8-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/f1f2465696798768e9653f19e17ccdc8-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/f7d41d71929f5b63aecbf20cfb732ca1-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/f7d41d71929f5b63aecbf20cfb732ca1-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/fd4df874a4df3a0e0f970d3430aafd6b-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/fd4df874a4df3a0e0f970d3430aafd6b-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/fe547fea3a41b43a38975d292a2b19c7-le64.cache-11",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/fontconfig/fe547fea3a41b43a38975d292a2b19c7-le64.cache-9",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/zcode-dev-updater/pending/Epoch-3.14.4-linux-x86_64.AppImage",
+      "/tmp/w037-feed-selftest-60ds7L/cache-home/zcode-dev-updater/pending/update-info.json"
+    ],
+    "checks": [
+      {
+        "id": "selftest-available",
+        "status": "pass",
+        "detail": "electron-updater 报告 update-available（版本高于 3.14.3）"
+      },
+      {
+        "id": "selftest-download-progress",
+        "status": "pass",
+        "detail": "下载进度事件出现"
+      },
+      {
+        "id": "selftest-update-downloaded",
+        "status": "pass",
+        "detail": "update-downloaded 事件出现（期望版本 3.14.4）"
+      },
+      {
+        "id": "selftest-downloaded-version",
+        "status": "pass",
+        "detail": "downloaded 版本 = 夹具版本 3.14.4"
+      },
+      {
+        "id": "selftest-staged-file",
+        "status": "pass",
+        "detail": "staged 文件: /tmp/w037-feed-selftest-60ds7L/cache-home/zcode-dev-updater/pending/Epoch-3.14.4-linux-x86_64.AppImage"
+      },
+      {
+        "id": "selftest-staged-sha512",
+        "status": "pass",
+        "detail": "staged 文件 sha512 与 manifest 一致（electron-updater 已验证 + 独立复核）"
+      }
+    ],
+    "verdict": "pass"
+  },
+  "journey": {
+    "part": "appJourney",
+    "purpose": "验收门：未打包 dev 应用经真实菜单路径完成 check → available → downloading → ready(staged)。",
+    "appVersion": "3.14.3",
+    "fixture": {
+      "targetVersion": "3.14.4",
+      "fileName": "Epoch-3.14.4-linux-x86_64.AppImage",
+      "bytes": 3145728,
+      "sha512Base64": "SyFdYp4sgYr+uHDMaugXF+PP3nzLLq6EJEnrv1/Q57rgAfAmwrKtQgN5UZA5sU33p/6INV+OsCIlEGhKORKXtw=="
+    },
+    "feedOrigin": "http://127.0.0.1:8081",
+    "feedHits": [],
+    "environment": {
+      "node": "v24.21.0",
+      "platform": "linux",
+      "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+      "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+      "arch": "x86_64",
+      "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+      "display": {
+        "display": ":99",
+        "mode": "private-xvfb"
+      },
+      "electronVersion": "41.0.3",
+      "electronSource": "packages/desktop/package.json devDependencies（构建输入声明）",
+      "gitCommit": "57255b1f2e5467922fec0bfdcb78305e4d177285",
+      "displayMode": "private-xvfb",
+      "electronRuntimeVersion": "24.14.0"
+    },
+    "launchEnvNote": {
+      "ELECTRON_RENDERER_URL": "http://127.0.0.1:33743",
+      "ZCODE_AUTO_UPDATE_DEV": "1",
+      "ZCODE_AUTO_UPDATE_DEV_VERSION": "3.14.3",
+      "XDG_CACHE_HOME": "<isolated-temp>",
+      "ZCODE_DESKTOP_USER_DATA_DIR": "<isolated-temp>",
+      "APPIMAGE": "/tmp/w037-appimage-placeholder-1792053301386",
+      "proxyServer": "http://127.0.0.1:42071"
+    },
+    "firstScreen": {
+      "ready": true,
+      "markers": {
+        "worldCanvas": true,
+        "readyDot": true
+      }
+    },
+    "menuClick": {
+      "clicked": true,
+      "via": "menu-item-click-handler",
+      "snapshot": {
+        "found": true,
+        "label": "Check for updates",
+        "enabled": true,
+        "hasClick": true
+      }
+    },
+    "menuStateTimeline": [
+      {
+        "timestamp": "2026-10-15T08:35:10.700Z",
+        "label": "Check for updates",
+        "enabled": true
+      }
+    ],
+    "stdout": {
+      "autoUpdateLines": [
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:05.716Z",
+          "text": "[2026-10-15 08:35:05.715] [pid:21171] [main] [auto-update] dev update enabled version=3.14.3"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:05.716Z",
+          "text": "[2026-10-15 08:35:05.716] [pid:21171] [main] [auto-update] initializing, current version: 3.14.3"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:05.716Z",
+          "text": "[2026-10-15 08:35:05.716] [pid:21171] [main] [auto-update] service manifest provider applied platform=linux-x86_64"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:05.721Z",
+          "text": "[2026-10-15 08:35:05.720] [pid:21171] [main] [force-update] 本地 dev 构建（未打包）跳过远端强制升级检查"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:05.749Z",
+          "text": "[2026-10-15 08:35:05.748] [pid:21171] [main] [auto-update] checking for update..."
+        },
+        {
+          "stream": "stderr",
+          "timestamp": "2026-10-15T08:35:05.896Z",
+          "text": "[2026-10-15 08:35:05.894] [pid:21171] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+        },
+        {
+          "stream": "stderr",
+          "timestamp": "2026-10-15T08:35:05.900Z",
+          "text": "[2026-10-15 08:35:05.899] [pid:21171] [main] [auto-update] startup check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:10.659Z",
+          "text": "[2026-10-15 08:35:10.659] [pid:21171] [main] [auto-update] user clicked Check for Updates"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:10.668Z",
+          "text": "[2026-10-15 08:35:10.668] [pid:21171] [main] [auto-update] checking for update..."
+        },
+        {
+          "stream": "stderr",
+          "timestamp": "2026-10-15T08:35:10.676Z",
+          "text": "[2026-10-15 08:35:10.673] [pid:21171] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+        },
+        {
+          "stream": "stdout",
+          "timestamp": "2026-10-15T08:35:10.685Z",
+          "text": "[2026-10-15 08:35:10.685] [pid:21171] [main] [auto-update] manual check result → wc=1: error"
+        },
+        {
+          "stream": "stderr",
+          "timestamp": "2026-10-15T08:35:10.686Z",
+          "text": "[2026-10-15 08:35:10.685] [pid:21171] [main] [auto-update] manual check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+        }
+      ],
+      "providerApplied": true,
+      "totalLines": 419
+    },
+    "feedHitsBaseline": 2,
+    "feedHitsTotalIncludingSelfTest": 2,
+    "stagedFiles": [
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/077deaac20fd80ec8335665f9bcf3e7f-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/077deaac20fd80ec8335665f9bcf3e7f-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/0bd3dc0958fa2205aaaa8ebb13e2872b-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/0bd3dc0958fa2205aaaa8ebb13e2872b-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/188ac73a183f12857f63bb60a4a6d603-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/188ac73a183f12857f63bb60a4a6d603-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/29c2f3f0fcf3a19987f1ef234ab50ab1-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/29c2f3f0fcf3a19987f1ef234ab50ab1-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/32b6488e5b8292a2e95c79d947e009e8-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/32b6488e5b8292a2e95c79d947e009e8-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/4c599c202bc5c08e2d34565a40eac3b2-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/4c599c202bc5c08e2d34565a40eac3b2-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/4d6aee6d44eccb37054d3216e945f618-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/4d6aee6d44eccb37054d3216e945f618-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/573ec803664ed168555e0e8b6d0f0c7f-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/573ec803664ed168555e0e8b6d0f0c7f-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/57e423e26b20ab21d0f2f29c145174c3-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/57e423e26b20ab21d0f2f29c145174c3-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/6333f38776742d18e214673cd2c24e34-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/6333f38776742d18e214673cd2c24e34-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/6cc790b63b123a6a96ee260fcdad32a9-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/6cc790b63b123a6a96ee260fcdad32a9-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/707971e003b4ae6c8121c3a920e507f5-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/707971e003b4ae6c8121c3a920e507f5-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/7414083fe2370eaf71fb708516e5cd30-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/7414083fe2370eaf71fb708516e5cd30-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/95530828ff6c81d309f8258d8d02a23e-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/95530828ff6c81d309f8258d8d02a23e-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/99e8ed0e538f840c565b6ed5dad60d56-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/99e8ed0e538f840c565b6ed5dad60d56-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/CACHEDIR.TAG",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/a4e60e8d1e10d2fdff3fe3037a1845fb-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/a4e60e8d1e10d2fdff3fe3037a1845fb-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/bb9ef35e7661cc55c3d6e0d2d8cc2051-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/bb9ef35e7661cc55c3d6e0d2d8cc2051-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/c855463f699352c367813e37f3f70ea7-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/c855463f699352c367813e37f3f70ea7-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/c90a4cfc1697df96c48b6b4b3ccd6930-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/c90a4cfc1697df96c48b6b4b3ccd6930-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d3e5c4ee2ceb1fc347f91d4cefc53bc0-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d3e5c4ee2ceb1fc347f91d4cefc53bc0-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d52a8644073d54c13679302ca1180695-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d52a8644073d54c13679302ca1180695-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d82eb4fd963d448e2fcb7d7b793b5df3-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/d82eb4fd963d448e2fcb7d7b793b5df3-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/da43223dd54fb3bb4243ae19d4b583b2-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/da43223dd54fb3bb4243ae19d4b583b2-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/da82082e1ef13c4097208324d67c180c-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/da82082e1ef13c4097208324d67c180c-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/e52a45a1c8c8fe895fc0fc8c4e6999b8-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/e52a45a1c8c8fe895fc0fc8c4e6999b8-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/f1f2465696798768e9653f19e17ccdc8-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/f1f2465696798768e9653f19e17ccdc8-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/f7d41d71929f5b63aecbf20cfb732ca1-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/f7d41d71929f5b63aecbf20cfb732ca1-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/fd4df874a4df3a0e0f970d3430aafd6b-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/fd4df874a4df3a0e0f970d3430aafd6b-le64.cache-9",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/fe547fea3a41b43a38975d292a2b19c7-le64.cache-11",
+      "/tmp/epoch-devjourney-cache-giTJqA/fontconfig/fe547fea3a41b43a38975d292a2b19c7-le64.cache-9"
+    ],
+    "checks": [
+      {
+        "id": "dev-build-present",
+        "status": "pass",
+        "detail": "桌面 dev 构建产物存在: /home/z/Epoch-2.0/packages/desktop/out/main/index.js"
+      },
+      {
+        "id": "first-screen-not-blocked",
+        "status": "pass",
+        "detail": "dev 应用首屏就绪（worldCanvas=true readyDot=true）"
+      },
+      {
+        "id": "menu-check-triggered",
+        "status": "pass",
+        "detail": "菜单路径触发（via=menu-item-click-handler）"
+      },
+      {
+        "id": "feed-manifest-requested",
+        "status": "fail",
+        "detail": "本地 feed 的 latest-linux.yml 被应用请求（命中 0 次；0 次 = dev 态未读取 dev-app-update.yml —— 预修复 seam 缺陷）"
+      },
+      {
+        "id": "update-available-surfaced",
+        "status": "fail",
+        "detail": "新版本未浮现于菜单状态（观察到的状态序列: Check for updates）"
+      },
+      {
+        "id": "checking-state-observed",
+        "status": "pass",
+        "detail": "checking 状态被观察（stdout checking 行 / 菜单 label·enabled 变化）"
+      },
+      {
+        "id": "downloading-progress-observed",
+        "status": "fail",
+        "detail": "downloading 进度被观察（stdout download-progress 或菜单 label 百分比）"
+      },
+      {
+        "id": "ready-staged-on-disk",
+        "status": "fail",
+        "detail": "updater 缓存目录未出现 staged 更新文件"
+      },
+      {
+        "id": "staged-sha512-match",
+        "status": "fail",
+        "detail": "staged 文件 sha512 与 manifest 一致"
+      },
+      {
+        "id": "downloaded-menu-state",
+        "status": "fail",
+        "detail": "未观察到 ready/restart 菜单状态"
+      },
+      {
+        "id": "feed-file-downloaded",
+        "status": "fail",
+        "detail": "更新文件被下载（feed 服务器命中 0 次）"
+      },
+      {
+        "id": "no-zcode-update-traffic",
+        "status": "fail",
+        "detail": "dev 旅程内 ZCode 端点更新尝试为 0（sink 策略下仍记录 CONNECT 尝试；实际命中 2 次）"
+      }
+    ],
+    "verdict": "fail",
+    "terminusNote": "staging（update-downloaded + staged 文件）为验收终点：quitAndInstall 会退出并重启应用（dev 态回退 app.relaunch），在旅程中执行即中断观察 —— 工单明示不需要。",
+    "preFixBuildNote": "预修复构建：initAutoUpdater 无条件 setFeedURL(ZCode manifest provider)，electron-updater 的 clientPromise 已设即不再读取 dev-app-update.yml —— 本地 feed 0 命中即该 seam（W037-W1）的实测证据。",
+    "screenshots": [
+      {
+        "file": "01-dev-launch-first-screen.png",
+        "step": "01-dev-launch-first-screen",
+        "description": "dev 应用首屏（启动期后台更新检查观察窗内）"
+      },
+      {
+        "file": "02-after-check.png",
+        "step": "02-after-check",
+        "description": "菜单「检查更新」后的窗口（状态面 + toast 瞬态）"
+      },
+      {
+        "file": "03-final-state.png",
+        "step": "03-final-state",
+        "description": "旅程结束态"
+      }
+    ]
+  },
+  "verdict": "fail",
+  "law": "A skipped journey never counts as a pass (W036 law); the fixture self-test is harness validation, never a substitute for the app journey."
+}

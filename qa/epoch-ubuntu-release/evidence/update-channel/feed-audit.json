@@ -1,0 +1,181 @@
+{
+  "tool": "qa/epoch-ubuntu-release/update-channel/feed-audit.mjs (W037-W2)",
+  "workOrder": "W037 — Epoch Auto-Update Channel（静态 feed 审计）",
+  "expectedFeed": {
+    "provider": "github",
+    "owner": "payswapdotorg",
+    "repo": "Epoch-2.0"
+  },
+  "generatedAt": "2026-10-15T08:33:11.701Z",
+  "artifacts": [
+    {
+      "kind": "deb",
+      "path": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+      "fileName": "Epoch-3.14.3-linux-amd64.deb",
+      "bytes": 146920372,
+      "sha256": "12f4dd48f346ade35a5ada7d24ce125a19c2b619c0612749c8330793a8d7d309",
+      "flavor": {
+        "flavor": "epoch",
+        "via": "dpkg-deb --info Package"
+      },
+      "appUpdate": {
+        "resourcesDir": "/tmp/epoch-feed-audit-1Ob6sj/opt/Epoch/resources",
+        "appUpdateYml": {
+          "path": "/tmp/epoch-feed-audit-1Ob6sj/opt/Epoch/resources/app-update.yml",
+          "text": "owner: payswapdotorg\nrepo: Epoch-2.0\nprovider: github\nupdaterCacheDirName: '@zcodedesktop-updater'\n",
+          "parsed": {
+            "owner": "payswapdotorg",
+            "repo": "Epoch-2.0",
+            "provider": "github",
+            "updaterCacheDirName": "@zcodedesktop-updater"
+          }
+        },
+        "ymlInventory": [
+          "app-update.yml"
+        ],
+        "asar": {
+          "present": true,
+          "devAppUpdateListed": false,
+          "fileCount": 31358
+        }
+      },
+      "checks": [
+        {
+          "id": "artifact-exists",
+          "status": "pass",
+          "detail": "146920372 字节 sha256=12f4dd48f346ade35a5ada7d24ce125a19c2b619c0612749c8330793a8d7d309"
+        },
+        {
+          "id": "epoch-flavor",
+          "status": "pass",
+          "detail": "deb Package=\"epoch\""
+        },
+        {
+          "id": "resources-dir-present",
+          "status": "pass",
+          "detail": "/tmp/epoch-feed-audit-1Ob6sj/opt/Epoch/resources"
+        },
+        {
+          "id": "app-update-present",
+          "status": "pass",
+          "detail": "/tmp/epoch-feed-audit-1Ob6sj/opt/Epoch/resources/app-update.yml"
+        },
+        {
+          "id": "feed-provider-github",
+          "status": "pass",
+          "detail": "provider=\"github\""
+        },
+        {
+          "id": "feed-owner-repo",
+          "status": "pass",
+          "detail": "owner=payswapdotorg repo=Epoch-2.0"
+        },
+        {
+          "id": "feed-generic-placeholder",
+          "status": "pass",
+          "detail": "非 generic provider（github）"
+        },
+        {
+          "id": "feed-zcode-endpoint",
+          "status": "pass",
+          "detail": "app-update.yml 无 zcode.z.ai"
+        },
+        {
+          "id": "dev-app-update-baked",
+          "status": "pass",
+          "detail": "resources 与 app.asar 均无 dev-app-update.yml"
+        }
+      ],
+      "verdict": "pass",
+      "blockingFindings": [],
+      "warnings": []
+    },
+    {
+      "kind": "appimage",
+      "path": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-x86_64.AppImage",
+      "fileName": "Epoch-3.14.3-linux-x86_64.AppImage",
+      "bytes": 198097016,
+      "sha256": "3196261af8cb3cbd3581e1989e833baecf7b8857e1e15a9f7df8648b5e0efdf9",
+      "flavor": {
+        "flavor": "Epoch",
+        "via": "squashfs-root/epoch.desktop Name="
+      },
+      "appUpdate": {
+        "resourcesDir": "/tmp/epoch-feed-audit-aDZ8Nf/squashfs-root/resources",
+        "appUpdateYml": {
+          "path": "/tmp/epoch-feed-audit-aDZ8Nf/squashfs-root/resources/app-update.yml",
+          "text": "owner: payswapdotorg\nrepo: Epoch-2.0\nprovider: github\nupdaterCacheDirName: '@zcodedesktop-updater'\n",
+          "parsed": {
+            "owner": "payswapdotorg",
+            "repo": "Epoch-2.0",
+            "provider": "github",
+            "updaterCacheDirName": "@zcodedesktop-updater"
+          }
+        },
+        "ymlInventory": [
+          "app-update.yml"
+        ],
+        "asar": {
+          "present": true,
+          "devAppUpdateListed": false,
+          "fileCount": 31358
+        }
+      },
+      "checks": [
+        {
+          "id": "artifact-exists",
+          "status": "pass",
+          "detail": "198097016 字节 sha256=3196261af8cb3cbd3581e1989e833baecf7b8857e1e15a9f7df8648b5e0efdf9"
+        },
+        {
+          "id": "epoch-flavor",
+          "status": "pass",
+          "detail": "desktop entry Name=\"Epoch\""
+        },
+        {
+          "id": "resources-dir-present",
+          "status": "pass",
+          "detail": "/tmp/epoch-feed-audit-aDZ8Nf/squashfs-root/resources"
+        },
+        {
+          "id": "app-update-present",
+          "status": "pass",
+          "detail": "/tmp/epoch-feed-audit-aDZ8Nf/squashfs-root/resources/app-update.yml"
+        },
+        {
+          "id": "feed-provider-github",
+          "status": "pass",
+          "detail": "provider=\"github\""
+        },
+        {
+          "id": "feed-owner-repo",
+          "status": "pass",
+          "detail": "owner=payswapdotorg repo=Epoch-2.0"
+        },
+        {
+          "id": "feed-generic-placeholder",
+          "status": "pass",
+          "detail": "非 generic provider（github）"
+        },
+        {
+          "id": "feed-zcode-endpoint",
+          "status": "pass",
+          "detail": "app-update.yml 无 zcode.z.ai"
+        },
+        {
+          "id": "dev-app-update-baked",
+          "status": "pass",
+          "detail": "resources 与 app.asar 均无 dev-app-update.yml"
+        }
+      ],
+      "verdict": "pass",
+      "blockingFindings": [],
+      "warnings": []
+    }
+  ],
+  "counts": {
+    "pass": 2,
+    "fail": 0
+  },
+  "verdict": "pass"
+}

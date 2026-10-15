@@ -1,0 +1,286 @@
+{
+  "tool": "qa/epoch-ubuntu-release/update-channel/update-network-assertion.mjs (W037-W2)",
+  "workOrder": "W037 — Epoch Auto-Update Channel（真实窗口网络断言）",
+  "generatedAt": "2026-10-15T08:24:16.219Z",
+  "mode": "deb",
+  "artifact": {
+    "path": "/home/z/Epoch-2.0/packages/desktop/dist/Epoch-3.14.3-linux-amd64.deb",
+    "sha256": "12f4dd48f346ade35a5ada7d24ce125a19c2b619c0612749c8330793a8d7d309",
+    "bytes": 146920372
+  },
+  "runPath": {
+    "executablePath": "/tmp/epoch-update-channel-deb-mfFXMj/opt/Epoch/epoch",
+    "launchArgs": [
+      "--no-sandbox",
+      "--disable-gpu-sandbox",
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+      "--ignore-gpu-blocklist",
+      "--disable-gpu-compositing",
+      "--proxy-server=http://127.0.0.1:41917"
+    ],
+    "electronApi": "playwright-core _electron.launch（真实 Electron 窗口）"
+  },
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "linux",
+    "osPrettyName": "Debian GNU/Linux 13 (trixie)",
+    "kernel": "Linux 5.10.134-013.15.kangaroo.al8.x86_64",
+    "arch": "x86_64",
+    "glibc": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
+    "display": {
+      "display": ":99",
+      "mode": "ambient"
+    },
+    "electronVersion": "41.0.3",
+    "electronSource": "packages/desktop/package.json devDependencies（构建输入声明）",
+    "gitCommit": "57255b1f2e5467922fec0bfdcb78305e4d177285",
+    "displayMode": "ambient",
+    "electronRuntimeVersion": null,
+    "zcodeOriginUnderAssertion": "https://zcode.z.ai"
+  },
+  "observation": {
+    "layers": [
+      "observing-forward-proxy（--proxy-server；Chromium 网络栈全量：renderer + 主进程 electron.net）",
+      "cdp-network-domain（renderer，URL 级）",
+      "main-process-stdout（[auto-update] 日志）"
+    ],
+    "notObserved": [
+      "host/agent 子进程 Node http 直连（更新器不在该进程；本环境无 root 无法系统级抓包）"
+    ],
+    "windows": [
+      {
+        "start": "2026-10-15T08:23:16.399Z",
+        "end": "2026-10-15T08:23:23.349Z"
+      },
+      {
+        "start": "2026-10-15T08:23:30.551Z",
+        "end": "2026-10-15T08:24:16.644Z"
+      }
+    ],
+    "counts": {
+      "proxyTotal": 12,
+      "cdpTotal": 9
+    },
+    "proxyPolicy": {
+      "sinkHosts": [
+        "zcode.z.ai"
+      ]
+    }
+  },
+  "traffic": {
+    "zcodeAny": [
+      {
+        "timestamp": "2026-10-15T08:23:17.404Z",
+        "layer": "proxy",
+        "kind": "connect",
+        "host": "zcode.z.ai",
+        "port": 443,
+        "policy": "sink"
+      },
+      {
+        "timestamp": "2026-10-15T08:23:30.523Z",
+        "layer": "proxy",
+        "kind": "connect",
+        "host": "zcode.z.ai",
+        "port": 443,
+        "policy": "sink"
+      }
+    ],
+    "zcodeUpdateAttempts": [
+      {
+        "timestamp": "2026-10-15T08:23:17.404Z",
+        "layer": "proxy",
+        "kind": "connect",
+        "host": "zcode.z.ai",
+        "port": 443,
+        "policy": "sink"
+      }
+    ],
+    "epochFeedAttempts": [],
+    "otherHosts": [
+      {
+        "host": "redirector.gvt1.com",
+        "count": 6
+      },
+      {
+        "host": "rr3---sn-i3belnll.gvt1.com",
+        "count": 2
+      },
+      {
+        "host": "rr5---sn-i3belnll.gvt1.com",
+        "count": 2
+      }
+    ]
+  },
+  "stdout": {
+    "autoUpdateLines": [
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:17.384Z",
+        "text": "[2026-10-15 08:23:17.381] [pid:20013] [main] [auto-update] initializing, current version: 3.14.3"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:17.384Z",
+        "text": "[2026-10-15 08:23:17.382] [pid:20013] [main] [auto-update] service manifest provider applied platform=linux-x86_64"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:17.390Z",
+        "text": "[2026-10-15 08:23:17.390] [pid:20013] [main] [auto-update] checking for update..."
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:17.407Z",
+        "text": "[2026-10-15 08:23:17.405] [pid:20013] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:17.407Z",
+        "text": "[2026-10-15 08:23:17.407] [pid:20013] [main] [auto-update] startup check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:30.510Z",
+        "text": "[2026-10-15 08:23:30.510] [pid:20013] [main] [auto-update] user clicked Check for Updates"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:30.515Z",
+        "text": "[2026-10-15 08:23:30.511] [pid:20013] [main] [auto-update] checking for update..."
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:30.525Z",
+        "text": "[2026-10-15 08:23:30.524] [pid:20013] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:30.527Z",
+        "text": "[2026-10-15 08:23:30.525] [pid:20013] [main] [auto-update] manual check result → wc=1: error"
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:30.527Z",
+        "text": "[2026-10-15 08:23:30.525] [pid:20013] [main] [auto-update] manual check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    ],
+    "providerAppliedLine": {
+      "stream": "stdout",
+      "timestamp": "2026-10-15T08:23:17.384Z",
+      "text": "[2026-10-15 08:23:17.382] [pid:20013] [main] [auto-update] service manifest provider applied platform=linux-x86_64"
+    },
+    "checkingLines": [
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:17.390Z",
+        "text": "[2026-10-15 08:23:17.390] [pid:20013] [main] [auto-update] checking for update..."
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:30.515Z",
+        "text": "[2026-10-15 08:23:30.511] [pid:20013] [main] [auto-update] checking for update..."
+      }
+    ],
+    "updateErrorLines": [
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:17.407Z",
+        "text": "[2026-10-15 08:23:17.405] [pid:20013] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:17.407Z",
+        "text": "[2026-10-15 08:23:17.407] [pid:20013] [main] [auto-update] startup check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:30.525Z",
+        "text": "[2026-10-15 08:23:30.524] [pid:20013] [main] [auto-update] error: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "stream": "stdout",
+        "timestamp": "2026-10-15T08:23:30.527Z",
+        "text": "[2026-10-15 08:23:30.525] [pid:20013] [main] [auto-update] manual check result → wc=1: error"
+      },
+      {
+        "stream": "stderr",
+        "timestamp": "2026-10-15T08:23:30.527Z",
+        "text": "[2026-10-15 08:23:30.525] [pid:20013] [main] [auto-update] manual check failed: Error: net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    ],
+    "totalLines": 305
+  },
+  "menuStateTimeline": [
+    {
+      "timestamp": "2026-10-15T08:23:30.552Z",
+      "label": "Check for updates",
+      "enabled": true
+    }
+  ],
+  "menuClick": {
+    "clicked": true,
+    "via": "menu-item-click-handler",
+    "snapshot": {
+      "found": true,
+      "label": "Check for updates",
+      "enabled": true,
+      "hasClick": true
+    }
+  },
+  "firstScreen": {
+    "ready": true,
+    "markers": {
+      "worldCanvas": true,
+      "readyDot": true
+    }
+  },
+  "launcherError": null,
+  "checks": [
+    {
+      "id": "real-window-launch",
+      "status": "pass",
+      "detail": "打包产物以真实 Electron 窗口启动（_electron.launch）"
+    },
+    {
+      "id": "first-screen-not-blocked",
+      "status": "pass",
+      "detail": "更新检查/网络失败不得阻塞施工世界首屏（worldCanvas=true readyDot=true）"
+    },
+    {
+      "id": "menu-check-triggered",
+      "status": "pass",
+      "detail": "菜单路径触发成功（via=menu-item-click-handler）"
+    },
+    {
+      "id": "update-check-executed",
+      "status": "pass",
+      "detail": "更新检查实发（checking 日志 2 行 / 状态序列 1 条）"
+    },
+    {
+      "id": "epoch-feed-hit",
+      "status": "fail",
+      "detail": "更新尝试应命中 Epoch feed 主机（api.github.com/github.com 资产域）；观察窗内命中 0 次"
+    },
+    {
+      "id": "zero-zcode-update-traffic",
+      "status": "fail",
+      "detail": "更新尝试对 ZCode 端点（zcode.z.ai）命中 1 次（必须为 0）"
+    },
+    {
+      "id": "manifest-provider-runtime-absent",
+      "status": "fail",
+      "detail": "主进程日志实测：[auto-update] service manifest provider applied —— ZCode manifest provider 被安装（W037-W1 seam 缺陷的运行时证据）"
+    },
+    {
+      "id": "observation-sufficient",
+      "status": "pass",
+      "detail": "观察层命中：proxy=12 cdp=9（无命中 → inconclusive，不得计为通过）"
+    }
+  ],
+  "verdict": "fail",
+  "preFixBuildNote": "预修复构建（W037-W1 seam 未合入时的 main）：主进程实测安装了 ZCode manifest provider（service manifest provider applied）并向 zcode 端点发起更新请求 —— 这是 W037 工单记录的线上缺陷的实测证据，不是验收通过态。",
+  "law": "verdict from observed network behavior, never from code reading; a pre-fix FAIL is honest evidence (W037 work order)."
+}
