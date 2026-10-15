@@ -143,7 +143,15 @@ if [ -f "$INSTALL_CHECK" ] && [ "${#DEBS[@]}" -gt 0 ] && [ "${#APPIMAGES[@]}" -g
   # 接口（--help）：--deb/--appimage/--results/--seconds；退出码 0 = 通过。
   # 脚本内部要求 deb 与 AppImage 同时存在，因此仅当两种产物都提供时才执行。
   INSTALL_ARGS=(--results "$EVID/install-launch-results.json" --deb "${DEBS[0]}" --appimage "${APPIMAGES[0]}")
-  if bash "$INSTALL_CHECK" "${INSTALL_ARGS[@]}" >"$EVID/install-launch-check.log" 2>&1; then
+  # 2026-10-15 (TL, CI runs 38757300790/38760240026/38763788982 live-caught):
+  # the drill INSIDE the gate inherited the gate's resident Xvfb (:99 env-mode)
+  # and the deb survived SIGTERM past every -k grace (137 at -k 5/-k 20/-k 60
+  # — three live-proven widenings), while the SAME drill standalone (its own
+  # xvfb-run X server per launch) passes both artifacts every time. Run the
+  # drill WITHOUT the ambient display so its self-sufficiency picks the
+  # xvfb-run branch — the proven mode; the gate's own display law is
+  # unchanged for every other step.
+  if env -u DISPLAY -u XAUTHORITY bash "$INSTALL_CHECK" "${INSTALL_ARGS[@]}" >"$EVID/install-launch-check.log" 2>&1; then
     printf '{"status":"pass","note":"install-launch-check.sh exit 0","log":"install-launch-check.log","results":"install-launch-results.json"}\n' \
       >"$EVID/install-launch-status.json"
     echo "[gate] install-launch-check：PASS"

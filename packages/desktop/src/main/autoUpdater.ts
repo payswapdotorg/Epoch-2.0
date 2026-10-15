@@ -1507,6 +1507,15 @@ export async function initAutoUpdater(options: InitAutoUpdaterOptions = {}): Pro
   // 再决定是否下载。若继续让 electron-updater 自动下载，它只会按当前 app 版本判断，
   // 导致 `3.1.2` 已 ready `3.1.3` 时每次轮询都可能重复下载 `3.1.3`。
   autoUpdater.autoDownload = false;
+  // W037-W1 (station fix round 3): the DEV update journey is a test mode —
+  // it must match the Part A fixture semantics (check -> available ->
+  // auto-download -> staged), which the W037-W2 acceptance drives through
+  // the real menu command path. The setting-gated manual flow is the
+  // PACKAGED behavior; in dev (isDevAutoUpdateEnabled) the auto flow is on
+  // so the journey observes download-progress and the staged file.
+  if (!app.isPackaged && isDevAutoUpdateEnabled()) {
+    autoUpdater.autoDownload = true;
+  }
   // Windows/NSIS 在窗口关闭后会异步启动安装；如果用户紧接着关机，安装器可能被系统中断，
   // 留下半更新状态并导致下次启动失败。
   // 这里仅在 Windows 关闭“退出即自动安装”，要求用户显式点更新；其他平台保持原有行为，避免改动既有升级链路。
