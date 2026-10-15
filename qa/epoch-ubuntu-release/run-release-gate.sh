@@ -151,7 +151,7 @@ if [ -f "$INSTALL_CHECK" ] && [ "${#DEBS[@]}" -gt 0 ] && [ "${#APPIMAGES[@]}" -g
   # drill WITHOUT the ambient display so its self-sufficiency picks the
   # xvfb-run branch — the proven mode; the gate's own display law is
   # unchanged for every other step.
-  if env -u DISPLAY -u XAUTHORITY bash "$INSTALL_CHECK" "${INSTALL_ARGS[@]}" >"$EVID/install-launch-check.log" 2>&1; then
+  if env -u DISPLAY -u XAUTHORITY EPOCH_INSTALL_CHECK_DISPLAY_MODE=xvfb-run bash "$INSTALL_CHECK" "${INSTALL_ARGS[@]}" >"$EVID/install-launch-check.log" 2>&1; then
     printf '{"status":"pass","note":"install-launch-check.sh exit 0","log":"install-launch-check.log","results":"install-launch-results.json"}\n' \
       >"$EVID/install-launch-status.json"
     echo "[gate] install-launch-check：PASS"
