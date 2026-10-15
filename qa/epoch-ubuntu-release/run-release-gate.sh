@@ -53,6 +53,61 @@ if [ "${#DEBS[@]}" -eq 0 ] && [ "${#APPIMAGES[@]}" -eq 0 ]; then
   exit 2
 fi
 
+# 0. 显示自足（W036 CI 实况修复：ubuntu-24.04 runner 只安装 Xvfb 从不启动它，
+#    真实窗口旅程在 00-launch 即死于 "Missing X server or $DISPLAY"；本仓库的法是
+#    同一条发布门在本地与 CI 完全一致，因此门自己解析显示而不是改 workflow）：
+#    优先环境 DISPLAY（socket 存在才可信）；其次常驻 Xvfb :99（开发/CI 盒惯例，
+#    与 install-launch-check.sh 同律）；否则现起一个私有 Xvfb（-ac 免 xauth，
+#    不依赖 xvfb-run/xauth 的组合）并在退出时回收。
+_gate_display_socket_exists() {
+  local value="$1" number
+  case "$value" in localhost:*) value=":${value#localhost:}" ;; esac
+  number="${value#:}"
+  number="${number%%.*}"
+  [ -n "$number" ] && [ -e "/tmp/.X11-unix/X${number}" ]
+}
+GATE_PRIVATE_XVFB_PID=""
+_gate_cleanup_private_xvfb() {
+  if [ -n "$GATE_PRIVATE_XVFB_PID" ]; then
+    kill "$GATE_PRIVATE_XVFB_PID" 2>/dev/null || true
+  fi
+}
+if [ -n "${DISPLAY:-}" ] && _gate_display_socket_exists "${DISPLAY}"; then
+  echo "[gate] 显示：复用环境 DISPLAY=${DISPLAY}"
+elif _gate_display_socket_exists ":99"; then
+  echo "[gate] 显示：复用常驻 Xvfb :99"
+  export DISPLAY=":99"
+elif command -v Xvfb >/dev/null 2>&1; then
+  GATE_DISPLAY=""
+  for _n in 99 98 97 96 95 94 93 92 91 90; do
+    if ! [ -e "/tmp/.X11-unix/X${_n}" ]; then GATE_DISPLAY=":${_n}"; break; fi
+  done
+  if [ -z "$GATE_DISPLAY" ]; then
+    echo "[gate] 显示：X :90-:99 全被占用，无法现起私有 Xvfb" >&2
+    exit 2
+  fi
+  Xvfb "$GATE_DISPLAY" -screen 0 1920x1080x24 -nolisten tcp -ac >/dev/null 2>&1 &
+  GATE_PRIVATE_XVFB_PID=$!
+  _gate_socket="/tmp/.X11-unix/X${GATE_DISPLAY#:}"
+  _gate_ready=0
+  for _ in $(seq 1 50); do
+    if [ -e "$_gate_socket" ]; then _gate_ready=1; break; fi
+    sleep 0.2
+  done
+  if [ "$_gate_ready" != "1" ]; then
+    _gate_cleanup_private_xvfb
+    echo "[gate] 显示：私有 Xvfb 在 ${GATE_DISPLAY} 上 10s 内未就绪" >&2
+    exit 2
+  fi
+  export DISPLAY="$GATE_DISPLAY"
+  trap _gate_cleanup_private_xvfb EXIT
+  echo "[gate] 显示：已启动私有 Xvfb ${GATE_DISPLAY}（pid ${GATE_PRIVATE_XVFB_PID}；退出时回收）"
+else
+  echo "[gate] 显示：无 DISPLAY、无 :99 socket、无 Xvfb —— 真实窗口旅程无法执行" >&2
+  echo "[gate] ERROR: no usable X display for the real-window journey (install xvfb, or run inside a desktop/Xvfb session)" >&2
+  exit 2
+fi
+
 # 1. 产物健全性预检：不存在/为空直接失败（不产出「部分通过」的报告）。
 for artifact in "${DEBS[@]}" "${APPIMAGES[@]}"; do
   if [ ! -f "$artifact" ]; then
