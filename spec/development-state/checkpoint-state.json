@@ -7,7 +7,6 @@
   "upstreamBase": "zai-org/ZCode@29628c9acdb81b703bbd4080c207a0e7ce5e276e",
   "resetMergeSha": "3fd67f209e629a1c44e47dec3eb654b8c5e45b31",
   "currentFrontier": [
-    "W037",
     "W038"
   ],
   "visualizationFirst": true,
@@ -18,7 +17,8 @@
     "freshClone": "PASS per TL verification record dated 2026-10-12: package tests 0 failures, root typecheck 0 errors, lint 0 errors (99 advisory warnings), architecture 0 violations",
     "ubuntuProductIdentity": "VERIFIED — Epoch identity end-to-end: productName/appId/org.epoch.desktop, window title Epoch, desktop entry Name=Epoch Icon=epoch Categories=Science;Engineering, deb package epoch, runtime app.getName()=Epoch; brand audit PASS with flavor-branch ternaries + i18n-table-row exception (three-identity shared codebase law)",
     "ubuntuPackages": "PUBLISHED — https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3 : Epoch-3.14.3-linux-amd64.deb 147130648B sha256 36022eadc04b0fdd3a24871079ae60b4f9fd92ec34128978ad2fce231d2ae68f; Epoch-3.14.3-linux-x86_64.AppImage 198118483B sha256 1984e53a87b791bd46d844e562e917c8502a54be67bab7d150f1c9c4b04df721; post-publication anonymous URL + sha256 verification green",
-    "realUbuntuJourney": "PASS — 10-step real Electron window journey on BOTH artifacts (Xvfb :99, non-root, electron 41.0.3, Debian 13 trixie x86_64): the W020 skip is closed with real-window evidence"
+    "realUbuntuJourney": "PASS — 10-step real Electron window journey on BOTH artifacts (Xvfb :99, non-root, electron 41.0.3, Debian 13 trixie x86_64): the W020 skip is closed with real-window evidence",
+    "w037UpdateChannel": "COMPLETE — the fix shipped in epoch-v3.14.4 (https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.4 : deb 145388768B sha256 73116b1ab25dcc79d8c87c7073cd339e67ca8bce5b7adb68a1c5a5e90872979b; AppImage 198101553B sha256 a9f1e65508327bd7faeeb35c9bfc610a6a81d299b2b454ce93cbe8f1c0052e5f; latest-linux.yml + blockmap-class feed assets present; post-publication anonymous URL + sha256 verification green). Acceptance: the deb real-network assertion PASS (epoch feed hits, zero zcode update traffic — the 3.14.3 wrong-channel defect closed); the dev journey flow PROVEN (check->available->auto-download->staged, real menu path); the appimage assertion INCONCLUSIVE (honest record; the CI-hosted gate is the follow-up)"
   },
   "next": "W036: dispatch three disjoint workers; ensure default desktop opens Epoch's construction Solution Surface; build/install/test Ubuntu x86_64 .deb and AppImage; create manual candidate-build + tag-based publication workflow; publish only after all acceptance gates pass.",
   "lastMerge": {

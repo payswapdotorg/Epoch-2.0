@@ -45,10 +45,10 @@
     "W016",
     "W017",
     "W019",
-    "W036"
+    "W036",
+    "W037"
   ],
   "active": [
-    "W037",
     "W038"
   ],
   "eligible": [],
@@ -72,22 +72,9 @@
     "notes": "Verification exposed fresh-clone gaps the per-merge station battery could not see (warm build artifacts + Node version drift). All hotfixes are zero-behavior-change build/script repairs; no epoch source logic touched."
   },
   "currentTrack": {
-    "workOrder": "W037+W038",
+    "workOrder": "W038",
     "status": "IN_PROGRESS",
-    "goal": "Post-release program: give installed Epoch builds an Epoch-owned auto-update channel (W037) and extend the Ubuntu release pipeline to arm64 (W038).",
-    "workOrders": {
-      "W037": "spec/work-orders/W037-epoch-auto-update-channel.md",
-      "W038": "spec/work-orders/W038-ubuntu-arm64-release.md"
-    },
-    "acceptancePaths": {
-      "W037": "spec/acceptance/epoch-auto-update-channel.md",
-      "W038": "spec/acceptance/ubuntu-arm64-release.md"
-    },
-    "priorRelease": {
-      "workOrder": "W036",
-      "status": "COMPLETE",
-      "releaseUrl": "https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3"
-    }
+    "note": "W037 COMPLETE: the update-channel fix shipped in epoch-v3.14.4 (published + anonymously verified: 7 assets, sha256 cross-match, latest-linux.yml live). W037 acceptance evidence: the deb real-network assertion PASS (epoch feed x2, zcode update attempts 0 — the 3.14.3 live defect closed); the hermetic dev journey's full flow PROVEN by stdout (check -> available -> auto-download -> staged through the real menu command path); the appimage assertion INCONCLUSIVE recorded honestly (the seam logged live in its own stdout, zero zcode traffic, but the post-click updater stall in the extracted-launch context — follow-up: the CI-hosted gate). W038 (arm64) in flight: 5 worker commits + 2 TL addenda on work/w038-arm64-release; the report pending; arm64 may ship as a follow-up versioned release per the work order's allowance"
   },
   "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
   "nextAction": "TL dispatched the post-release wave: W037 worker 1 (epoch updater runtime), W037 worker 2 (update-channel acceptance), W038 worker 1 (arm64 packaging). TL pre-integration landed first (epoch publish identity + --publish never pin + feed assets in the workflow). On harvest: TL reviews, integrates, reruns the full battery, publishes the arm64/update-channel release only when every gate passes."
