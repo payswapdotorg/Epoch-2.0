@@ -180,12 +180,12 @@ run_launch_once() {
   set +e
   case "$DISPLAY_MODE" in
     env|fixed)
-      timeout -k 5 "${LAUNCH_WINDOW_SECONDS}s" env "DISPLAY=${DISPLAY_VALUE}" "$@" >"${dir}/log.txt" 2>&1
+      timeout -k 20 "${LAUNCH_WINDOW_SECONDS}s" env "DISPLAY=${DISPLAY_VALUE}" "$@" >"${dir}/log.txt" 2>&1
       code=$?
       ;;
     xvfb-run)
       # timeout 放进 xvfb-run 内层，保证 Xvfb 由 xvfb-run 正常收尾。
-      xvfb-run -a timeout -k 5 "${LAUNCH_WINDOW_SECONDS}s" "$@" >"${dir}/log.txt" 2>&1
+      xvfb-run -a timeout -k 20 "${LAUNCH_WINDOW_SECONDS}s" "$@" >"${dir}/log.txt" 2>&1
       code=$?
       ;;
     none)
