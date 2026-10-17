@@ -206,6 +206,17 @@ jobs:
     permissions:
       contents: write
     timeout-minutes: 20
+    env:
+      # 2026-10-17 (TL, run 39016456436 live-caught): the publish job checks out
+      # NOTHING (artifact downloads only) — gh resolves its target repo from the
+      # local git remote, dies with "failed to run git: fatal: not a git
+      # repository", and the release-create falls into the fill-missing-only
+      # fallback (whose per-asset "already present" echoes mask the same gh
+      # failure), leaving the verification step a 404. GH_REPO gives gh the repo
+      # without any checkout (the v3.14.3/.4 tag runs all failed the same way —
+      # their releases were manual station publishes; this job's publish path
+      # was never exercised green until the W038 gates passed).
+      GH_REPO: ${{ github.repository }}
     steps:
       - name: Download x64 candidate artifacts
         uses: actions/download-artifact@v5
