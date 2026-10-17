@@ -130,6 +130,25 @@ cleanup() {
       echo ok >"${WORKDIR}/deb/cleanup_result" ||
       echo failed >"${WORKDIR}/deb/cleanup_result"
   fi
+  # 2026-10-17 (TL, the v3.14.5 re-fire class, live root-caused): in
+  # xvfb-run mode the drill proved at start there is NO usable X display
+  # (no DISPLAY, no :99 socket) — every Xvfb alive during the drill is
+  # this drill's own xvfb-run server. When the app survives SIGTERM
+  # through the full -k grace (the healthy-but-slow-shutdown class the
+  # clock rule now passes), the timeout SIGKILL disrupts xvfb-run's
+  # cleanup and the Xvfb is ORPHANED — CI run 39013180480: both arches'
+  # gates then "reused the resident :99" (a socket file whose server
+  # still demands the dead xvfb-run's xauth cookie) and every journey
+  # launch died with "Authorization required, but no authorization
+  # protocol specified". Sweep the orphans HERE so the gate's
+  # resident-:99 reuse never picks up a stale cookie-protected server.
+  # Blast radius: env/fixed modes never sweep (a real resident display
+  # exists); in xvfb-run mode the only possible Xvfb processes are this
+  # drill's own (a pathological parallel drill or an unrelated
+  # no-DISPLAY resident would also be swept — disclosed, accepted).
+  if [ "${DISPLAY_MODE:-none}" = "xvfb-run" ]; then
+    pkill -x Xvfb 2>/dev/null || true
+  fi
   rm -rf -- "${WORKDIR}"
 }
 trap cleanup EXIT
