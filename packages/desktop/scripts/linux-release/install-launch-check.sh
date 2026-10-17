@@ -43,10 +43,12 @@ usage() {
   bash packages/desktop/scripts/linux-release/install-launch-check.sh [选项]
 
 选项:
+  --arch <x64|arm64>  目标架构（默认 x64；决定自动选取的产物名——x64: amd64 deb +
+                      x86_64 AppImage（W036 冻结名）；arm64: arm64 deb + arm64 AppImage）
   --dist <dir>        产物目录（默认 packages/desktop/dist）
   --results <path>    结果 JSON 输出路径（默认 <dist>/install-launch-results.json）
-  --deb <path>        显式指定 .deb 产物（默认自动选取 dist 内最新的 Epoch-*-linux-amd64.deb）
-  --appimage <path>   显式指定 .AppImage 产物（默认自动选取最新的 Epoch-*-linux-x86_64.AppImage）
+  --deb <path>        显式指定 .deb 产物（默认按 --arch 自动选取 dist 内最新的对应产物）
+  --appimage <path>   显式指定 .AppImage 产物（默认按 --arch 自动选取）
   --seconds <n>       启动观察窗口秒数（默认 25；GUI 存活到窗口结束即算启动成功）
   -h, --help          显示帮助
 
@@ -56,8 +58,16 @@ usage() {
 USAGE
 }
 
+ARCH="x64"
 while [ $# -gt 0 ]; do
   case "$1" in
+    --arch)
+      ARCH="${2:?}"
+      case "$ARCH" in
+        x64|arm64) ;;
+        *) fail "不支持的架构: $ARCH（仅支持 x64 和 arm64）" ;;
+      esac
+      shift 2 ;;
     --dist) DIST_DIR="${2:?}"; shift 2 ;;
     --results) RESULTS_PATH="${2:?}"; shift 2 ;;
     --deb) DEB_OVERRIDE="${2:?}"; shift 2 ;;
@@ -96,10 +106,17 @@ find_latest() {
   [ -n "$candidate" ] && echo "$candidate" || true
 }
 
-DEB_FILE="${DEB_OVERRIDE:-$(find_latest "${DIST_DIR}/Epoch-*-linux-amd64.deb")}"
-APPIMAGE_FILE="${APPIMAGE_OVERRIDE:-$(find_latest "${DIST_DIR}/Epoch-*-linux-x86_64.AppImage")}"
-[ -n "$DEB_FILE" ] && [ -s "$DEB_FILE" ] || fail "未找到 .deb 产物（${DIST_DIR}/Epoch-*-linux-amd64.deb）"
-[ -n "$APPIMAGE_FILE" ] && [ -s "$APPIMAGE_FILE" ] || fail "未找到 .AppImage 产物（${DIST_DIR}/Epoch-*-linux-x86_64.AppImage）"
+# W038：按 --arch 推导产物名（与 build-linux-release.sh 的映射一致：x64 冻结值
+# amd64/x86_64；arm64 -> arm64/arm64）。
+case "$ARCH" in
+  x64)   DEB_GLOB="Epoch-*-linux-amd64.deb";  APPIMAGE_GLOB="Epoch-*-linux-x86_64.AppImage" ;;
+  arm64) DEB_GLOB="Epoch-*-linux-arm64.deb";  APPIMAGE_GLOB="Epoch-*-linux-arm64.AppImage" ;;
+esac
+
+DEB_FILE="${DEB_OVERRIDE:-$(find_latest "${DIST_DIR}/${DEB_GLOB}")}"
+APPIMAGE_FILE="${APPIMAGE_OVERRIDE:-$(find_latest "${DIST_DIR}/${APPIMAGE_GLOB}")}"
+[ -n "$DEB_FILE" ] && [ -s "$DEB_FILE" ] || fail "未找到 .deb 产物（${DIST_DIR}/${DEB_GLOB}）"
+[ -n "$APPIMAGE_FILE" ] && [ -s "$APPIMAGE_FILE" ] || fail "未找到 .AppImage 产物（${DIST_DIR}/${APPIMAGE_GLOB}）"
 
 # ---------- 环境探测 ----------
 WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/epoch-install-launch.XXXXXX")"

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # W036：Epoch Ubuntu 桌面发布驱动（linux x64 的 deb + AppImage 一条龙）。
+# W038：--arch 参数化（默认 x64 与 W036 逐字节等价；arm64 目标见用法说明）。
 #
 # 职责（只复用仓库既有命令，不发明新的构建入口）：
 #   1. 环境锁定：EPOCH_DESKTOP_IDENTITY=1（Epoch 身份，优先级最高，见
@@ -22,7 +23,9 @@
 #   - git 可用（release-manifest 需要真实 commit 溯源）。
 #
 # 用法（仓库根目录）：
-#   bash packages/desktop/scripts/linux-release/build-linux-release.sh
+#   bash packages/desktop/scripts/linux-release/build-linux-release.sh [--arch <x64|arm64>]
+#     --arch x64    默认；产物名与 W036 冻结基线逐字节一致（amd64 deb + x86_64 AppImage）
+#     --arch arm64  W038 arm64 目标（arm64 deb + arm64 AppImage，见 spec/acceptance/ubuntu-arm64-release.md）
 #
 # 产物目录：packages/desktop/dist（可用 ZCODE_DESKTOP_DIST_DIR 覆盖；语义与
 # electron-builder 的 directories.output 一致：相对路径基于 packages/desktop 解析）。
@@ -36,15 +39,40 @@ LOG_PREFIX="[linux-release]"
 log() { echo "${LOG_PREFIX} $*"; }
 fail() { echo "${LOG_PREFIX} ERROR: $*" >&2; exit 1; }
 
+# ---------- 参数解析（W038） ----------
+ARCH="x64"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --arch)
+      [ $# -ge 2 ] || fail "--arch 需要一个参数（x64|arm64）"
+      ARCH="$2"; shift 2 ;;
+    -h|--help)
+      sed -n 's/^# \?//p' "$0" | head -n 30; exit 0 ;;
+    *) fail "未知参数: $1（--arch <x64|arm64>；--help 查看用法）" ;;
+  esac
+done
+case "$ARCH" in
+  x64|arm64) ;;
+  *) fail "不支持的架构: $ARCH（仅支持 x64 和 arm64）" ;;
+esac
+
 # ---------- 环境锁定 ----------
 # Epoch 身份与生产后端两轴分离（见 desktop-product-identity.mjs 注释）：
 # 身份决定 appId/productName/executableName/packageName，后端决定产物名是否带 _TEST。
 export EPOCH_DESKTOP_IDENTITY=1
 export ZCODE_ENV=production
 export ZCODE_TARGET_OS=linux
-export ZCODE_TARGET_ARCH=x64
+export ZCODE_TARGET_ARCH="$ARCH"
 # 默认只出 deb + AppImage；需要全量 target 时显式传 ZCODE_LINUX_TARGETS 覆盖。
 export ZCODE_LINUX_TARGETS="${ZCODE_LINUX_TARGETS:-deb,AppImage}"
+
+# 产物名架构段（electron-builder@26.8.1 getArtifactArchName 的既定事实，非猜测）：
+#   deb     -> Debian 架构名：x64=amd64（W036 冻结名），arm64=arm64
+#   AppImage -> x64=x86_64（W036 冻结名，x64 专属特例），arm64=arm64（aarch64 重映射只适用 pacman/rpm/flatpak）
+case "$ARCH" in
+  x64)   DEB_ARCH="amd64";  APPIMAGE_ARCH="x86_64" ;;
+  arm64) DEB_ARCH="arm64";  APPIMAGE_ARCH="arm64" ;;
+esac
 
 # ---------- 前置检查 ----------
 command -v node >/dev/null 2>&1 || fail "缺少 node（需要 >=24，见 mise.toml）"
@@ -91,14 +119,14 @@ console.log(version);
 ' "${DESKTOP_ROOT}/out/metadata/build-meta.json" "${REPO_ROOT}/package.json")" ||
   fail "无法确定 app 版本（build-meta.json 与根 package.json 均缺失/无效）"
 
-DEB_ARTIFACT="Epoch-${APP_VERSION}-linux-amd64.deb" # electron-builder deb 用 Debian 架构名 amd64
-APPIMAGE_ARTIFACT="Epoch-${APP_VERSION}-linux-x86_64.AppImage" # AppImage 用 uname 风格 x86_64
+DEB_ARTIFACT="Epoch-${APP_VERSION}-linux-${DEB_ARCH}.deb" # electron-builder deb 用 Debian 架构名（amd64/arm64）
+APPIMAGE_ARTIFACT="Epoch-${APP_VERSION}-linux-${APPIMAGE_ARCH}.AppImage" # AppImage 架构段（x86_64/arm64）
 
 log "repo=${REPO_ROOT}"
 log "dist=${DIST_DIR}"
 log "version=${APP_VERSION} commit=${GIT_COMMIT_SHORT}"
 log "identity=EPOCH_DESKTOP_IDENTITY=${EPOCH_DESKTOP_IDENTITY} backend=ZCODE_ENV=${ZCODE_ENV}"
-log "targets=${ZCODE_LINUX_TARGETS} arch=${ZCODE_TARGET_ARCH}"
+log "targets=${ZCODE_LINUX_TARGETS} arch=${ZCODE_TARGET_ARCH} debArch=${DEB_ARCH} appimageArch=${APPIMAGE_ARCH}"
 
 # ---------- 1/4 仓库真实构建路径（根 pnpm build：所有包） ----------
 # W036_SKIP_ROOT_BUILD=1：可恢复重跑开关——大仓库在低内存 CI/本地盒上可能被 OOM 或
@@ -126,10 +154,10 @@ else
 fi
 
 # ---------- 2/4 electron-builder 打包 ----------
-log "step 2/4: pnpm bundle（linux x64，--skip-prepare --skip-build 避免重复构建）"
+log "step 2/4: pnpm bundle（linux ${ARCH}，--skip-prepare --skip-build 避免重复构建）"
 (
   cd "${DESKTOP_ROOT}" &&
-    pnpm bundle -- --os linux --arch x64 --skip-prepare --skip-build
+    pnpm bundle -- --os linux --arch "$ARCH" --skip-prepare --skip-build
 )
 
 # ---------- 3/4 产物存在性 + SHA256SUMS + release-manifest.json ----------
@@ -166,6 +194,7 @@ node - \
   "${PNPM_VERSION}" \
   "${KERNEL_INFO}" \
   "${ZCODE_LINUX_TARGETS}" \
+  "${ARCH}" \
   "${DEB_ARTIFACT}" \
   "${APPIMAGE_ARTIFACT}" <<'NODE'
 // 生成 SHA256SUMS 与 release-manifest.json 骨架。
@@ -187,6 +216,7 @@ const [
   pnpmVersion,
   kernelInfo,
   targetsRaw,
+  arch,
   ...artifactNames
 ] = process.argv.slice(2);
 
@@ -219,7 +249,7 @@ function sha256File(filePath) {
     appId: "org.epoch.desktop",
     version,
     targets: targetsRaw.split(",").map((entry) => entry.trim()).filter(Boolean),
-    arch: "x64",
+    arch,
     commit,
     commitShort,
     buildTime: new Date().toISOString(),
@@ -260,12 +290,12 @@ log "step 4/4: validate-artifacts.mjs（任一检查失败则本脚本非零退�
 node "${LINUX_RELEASE_DIR}/validate-artifacts.mjs" \
   --dist "${DIST_DIR}" \
   --version "${APP_VERSION}" \
-  --arch x64 \
+  --arch "$ARCH" \
   --report "${DIST_DIR}/validation-report.json"
 
-log "完成：Epoch ${APP_VERSION} (commit ${GIT_COMMIT_SHORT}) linux x64 产物就绪"
+log "完成：Epoch ${APP_VERSION} (commit ${GIT_COMMIT_SHORT}) linux ${ARCH} 产物就绪"
 log "  dist:      ${DIST_DIR}"
 log "  deb:       ${DEB_ARTIFACT}"
 log "  AppImage:  ${APPIMAGE_ARTIFACT}"
 log "下一步（安装/启动演练，非 root）："
-log "  bash packages/desktop/scripts/linux-release/install-launch-check.sh"
+log "  bash packages/desktop/scripts/linux-release/install-launch-check.sh --arch ${ARCH}"

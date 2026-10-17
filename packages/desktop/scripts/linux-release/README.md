@@ -1,7 +1,7 @@
-# Epoch Linux Release 工具集（W036）
+# Epoch Linux Release 工具集（W036；W038 扩展 arm64）
 
-`packages/desktop/scripts/linux-release/` 维护 Epoch（Ubuntu 桌面发布，W036）的
-Linux x86_64 打包驱动、产物机械校验与安装/启动演练。只复用仓库既有命令
+`packages/desktop/scripts/linux-release/` 维护 Epoch（Ubuntu 桌面发布，W036；W038
+扩展 arm64）的 Linux 打包驱动、产物机械校验与安装/启动演练。只复用仓库既有命令
 （`pnpm build` / `pnpm bundle` / electron-builder），不引入新的构建入口。
 
 ## 文件
@@ -22,13 +22,22 @@ bash packages/desktop/scripts/linux-release/build-linux-release.sh
 bash packages/desktop/scripts/linux-release/install-launch-check.sh
 # （可选）单独重跑校验
 node packages/desktop/scripts/linux-release/validate-artifacts.mjs \
-  --dist packages/desktop/dist --arch x64
+  --dist packages/desktop/dist --arch x64   # x64（默认；W036 冻结基线）
+  --dist packages/desktop/dist --arch arm64 # W038 arm64 目标
 ```
 
 产物目录 `packages/desktop/dist`：
 
-- `Epoch-<version>-linux-amd64.deb`
-- `Epoch-<version>-linux-x86_64.AppImage`
+- x64（默认，与 W036 冻结名逐字节一致）：
+  - `Epoch-<version>-linux-amd64.deb`
+  - `Epoch-<version>-linux-x86_64.AppImage`
+- arm64（W038，`--arch arm64`）：
+  - `Epoch-<version>-linux-arm64.deb`
+  - `Epoch-<version>-linux-arm64.AppImage`
+
+产物名架构段是 electron-builder@26.8.1 `getArtifactArchName` 的既定事实：deb 用
+Debian 架构名（amd64/arm64）；AppImage 的 x64 段是 `x86_64`（x64 专属特例），
+arm64 段保持 `arm64`（`aarch64` 重映射只适用 pacman/rpm/flatpak 目标）。
 - `SHA256SUMS`（`sha256sum -c` 兼容格式）
 - `release-manifest.json`（版本/commit/构建机/产物哈希骨架，发布前由 TL 补 tag/URL/验收证据）
 - `validation-report.json`、`install-launch-results.json`（机器可读检查结果）
@@ -40,7 +49,7 @@ node packages/desktop/scripts/linux-release/validate-artifacts.mjs \
 - target 收窄：`ZCODE_LINUX_TARGETS=deb,AppImage`（`electron-builder.config.js` 提供；
   发布 runner 无 rpmbuild 时 rpm target 会直接失败）。默认不设置时仍为全量
   `AppImage,deb,rpm,pacman`，不影响既有 CI。
-- `pnpm bundle` 的参数形式只有 `--os linux --arch x64` 或位置参数 `linux x64`；
+- `pnpm bundle` 的参数形式只有 `--os linux --arch <x64|arm64>` 或位置参数 `linux <arch>`；
   **不支持 `--linux --x64` 平台旗标**（`bundle.mjs` 的 parseArgs 会直接报“不支持的参数”）。
   便捷脚本：`pnpm --filter @zcode/desktop run bundle:linux:x64`。
 
@@ -94,13 +103,31 @@ libatspi2.0-0, libuuid1, libsecret-1-0, libgbm1, libasound2
 > `mesa-libgbm`/`alsa-lib` 是同一类修复。24.04 的 t64 重命名由过渡包
 > （`libasound2` → `libasound2t64`、`libgtk-3-0` → `libgtk-3-0t64` 等）保持旧名可解析。
 
-## Ubuntu 支持矩阵（x86_64）
+## Ubuntu 支持矩阵
+
+### x86_64（W036 基线）
 
 | Ubuntu          | glibc | 内核 | 支持情况 |
 | --------------- | ----- | ---- | -------- |
 | 20.04 LTS       | 2.31  | 5.4  | 支持     |
 | 22.04 LTS       | 2.35  | 5.15 | 支持     |
 | 24.04 LTS       | 2.39  | 6.8  | 支持（依赖名走 t64 过渡包；deb 附带 electron-builder 的 AppArmor profile 处理非特权 user namespace） |
+
+### arm64 / aarch64（W038）
+
+| Ubuntu          | glibc | 内核 | 构建环境 | 支持情况 |
+| --------------- | ----- | ---- | -------- | -------- |
+| 24.04 LTS       | 2.39  | 6.8  | GitHub 托管 `ubuntu-24.04-arm` runner（发布工作流 `candidate-arm64` 腿） | 支持（同上 t64/AppArmor 说明适用） |
+| 22.04 LTS       | 2.35  | 5.15 | 未在 CI 矩阵内 | 未测试（glibc 高于 2.28 下限，预期可用，不作为支持口径） |
+| 20.04 LTS       | 2.31  | 5.4  | 未在 CI 矩阵内 | 未测试（同上） |
+
+arm64 依据：Electron 41 官方 linux-arm64 发行版；node-pty 预编译
+`@lydell/node-pty-linux-arm64`（声明依赖，随冻结安装解析）；native-search 工具
+（bfs/ugrep 生产档 + ripgrep 官方 aarch64-musl 档）已在
+`scripts/native-search-tools-config.mjs` 声明 sha256（`linux-arm64` 为 enabled
+目标）。arm64 验收（品牌审计 + 非 root 安装/启动演练 + 真实 Electron 窗口
+10 步旅程）在真实 arm64 环境（托管 runner）上执行，证据写入
+`qa/epoch-ubuntu-release/evidence/arm64/`。
 
 依据：Electron 41 需要 glibc ≥ 2.28；随包 native 预编译（node-pty `@lydell/*`、
 ripgrep 等）把整包 glibc 下限抬到 2.28（见 `electron-builder.config.js` rpm 注释：
@@ -117,7 +144,8 @@ Electron 41 主二进制只引用到 2.25）。Ubuntu 20.04（glibc 2.31）是�
 
 ## 已知限制
 
-1. **仅 x86_64**：W036 首发只构建 linux x64；arm64 依赖工具链与 native 预编译验证，未在本发布中提供。
+1. **架构覆盖**：x86_64（Ubuntu 20.04/22.04/24.04 LTS）与 arm64（Ubuntu 24.04 LTS，
+   W038）。arm64 的 22.04/20.04 未进 CI 矩阵（见支持矩阵），不作为支持口径。
 2. **AppImage 与 FUSE**：直接双击/执行 AppImage 需要 FUSE（`/dev/fuse`）；
    无 FUSE 环境用官方回退 `./Epoch-<version>-linux-x86_64.AppImage --appimage-extract-and-run`
    （`install-launch-check.sh` 即采用该方式）。
@@ -129,5 +157,6 @@ Electron 41 主二进制只引用到 2.25）。Ubuntu 20.04（glibc 2.31）是�
 5. **深度链接 scheme 保持 `zcode://`**：上游兼容标识（W036 允许例外），不是品牌残留。
 6. **凭据**：施工世界演示无需任何密钥即可打开；Agent/后端相关能力可能需要 provider
    凭据（发布说明需如实说明）。
-7. **自动更新**：Epoch flavor 未接正式更新源（当前 publish 配置是构建期占位），
-   本发布不提供自动更新。
+7. **自动更新**（W037 起）：Epoch flavor 从烘焙的 GitHub feed
+   （`payswapdotorg/Epoch-2.0` Releases，`latest-linux.yml`）解析更新；AppImage
+   全量自动更新，`.deb` 检测并下载、由用户确认安装。上游 ZCode flavor 行为不变。

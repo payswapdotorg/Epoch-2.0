@@ -57,8 +57,8 @@ async function pathExists(path) {
 }
 
 export async function resolveNodePtyRebuildDecision({
-  platform = process.platform,
-  arch = process.arch,
+  platform = process.env.ZCODE_TARGET_OS || process.platform,
+  arch = process.env.ZCODE_TARGET_ARCH || process.arch,
   cwd = process.cwd(),
 } = {}) {
   const nodePtyRoot = resolveNodePtyRoot(cwd);
@@ -99,6 +99,25 @@ function runElectronRebuild() {
 
 export async function main() {
   const decision = await resolveNodePtyRebuildDecision();
+
+  // W038：记录发行链实际选择的 pty 预编译来源（@lydell 平台包在 desktop 是
+  // 声明依赖，zcode-server-cli 的 ensureNodePtyPrebuild 会在打包时把
+  // @lydell/node-pty-<platform>-<arch>/prebuilds/<platform>-<arch>/pty.node
+  // 补进发行包的 node-pty/prebuilds——缺失即硬错误，终端能力不允许静默损坏）。
+  const targetPlatform = process.env.ZCODE_TARGET_OS || process.platform;
+  const targetArch = process.env.ZCODE_TARGET_ARCH || process.arch;
+  const targetKey = `${targetPlatform}-${targetArch}`.toLowerCase();
+  try {
+    const lydellPackageJson = require.resolve(`@lydell/node-pty-${targetKey}/package.json`);
+    const lydellVersion = require(lydellPackageJson).version;
+    console.log(
+      `[node-pty] distribution prebuild source: @lydell/node-pty-${targetKey}@${lydellVersion} -> prebuilds/${targetKey}/pty.node`,
+    );
+  } catch {
+    console.log(
+      `[node-pty] distribution prebuild source: @lydell/node-pty-${targetKey} NOT installed locally (the release packaging fails closed if the distribution prebuild is missing)`,
+    );
+  }
 
   if (!decision.shouldRebuild) {
     // electron-rebuild 会在 Windows 强制 node-gyp build-from-source。
