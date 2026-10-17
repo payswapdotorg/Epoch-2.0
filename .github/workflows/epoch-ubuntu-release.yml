@@ -119,6 +119,7 @@ jobs:
             packages/desktop/dist/SHA256SUMS
             packages/desktop/dist/release-manifest.json
             packages/desktop/dist/validation-report.json
+            packages/desktop/dist/install-launch-results.json
             packages/desktop/dist/latest-linux*.yml
             packages/desktop/dist/*.blockmap
             qa/epoch-ubuntu-release/evidence/
@@ -192,6 +193,7 @@ jobs:
             packages/desktop/dist/SHA256SUMS
             packages/desktop/dist/release-manifest.json
             packages/desktop/dist/validation-report.json
+            packages/desktop/dist/install-launch-results.json
             packages/desktop/dist/latest-linux*.yml
             packages/desktop/dist/*.blockmap
             qa/epoch-ubuntu-release/evidence/arm64/
