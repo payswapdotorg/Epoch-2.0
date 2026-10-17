@@ -216,6 +216,7 @@ const [
   pnpmVersion,
   kernelInfo,
   targetsRaw,
+  arch,
   ...artifactNames
 ] = process.argv.slice(2);
 
