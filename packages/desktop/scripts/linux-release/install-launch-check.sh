@@ -130,25 +130,12 @@ cleanup() {
       echo ok >"${WORKDIR}/deb/cleanup_result" ||
       echo failed >"${WORKDIR}/deb/cleanup_result"
   fi
-  # 2026-10-17 (TL, the v3.14.5 re-fire class, live root-caused): in
-  # xvfb-run mode the drill proved at start there is NO usable X display
-  # (no DISPLAY, no :99 socket) — every Xvfb alive during the drill is
-  # this drill's own xvfb-run server. When the app survives SIGTERM
-  # through the full -k grace (the healthy-but-slow-shutdown class the
-  # clock rule now passes), the timeout SIGKILL disrupts xvfb-run's
-  # cleanup and the Xvfb is ORPHANED — CI run 39013180480: both arches'
-  # gates then "reused the resident :99" (a socket file whose server
-  # still demands the dead xvfb-run's xauth cookie) and every journey
-  # launch died with "Authorization required, but no authorization
-  # protocol specified". Sweep the orphans HERE so the gate's
-  # resident-:99 reuse never picks up a stale cookie-protected server.
-  # Blast radius: env/fixed modes never sweep (a real resident display
-  # exists); in xvfb-run mode the only possible Xvfb processes are this
-  # drill's own (a pathological parallel drill or an unrelated
-  # no-DISPLAY resident would also be swept — disclosed, accepted).
-  if [ "${DISPLAY_MODE:-none}" = "xvfb-run" ]; then
-    pkill -x Xvfb 2>/dev/null || true
-  fi
+  # NOTE (2026-10-17, run 39014888327): the orphaned-Xvfb sweep moved INTO
+  # run_launch_once (per-launch, socket-diff-scoped). A blanket pkill here
+  # was live-proven WRONG: the gate forces this drill into xvfb-run mode
+  # via EPOCH_INSTALL_CHECK_DISPLAY_MODE even while its own private Xvfb
+  # :99 lives — the mode alone proves nothing about resident servers, and
+  # the blanket sweep killed the gate's display mid-run.
   rm -rf -- "${WORKDIR}"
 }
 trap cleanup EXIT
@@ -234,8 +221,32 @@ run_launch_once() {
       ;;
     xvfb-run)
       # timeout 放进 xvfb-run 内层，保证 Xvfb 由 xvfb-run 正常收尾。
+      # 2026-10-17 (TL, the v3.14.5 re-fire classes — the SCOPED orphan
+      # sweep): when the app survives SIGTERM through the full -k grace
+      # (the healthy-but-slow-shutdown class the clock rule passes), the
+      # SIGKILL can disrupt xvfb-run's cleanup and its Xvfb is ORPHANED
+      # (run 39013180480: the standalone drill's orphan — xauth cookie
+      # intact — sat on :99 and the gate's resident-reuse picked it up;
+      # X-auth refusal). The sweep is SCOPED to the sockets that appeared
+      # during THIS launch and outlived it (comm -13 over before/after
+      # snapshots): kill only the orphaned server (by its display number
+      # in the Xvfb cmdline) and remove the stale socket file the dead
+      # server left (a stale file alone would re-trigger the gate's
+      # socket-exists reuse against a dead server). Never touches the
+      # gate's private Xvfb or any pre-existing display (they are all in
+      # the before-snapshot, never in the diff).
+      ls /tmp/.X11-unix/ 2>/dev/null | sort >"${dir}/x_sockets_before" || : >"${dir}/x_sockets_before"
       xvfb-run -a timeout -k 60 "${LAUNCH_WINDOW_SECONDS}s" "$@" >"${dir}/log.txt" 2>&1
       code=$?
+      ls /tmp/.X11-unix/ 2>/dev/null | sort >"${dir}/x_sockets_after" || : >"${dir}/x_sockets_after"
+      comm -13 "${dir}/x_sockets_before" "${dir}/x_sockets_after" 2>/dev/null | while read -r _sock; do
+        [ -n "${_sock}" ] || continue
+        _disp="${_sock#X}"
+        _disp="${_disp%%.*}"
+        [ -n "${_disp}" ] || continue
+        pkill -f "Xvfb :${_disp}( |$)" 2>/dev/null || true
+        rm -f "/tmp/.X11-unix/${_sock}" 2>/dev/null || true
+      done
       ;;
     none)
       echo "no X display available (DISPLAY unset, no Xvfb :99, no xvfb-run)" >"${dir}/log.txt"
