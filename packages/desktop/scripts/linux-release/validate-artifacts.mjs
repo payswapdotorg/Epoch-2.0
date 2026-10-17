@@ -5,9 +5,11 @@
  *
  * 输入：dist 目录 + 期望版本/架构（默认 x64）。产物文件名由 electron-builder.config.js
  * 的 artifactName 模板决定：Epoch-<version>-linux-amd64.deb（Debian 架构名）/ Epoch-<version>-linux-x86_64.AppImage（uname 风格）。
+ * W038：--arch arm64 支持（arm64 deb + arm64 AppImage——electron-builder@26.8.1 getArtifactArchName：
+ * AppImage 的 aarch64 重映射只适用 pacman/rpm/flatpak，arm64 保持 arm64；ELF 机器类型断言同样按 arch 收紧。
  *
  * .deb 检查（dpkg-deb --info / -x）：
- *   - 包名 epoch、Version 精确匹配、Architecture amd64；
+ *   - 包名 epoch、Version 精确匹配、Architecture 按架构（x64=amd64 / arm64=arm64）；
  *   - Maintainer 含 Epoch、Homepage 为出包仓库、Description 含 Epoch；
  *   - Depends 覆盖 app-builder-lib 26.8.1 默认集 + 追加的 libgbm1/libasound2
  *     （缺 libgbm1 的 deb 在最小化 Ubuntu 上“安装成功、启动报 libgbm.so.1 缺失”）；
@@ -54,6 +56,25 @@ import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
 
 // Epoch flavor 的期望值（与 electron-builder.config.js / desktop-product-identity.mjs 对齐）。
+// W038：按 --arch 派生的期望值（x64 冻结值 = W036 基线逐字节不变；arm64 为新增）。
+const ARCH_EXPECTED = {
+  x64: {
+    debArch: "amd64",
+    appImageArchSegment: "x86_64",
+    // ELF header e_machine（offset 18, little-endian）
+    elfMachine: 62, // EM_X86_64
+    elfMachineName: "x86-64",
+  },
+  arm64: {
+    debArch: "arm64",
+    // electron-builder@26.8.1 getArtifactArchName：AppImage 的 arm64 段就是 arm64
+    //（aarch64 重映射只适用 pacman/rpm/flatpak；x86_64 是 x64 专属特例）。
+    appImageArchSegment: "arm64",
+    elfMachine: 183, // EM_AARCH64
+    elfMachineName: "aarch64",
+  },
+};
+
 const EXPECTED = {
   productName: "Epoch",
   packageName: "epoch",
@@ -92,7 +113,7 @@ function printHelp() {
 参数:
   --dist <dir>        产物目录（默认 packages/desktop/dist）
   --version <v>       期望版本（默认自动从根 package.json 读取）
-  --arch <x64|arm64>        期望架构，支持 x64（deb 内为 amd64）和 arm64（deb 内为 arm64）
+  --arch <x64|arm64>  期望架构（x64：deb amd64 + AppImage x86_64；arm64：deb arm64 + AppImage arm64）
   --report <path>     校验报告 JSON 输出路径（默认 <dist>/validation-report.json）
 `);
 }
@@ -137,6 +158,28 @@ function isExecutable(filePath) {
     return true;
   } catch {
     return false;
+  }
+}
+
+// W038：读取 ELF header 的 e_machine（offset 18, little-endian；62=x86-64, 183=aarch64）。
+// 验收规格法：机器类型由校验器断言，不是目测。读失败返回 null（调用方按失败处理）。
+function readElfMachine(filePath) {
+  try {
+    const fd = openSync(filePath, "r");
+    try {
+      const buf = Buffer.alloc(20);
+      const bytesRead = readSync(fd, buf, 0, 20, 0);
+      if (bytesRead < 20 || !buf.subarray(0, 4).equals(ELF_MAGIC)) return null;
+      const eiClass = buf[4]; // 1=ELF32 2=ELF64（Epoch 产物全为 ELF64，非 2 视为可疑）
+      if (eiClass !== 2) return null;
+      const eiData = buf[5]; // 1=little-endian
+      if (eiData !== 1) return null;
+      return buf.readUInt16LE(18);
+    } finally {
+      closeSync(fd);
+    }
+  } catch {
+    return null;
   }
 }
 
@@ -256,7 +299,7 @@ function listDirFiles(dir) {
 // ---------------------------------------------------------------------------
 // .deb 校验
 // ---------------------------------------------------------------------------
-async function validateDeb({ debPath, expectedVersion, report }) {
+async function validateDeb({ debPath, expectedVersion, report, archExpected }) {
   const checks = [];
   const artifact = "deb";
   const debDir = mkdtempSync(join(tmpdir(), "epoch-validate-deb-"));
@@ -300,8 +343,8 @@ async function validateDeb({ debPath, expectedVersion, report }) {
       checks,
       artifact,
       "architecture",
-      info.Architecture === EXPECTED.debArch,
-      `Architecture: ${info.Architecture ?? "<missing>"} (expected ${EXPECTED.debArch})`,
+      info.Architecture === archExpected.debArch,
+      `Architecture: ${info.Architecture ?? "<missing>"} (expected ${archExpected.debArch})`,
     );
     const maintainerOk = /epoch/i.test(info.Maintainer ?? "");
     record(
@@ -379,6 +422,17 @@ async function validateDeb({ debPath, expectedVersion, report }) {
         "main-binary-elf",
         hasMagic(execPath, ELF_MAGIC),
         hasMagic(execPath, ELF_MAGIC) ? "" : "not an ELF executable",
+      );
+      // W038 验收法：ELF 机器类型由校验器断言（x86-64=62 / aarch64=183），fail-closed。
+      const debElfMachine = readElfMachine(execPath);
+      record(
+        checks,
+        artifact,
+        "main-binary-elf-machine",
+        debElfMachine === archExpected.elfMachine,
+        debElfMachine === archExpected.elfMachine
+          ? `e_machine=${debElfMachine} (${archExpected.elfMachineName})`
+          : `e_machine=${debElfMachine ?? "<unreadable>"} (expected ${archExpected.elfMachine} / ${archExpected.elfMachineName})`,
       );
     }
 
@@ -533,7 +587,7 @@ function findSquashfsOffset(appImagePath) {
   }
 }
 
-async function validateAppImage({ appImagePath, report, notes }) {
+async function validateAppImage({ appImagePath, report, notes, archExpected }) {
   const checks = [];
   const artifact = "appImage";
   const sizeBytes = statSync(appImagePath).size;
@@ -550,6 +604,18 @@ async function validateAppImage({ appImagePath, report, notes }) {
     "elf-magic",
     hasMagic(appImagePath, ELF_MAGIC),
     hasMagic(appImagePath, ELF_MAGIC) ? "" : "AppImage is not an ELF executable",
+  );
+  record(
+    checks,
+    "AppImage",
+    "elf-machine",
+    readElfMachine(appImagePath) === archExpected.elfMachine,
+    (() => {
+      const machine = readElfMachine(appImagePath);
+      return machine === archExpected.elfMachine
+        ? `e_machine=${machine} (${archExpected.elfMachineName})`
+        : `e_machine=${machine ?? "<unreadable>"} (expected ${archExpected.elfMachine} / ${archExpected.elfMachineName})`;
+    })(),
   );
 
   if (!isExecutable(appImagePath)) {
@@ -569,7 +635,7 @@ async function validateAppImage({ appImagePath, report, notes }) {
     const extractResult = run(appImagePath, ["--appimage-extract"], { cwd: extractDir });
     const extractedRoot = join(extractDir, "squashfs-root");
     if (extractResult.status === 0 && existsSync(extractedRoot)) {
-      validateAppImageExtracted(extractedRoot, checks, artifact);
+      validateAppImageExtracted(extractedRoot, checks, artifact, archExpected);
       return finishArtifactReport(report, artifact, appImagePath, sizeBytes, "extract", checks);
     }
 
@@ -604,7 +670,7 @@ async function validateAppImage({ appImagePath, report, notes }) {
   }
 }
 
-function validateAppImageExtracted(rootDir, checks, artifact) {
+function validateAppImageExtracted(rootDir, checks, artifact, archExpected) {
   const appRunPath = join(rootDir, "AppRun");
   const appRunExists = existsSync(appRunPath);
   record(
@@ -648,6 +714,17 @@ function validateAppImageExtracted(rootDir, checks, artifact) {
       "main-binary-elf",
       hasMagic(binaryPath, ELF_MAGIC),
       hasMagic(binaryPath, ELF_MAGIC) ? "" : "inner binary is not an ELF executable",
+    );
+    // W038：内层真实主程序的机器类型断言（AppImage 外壳与内层必须同架构）。
+    const innerElfMachine = readElfMachine(binaryPath);
+    record(
+      checks,
+      artifact,
+      "main-binary-elf-machine",
+      innerElfMachine === archExpected.elfMachine,
+      innerElfMachine === archExpected.elfMachine
+        ? `e_machine=${innerElfMachine} (${archExpected.elfMachineName})`
+        : `e_machine=${innerElfMachine ?? "<unreadable>"} (expected ${archExpected.elfMachine} / ${archExpected.elfMachineName})`,
     );
   }
 
@@ -862,15 +939,19 @@ async function main() {
     expectedVersion = rootPackageJson.version;
   }
 
-  if (options.arch !== "x64" && options.arch !== "arm64") {
+  const archExpected = ARCH_EXPECTED[options.arch];
+  if (!archExpected) {
     console.error(
       `[validate-artifacts] 仅支持 x64 和 arm64（当前 --arch ${options.arch}）`,
     );
     process.exit(2);
   }
 
-  const debPath = join(distDir, `Epoch-${expectedVersion}-linux-${options.arch === "arm64" ? "arm64" : "amd64"}.deb`);
-  const appImagePath = join(distDir, `Epoch-${expectedVersion}-linux-${options.arch === "arm64" ? "aarch64" : "x86_64"}.AppImage`);
+  const debPath = join(distDir, `Epoch-${expectedVersion}-linux-${archExpected.debArch}.deb`);
+  const appImagePath = join(
+    distDir,
+    `Epoch-${expectedVersion}-linux-${archExpected.appImageArchSegment}.AppImage`,
+  );
   const missingFiles = [
     existsSync(debPath) ? null : debPath,
     existsSync(appImagePath) ? null : appImagePath,
@@ -886,7 +967,7 @@ async function main() {
     expected: {
       version: expectedVersion,
       arch: options.arch,
-      debArch: EXPECTED.debArch,
+      debArch: archExpected.debArch,
       productName: EXPECTED.productName,
       packageName: EXPECTED.packageName,
       executableName: EXPECTED.executableName,
@@ -895,11 +976,12 @@ async function main() {
     notes: [],
   };
 
-  const debEntry = await validateDeb({ debPath, expectedVersion, report });
+  const debEntry = await validateDeb({ debPath, expectedVersion, report, archExpected });
   const appImageEntry = await validateAppImage({
     appImagePath,
     report,
     notes: report.notes,
+    archExpected,
   });
   const checksumChecks = await validateChecksums({ distDir, report });
 
