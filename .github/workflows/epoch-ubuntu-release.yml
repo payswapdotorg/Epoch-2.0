@@ -119,7 +119,7 @@ jobs:
             packages/desktop/dist/SHA256SUMS
             packages/desktop/dist/release-manifest.json
             packages/desktop/dist/validation-report.json
-            packages/desktop/dist/latest-linux.yml
+            packages/desktop/dist/latest-linux*.yml
             packages/desktop/dist/*.blockmap
             qa/epoch-ubuntu-release/evidence/
           if-no-files-found: warn
@@ -192,7 +192,7 @@ jobs:
             packages/desktop/dist/SHA256SUMS
             packages/desktop/dist/release-manifest.json
             packages/desktop/dist/validation-report.json
-            packages/desktop/dist/latest-linux.yml
+            packages/desktop/dist/latest-linux*.yml
             packages/desktop/dist/*.blockmap
             qa/epoch-ubuntu-release/evidence/arm64/
           if-no-files-found: warn
@@ -257,13 +257,18 @@ jobs:
           cp "$(find candidate-arm64 -name release-manifest.json | head -1)" "$MANIFEST_ARM"
           cp "$(find candidate-arm64 -name acceptance-summary.md | head -1)" "$SUMMARY_ARM"
           cp "$(find candidate-arm64 -name acceptance-report.json | head -1)" "$REPORT_ARM"
-          # W037/W038 更新 feed：两个单架构 latest-linux.yml 合并为一份双架构 feed。
+          # W037/W038 更新 feed：两个单架构 feed 合并为一份双架构 feed（x64 构建产
+          # latest-linux.yml；arm64 构建产 latest-linux-ARM64.yml —— app-builder-lib
+          # 26.8.1 getArchPrefixForUpdateFile 的命名法，electron-updater 6.8.3 的
+          # arm64 客户端对称地请求带 -arm64 后缀的频道文件：合并 feed 服务 x64 客户端，
+          # 原生 arm64 feed 以独立资产同发，arm64 客户端按自己的约定也能解析）。
+          # 2026-10-17 (run 39017745375 live-caught)。
           # x64 条目在前（electron-updater@6.8.3 findFile 源码语义：按扩展名过滤后
           # 优先 URL 含 process.arch 子串的条目；x64 客户端在 "x86_64" 中匹配不到
           # "x64" 子串回退取首个同扩展名条目——x64 在前保证两架构都解析正确）。
           # 合并 fail-closed：版本一致、每 feed 恰 2 条、4 个唯一 url、重解析断言。
           LATEST_X64="$(find candidate-x64 -name latest-linux.yml | head -1 || true)"
-          LATEST_ARM="$(find candidate-arm64 -name latest-linux.yml | head -1 || true)"
+          LATEST_ARM="$(find candidate-arm64 -name latest-linux-arm64.yml | head -1 || true)"
           LATESTYML=""
           if [ -n "$LATEST_X64" ] && [ -n "$LATEST_ARM" ]; then
             LATESTYML="$RUNNER_TEMP/latest-linux.yml"
@@ -302,6 +307,7 @@ jobs:
             echo "REPORT=$REPORT"
             echo "REPORT_ARM=$REPORT_ARM"
             echo "LATESTYML=${LATESTYML:-}"
+            echo "LATEST_ARM=${LATEST_ARM:-}"
           } >> "$GITHUB_ENV"
           printf '%s\n' "$BLOCKMAPS" > "$RUNNER_TEMP/blockmaps.list"
 
@@ -363,6 +369,11 @@ jobs:
           # 更新 feed：合并后的双架构 latest-linux.yml + 双架构 blockmap（存在才挂载）。
           FEED_ASSETS=()
           [ -n "${LATESTYML:-}" ] && FEED_ASSETS+=("$LATESTYML")
+          # 2026-10-17: the arm64-native feed (latest-linux-arm64.yml) rides as
+          # its own asset — arm64 electron-updater clients request the
+          # arch-suffixed channel file (Provider.getChannelFilePrefix), never
+          # the merged unsuffixed one.
+          [ -n "${LATEST_ARM:-}" ] && FEED_ASSETS+=("$LATEST_ARM")
           while IFS= read -r BM; do
             [ -n "$BM" ] && FEED_ASSETS+=("$BM")
           done < "$RUNNER_TEMP/blockmaps.list"
