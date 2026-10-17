@@ -253,6 +253,21 @@ launch_result_ok() {
   if [ "$code" = 137 ] && [ "$uptime_ms" -ge $((LAUNCH_WINDOW_SECONDS * 1000)) ]; then
     return 0
   fi
+  # 2026-10-17 (TL, the v3.14.5 tag-run class, live root-caused): in xvfb-run
+  # mode the SAME healthy-but-slow-shutdown shape arrives REMAPPED — xvfb-run
+  # does not propagate the child's signal-death status; it returns its own
+  # error codes (observed 5 on the runner, 3 on other distros). The failing
+  # tag run's deb drill: exit=5, uptime_ms=86564 — exactly the 25s window +
+  # the full 60s -k grace (+overhead): the app was alive the WHOLE time,
+  # timeout SIGKILLed it, xvfb-run returned 5. The clock is the honest
+  # discriminator: an uptime covering the full window + the entire kill-after
+  # grace is only reachable by a process that survived until the SIGKILL —
+  # no early death and no fatal marker can produce it. Same judgment the 137
+  # rule makes, catching the xvfb-run-remapped form (env/fixed mode keeps
+  # 137; the 60 matches run_launch_once's -k constant).
+  if [ "$uptime_ms" -ge $(((LAUNCH_WINDOW_SECONDS + 60) * 1000)) ]; then
+    return 0
+  fi
   return 1
 }
 
