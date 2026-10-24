@@ -46,15 +46,14 @@
     "W017",
     "W019",
     "W036",
-    "W037"
-  ],
-  "active": [
+    "W037",
     "W038"
   ],
+  "active": [],
   "eligible": [],
   "blocked": [],
   "lastMergeSha": "70e9b75",
-  "lastAction": "W036 COMPLETE: public GitHub Release epoch-v3.14.3 published and verified (https://github.com/payswapdotorg/Epoch-2.0/releases/tag/epoch-v3.14.3) — Epoch-3.14.3-linux-amd64.deb (147130648B, sha256 36022ead…) + Epoch-3.14.3-linux-x86_64.AppImage (198118483B, sha256 1984e53a…) + SHA256SUMS + release-manifest.json + acceptance summary/report; every public asset URL re-downloaded anonymously and sha256-verified post-publication; gate verdict PASS 5/5 (brand audit, non-root install/launch, real 10-step Electron journey × both artifacts); battery typecheck 0 / lint 0 at baseline / architecture 0; W020's skipped-desktop-replay blocker closed with real-window evidence (electron 41.0.3 binary resolved).",
+  "lastAction": "W038 CLOSED (2026-10-17): the epoch-v3.14.5 two-architecture release SHIPPED — post-release program CLOSED; program-state/frontier-state/checkpoint-state/work-orders.md now agree (the final state-sync 5691c43 missed: it updated work-orders.md only)",
   "lastMergeWorkOrder": "W036",
   "closureVerification": {
     "verifiedAt": "2026-10-12",
@@ -73,8 +72,8 @@
   },
   "currentTrack": {
     "workOrder": "W038",
-    "status": "IN_PROGRESS",
-    "note": "W037 COMPLETE: the update-channel fix shipped in epoch-v3.14.4 (published + anonymously verified: 7 assets, sha256 cross-match, latest-linux.yml live). W037 acceptance evidence: the deb real-network assertion PASS (epoch feed x2, zcode update attempts 0 — the 3.14.3 live defect closed); the hermetic dev journey's full flow PROVEN by stdout (check -> available -> auto-download -> staged through the real menu command path); the appimage assertion INCONCLUSIVE recorded honestly (the seam logged live in its own stdout, zero zcode traffic, but the post-click updater stall in the extracted-launch context — follow-up: the CI-hosted gate). W038 (arm64) in flight: 5 worker commits + 2 TL addenda on work/w038-arm64-release; the report pending; arm64 may ship as a follow-up versioned release per the work order's allowance"
+    "status": "COMPLETE",
+    "note": "W038 CLOSED: the epoch-v3.14.5 two-architecture release SHIPPED (13 assets, both update feeds, all gates green) — x86_64 frozen names byte-for-byte + the first arm64 ship (epoch-v3.14.5, run 39019626514 both-arch gates green twice consecutively, post-publication URL+sha256 verification green); post-release program CLOSED (W036 v3.14.3, W037 v3.14.4, W038 v3.14.5 all shipped)"
   },
   "lastRepositoryVerificationCommit": "97e241b9f7b18e539e6e30f0499331b1a8a0e8a0",
   "nextAction": "TL dispatched the post-release wave: W037 worker 1 (epoch updater runtime), W037 worker 2 (update-channel acceptance), W038 worker 1 (arm64 packaging). TL pre-integration landed first (epoch publish identity + --publish never pin + feed assets in the workflow). On harvest: TL reviews, integrates, reruns the full battery, publishes the arm64/update-channel release only when every gate passes."

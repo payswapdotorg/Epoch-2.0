@@ -1,12 +1,9 @@
 {
   "program": "Epoch 2.0 architecture reset",
-  "status": "POST_RELEASE_PROGRAM_IN_PROGRESS",
+  "status": "POST_RELEASE_PROGRAM_COMPLETE",
   "frontier": [],
   "eligible": 0,
-  "inFlight": [
-    "W037",
-    "W038"
-  ],
+  "inFlight": [],
   "blocked": [],
   "maxConcurrentWorkers": 3,
   "milestones": {
@@ -27,7 +24,7 @@
     "ubuntuEpochDesktopRelease": "COMPLETE (W036: public release epoch-v3.14.3 — Epoch-native desktop startup/branding, Ubuntu x86_64 .deb + AppImage, real installed-app journey on both artifacts, verified public download URLs)"
   },
   "completionLaw": "Do not close the visualization milestone until a real Web and Desktop product can open and navigate a believable construction solution and select canonical semantic entities.",
-  "nextAction": "W037 (epoch auto-update channel) and W038 (Ubuntu arm64 release) dispatched as one three-worker wave on pairwise-disjoint surfaces. CI candidate runs of epoch-ubuntu-release.yml are live-verified on demand (the display self-sufficiency fix). After both merge: publish the next versioned release carrying x86_64 + arm64 artifacts and the update feed (latest-linux.yml), then post-publication URL+checksum verification.",
+  "nextAction": "Post-release program CLOSED (W036 epoch-v3.14.3, W037 epoch-v3.14.4, W038 epoch-v3.14.5 all shipped and post-publication verified). No further work orders; the frontier is empty.",
   "lastMerge": {
     "workOrder": "W019",
     "mergeSha": "70e9b75"
