@@ -23,6 +23,31 @@ The existing ZCode setup/development instructions below remain the operational b
 
 ZCode is an AI coding workspace with desktop, browser, and terminal interfaces. This repository contains the clients, backend services, shared UI, and Agent CLI and runtime source code.
 
+## One-line install (Linux / Windows)
+
+**Linux** (auto-detects x64/arm64; installs the `.deb` on Ubuntu/Debian, falls back to the AppImage without sudo or on non-dpkg systems; every download is verified against the release `SHA256SUMS`):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/payswapdotorg/Epoch-2.0/main/install.sh | sh
+```
+
+**Windows** (PowerShell; no Windows binaries are published yet, so the script bootstraps from source: it checks/installs Git, Node.js 24, and pnpm, clones the repository, installs dependencies, and prints the launch commands):
+
+```powershell
+irm https://raw.githubusercontent.com/payswapdotorg/Epoch-2.0/main/install.ps1 | iex
+```
+
+You can also download manually from [Releases](https://github.com/payswapdotorg/Epoch-2.0/releases/latest):
+
+- Ubuntu/Debian (amd64 / arm64): `Epoch-<version>-linux-amd64.deb`, `Epoch-<version>-linux-arm64.deb`
+- Other Linux distributions (no install needed): `Epoch-<version>-linux-x86_64.AppImage`, `Epoch-<version>-linux-arm64.AppImage` (on systems without FUSE, launch with `--appimage-extract-and-run`)
+
+Installer options:
+
+- `install.sh`: `--method deb|appimage`, `--arch x64|arm64`, `--version <x.y.z>`, `--print-url`, `--download-only`, `--no-verify`; environment equivalents `EPOCH_INSTALL_METHOD`, `EPOCH_INSTALL_ARCH`, `EPOCH_VERSION`. The `.deb` installs to `/opt/Epoch` and registers a desktop entry; the AppImage installs as `~/.local/bin/epoch` (override with `EPOCH_INSTALL_BIN_DIR`).
+- `install.ps1`: `-Destination <dir>`, `-Version <x.y.z>`, `-Run` (launch after install), `-SkipInstall` (skip dependency install); from a clone you can also run `install.cmd`.
+- When the GitHub API is rate-limited, set `GITHUB_TOKEN`, or pin a version with `--version` / `-Version` to skip the latest-release lookup.
+
 ## Updates
 
 - 2026-9-23: Updated to ZCode v3.14.3.

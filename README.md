@@ -23,6 +23,31 @@ Epoch 是基于开源 ZCode 工作台基础构建的 AI 工程工作台。
 
 ZCode 是 AI 编程工作台，提供桌面应用、浏览器界面和终端 Agent。本仓库包含客户端、后端服务、共享 UI，以及 Agent CLI 与运行时源码。
 
+## 一行安装（Linux / Windows）
+
+**Linux**（自动识别 x64/arm64；Ubuntu/Debian 优先安装 `.deb`，无 sudo 或非 dpkg 系统改用 AppImage；下载均经发布 `SHA256SUMS` 校验）：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/payswapdotorg/Epoch-2.0/main/install.sh | sh
+```
+
+**Windows**（PowerShell；当前发布未包含 Windows 二进制，脚本会自动引导源码安装：检查/安装 Git、Node.js 24、pnpm，克隆仓库并安装依赖，最后给出启动命令）：
+
+```powershell
+irm https://raw.githubusercontent.com/payswapdotorg/Epoch-2.0/main/install.ps1 | iex
+```
+
+也可以从 [Releases](https://github.com/payswapdotorg/Epoch-2.0/releases/latest) 手动下载：
+
+- Ubuntu/Debian（amd64 / arm64）：`Epoch-<版本>-linux-amd64.deb`、`Epoch-<版本>-linux-arm64.deb`
+- 其他 Linux 发行版（免安装）：`Epoch-<版本>-linux-x86_64.AppImage`、`Epoch-<版本>-linux-arm64.AppImage`（无 FUSE 环境可用 `--appimage-extract-and-run` 启动）
+
+安装脚本参数：
+
+- `install.sh`：`--method deb|appimage`、`--arch x64|arm64`、`--version <x.y.z>`、`--print-url`、`--download-only`、`--no-verify`；对应环境变量 `EPOCH_INSTALL_METHOD`、`EPOCH_INSTALL_ARCH`、`EPOCH_VERSION`。`.deb` 安装到 `/opt/Epoch` 并注册桌面入口；AppImage 安装为 `~/.local/bin/epoch`（`EPOCH_INSTALL_BIN_DIR` 可改）。
+- `install.ps1`：`-Destination <目录>`、`-Version <x.y.z>`、`-Run`（装完启动）、`-SkipInstall`（跳过依赖安装）；克隆仓库后也可直接运行 `install.cmd`。
+- GitHub API 限流时可设置 `GITHUB_TOKEN`，或用 `--version` / `-Version` 固定版本以跳过 latest 查询。
+
 ## 更新
 
 - 2026-9-23：更新至 ZCode v3.14.3 版本。
